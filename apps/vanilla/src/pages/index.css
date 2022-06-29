@@ -3,3 +3,20 @@
 .title {
   color: var(--heading-color-1);
 }
+
+#pagination-controls > *,
+#compressed-pagination > * {
+  margin: 0 10px;
+}
+
+#anime-table {
+  width: 40%;
+  margin: 50px auto;
+}
+
+#pagination-controls {
+  margin: 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

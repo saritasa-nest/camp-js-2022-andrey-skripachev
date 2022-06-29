@@ -4,13 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <title>Vite App</title>
   </head>
   <body class="default-layout">
-    <h1 class="title">Main page ⚡</h1>
-    <div class="links">
-      <a href="/example/">Go to example page</a>
+    <div class="center" id="pagination-controls">
+      <div class="left">
+        <button class="waves-effect waves-light btn-small">&#x2190;</button>
+      </div>
+      <div id="compressed-pagination" class="center"></div>
+      <div class="right">
+        <button class="waves-effect waves-light btn-small">&#x2192;</button>
+      </div>
     </div>
+    <table id="anime-table" class="responsive-table">
+      <caption class="anime-table--caption">
+        <span id="anime-page--data"></span>
+      </caption>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Title english</th>
+          <th>Title japanese</th>
+          <th>Aired start</th>
+          <th>Type</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td>
+            <a href="#">To top</a>
+          </td>
+        </tr>
+
+      </tfoot>
+    </table>
     <script type="module" src="./index.ts"></script>
   </body>
 </html>
