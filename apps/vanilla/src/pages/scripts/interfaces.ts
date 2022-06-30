@@ -1,62 +1,115 @@
 interface Aired {
 
   /**
-   * Start: date of start anime serial.
+   * Start: start date of the anime series.
    */
-  start: string | Date;
+  start: string;
 
   /**
-   * End: date of end anime serial.
+   * End: the end date of the anime series.
    */
-  end: string | Date;
+  end: string;
 }
 
-interface Anime {
+/**
+ * Template of data about anime received from the server.
+ */
+export interface Anime {
 
   /**
-   * Aired: dates of start and end of anime serial.
+   * Aired: start and end dates of the anime series.
    */
   aired: Aired;
 
   /**
-   * Created: date of creating anime in DB.
+   * Created: the date the anime series was entered into the database.
    */
-  created: string | Date;
+  created: string;
 
   /**
-   * ID: id of anime serial.
+   * ID: anime series id.
    */
   id: number;
 
   /**
-   * Image: anime serial illustration.
+   * Image: picture for the anime series.
    */
   image: string;
 
   /**
-   * Modified: date of last modifying of anime serial.
+   * Modified: date of the last change of the anime series in the database.
    */
-  modified: string | Date;
+  modified: string;
 
   /**
-   * Status: 
+   * Status: the degree of completion of the anime series.
    */
   status: string;
+
+  /**
+   * Title English: anime title in English.
+   */
   title_eng: string;
+
+  /**
+   * Title Japanese: anime title in Japanese.
+   */
   title_jpn: string;
+
+  /**
+   * Type: type of anime (OVA, TV, etc.).
+   */
   type: string;
 }
 
+/**
+ * The structure of the received anime series.
+ */
 export interface AnimeData {
+
+  /**
+   * Count: total number of anime series.
+   */
   count: number;
+
+  /**
+   * Next: next request page.
+   */
   next: string | null;
+
+  /**
+   * Previous: previous request page.
+   */
   previous: string | null;
+
+  /**
+   * Results: list of anime received on request.
+   */
   results: Anime[];
 }
 
+/**
+ * Request data.
+ */
 export interface AnimeRequestData {
+
+  /**
+   * Count: Total number of anime series.
+   */
   count: number;
+
+  /**
+   * Results: list of anime received on request.
+   */
   results: Anime[];
+
+  /**
+   * Offset: offset on request.
+   */
   offset: number;
+
+  /**
+   * Limit: maximum number of received anime series.
+   */
   limit: number;
 }

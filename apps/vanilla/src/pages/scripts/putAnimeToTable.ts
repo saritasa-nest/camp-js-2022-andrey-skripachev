@@ -1,6 +1,12 @@
-import { AnimeRequestData, AnimeData } from './interfaces.js';
+import { AnimeRequestData, Anime } from './interfaces.js';
 
-export function placeAnimeListToTable(animeBlock: HTMLTableElement | null, caption: Element | null, animeReqData: AnimeRequestData):void {
+/**
+ * Clears the table and puts the list of anime series there.
+ * @param animeBlock Table for filling in the list of anime series.
+ * @param caption Block to display the current position in the anime list.
+ * @param animeReqData Request information.
+ */
+export function placeAnimeListToTable(animeBlock: HTMLTableElement | null, caption: Element | null, animeReqData: AnimeRequestData): void {
   if (!animeBlock || !caption) {
     return;
   }
@@ -14,7 +20,12 @@ export function placeAnimeListToTable(animeBlock: HTMLTableElement | null, capti
   }
 }
 
-function pushAnimeToTable(anime: Anime, table: Element):void {
+/**
+ * Adds one anime series to the table.
+ * @param anime Anime that will be written in the table row.
+ * @param table Table where the line with the anime will be written.
+ */
+function pushAnimeToTable(anime: Anime, table: Element): void {
   const { title_eng: titleEng, title_jpn: titleJpn, status, image, type, aired: { start } } = anime;
   const ON_EMPTY_MESSAGE = '-';
 
@@ -22,7 +33,7 @@ function pushAnimeToTable(anime: Anime, table: Element):void {
   const imageCell = createNode('td', '', 'anime-table-row-data');
   const titleEngCell = createNode('td', titleEng || ON_EMPTY_MESSAGE, 'anime-table-row-data');
   const titleJpnCell = createNode('td', titleJpn || ON_EMPTY_MESSAGE, 'anime-table-row-data');
-  const airedStartCell = createNode('td', start?.split('-')[0] || ON_EMPTY_MESSAGE, 'anime-table-row-data');
+  const airedStartCell = createNode('td', start.split('-')[0] || ON_EMPTY_MESSAGE, 'anime-table-row-data');
   const typeCell = createNode('td', type || ON_EMPTY_MESSAGE, 'anime-table-row-data');
   const statusCell = createNode('td', status || ON_EMPTY_MESSAGE, 'anime-table-row-data');
 
@@ -36,6 +47,10 @@ function pushAnimeToTable(anime: Anime, table: Element):void {
   table.append(animeRow);
 }
 
+/**
+ * Deletes all rows from the table except thead and tfoot.
+ * @param table Table to delete all rows from it.
+ */
 function removeRowsFromTable(table: HTMLTableElement): void {
   const availableParents = ['TBODY', 'TABLE'];
   const rows = table.querySelectorAll('tr');
@@ -46,6 +61,13 @@ function removeRowsFromTable(table: HTMLTableElement): void {
   });
 }
 
+/**
+ * Creates a new HTML element with classes and text content.
+ * @param elementName HTML element name.
+ * @param textContent The text content of the HTML element.
+ * @param classes Classes that the element will have.
+ * @returns New HTML element.
+ */
 function createNode(elementName: string, textContent: string, classes: string): Element {
   const newElement = document.createElement(elementName);
   newElement.className = classes;

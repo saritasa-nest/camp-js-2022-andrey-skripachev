@@ -1,3 +1,9 @@
+/**
+ * Creates a button for the pagination block.
+ * @param page Page number that the button stores.
+ * @param isSelected Check if the new button is the selected.
+ * @returns New button for placing in the pagination.
+ */
 function createPaginationButton(page: number, isSelected: boolean): HTMLButtonElement {
   const button = document.createElement('button');
   button.textContent = (page + 1).toString();
@@ -6,12 +12,24 @@ function createPaginationButton(page: number, isSelected: boolean): HTMLButtonEl
   return button;
 }
 
-function equal(num1: number, num2: number): boolean {
-  return num1 === num2;
+/**
+ * Checks if the numeric values of the pages are equal.
+ * @param page1 Some anime list page.
+ * @param page2 Some anime list page.
+ * @returns Checks if the numeric values of the pages are equal.
+ */
+function equal(page1: number, page2: number): boolean {
+  return page1 === page2;
 }
 
-
-function createCompressedPagination(currentPage: number, totalPages: number, range: number):Element[] {
+/**
+ * Creates a list of pagination bar elements.
+ * @param currentPage The currently selected page of the application.
+ * @param totalPages Total number of pages.
+ * @param range How many pagination buttons will be created around the button for the current page.
+ * @returns List of HTML elements that will be in the pagination bar.
+ */
+function createCompressedPagination(currentPage: number, totalPages: number, range: number): Element[] {
   const elementList: Element[] = [];
 
   const separator = <Element>document.createElement('span');
@@ -38,6 +56,13 @@ function createCompressedPagination(currentPage: number, totalPages: number, ran
   return elementList;
 }
 
+/**
+ * Hinges event handlers on blocks.
+ * @param paginationBlock The block in which the pagination buttons will be placed.
+ * @param buttonPrevious Button to go to the previous page.
+ * @param buttonNext Button to go to the next page.
+ * @param clickEvt Function executed by pressing the pagination button.
+ */
 export function initializePagination(
   paginationBlock: Element,
   buttonPrevious: Element,
@@ -69,6 +94,11 @@ export function initializePagination(
   });
 }
 
+/**
+ * Locks or unlocks the button.
+ * @param condition Button lock condition.
+ * @param button Button.
+ */
 function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
   const DIS = 'disabled';
   if (condition) {
@@ -80,7 +110,21 @@ function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
   }
 }
 
-export function updatePagination(currPage: number, totalPages: number, paginationBlock: Element, btnPrev: HTMLButtonElement, btnNext: HTMLButtonElement): void {
+/**
+ * Updates buttons and button datasets in the pagination panel.
+ * @param currPage Current page number.
+ * @param totalPages Total number of pages.
+ * @param paginationBlock The block in which the pagination buttons are located.
+ * @param btnPrev Button to go to the previous page.
+ * @param btnNext Button to go to the next page.
+ */
+export function updatePagination(
+  currPage: number,
+  totalPages: number,
+  paginationBlock: Element,
+  btnPrev: HTMLButtonElement,
+  btnNext: HTMLButtonElement,
+): void {
   const RANGE = 2;
   btnPrev.dataset.page = (currPage - 1).toString();
   changeDisabled(currPage === 0, btnPrev);
