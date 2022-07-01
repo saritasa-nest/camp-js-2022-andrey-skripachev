@@ -1,17 +1,19 @@
-import { AnimeRequestData, Anime } from './interfaces.js';
+import { Anime } from '@js-camp/core/models/anime.js';
+
+import { AnimeRequestData } from './interfaces.js';
 
 /**
  * Clears the table and puts the list of anime series there.
  * @param animeBlock Table for filling in the list of anime series.
  * @param caption Block to display the current position in the anime list.
- * @param animeReqData Request information.
+ * @param animeRequestData Request information.
  */
-export function placeAnimeListToTable(animeBlock: HTMLTableElement | null, caption: Element | null, animeReqData: AnimeRequestData): void {
-  if (!animeBlock || !caption) {
-    return;
-  }
-
-  const { count, results, offset, limit } = animeReqData;
+export function placeAnimeListToTable(
+  animeBlock: HTMLTableElement,
+  caption: Element,
+  animeRequestData: AnimeRequestData,
+): void {
+  const { count, results, offset, limit } = animeRequestData;
   removeRowsFromTable(animeBlock);
   caption.textContent = `${offset + 1}-${Math.min(offset + limit, count)} of ${count}`;
 
@@ -26,14 +28,14 @@ export function placeAnimeListToTable(animeBlock: HTMLTableElement | null, capti
  * @param table Table where the line with the anime will be written.
  */
 function pushAnimeToTable(anime: Anime, table: Element): void {
-  const { title_eng: titleEng, title_jpn: titleJpn, status, image, type, aired: { start } } = anime;
+  const { titleEng, titleJpn, status, image, type, aired: { start } } = anime;
   const ON_EMPTY_MESSAGE = '-';
 
   const animeRow = createNode('tr', '', 'anime-table-row');
   const imageCell = createNode('td', '', 'anime-table-row-data');
-  const titleEngCell = createNode('td', titleEng || ON_EMPTY_MESSAGE, 'anime-table-row-data');
-  const titleJpnCell = createNode('td', titleJpn || ON_EMPTY_MESSAGE, 'anime-table-row-data');
-  const airedStartCell = createNode('td', start.split('-')[0] || ON_EMPTY_MESSAGE, 'anime-table-row-data');
+  const title = `${titleEng || ON_EMPTY_MESSAGE} (${titleJpn || ON_EMPTY_MESSAGE})`;
+  const titleCell = createNode('td', title, 'anime-table-row-data');
+  const airedStartCell = createNode('td', start?.split('-')[0] || ON_EMPTY_MESSAGE, 'anime-table-row-data');
   const typeCell = createNode('td', type || ON_EMPTY_MESSAGE, 'anime-table-row-data');
   const statusCell = createNode('td', status || ON_EMPTY_MESSAGE, 'anime-table-row-data');
 
@@ -42,7 +44,7 @@ function pushAnimeToTable(anime: Anime, table: Element): void {
   imageElement.src = image;
   imageCell.append(imageElement);
 
-  animeRow.append(imageCell, titleEngCell, titleJpnCell, airedStartCell, typeCell, statusCell);
+  animeRow.append(imageCell, titleCell, airedStartCell, statusCell, typeCell);
 
   table.append(animeRow);
 }

@@ -25,3 +25,17 @@ a:hover,
 
   max-width: var(--default-layout-width);
 }
+
+.hover-effect {
+  transition: 0.1s;
+  background: none;
+}
+
+.hover-effect,
+.hover-effect * {
+  cursor: pointer;
+}
+
+.hover-effect:hover {
+  background: #0001;
+}

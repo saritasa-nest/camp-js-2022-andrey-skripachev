@@ -10,8 +10,28 @@
 }
 
 #anime-table {
+  min-width: 400px;
   width: 30%;
   margin: 50px auto;
+}
+
+#anime-table thead th {
+  position: relative;
+  text-align: center;
+  transition: 0.1s;
+  padding: 20px 0;
+}
+
+#anime-table thead th .toggle-button {
+  position: absolute;
+  width: auto;
+  right: 5px;
+  bottom: 0;
+  transition: 0.1s;
+}
+
+#anime-table thead th .toggle-button:hover {
+  background: #0002;
 }
 
 #pagination-controls {
@@ -19,4 +39,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.sort button,
+.filter button {
+  display: inline-block;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.sort button:focus,
+.filter button:focus {
+  background: none;
 }
