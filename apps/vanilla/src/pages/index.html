@@ -8,69 +8,76 @@
     <title>Vite App</title>
   </head>
   <body class="default-layout">
-    <div class="center" id="pagination-controls">
-      <div class="left">
-        <button class="waves-effect waves-light btn-small">&#x2190;Prev</button>
+    <header>
+      <a href="#" class="waves-effect waves-light btn">Log in</a>
+      <a href="#" class="waves-effect waves-light btn">Sign in</a>
+    </header>
+    <main>
+      <div class="center" id="pagination-controls">
+        <div class="left">
+          <button class="waves-effect waves-light btn-small">&#x2190;Prev</button>
+        </div>
+        <div id="compressed-pagination" class="center"></div>
+        <div class="right">
+          <button class="waves-effect waves-light btn-small">Next&#x2192;</button>
+        </div>
       </div>
-      <div id="compressed-pagination" class="center"></div>
-      <div class="right">
-        <button class="waves-effect waves-light btn-small">Next&#x2192;</button>
-      </div>
-    </div>
-    <div class="filtration-block">
+      <div class="filtration-block">
 
-  <form action="#" id="anime-filter" class="hide">
-    <h5>Select status filter</h5>
-    <p>
-      <label>
-        <input name="filter" type="checkbox" value="FINISHED" checked />
-        <span>Finished</span>
-      </label>
-    </p>
-    <p>
-      <label>
-        <input name="filter" type="checkbox" value="AIRING" checked />
-        <span>Aired</span>
-      </label>
-    </p>
-    <p>
-      <label>
-        <input name="filter" type="checkbox" value="NOT_YET_AIRED" checked/>
-        <span>Yet not aired</span>
-      </label>
-    </p>
-  </form>
-    </div>
-    <table id="anime-table" class="responsive-table">
-      <caption class="anime-table--caption">
-        <span id="anime-page--data"></span>
-      </caption>
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th class="sort hover-effect">
-            <button class="select-ordering-button" data-type="title_eng">Title english/japanese</button>
-            <button class="toggle-button"></button>
-          </th>
-          <th class="sort hover-effect">
-            <button class="select-ordering-button" data-type="aired__startswith">Aired start</button>
-            <button class="toggle-button"></button>
-          </th>
-          <th class="sort hover-effect">
-            <button class="select-ordering-button" data-type="status">Status</button>
-            <button class="toggle-button"></button>
-          </th>
-          <th>Type</th>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <td>
-            <a href="#">To top</a>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+    <form action="#" id="anime-filter" class="hide">
+      <h5>Select status filter</h5>
+      <p>
+        <label>
+          <input name="filter" type="checkbox" value="FINISHED" checked />
+          <span>Finished</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input name="filter" type="checkbox" value="AIRING" checked />
+          <span>Aired</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input name="filter" type="checkbox" value="NOT_YET_AIRED" checked/>
+          <span>Yet not aired</span>
+        </label>
+      </p>
+    </form>
+      </div>
+      <table id="anime-table" class="responsive-table">
+        <caption class="anime-table--caption">
+          <span id="anime-page--data"></span>
+        </caption>
+        <thead>
+          <tr class="anime-table--row">
+            <th>Image</th>
+            <th class="sort hover-effect">
+              <button class="select-ordering-button" data-type="title_eng">Title english/japanese</button>
+              <button class="toggle-button"></button>
+            </th>
+            <th class="sort hover-effect">
+              <button class="select-ordering-button" data-type="aired__startswith">Aired start</button>
+              <button class="toggle-button"></button>
+            </th>
+            <th class="sort hover-effect">
+              <button class="select-ordering-button" data-type="status">Status</button>
+              <button class="toggle-button"></button>
+            </th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr class="anime-table--row">
+            <td>
+              <a href="#" class="btn">To top</a>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </main>
+
     <script type="module" src="./index.ts"></script>
   </body>
 </html>

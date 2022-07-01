@@ -22,15 +22,16 @@
   padding: 20px 0;
 }
 
-#anime-table thead th .toggle-button {
+#anime-table .toggle-button {
   position: absolute;
   width: auto;
   right: 5px;
   bottom: 0;
   transition: 0.1s;
+  box-shadow: 0 0 5px #ccc, inset 0 0 5px #ccc;
 }
 
-#anime-table thead th .toggle-button:hover {
+#anime-table .toggle-button:hover {
   background: #0002;
 }
 

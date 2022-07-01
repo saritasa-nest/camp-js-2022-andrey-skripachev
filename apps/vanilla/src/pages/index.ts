@@ -1,4 +1,4 @@
-import { LIMIT } from './scripts/constants';
+import { LIMIT, ANIME_TABLE_SELECTOR, ANIME_TABLE_CAPTION_SELECTOR, PAGINATION_SELECTOR, PAGINATION_BUTTON_PREV_SELECTOR, PAGINATION_BUTTON_NEXT_SELECTOR, SORTING_BLOCK_SELECTOR } from './scripts/constants';
 import { placeAnimeListToTable } from './scripts/putAnimeToTable';
 import { getAnimeData } from './scripts/getAnime';
 import { AnimeDataFromDto, AnimeRequestData } from './scripts/interfaces';
@@ -9,8 +9,7 @@ import { initializeSorting } from './scripts/initSort';
  * Getting anime series by page number and incoming anime limit.
  * @param page Page number.
  * @param limit Maximum number of received anime series.
- * @param ordering Field.
- * @param addition A.
+ * @param ordering The subject of sorting.
  * @returns Data on request (total number of anime, anime received, offset, limit).
  */
 async function getAnimeRequestData(page: number, limit: number, ordering: string): Promise<AnimeRequestData> {
@@ -30,18 +29,20 @@ function initializeApp(): void {
   let ordering = 'id';
   let animeReqData: AnimeRequestData;
 
-  const animeTableBlock = <HTMLTableElement>document.querySelector('#anime-table');
-  const animeTableCaption = animeTableBlock?.querySelector('#anime-page--data');
+  const animeTableBlock = <HTMLTableElement>document.querySelector(ANIME_TABLE_SELECTOR);
+  const animeTableCaption = document.querySelector(ANIME_TABLE_CAPTION_SELECTOR);
+  const paginationBlock = document.querySelector(PAGINATION_SELECTOR);
+  const paginationBtnPrev = <HTMLButtonElement>document.querySelector(PAGINATION_BUTTON_PREV_SELECTOR);
+  const paginationBtnNext = <HTMLButtonElement>document.querySelector(PAGINATION_BUTTON_NEXT_SELECTOR);
+  const sortingBlocks = document.querySelectorAll(SORTING_BLOCK_SELECTOR);
 
-  if (!animeTableBlock || !animeTableCaption) {
-    return;
-  }
-
-  const paginationBlock = document.querySelector('#compressed-pagination');
-  const paginationBtnPrev = <HTMLButtonElement>document.querySelector('#pagination-controls .left button');
-  const paginationBtnNext = <HTMLButtonElement>document.querySelector('#pagination-controls .right button');
-
-  if (!paginationBlock || !paginationBtnPrev || !paginationBtnNext) {
+  if (
+    animeTableBlock === null ||
+    animeTableCaption === null ||
+    paginationBlock === null ||
+    paginationBtnPrev === null ||
+    paginationBtnNext === null
+  ) {
     return;
   }
 
@@ -70,10 +71,8 @@ function initializeApp(): void {
   };
 
   initializePagination(paginationBlock, paginationBtnPrev, paginationBtnNext, updatePage);
-
-  const sortingBlocks = document.querySelectorAll('table .sort');
-
   initializeSorting(sortingBlocks, updateOrdering);
+
   update();
 }
 

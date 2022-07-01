@@ -1,5 +1,7 @@
 import { Anime } from '@js-camp/core/models/anime.js';
 
+import { ANIME_TABLE_CELL_CLASS_NAME, ANIME_TABLE_ROW_CLASS_NAME } from './constants.js';
+
 import { AnimeRequestData } from './interfaces.js';
 
 /**
@@ -28,25 +30,38 @@ export function placeAnimeListToTable(
  * @param table Table where the line with the anime will be written.
  */
 function pushAnimeToTable(anime: Anime, table: Element): void {
-  const { titleEng, titleJpn, status, image, type, aired: { start } } = anime;
+  const row = createAnimeTableRow(anime);
+
+  table.append(row);
+}
+
+/**
+ * Creates and fills a row with anime data.
+ * @param anime Anime.
+ * @returns Row.
+ */
+function createAnimeTableRow(anime: Anime): Element {
   const ON_EMPTY_MESSAGE = '-';
 
-  const animeRow = createNode('tr', '', 'anime-table-row');
-  const imageCell = createNode('td', '', 'anime-table-row-data');
+  const { image, titleEng, titleJpn, status, type, aired: { start } } = anime;
+
+  const row = createNode('tr', '', ANIME_TABLE_ROW_CLASS_NAME);
+
+  const imageCell = createNode('td', '', ANIME_TABLE_CELL_CLASS_NAME);
   const title = `${titleEng || ON_EMPTY_MESSAGE} (${titleJpn || ON_EMPTY_MESSAGE})`;
-  const titleCell = createNode('td', title, 'anime-table-row-data');
-  const airedStartCell = createNode('td', start?.split('-')[0] || ON_EMPTY_MESSAGE, 'anime-table-row-data');
-  const typeCell = createNode('td', type || ON_EMPTY_MESSAGE, 'anime-table-row-data');
-  const statusCell = createNode('td', status || ON_EMPTY_MESSAGE, 'anime-table-row-data');
+  const titleCell = createNode('td', title, ANIME_TABLE_CELL_CLASS_NAME);
+  const airedStartCell = createNode('td', start?.split('-')[0] || ON_EMPTY_MESSAGE, ANIME_TABLE_CELL_CLASS_NAME);
+  const typeCell = createNode('td', type || ON_EMPTY_MESSAGE, ANIME_TABLE_CELL_CLASS_NAME);
+  const statusCell = createNode('td', status || ON_EMPTY_MESSAGE, ANIME_TABLE_CELL_CLASS_NAME);
 
   const imageElement = document.createElement('img');
   imageElement.className = 'responsive-img';
   imageElement.src = image;
   imageCell.append(imageElement);
 
-  animeRow.append(imageCell, titleCell, airedStartCell, statusCell, typeCell);
+  row.append(imageCell, titleCell, airedStartCell, statusCell, typeCell);
 
-  table.append(animeRow);
+  return row;
 }
 
 /**
