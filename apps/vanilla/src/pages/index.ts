@@ -1,9 +1,9 @@
-import { LIMIT, ANIME_TABLE_SELECTOR, ANIME_TABLE_CAPTION_SELECTOR, PAGINATION_SELECTOR, PAGINATION_BUTTON_PREV_SELECTOR, PAGINATION_BUTTON_NEXT_SELECTOR, SORTING_BLOCK_SELECTOR } from './scripts/constants';
-import { placeAnimeListToTable } from './scripts/putAnimeToTable';
-import { getAnimeData } from './scripts/getAnime';
-import { AnimeDataFromDto, AnimeRequestData } from './scripts/interfaces';
-import { initializePagination, updatePagination } from './scripts/pagination';
-import { initializeSorting } from './scripts/initSort';
+import { LIMIT, ANIME_TABLE_SELECTOR, ANIME_TABLE_CAPTION_SELECTOR, PAGINATION_SELECTOR, PAGINATION_BUTTON_PREV_SELECTOR, PAGINATION_BUTTON_NEXT_SELECTOR, SORTING_BLOCK_SELECTOR } from '../../scripts/constants';
+import { placeAnimeListToTable } from '../../scripts/putAnimeToTable';
+import { getAnimeData } from '../../scripts/getAnime';
+import { AnimeDataFromDto, AnimeRequestData } from '../../scripts/interfaces';
+import { initializePagination, updatePagination } from '../../scripts/pagination';
+import { initializeSorting } from '../../scripts/initSort';
 
 /**
  * Getting anime series by page number and incoming anime limit.

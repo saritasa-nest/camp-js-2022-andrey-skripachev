@@ -1,5 +1,7 @@
 import { AnimeModel } from '@js-camp/core/mappers/anime.mapper';
 
+import axios from 'axios';
+
 import { AnimeData, AnimeDataFromDto } from './interfaces';
 
 /**
@@ -12,12 +14,12 @@ import { AnimeData, AnimeDataFromDto } from './interfaces';
 export async function getAnimeData(offset: number, limit: number, ordering: string): Promise<AnimeDataFromDto> {
   const URL = `https://api.camp-js.saritasa.rocks/api/v1/anime/anime/?limit=${limit}&offset=${offset}&ordering=${ordering},id`;
   const { apiKey } = ENV;
-  const { count, results }: AnimeData = await fetch(URL, {
-    method: 'GET',
+
+  const { count, results }: AnimeData = await axios.get(URL, {
     headers: {
       'Api-Key': apiKey,
     },
-  }).then(res => res.json());
+  });
 
   const fromDtoResults = results.map(anime => AnimeModel.fromDto(anime));
 
