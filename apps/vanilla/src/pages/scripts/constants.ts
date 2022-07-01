@@ -26,3 +26,6 @@ export const DIRECTIONS = [
     requestPrefix: '-',
   },
 ];
+
+/** Other. */
+export const DIS = 'disabled';

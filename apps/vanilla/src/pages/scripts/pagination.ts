@@ -1,3 +1,5 @@
+import { DIS } from './constants';
+
 /**
  * Creates a button for the pagination block.
  * @param page Page number that the button stores.
@@ -100,7 +102,6 @@ export function initializePagination(
  * @param button Button.
  */
 function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
-  const DIS = 'disabled';
   if (condition) {
     button.setAttribute(DIS, '1');
     button.classList.add(DIS);
