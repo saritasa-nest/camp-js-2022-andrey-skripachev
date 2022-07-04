@@ -63,7 +63,7 @@ export function initializePagination(
   callback: (page: number) => void,
 ): void {
   (paginationBlock as HTMLButtonElement).onclick = e => {
-    const target = <Element | HTMLButtonElement>e.target;
+    const target = e.target as Element | HTMLButtonElement;
     const paginationButtons = paginationBlock?.querySelectorAll('button');
     paginationButtons?.forEach(element => {
       if (target === element) {
@@ -73,14 +73,14 @@ export function initializePagination(
   };
 
   (buttonPrevious as HTMLButtonElement).onclick = e => {
-    const target = <HTMLButtonElement>e.target;
+    const target = e.target as HTMLButtonElement;
     if (target.dataset.page) {
       callback(parseInt(target.dataset.page ?? '', 10));
     }
   };
 
   (buttonNext as HTMLButtonElement).onclick = e => {
-    const target = <HTMLButtonElement>e.target;
+    const target = e.target as HTMLButtonElement;
     if (target.dataset.page) {
       callback(parseInt(target.dataset.page ?? '', 10));
     }
@@ -126,6 +126,6 @@ export function updatePagination(
 
   paginationBlock.innerHTML = '';
 
-  const compPagination: Element[] = createCompressedPagination(currPage, totalPages, RANGE);
+  const compPagination = createCompressedPagination(currPage, totalPages, RANGE);
   paginationBlock.append(...compPagination);
 }

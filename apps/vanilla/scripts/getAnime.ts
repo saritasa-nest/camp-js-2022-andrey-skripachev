@@ -16,7 +16,7 @@ async function getAnimeData(offset: number, limit: number, ordering: string): Pr
 
   const response = await client.get(URL);
 
-  const { results, count } = <AnimeData>response.data;
+  const { results, count } = response.data as AnimeData;
 
   const fromDtoResults = results.map(anime => AnimeMapper.fromDto(anime));
 
@@ -32,7 +32,7 @@ async function getAnimeData(offset: number, limit: number, ordering: string): Pr
  */
 export async function getAnimeRequestData(page: number, limit: number, ordering: string): Promise<AnimeRequestData> {
   const offset = page * limit;
-  const { count, results }: AnimeDataFromDto = await getAnimeData(offset, limit, ordering);
+  const { count, results } = await getAnimeData(offset, limit, ordering);
   const animeReqData: AnimeRequestData = { count, results, offset, limit };
 
   return animeReqData;

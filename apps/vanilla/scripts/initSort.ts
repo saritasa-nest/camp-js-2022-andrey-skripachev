@@ -28,7 +28,7 @@ function initializeSwitchDirectionButton(button: HTMLButtonElement): void {
 export function initializeSorting(elements: NodeListOf<Element>, callback: (requestPart: string) => void): void {
 
   elements.forEach(element => {
-    initializeSwitchDirectionButton(<HTMLButtonElement>element.querySelector(SortingSelector.TOGGLE_BUTTON));
+    initializeSwitchDirectionButton(element.querySelector(SortingSelector.TOGGLE_BUTTON) as HTMLButtonElement);
 
     (element as HTMLButtonElement).onclick = () => {
       const orderingButton = element.querySelector<HTMLButtonElement>(SortingSelector.SELECT_ORDERING_BUTTON);

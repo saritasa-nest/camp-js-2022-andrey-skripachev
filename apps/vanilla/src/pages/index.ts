@@ -14,11 +14,11 @@ function initializeApp(): void {
   let ordering = 'id';
   let animeReqData: AnimeRequestData;
 
-  const animeTableBlock = <HTMLTableElement>document.querySelector(AnimeSelector.TABLE_ID);
+  const animeTableBlock = document.querySelector<HTMLTableElement>(AnimeSelector.TABLE_ID);
   const animeTableCaption = document.querySelector(AnimeSelector.CAPTION_ID);
   const paginationBlock = document.querySelector(PaginationSelector.BLOCK_ID);
-  const paginationBtnPrev = <HTMLButtonElement>document.querySelector(PaginationSelector.BUTTON_PREVIOUS);
-  const paginationBtnNext = <HTMLButtonElement>document.querySelector(PaginationSelector.BUTTON_NEXT);
+  const paginationBtnPrev = document.querySelector<HTMLButtonElement>(PaginationSelector.BUTTON_PREVIOUS);
+  const paginationBtnNext = document.querySelector<HTMLButtonElement>(PaginationSelector.BUTTON_NEXT);
   const sortingBlocks = document.querySelectorAll(SortingSelector.BLOCK_ID);
 
   if (
