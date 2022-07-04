@@ -1,7 +1,7 @@
 import { DISABLED } from './constants';
 
 /**
- * Creates a button for the pagination block.
+ * Function creates a button for the pagination block.
  * @param page Page number that the button stores.
  * @param isSelected Check if the new button is the selected.
  * @returns New button for placing in the pagination.
@@ -16,7 +16,7 @@ function createPaginationButton(page: number, isSelected: boolean): HTMLButtonEl
 }
 
 /**
- * Creates a list of pagination bar elements.
+ * Function creates a list of pagination bar elements.
  * @param currentPage The currently selected page of the application.
  * @param totalPages Total number of pages.
  * @param range How many pagination buttons will be created around the button for the current page.
@@ -50,7 +50,7 @@ function createCompressedPagination(currentPage: number, totalPages: number, ran
 }
 
 /**
- * Hinges event handlers on blocks.
+ * Function hinges event handlers on blocks.
  * @param paginationBlock The block in which the pagination buttons will be placed.
  * @param buttonPrevious Button to go to the previous page.
  * @param buttonNext Button to go to the next page.
@@ -88,7 +88,7 @@ export function initializePagination(
 }
 
 /**
- * Locks or unlocks the button.
+ * Function locks or unlocks the button.
  * @param condition Button lock condition.
  * @param button Button.
  */
@@ -103,7 +103,7 @@ function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
 }
 
 /**
- * Updates buttons and button datasets in the pagination panel.
+ * Function updates buttons and button datasets in the pagination panel.
  * @param currPage Current page number.
  * @param totalPages Total number of pages.
  * @param paginationBlock The block in which the pagination buttons are located.

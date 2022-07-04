@@ -9,7 +9,7 @@ import { AnimeTypes } from './enums.js';
 import { AnimeType } from './types.js';
 
 /**
- * Clears the table and puts the list of anime series there.
+ * Function clears the table and puts the list of anime series there.
  * @param animeBlock Table for filling in the list of anime series.
  * @param caption Block to display the current position in the anime list.
  * @param animeRequestData Request information.
@@ -29,7 +29,7 @@ export function placeAnimeListToTable(
 }
 
 /**
- * Adds one anime series to the table.
+ * Function adds one anime series to the table.
  * @param anime Anime that will be written in the table row.
  * @param table Table where the line with the anime will be written.
  */
@@ -40,7 +40,7 @@ function pushAnimeToTable(anime: Anime, table: Element): void {
 }
 
 /**
- * Creates and fills a row with anime data.
+ * Function creates and fills a row with anime data.
  * @param anime Anime.
  * @returns Row.
  */
@@ -69,7 +69,7 @@ function createAnimeTableRow(anime: Anime): Element {
 }
 
 /**
- * Deletes all rows from the table except thead and tfoot.
+ * Function deletes all rows from the table except thead and tfoot.
  * @param table Table to delete all rows from it.
  */
 function removeRowsFromTable(table: HTMLTableElement): void {
@@ -83,7 +83,7 @@ function removeRowsFromTable(table: HTMLTableElement): void {
 }
 
 /**
- * Creates a new HTML element with classes and text content.
+ * Function creates a new HTML element with classes and text content.
  * @param elementName HTML element name.
  * @param textContent The text content of the HTML element.
  * @param classes Classes that the element will have.

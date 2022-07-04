@@ -24,7 +24,7 @@ async function getAnimeData(offset: number, limit: number, ordering: string): Pr
 }
 
 /**
- * Getting anime series by page number and incoming anime limit.
+ * Function gets anime series by page number and incoming anime limit.
  * @param page Page number.
  * @param limit Maximum number of received anime series.
  * @param ordering The subject of sorting.

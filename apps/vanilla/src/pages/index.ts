@@ -6,7 +6,7 @@ import { initializePagination, updatePagination } from '../../scripts/pagination
 import { initializeSorting } from '../../scripts/initSort';
 
 /**
- * Initializing the application: Initializing the anime table view and pagination.
+ * Function initializes the application: Initializing the anime table view and pagination.
  */
 function initializeApp(): void {
   let currentPage = 0;

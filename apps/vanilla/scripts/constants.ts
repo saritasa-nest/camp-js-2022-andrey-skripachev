@@ -4,7 +4,6 @@ import { SortingDirection } from './interfaces';
 export const LIMIT = 10;
 
 /** Selectors. */
-
 export namespace AnimeSelector {
   export const TABLE_ID = '#anime-table .table-body';
   export const CAPTION_ID = '#anime-page--data';
