@@ -8,49 +8,27 @@
     <title>Vite App</title>
   </head>
   <body class="default-layout">
+    <div><a name="top"></a></div>
     <header>
       <a href="#" class="waves-effect waves-light btn">Log in</a>
       <a href="#" class="waves-effect waves-light btn">Sign in</a>
     </header>
     <main>
-      <div class="center" id="pagination-controls">
-        <div class="left">
-          <button class="waves-effect waves-light btn-small">&#x2190;Prev</button>
+      <h1 class="main-header">Anime Catalog</h1>
+      <div id="pagination-controls" class="center pagination">
+        <div class="left pagination-buttons-wrapper">
+          <button type="button" class="pagination-button waves-effect waves-light btn-small">&#x2190;Prev</button>
         </div>
-        <div id="compressed-pagination" class="center"></div>
-        <div class="right">
-          <button class="waves-effect waves-light btn-small">Next&#x2192;</button>
+        <div id="compressed-pagination" class="center pagination-buttons-wrapper"></div>
+        <div class="right pagination-buttons-wrapper">
+          <button type="button" class="pagination-button waves-effect waves-light btn-small">Next&#x2192;</button>
         </div>
       </div>
-      <div class="filtration-block">
-
-    <form action="#" id="anime-filter" class="hide">
-      <h5>Select status filter</h5>
-      <p>
-        <label>
-          <input name="filter" type="checkbox" value="FINISHED" checked />
-          <span>Finished</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="filter" type="checkbox" value="AIRING" checked />
-          <span>Aired</span>
-        </label>
-      </p>
-      <p>
-        <label>
-          <input name="filter" type="checkbox" value="NOT_YET_AIRED" checked/>
-          <span>Yet not aired</span>
-        </label>
-      </p>
-    </form>
-      </div>
-      <table id="anime-table" class="responsive-table">
-        <caption class="anime-table--caption">
+      <table id="anime-table" class="centered striped section-table">
+        <caption class="table--caption">
           <span id="anime-page--data"></span>
         </caption>
-        <thead>
+        <thead class="table-header">
           <tr class="anime-table--row">
             <th>Image</th>
             <th class="sort hover-effect">
@@ -68,16 +46,16 @@
             <th>Type</th>
           </tr>
         </thead>
-        <tfoot>
+        <tbody class="table-body"></tbody>
+        <tfoot class="table-footer">
           <tr class="anime-table--row">
             <td>
-              <a href="#" class="btn">To top</a>
+              <a href="#top" class="btn">To top</a>
             </td>
           </tr>
         </tfoot>
       </table>
     </main>
-
     <script type="module" src="./index.ts"></script>
   </body>
 </html>

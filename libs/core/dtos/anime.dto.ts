@@ -1,11 +1,7 @@
-export interface Aired {
-  readonly start: string;
-  readonly end: string;
-}
+import { AiredDto } from './aired.dto';
 
 export interface AnimeDto {
-
-  readonly aired: Aired;
+  readonly aired: AiredDto;
   readonly created: string;
   readonly id: number;
   readonly image: string;

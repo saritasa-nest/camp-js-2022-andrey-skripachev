@@ -1,4 +1,4 @@
-import { DIS } from './constants';
+import { DISABLED } from './constants';
 
 /**
  * Creates a button for the pagination block.
@@ -9,19 +9,10 @@ import { DIS } from './constants';
 function createPaginationButton(page: number, isSelected: boolean): HTMLButtonElement {
   const button = document.createElement('button');
   button.textContent = (page + 1).toString();
+  button.setAttribute('type', 'button');
   button.dataset.page = page.toString();
-  button.classList.add('btn-flat', 'teal', isSelected ? 'lighten-3' : 'lighten-5');
+  button.classList.add('btn-flat', 'teal', 'pagination-button', isSelected ? 'lighten-3' : 'lighten-5');
   return button;
-}
-
-/**
- * Checks if the numeric values of the pages are equal.
- * @param page1 Some anime list page.
- * @param page2 Some anime list page.
- * @returns Checks if the numeric values of the pages are equal.
- */
-function equal(page1: number, page2: number): boolean {
-  return page1 === page2;
 }
 
 /**
@@ -34,25 +25,25 @@ function equal(page1: number, page2: number): boolean {
 function createCompressedPagination(currentPage: number, totalPages: number, range: number): Element[] {
   const elementList: Element[] = [];
 
-  const separator = <Element>document.createElement('span');
+  const separator = document.createElement('span');
   separator.textContent = '...';
 
   if (currentPage - range > 0) {
-    elementList.push(<Element>createPaginationButton(0, equal(0, currentPage)));
+    elementList.push(createPaginationButton(0, currentPage === 0));
   }
   if (currentPage - range > 1) {
-    elementList.push(<Element>separator.cloneNode(true));
+    elementList.push(separator.cloneNode(true) as Element);
   }
 
   for (let i = Math.max(0, currentPage - range); i <= Math.min(totalPages - 1, currentPage + range); i++) {
-    elementList.push(<Element>createPaginationButton(i, equal(i, currentPage)));
+    elementList.push(createPaginationButton(i, currentPage === i));
   }
 
   if (currentPage + range < totalPages - 2) {
-    elementList.push(<Element>separator.cloneNode(true));
+    elementList.push(separator.cloneNode(true) as Element);
   }
   if (currentPage + range < totalPages - 1) {
-    elementList.push(<Element>createPaginationButton(totalPages - 1, equal(totalPages - 1, currentPage)));
+    elementList.push(createPaginationButton(totalPages - 1, currentPage === totalPages - 1));
   }
 
   return elementList;
@@ -63,37 +54,37 @@ function createCompressedPagination(currentPage: number, totalPages: number, ran
  * @param paginationBlock The block in which the pagination buttons will be placed.
  * @param buttonPrevious Button to go to the previous page.
  * @param buttonNext Button to go to the next page.
- * @param clickEvt Function executed by pressing the pagination button.
+ * @param callback Function executed by pressing the pagination button.
  */
 export function initializePagination(
   paginationBlock: Element,
   buttonPrevious: Element,
   buttonNext: Element,
-  clickEvt: Function,
+  callback: (page: number) => void,
 ): void {
-  paginationBlock.addEventListener('click', e => {
+  (paginationBlock as HTMLButtonElement).onclick = e => {
     const target = <Element | HTMLButtonElement>e.target;
     const paginationButtons = paginationBlock?.querySelectorAll('button');
     paginationButtons?.forEach(element => {
       if (target === element) {
-        clickEvt(parseInt(element.dataset.page ?? '', 10));
+        callback(parseInt(element.dataset.page ?? '', 10));
       }
     });
-  });
+  };
 
-  buttonPrevious.addEventListener('click', e => {
+  (buttonPrevious as HTMLButtonElement).onclick = e => {
     const target = <HTMLButtonElement>e.target;
     if (target.dataset.page) {
-      clickEvt(parseInt(target.dataset.page ?? '', 10));
+      callback(parseInt(target.dataset.page ?? '', 10));
     }
-  });
+  };
 
-  buttonNext.addEventListener('click', e => {
+  (buttonNext as HTMLButtonElement).onclick = e => {
     const target = <HTMLButtonElement>e.target;
     if (target.dataset.page) {
-      clickEvt(parseInt(target.dataset.page ?? '', 10));
+      callback(parseInt(target.dataset.page ?? '', 10));
     }
-  });
+  };
 }
 
 /**
@@ -103,11 +94,11 @@ export function initializePagination(
  */
 function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
   if (condition) {
-    button.setAttribute(DIS, '1');
-    button.classList.add(DIS);
+    button.setAttribute(DISABLED, '1');
+    button.classList.add(DISABLED);
   } else {
-    button.removeAttribute(DIS);
-    button.classList.remove(DIS);
+    button.removeAttribute(DISABLED);
+    button.classList.remove(DISABLED);
   }
 }
 
@@ -133,7 +124,7 @@ export function updatePagination(
   btnNext.dataset.page = (currPage + 1).toString();
   changeDisabled(currPage === totalPages - 1, btnNext);
 
-  paginationBlock?.querySelectorAll('*').forEach(el => el.remove());
+  paginationBlock.innerHTML = '';
 
   const compPagination: Element[] = createCompressedPagination(currPage, totalPages, RANGE);
   paginationBlock.append(...compPagination);

@@ -1,14 +1,12 @@
 import { resolve } from 'path';
 
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
 const root = resolve(__dirname, 'src/pages');
 const outDir = resolve(__dirname, '../../dist/apps/vanilla');
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-  return {
+export default defineConfig({
     root,
     plugins: [],
     resolve: {
@@ -25,10 +23,5 @@ export default defineConfig(({ mode }) => {
         ],
       },
     },
-    define: {
-      ENV: {
-        apiKey: env.API_KEY,
-      }
-    }
-}});
+});
 

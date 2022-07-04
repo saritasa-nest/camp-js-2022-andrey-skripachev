@@ -19,4 +19,7 @@
   --background-color: white;
   --background-contrast-color: black;
   --error-color: red;
+  --hover-effect-dark-color: #0001;
+  --hover-effect-color: #0002;
+  --button-border-color: #ccc;
 }

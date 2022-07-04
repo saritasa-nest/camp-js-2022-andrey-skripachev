@@ -1,27 +1,39 @@
-import { AnimeModel } from '@js-camp/core/mappers/anime.mapper';
+import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 
-import axios from 'axios';
+import { AnimeData, AnimeDataFromDto, AnimeRequestData } from './interfaces';
 
-import { AnimeData, AnimeDataFromDto } from './interfaces';
+import client from './client';
 
 /**
- * Receiving data from the server by offset and limit.
+ * Function receives data from the server by offset and limit.
  * @param offset Offset to get the first item in the anime list.
  * @param limit Maximum number of received anime.
  * @param ordering The subject of sorting.
- * @returns
+ * @returns Total number of anime series and some anime.
  */
-export async function getAnimeData(offset: number, limit: number, ordering: string): Promise<AnimeDataFromDto> {
-  const URL = `https://api.camp-js.saritasa.rocks/api/v1/anime/anime/?limit=${limit}&offset=${offset}&ordering=${ordering},id`;
-  const { apiKey } = ENV;
+async function getAnimeData(offset: number, limit: number, ordering: string): Promise<AnimeDataFromDto> {
+  const URL = `anime/anime/?limit=${limit}&offset=${offset}&ordering=${ordering},id`;
 
-  const { count, results }: AnimeData = await axios.get(URL, {
-    headers: {
-      'Api-Key': apiKey,
-    },
-  });
+  const response = await client.get(URL);
 
-  const fromDtoResults = results.map(anime => AnimeModel.fromDto(anime));
+  const { results, count } = <AnimeData>response.data;
+
+  const fromDtoResults = results.map(anime => AnimeMapper.fromDto(anime));
 
   return { count, results: fromDtoResults };
+}
+
+/**
+ * Getting anime series by page number and incoming anime limit.
+ * @param page Page number.
+ * @param limit Maximum number of received anime series.
+ * @param ordering The subject of sorting.
+ * @returns Data on request (total number of anime, anime received, offset, limit).
+ */
+export async function getAnimeRequestData(page: number, limit: number, ordering: string): Promise<AnimeRequestData> {
+  const offset = page * limit;
+  const { count, results }: AnimeDataFromDto = await getAnimeData(offset, limit, ordering);
+  const animeReqData: AnimeRequestData = { count, results, offset, limit };
+
+  return animeReqData;
 }

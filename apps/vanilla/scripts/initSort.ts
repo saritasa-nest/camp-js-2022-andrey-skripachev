@@ -1,36 +1,46 @@
-import { DIRECTIONS, SELECT_ORDERING_BUTTON_SELECTOR, TOGGLE_BUTTON_SELECTOR } from './constants';
+import { DIRECTIONS, SortingSelector } from './constants';
+
+/**
+ *
+ * @param button Sorting mode switch button.
+ */
+function initializeSwitchDirectionButton(button: HTMLButtonElement): void {
+  const START = 0;
+
+  button.dataset.direction = START.toString();
+  button.textContent = DIRECTIONS[START].text;
+
+  button.onclick = () => {
+    const { direction } = button.dataset;
+    const directionId = parseInt(direction ?? '0', 10);
+    const newDirection = (directionId + 1) % DIRECTIONS.length;
+
+    button.dataset.direction = newDirection.toString();
+    button.textContent = DIRECTIONS[newDirection].text;
+  };
+}
 
 /**
  * Initializes the sorting block.
  * @param elements Blocks by which the anime list will be sorted.
- * @param evt Function called by clicking on the sort button.
+ * @param callback Function called by clicking on the sort button.
  */
-export function initializeSorting(elements: NodeListOf<Element>, evt: Function): void {
+export function initializeSorting(elements: NodeListOf<Element>, callback: (requestPart: string) => void): void {
 
-  const dirLength = DIRECTIONS.length;
-  const startDirId = 0;
+  elements.forEach(element => {
+    initializeSwitchDirectionButton(<HTMLButtonElement>element.querySelector(SortingSelector.TOGGLE_BUTTON));
 
-  const initDirectionButton = (button: HTMLButtonElement): void => {
-    button.dataset.dir = startDirId.toString();
-    button.textContent = DIRECTIONS[startDirId].text;
-    button.onclick = () => {
-      const { dir } = button.dataset;
-      const dirId = parseInt(dir ?? '0', 10);
-      const newDir = (dirId + 1) % dirLength;
-      button.dataset.dir = newDir.toString();
-      button.textContent = DIRECTIONS[newDir].text;
-    };
-  };
+    (element as HTMLButtonElement).onclick = () => {
+      const orderingButton = element.querySelector<HTMLButtonElement>(SortingSelector.SELECT_ORDERING_BUTTON);
+      const directionButton = element.querySelector<HTMLButtonElement>(SortingSelector.TOGGLE_BUTTON);
 
-  elements.forEach(elem => {
-    initDirectionButton(<HTMLButtonElement>elem.querySelector(TOGGLE_BUTTON_SELECTOR));
+      if (orderingButton === null || directionButton === null) {
+        throw new Error();
+      }
 
-    elem.addEventListener('click', () => {
-      const orderingButton = <HTMLButtonElement>elem.querySelector(SELECT_ORDERING_BUTTON_SELECTOR);
-      const directionButton = <HTMLButtonElement>elem.querySelector(TOGGLE_BUTTON_SELECTOR);
       const ordering = orderingButton.dataset.type;
-      const direction = parseInt(directionButton.dataset.dir ?? '0', 10);
-      evt(`${DIRECTIONS[direction].requestPrefix}${ordering}`);
-    });
+      const direction = parseInt(directionButton.dataset.direction ?? '0', 10);
+      callback(`${DIRECTIONS[direction].requestPrefix}${ordering}`);
+    };
   });
 }

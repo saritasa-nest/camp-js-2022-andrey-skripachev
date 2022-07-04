@@ -1,8 +1,12 @@
 import { Anime } from '@js-camp/core/models/anime.js';
 
-import { ANIME_TABLE_CELL_CLASS_NAME, ANIME_TABLE_ROW_CLASS_NAME } from './constants.js';
+import { AnimeSelector } from './constants.js';
 
 import { AnimeRequestData } from './interfaces.js';
+
+import { AnimeTypes } from './enums.js';
+
+import { AnimeType } from './types.js';
 
 /**
  * Clears the table and puts the list of anime series there.
@@ -43,19 +47,19 @@ function pushAnimeToTable(anime: Anime, table: Element): void {
 function createAnimeTableRow(anime: Anime): Element {
   const ON_EMPTY_MESSAGE = '-';
 
-  const { image, titleEng, titleJpn, status, type, aired: { start } } = anime;
+  const { image, titleEng, titleJpn, status, type, start } = anime;
 
-  const row = createNode('tr', '', ANIME_TABLE_ROW_CLASS_NAME);
+  const row = createNode('tr', '', AnimeSelector.ROW_CLASS);
 
-  const imageCell = createNode('td', '', ANIME_TABLE_CELL_CLASS_NAME);
+  const imageCell = createNode('td', '', AnimeSelector.CELL_CLASS);
   const title = `${titleEng || ON_EMPTY_MESSAGE} (${titleJpn || ON_EMPTY_MESSAGE})`;
-  const titleCell = createNode('td', title, ANIME_TABLE_CELL_CLASS_NAME);
-  const airedStartCell = createNode('td', start?.split('-')[0] || ON_EMPTY_MESSAGE, ANIME_TABLE_CELL_CLASS_NAME);
-  const typeCell = createNode('td', type || ON_EMPTY_MESSAGE, ANIME_TABLE_CELL_CLASS_NAME);
-  const statusCell = createNode('td', status || ON_EMPTY_MESSAGE, ANIME_TABLE_CELL_CLASS_NAME);
+  const titleCell = createNode('td', title, AnimeSelector.CELL_CLASS);
+  const airedStartCell = createNode('td', start?.toString().split('-')[0] || ON_EMPTY_MESSAGE, AnimeSelector.CELL_CLASS);
+  const typeCell = createNode('td', AnimeTypes[type as AnimeType] || ON_EMPTY_MESSAGE, AnimeSelector.CELL_CLASS);
+  const statusCell = createNode('td', status || ON_EMPTY_MESSAGE, AnimeSelector.CELL_CLASS);
 
   const imageElement = document.createElement('img');
-  imageElement.className = 'responsive-img';
+  imageElement.classList.add('table-image');
   imageElement.src = image;
   imageCell.append(imageElement);
 
@@ -72,7 +76,7 @@ function removeRowsFromTable(table: HTMLTableElement): void {
   const availableParents = ['TBODY', 'TABLE'];
   const rows = table.querySelectorAll('tr');
   rows.forEach(elem => {
-    if (availableParents.includes(elem.parentNode?.nodeName || '')) {
+    if (availableParents.includes(elem.parentNode?.nodeName ?? '')) {
       elem.remove();
     }
   });

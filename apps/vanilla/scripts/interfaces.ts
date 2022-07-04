@@ -4,41 +4,51 @@ import { Anime } from '@js-camp/core/models/anime';
 /** The structure of the received anime series.*/
 export interface AnimeData {
 
-  /** Count: total number of anime series.*/
+  /** Total number of anime series.*/
   readonly count: number;
 
-  /** Next: next request page.*/
+  /** Next request page.*/
   readonly next: string | null;
 
-  /** Previous: previous request page.*/
+  /** Previous request page.*/
   readonly previous: string | null;
 
-  /** Results: list of anime received on request.*/
+  /** List of anime received on request.*/
   readonly results: AnimeDto[];
 }
 
 /** Request data.*/
 export interface AnimeRequestData {
 
-  /** Count: Total number of anime series.*/
+  /** Total number of anime series.*/
   readonly count: number;
 
-  /** Results: list of anime received on request converted from dto.*/
+  /** List of anime received on request converted from dto.*/
   readonly results: Anime[];
 
-  /** Offset: offset on request.*/
+  /** Offset on request.*/
   readonly offset: number;
 
-  /** Limit: maximum number of received anime series.*/
+  /** Maximum number of received anime series.*/
   readonly limit: number;
 }
 
 /** Data converted from dto. */
 export interface AnimeDataFromDto {
 
-  /** Count: Total number of anime series.*/
+  /** Total number of anime series.*/
   readonly count: number;
 
-  /** Results: list of anime received on request converted from dto.*/
+  /** List of anime received on request converted from dto.*/
   readonly results: Anime[];
+}
+
+/** State of the sorting mode switch button. */
+export interface SortingDirection {
+
+  /** The text content of the sort button. */
+  readonly text: string;
+
+  /** Prefix added to the request when the button is pressed. */
+  readonly requestPrefix: string;
 }

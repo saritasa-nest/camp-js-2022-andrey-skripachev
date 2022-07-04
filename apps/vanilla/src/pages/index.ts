@@ -1,24 +1,9 @@
-import { LIMIT, ANIME_TABLE_SELECTOR, ANIME_TABLE_CAPTION_SELECTOR, PAGINATION_SELECTOR, PAGINATION_BUTTON_PREV_SELECTOR, PAGINATION_BUTTON_NEXT_SELECTOR, SORTING_BLOCK_SELECTOR } from '../../scripts/constants';
+import { LIMIT, AnimeSelector, PaginationSelector, SortingSelector } from '../../scripts/constants';
 import { placeAnimeListToTable } from '../../scripts/putAnimeToTable';
-import { getAnimeData } from '../../scripts/getAnime';
-import { AnimeDataFromDto, AnimeRequestData } from '../../scripts/interfaces';
+import { getAnimeRequestData } from '../../scripts/getAnime';
+import { AnimeRequestData } from '../../scripts/interfaces';
 import { initializePagination, updatePagination } from '../../scripts/pagination';
 import { initializeSorting } from '../../scripts/initSort';
-
-/**
- * Getting anime series by page number and incoming anime limit.
- * @param page Page number.
- * @param limit Maximum number of received anime series.
- * @param ordering The subject of sorting.
- * @returns Data on request (total number of anime, anime received, offset, limit).
- */
-async function getAnimeRequestData(page: number, limit: number, ordering: string): Promise<AnimeRequestData> {
-  const offset = page * limit;
-  const { count, results }: AnimeDataFromDto = await getAnimeData(offset, limit, ordering);
-  const animeReqData: AnimeRequestData = { count, results, offset, limit };
-
-  return animeReqData;
-}
 
 /**
  * Initializing the application: Initializing the anime table view and pagination.
@@ -29,12 +14,12 @@ function initializeApp(): void {
   let ordering = 'id';
   let animeReqData: AnimeRequestData;
 
-  const animeTableBlock = <HTMLTableElement>document.querySelector(ANIME_TABLE_SELECTOR);
-  const animeTableCaption = document.querySelector(ANIME_TABLE_CAPTION_SELECTOR);
-  const paginationBlock = document.querySelector(PAGINATION_SELECTOR);
-  const paginationBtnPrev = <HTMLButtonElement>document.querySelector(PAGINATION_BUTTON_PREV_SELECTOR);
-  const paginationBtnNext = <HTMLButtonElement>document.querySelector(PAGINATION_BUTTON_NEXT_SELECTOR);
-  const sortingBlocks = document.querySelectorAll(SORTING_BLOCK_SELECTOR);
+  const animeTableBlock = <HTMLTableElement>document.querySelector(AnimeSelector.TABLE_ID);
+  const animeTableCaption = document.querySelector(AnimeSelector.CAPTION_ID);
+  const paginationBlock = document.querySelector(PaginationSelector.BLOCK_ID);
+  const paginationBtnPrev = <HTMLButtonElement>document.querySelector(PaginationSelector.BUTTON_PREVIOUS);
+  const paginationBtnNext = <HTMLButtonElement>document.querySelector(PaginationSelector.BUTTON_NEXT);
+  const sortingBlocks = document.querySelectorAll(SortingSelector.BLOCK_ID);
 
   if (
     animeTableBlock === null ||
@@ -43,14 +28,12 @@ function initializeApp(): void {
     paginationBtnPrev === null ||
     paginationBtnNext === null
   ) {
-    return;
+    throw new Error();
   }
 
   const update = async(): Promise<void> => {
-    await getAnimeRequestData(currentPage, LIMIT, ordering).then(data => {
-      animeReqData = data;
-      totalPages = Math.ceil(data.count / LIMIT);
-    });
+    animeReqData = await getAnimeRequestData(currentPage, LIMIT, ordering);
+    totalPages = Math.ceil(animeReqData.count / LIMIT);
     placeAnimeListToTable(animeTableBlock, animeTableCaption, animeReqData);
     updatePagination(currentPage, totalPages, paginationBlock, paginationBtnPrev, paginationBtnNext);
   };

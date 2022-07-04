@@ -1,4 +1,3 @@
-import { Aired } from '../dtos/anime.dto';
 
 import { Immerable, OmitImmerable } from './immerable';
 
@@ -6,7 +5,7 @@ import { Immerable, OmitImmerable } from './immerable';
 export class Anime extends Immerable {
 
   /** Aired start/end. */
-  public readonly aired: Aired;
+  public readonly start: string | Date;
 
   /** Id. */
   public readonly id: number;
@@ -14,7 +13,7 @@ export class Anime extends Immerable {
   /** Image. */
   public readonly image: string;
 
-  /** Status. */
+  /** Status (Finished, Aired or Not yet aired). */
   public readonly status: string;
 
   /** Title english. */
@@ -23,12 +22,12 @@ export class Anime extends Immerable {
   /** Title japanese. */
   public readonly titleJpn: string;
 
-  /** Type. */
+  /** Type (OVA, TV etc). */
   public readonly type: string;
 
   public constructor(data: PostInitArgs) {
     super();
-    this.aired = data.aired;
+    this.start = data.start;
     this.id = data.id;
     this.image = data.image;
     this.status = data.status;
