@@ -54,16 +54,16 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
 
   const { image, titleEng, titleJpn, status, type, start } = anime;
 
-  const row = createNode<HTMLTableRowElement>('tr', '', AnimeSelector.ROW_CLASS);
+  const row = createNode<HTMLTableRowElement>('tr', '', AnimeSelector.ROW);
 
-  const imageCell = createNode<HTMLTableCellElement>('td', '', AnimeSelector.CELL_CLASS);
+  const imageCell = createNode<HTMLTableCellElement>('td', '', AnimeSelector.CELL);
   const title = `${titleEng || EMPTY_MESSAGE} (${titleJpn || EMPTY_MESSAGE})`;
-  const titleCell = createNode<HTMLTableCellElement>('td', title, AnimeSelector.CELL_CLASS);
-  const airedStartCell = createNode<HTMLTableCellElement>('td', start?.toString().split('-')[0] || EMPTY_MESSAGE, AnimeSelector.CELL_CLASS);
-  const typeCell = createNode<HTMLTableCellElement>('td', AnimeType[type as AnimeType] || EMPTY_MESSAGE, AnimeSelector.CELL_CLASS);
-  const statusCell = createNode<HTMLTableCellElement>('td', status || EMPTY_MESSAGE, AnimeSelector.CELL_CLASS);
+  const titleCell = createNode<HTMLTableCellElement>('td', title, AnimeSelector.CELL);
+  const airedStartCell = createNode<HTMLTableCellElement>('td', start?.toString().split('-')[0] || EMPTY_MESSAGE, AnimeSelector.CELL);
+  const typeCell = createNode<HTMLTableCellElement>('td', AnimeType[type as AnimeType] || EMPTY_MESSAGE, AnimeSelector.CELL);
+  const statusCell = createNode<HTMLTableCellElement>('td', status || EMPTY_MESSAGE, AnimeSelector.CELL);
 
-  const imageElement = createNode<HTMLImageElement>('img', '', AnimeSelector.TABLE_IMAGE_CLASS);
+  const imageElement = createNode<HTMLImageElement>('img', '', AnimeSelector.TABLE_IMAGE);
   imageElement.src = image;
 
   imageCell.append(imageElement);

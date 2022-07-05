@@ -7,7 +7,7 @@ import { AnimeDataFromDto, AnimeRequestData } from './interfaces';
 import { client } from './client';
 
 /**
- * Function receives data from the server by offset and limit.
+ * Receives data from the server by offset and limit.
  * @param offset Offset to get the first item in the anime list.
  * @param limit Maximum number of received anime.
  * @param ordering The subject of sorting.
@@ -26,7 +26,7 @@ async function getAnimeData(offset: number, limit: number, ordering: string): Pr
 }
 
 /**
- * Function gets anime series by page number and incoming anime limit.
+ * Gets anime series by page number and incoming anime limit.
  * @param page Page number.
  * @param limit Maximum number of received anime series.
  * @param ordering The subject of sorting.

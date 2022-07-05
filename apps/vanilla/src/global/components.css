@@ -27,7 +27,7 @@ a:hover,
 }
 
 .hover-effect {
-  transition: 0.1s;
+  transition: var(--animation-duration-short);
   background: none;
 }
 
@@ -64,7 +64,7 @@ a:hover,
 
 .section-table th.sort {
   position: relative;
-  transition: 0.1s;
+  transition: var(--animation-duration-short);
 }
 
 th.sort .toggle-button {
@@ -72,7 +72,7 @@ th.sort .toggle-button {
   width: auto;
   right: 5px;
   bottom: 0;
-  transition: 0.1s;
+  transition: var(--animation-duration-short);
   border: 1px solid var(--button-border-color);
 }
 

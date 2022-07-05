@@ -1,7 +1,7 @@
 import { DIRECTIONS, SortingSelector } from './constants';
 
 /**
- * Function assigns an event handler to the button.
+ * Assigns an event handler to the button.
  * @param button Sorting mode switch button.
  */
 function initializeSwitchDirectionButton(button: HTMLButtonElement | null): void {
@@ -24,7 +24,7 @@ function initializeSwitchDirectionButton(button: HTMLButtonElement | null): void
 }
 
 /**
- * Function initializes the sorting block.
+ * Initializes the sorting block.
  * @param elementsSelector Selector of blocks by which the anime list will be sorted.
  * @param callback Function called by clicking on the sort button.
  */

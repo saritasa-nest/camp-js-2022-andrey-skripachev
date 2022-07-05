@@ -6,7 +6,7 @@ import { initializePagination, updatePagination } from '../../scripts/pagination
 import { initializeSorting } from '../../scripts/initSort';
 
 /**
- * Function initializes the application: Initializing the anime table view and pagination.
+ * Initializes the application: Initializing the anime table view and pagination.
  */
 function initializeApp(): void {
   let currentPage = 0;
@@ -15,7 +15,7 @@ function initializeApp(): void {
   let animeRequestData: AnimeRequestData;
 
   const pagination: Pagination = {
-    blockSelector: PaginationSelector.BLOCK_ID,
+    blockSelector: PaginationSelector.BLOCK,
     buttonPreviousSelector: PaginationSelector.BUTTON_PREVIOUS,
     buttonNextSelector: PaginationSelector.BUTTON_NEXT,
   };
@@ -27,7 +27,7 @@ function initializeApp(): void {
     animeRequestData = await getAnimeRequestData(currentPage, LIMIT, ordering);
     totalPages = Math.ceil(animeRequestData.count / LIMIT);
 
-    placeAnimeListToTable(AnimeSelector.TABLE_BODY_SELECTOR, AnimeSelector.CAPTION_ID, animeRequestData);
+    placeAnimeListToTable(AnimeSelector.TABLE_BODY, AnimeSelector.CAPTION, animeRequestData);
     updatePagination(currentPage, totalPages, pagination);
   }
 
@@ -40,7 +40,7 @@ function initializeApp(): void {
       }
     },
   );
-  initializeSorting(SortingSelector.BLOCK_ID, (newOrdering: string): void => {
+  initializeSorting(SortingSelector.BLOCK, (newOrdering: string): void => {
     if (ordering !== newOrdering) {
       ordering = newOrdering;
       currentPage = 0;

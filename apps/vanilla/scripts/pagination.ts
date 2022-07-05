@@ -18,8 +18,12 @@ export function initializePagination(
     return;
   }
 
-  paginationBlock.onclick = e => {
-    const target = e.target as Element | HTMLButtonElement;
+  paginationBlock.onclick = event => {
+    if (!(event.target instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const { target } = event;
     const paginationButtons = paginationBlock.querySelectorAll('button');
     paginationButtons.forEach(element => {
       if (target === element) {
@@ -28,19 +32,22 @@ export function initializePagination(
     });
   };
 
-  buttonPrevious.onclick = e => {
-    if (!(e.target instanceof HTMLButtonElement)) {
+  buttonPrevious.onclick = event => {
+    if (!(event.target instanceof HTMLButtonElement)) {
       return;
     }
 
-    const { target } = e;
+    const { target } = event;
     if (target.dataset.page) {
       callback(parseInt(target.dataset.page ?? '', 10));
     }
   };
 
-  buttonNext.onclick = e => {
-    const target = e.target as HTMLButtonElement;
+  buttonNext.onclick = event => {
+    if (!(event.target instanceof HTMLButtonElement)) {
+      return;
+    }
+    const { target } = event;
     if (target.dataset.page) {
       callback(parseInt(target.dataset.page ?? '', 10));
     }
@@ -79,7 +86,7 @@ export function updatePagination(
 }
 
 /**
- * Function locks or unlocks the button.
+ * Locks or unlocks the button.
  * @param condition Button lock condition.
  * @param button Button.
  */
@@ -94,7 +101,7 @@ function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
 }
 
 /**
- * Function creates a list of pagination bar elements.
+ * Creates a list of pagination bar elements.
  * @param currentPage The currently selected page of the application.
  * @param totalPages Total number of pages.
  * @param range How many pagination buttons will be created around the button for the current page.
@@ -128,7 +135,7 @@ function createCompressedPagination(currentPage: number, totalPages: number, ran
 }
 
 /**
- * Function creates a button for the pagination block.
+ * Creates a button for the pagination block.
  * @param page Page number that the button stores.
  * @param isSelected Check if the new button is the selected.
  * @returns New button for placing in the pagination.
