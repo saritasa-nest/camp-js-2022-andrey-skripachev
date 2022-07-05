@@ -1,5 +1,5 @@
 /** Different types of anime. */
-export enum AnimeTypes {
+export enum AnimeType {
   TV = 'TV',
   OVA = 'OVA',
   MOVIE = 'MOVIE',

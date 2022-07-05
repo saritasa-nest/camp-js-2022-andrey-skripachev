@@ -4,7 +4,10 @@ import { DIRECTIONS, SortingSelector } from './constants';
  * Function assigns an event handler to the button.
  * @param button Sorting mode switch button.
  */
-function initializeSwitchDirectionButton(button: HTMLButtonElement): void {
+function initializeSwitchDirectionButton(button: HTMLButtonElement | null): void {
+  if (button === null) {
+    return;
+  }
   const START = 0;
 
   button.dataset.direction = START.toString();
@@ -22,25 +25,26 @@ function initializeSwitchDirectionButton(button: HTMLButtonElement): void {
 
 /**
  * Function initializes the sorting block.
- * @param elements Blocks by which the anime list will be sorted.
+ * @param elementsSelector Selector of blocks by which the anime list will be sorted.
  * @param callback Function called by clicking on the sort button.
  */
-export function initializeSorting(elements: NodeListOf<Element>, callback: (requestPart: string) => void): void {
+export function initializeSorting(elementsSelector: string, callback: (requestPart: string) => void): void {
+  const elements = document.querySelectorAll<HTMLElement>(elementsSelector);
 
-  elements.forEach(element => {
-    initializeSwitchDirectionButton(element.querySelector(SortingSelector.TOGGLE_BUTTON) as HTMLButtonElement);
+  for (const element of elements) {
+    initializeSwitchDirectionButton(element.querySelector<HTMLButtonElement>(SortingSelector.TOGGLE_BUTTON));
 
-    (element as HTMLButtonElement).onclick = () => {
+    element.onclick = () => {
       const orderingButton = element.querySelector<HTMLButtonElement>(SortingSelector.SELECT_ORDERING_BUTTON);
       const directionButton = element.querySelector<HTMLButtonElement>(SortingSelector.TOGGLE_BUTTON);
 
       if (orderingButton === null || directionButton === null) {
-        throw new Error();
+        return;
       }
 
       const ordering = orderingButton.dataset.type;
       const direction = parseInt(directionButton.dataset.direction ?? '0', 10);
       callback(`${DIRECTIONS[direction].requestPrefix}${ordering}`);
     };
-  });
+  }
 }

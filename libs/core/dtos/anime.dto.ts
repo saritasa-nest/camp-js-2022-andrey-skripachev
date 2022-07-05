@@ -27,3 +27,19 @@ export interface AnimeDto {
   /** Type of anime (OVA, TV etc). */
   readonly type: string;
 }
+
+/** The structure of the received anime series.*/
+export interface AnimeData {
+
+  /** Total number of anime series.*/
+  readonly count: number;
+
+  /** Next request page.*/
+  readonly next: string | null;
+
+  /** Previous request page.*/
+  readonly previous: string | null;
+
+  /** List of anime received on request.*/
+  readonly results: readonly AnimeDto[];
+}

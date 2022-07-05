@@ -1,8 +1,10 @@
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 
-import { AnimeData, AnimeDataFromDto, AnimeRequestData } from './interfaces';
+import { AnimeData } from '@js-camp/core/dtos/anime.dto';
 
-import client from './client';
+import { AnimeDataFromDto, AnimeRequestData } from './interfaces';
+
+import { client } from './client';
 
 /**
  * Function receives data from the server by offset and limit.
