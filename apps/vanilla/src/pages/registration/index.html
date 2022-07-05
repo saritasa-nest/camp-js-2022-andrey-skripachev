@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <title>Registration page</title>
+  </head>
+  <body class="default-layout">
+    <main>
+      <div class="content-center">
+        <div class="form-wrapper">
+          <h1 class="form-header">Registration</h1>
+          <form id="registration-form" class="form" name="registration">
+            <label class="form-label">
+              Email:
+              <input name="email" required type="text" placeholder="user@example.com" class="form-input-text" />
+            </label>
+            <label class="form-label">
+              First name:
+              <input name="first-name" required type="text" placeholder="First name..." class="form-input-text" />
+            </label>
+            <label class="form-label">
+              Last name:
+              <input name="last-name" required type="text" placeholder="Last name..." class="form-input-text" />
+            </label>
+            <label class="form-label">
+              Your avatar URL:
+              <input name="avatar" required type="text" placeholder="http://example.com/image.jpg" class="form-input-text" />
+            </label>
+            <label class="form-label">
+              Your password:
+              <input name="password" required type="password" placeholder="********" class="form-input-text" />
+            </label>
+            <label class="form-label">
+              Confirm your password:
+              <input name="confirm-password" required type="password" placeholder="********" class="form-input-text" />
+            </label>
+            <button type="submit" class="form-button waves-effect waves-light btn">Submit</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>

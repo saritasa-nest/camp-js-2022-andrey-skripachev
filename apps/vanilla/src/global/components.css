@@ -73,7 +73,7 @@ th.sort .toggle-button {
   right: 5px;
   bottom: 0;
   transition: var(--animation-duration-short);
-  border: 1px solid var(--button-border-color);
+  border: 1px solid var(--border-color);
 }
 
 th.sort button {
@@ -90,4 +90,23 @@ th.sort .toggle-button:hover {
 
 .section-table .table-image {
   height: 200px;
+}
+
+.content-center {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-wrapper {
+  width: 25%;
+  padding: 19px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+.form-wrapper .form-header {
+  font-size: 35px;
 }

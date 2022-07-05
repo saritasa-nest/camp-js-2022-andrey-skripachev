@@ -21,6 +21,6 @@
   --error-color: red;
   --hover-effect-dark-color: #0001;
   --hover-effect-color: #0002;
-  --button-border-color: #ccc;
+  --border-color: #ccc;
   --animation-duration-short: 0.1s;
 }
