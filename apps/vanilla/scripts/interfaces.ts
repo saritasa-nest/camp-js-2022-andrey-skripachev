@@ -36,7 +36,7 @@ export interface SortingDirection {
   readonly requestPrefix: string;
 }
 
-/** Selectors of pagination interface elements. */
+/** Selectors of the pagination block. */
 export interface Pagination {
 
   /** Block containing numbered buttons. */
@@ -47,4 +47,17 @@ export interface Pagination {
 
   /** Button to go to the next page. */
   readonly buttonNextSelector: string;
+}
+
+/** Parameters of the request. */
+export interface RequestConstructionData {
+
+  /** Current page. */
+  page: number;
+
+  /** Maximum number of received anime series. */
+  limit: number;
+
+  /** The target of sorting. */
+  ordering: string;
 }

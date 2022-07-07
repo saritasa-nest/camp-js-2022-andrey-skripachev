@@ -2,9 +2,9 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 
 import { AnimeData } from '@js-camp/core/dtos/anime.dto';
 
-import { AnimeDataFromDto, AnimeRequestData } from './interfaces';
+import { AnimeDataFromDto, AnimeRequestData, RequestConstructionData } from './interfaces';
 
-import { client } from './client';
+import { httpClient } from './client';
 
 /**
  * Receives data from the server by offset and limit.
@@ -13,12 +13,13 @@ import { client } from './client';
  * @param ordering The subject of sorting.
  * @returns Total number of anime series and some anime.
  */
-async function getAnimeData(offset: number, limit: number, ordering: string): Promise<AnimeDataFromDto> {
-  const URL = `anime/anime/?limit=${limit}&offset=${offset}&ordering=${ordering},id`;
+async function getAnimeData({ page, limit, ordering }: RequestConstructionData): Promise<AnimeDataFromDto> {
+  const offset = page * limit;
+  const urlSearchParameters = `anime/anime/?limit=${limit}&offset=${offset}&ordering=${ordering},id`;
 
-  const response = await client.get(URL);
+  const response = await httpClient.get<AnimeData>(urlSearchParameters);
 
-  const { results, count } = response.data as AnimeData;
+  const { results, count } = response.data;
 
   const fromDtoResults = results.map(anime => AnimeMapper.fromDto(anime));
 
@@ -32,9 +33,10 @@ async function getAnimeData(offset: number, limit: number, ordering: string): Pr
  * @param ordering The subject of sorting.
  * @returns Data on request (total number of anime, anime received, offset, limit).
  */
-export async function getAnimeRequestData(page: number, limit: number, ordering: string): Promise<AnimeRequestData> {
+export async function getAnimeRequestData(requestConstruction: RequestConstructionData): Promise<AnimeRequestData> {
+  const { page, limit } = requestConstruction;
   const offset = page * limit;
-  const { count, results } = await getAnimeData(offset, limit, ordering);
+  const { count, results } = await getAnimeData(requestConstruction);
   const animeReqData: AnimeRequestData = { count, results, offset, limit };
 
   return animeReqData;

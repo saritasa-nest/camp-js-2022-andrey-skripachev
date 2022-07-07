@@ -4,7 +4,7 @@ import { AnimeSelector } from './constants.js';
 
 import { AnimeRequestData } from './interfaces.js';
 
-import { AnimeType } from './enums.js';
+import { AnimeType } from '../../../libs/core/enums/enums.js';
 
 /**
  * Clears the table and puts the list of anime series there.

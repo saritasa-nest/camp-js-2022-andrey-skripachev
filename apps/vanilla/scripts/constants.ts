@@ -27,11 +27,11 @@ export namespace SortingSelector {
 /** Sorting data. */
 export const DIRECTIONS: readonly SortingDirection[] = [
   {
-    text: '↑',
+    text: '&#8593;',
     requestPrefix: '',
   },
   {
-    text: '↓',
+    text: '&#8595;',
     requestPrefix: '-',
   },
 ];

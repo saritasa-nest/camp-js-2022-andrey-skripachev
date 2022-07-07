@@ -1,6 +1,18 @@
 import { DIRECTIONS, SortingSelector } from './constants';
 
 /**
+ * 
+ * @param button
+ * @param text
+ */
+function placeTextInButton(button: HTMLButtonElement, text: string): void {
+  const temporary = document.createElement('div');
+  temporary.innerHTML = text;
+
+  button.innerText = temporary.innerText;
+}
+
+/**
  * Assigns an event handler to the button.
  * @param button Sorting mode switch button.
  */
@@ -11,7 +23,7 @@ function initializeSwitchDirectionButton(button: HTMLButtonElement | null): void
   const START = 0;
 
   button.dataset.direction = START.toString();
-  button.textContent = DIRECTIONS[START].text;
+  placeTextInButton(button, DIRECTIONS[START].text);
 
   button.onclick = () => {
     const { direction } = button.dataset;
@@ -19,7 +31,8 @@ function initializeSwitchDirectionButton(button: HTMLButtonElement | null): void
     const newDirection = (directionId + 1) % DIRECTIONS.length;
 
     button.dataset.direction = newDirection.toString();
-    button.textContent = DIRECTIONS[newDirection].text;
+
+    placeTextInButton(button, DIRECTIONS[newDirection].text);
   };
 }
 
