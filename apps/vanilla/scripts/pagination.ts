@@ -1,5 +1,8 @@
-import { DISABLED, RANGE } from './constants';
-import { Pagination } from './interfaces';
+import { Pagination } from '@js-camp/core/models/pagination';
+
+import { DISABLED, RANGE, PaginationElements } from './variables/constants';
+
+import { PaginationSelector } from './variables/interfaces';
 
 /**
  * Hinges event handlers on blocks.
@@ -7,29 +10,26 @@ import { Pagination } from './interfaces';
  * @param callback Function executed by pressing the pagination button.
  */
 export function initializePagination(
-  pagination: Pagination,
+  pagination: PaginationSelector,
   callback: (page: number) => void,
 ): void {
-  const paginationBlock = document.querySelector<HTMLDivElement>(pagination.blockSelector);
-  const buttonPrevious = document.querySelector<HTMLButtonElement>(pagination.buttonPreviousSelector);
-  const buttonNext = document.querySelector<HTMLButtonElement>(pagination.buttonNextSelector);
-
+  const paginationBlock = document.querySelector<HTMLDivElement>(pagination.block);
+  const buttonPrevious = document.querySelector<HTMLButtonElement>(pagination.buttonPrevious);
+  const buttonNext = document.querySelector<HTMLButtonElement>(pagination.buttonNext);
+  const { BUTTON_SELECTED } = PaginationElements;
   if (paginationBlock === null || buttonPrevious === null || buttonNext === null) {
     return;
   }
 
   paginationBlock.onclick = event => {
-    if (!(event.target instanceof HTMLButtonElement)) {
+    const { target } = event;
+    if (!(target instanceof HTMLButtonElement)) {
       return;
     }
+    if (!(target.classList.contains(BUTTON_SELECTED))) {
+      callback(Number(target.dataset.page));
+    }
 
-    const { target } = event;
-    const paginationButtons = paginationBlock.querySelectorAll('button');
-    paginationButtons.forEach(element => {
-      if (target === element) {
-        callback(parseInt(element.dataset.page ?? '', 10));
-      }
-    });
   };
 
   buttonPrevious.onclick = event => {
@@ -38,8 +38,9 @@ export function initializePagination(
     }
 
     const { target } = event;
-    if (target.dataset.page) {
-      callback(parseInt(target.dataset.page ?? '', 10));
+
+    if (target.dataset.page && !(target.classList.contains(BUTTON_SELECTED))) {
+      callback(Number(target.dataset.page));
     }
   };
 
@@ -47,27 +48,26 @@ export function initializePagination(
     if (!(event.target instanceof HTMLButtonElement)) {
       return;
     }
+
     const { target } = event;
-    if (target.dataset.page) {
-      callback(parseInt(target.dataset.page ?? '', 10));
+
+    if (target.dataset.page && !(target.classList.contains(BUTTON_SELECTED))) {
+      callback(Number(target.dataset.page));
     }
   };
 }
 
 /**
  * Updates buttons and button datasets in the pagination panel.
- * @param currentPage Current page number.
- * @param totalPages Total number of pages.
  * @param pagination A.
  */
 export function updatePagination(
-  currentPage: number,
-  totalPages: number,
-  pagination: Pagination,
+  { currentPage, totalPages }: Pagination,
+  pagination: PaginationSelector,
 ): void {
-  const paginationBlock = document.querySelector<HTMLDivElement>(pagination.blockSelector);
-  const buttonPrevious = document.querySelector<HTMLButtonElement>(pagination.buttonPreviousSelector);
-  const buttonNext = document.querySelector<HTMLButtonElement>(pagination.buttonNextSelector);
+  const paginationBlock = document.querySelector<HTMLDivElement>(pagination.block);
+  const buttonPrevious = document.querySelector<HTMLButtonElement>(pagination.buttonPrevious);
+  const buttonNext = document.querySelector<HTMLButtonElement>(pagination.buttonNext);
 
   if (paginationBlock === null || buttonPrevious === null || buttonNext === null) {
     return;
@@ -92,7 +92,7 @@ export function updatePagination(
  */
 function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
   if (condition) {
-    button.setAttribute(DISABLED, '1');
+    button.setAttribute(DISABLED, DISABLED);
     button.classList.add(DISABLED);
   } else {
     button.removeAttribute(DISABLED);
@@ -141,10 +141,12 @@ function createCompressedPagination(currentPage: number, totalPages: number, ran
  * @returns New button for placing in the pagination.
  */
 function createPaginationButton(page: number, isSelected: boolean): HTMLButtonElement {
+  const { BUTTON_SELECTED, BUTTON_NOT_SELECTED } = PaginationElements;
+
   const button = document.createElement('button');
   button.textContent = (page + 1).toString();
   button.setAttribute('type', 'button');
   button.dataset.page = page.toString();
-  button.classList.add('btn-flat', 'teal', 'pagination-button', isSelected ? 'lighten-3' : 'lighten-5');
+  button.classList.add('btn-flat', 'teal', 'pagination-button', isSelected ? BUTTON_SELECTED : BUTTON_NOT_SELECTED);
   return button;
 }

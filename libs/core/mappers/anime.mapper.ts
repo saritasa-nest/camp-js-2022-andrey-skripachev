@@ -1,22 +1,16 @@
 import { AnimeDto } from '../dtos/anime.dto';
-
 import { Anime } from '../models/anime';
+
+import { AnimeSeriesMapper } from './animeSeries.mapper';
 
 export namespace AnimeMapper {
 
-  /**
-   * Maps dto to model.
-   * @param dto Anime dto.
-   */
-  export function fromDto(dto: AnimeDto): Anime {
+  export function fromDto(dto: AnimeDto, limit: number, offset: number): Anime {
     return new Anime({
-      start: dto.aired.start,
-      id: dto.id,
-      image: dto.image,
-      status: dto.status,
-      titleEng: dto.title_eng,
-      titleJpn: dto.title_jpn,
-      type: dto.type,
+      count: dto.count,
+      animeSeries: dto.results.map(item => AnimeSeriesMapper.fromDto(item)),
+      limit,
+      offset,
     });
   }
 }

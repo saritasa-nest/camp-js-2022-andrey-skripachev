@@ -1,63 +1,76 @@
-import { DIRECTIONS, SortingSelector } from './constants';
+import { SORTING_DIRECTIONS, DEFAULT_DIRECTION, SortingElements } from './variables/constants';
 
 /**
- * 
+ *
  * @param button
  * @param text
  */
-function placeTextInButton(button: HTMLButtonElement, text: string): void {
+function placeText(element: HTMLElement, text: string): void {
   const temporary = document.createElement('div');
   temporary.innerHTML = text;
 
-  button.innerText = temporary.innerText;
+  element.innerText = temporary.innerText;
 }
 
-/**
- * Assigns an event handler to the button.
- * @param button Sorting mode switch button.
- */
-function initializeSwitchDirectionButton(button: HTMLButtonElement | null): void {
-  if (button === null) {
+function getOrderingFromButton(button: HTMLButtonElement): string {
+  const { direction = 0, ordering = 'id' } = button.dataset;
+  const directionValue = SORTING_DIRECTIONS[Number(direction)].value;
+  return `${directionValue}${ordering}`;
+}
+
+function initializeSortingButton(button: HTMLButtonElement) {
+  const sortingDirection = DEFAULT_DIRECTION;
+  const directionElement = button.querySelector<HTMLSpanElement>(SortingElements.TOGGLE_DIRECTION);
+  if (directionElement === null) {
     return;
   }
-  const START = 0;
+  button.dataset.direction = String(sortingDirection);
+  placeText(directionElement, SORTING_DIRECTIONS[DEFAULT_DIRECTION].text);
+}
 
-  button.dataset.direction = START.toString();
-  placeTextInButton(button, DIRECTIONS[START].text);
+function selectOrdering(button: HTMLButtonElement, changeSortField: (ordering: string) => void): void {
+  const ordering = getOrderingFromButton(button);
+  changeSortField(ordering);
+}
 
-  button.onclick = () => {
-    const { direction } = button.dataset;
-    const directionId = parseInt(direction ?? '0', 10);
-    const newDirection = (directionId + 1) % DIRECTIONS.length;
+function toggleButtonDirection(button: HTMLButtonElement): void {
+  const currentDirection = Number(button.dataset.direction);
+  const newDirection = (currentDirection + 1) % SORTING_DIRECTIONS.length;
+  button.dataset.direction = String(newDirection);
+  const directionElement = button.querySelector<HTMLSpanElement>(SortingElements.TOGGLE_DIRECTION);
 
-    button.dataset.direction = newDirection.toString();
+  if (directionElement !== null) {
+    placeText(directionElement, SORTING_DIRECTIONS[newDirection].text);
+  }
+}
 
-    placeTextInButton(button, DIRECTIONS[newDirection].text);
-  };
+function removeClassFromElements(elements: NodeListOf<HTMLElement>, className: string): void {
+  elements.forEach(element => {
+    if (element.classList.contains(className)) {
+      element.classList.remove(className);
+    }
+  });
 }
 
 /**
  * Initializes the sorting block.
  * @param elementsSelector Selector of blocks by which the anime list will be sorted.
- * @param callback Function called by clicking on the sort button.
+ * @param changeSortField Function called by clicking on the sort button.
  */
-export function initializeSorting(elementsSelector: string, callback: (requestPart: string) => void): void {
-  const elements = document.querySelectorAll<HTMLElement>(elementsSelector);
+export function initializeSorting(elementsSelector: string, changeSortField: (ordering: string) => void): void {
+  const sortingButtons = document.querySelectorAll<HTMLButtonElement>(elementsSelector);
 
-  for (const element of elements) {
-    initializeSwitchDirectionButton(element.querySelector<HTMLButtonElement>(SortingSelector.TOGGLE_BUTTON));
-
+  sortingButtons.forEach(element => {
+    initializeSortingButton(element);
     element.onclick = () => {
-      const orderingButton = element.querySelector<HTMLButtonElement>(SortingSelector.SELECT_ORDERING_BUTTON);
-      const directionButton = element.querySelector<HTMLButtonElement>(SortingSelector.TOGGLE_BUTTON);
-
-      if (orderingButton === null || directionButton === null) {
-        return;
+      if (element.classList.contains(SortingElements.SELECTED_FIELD)) {
+        toggleButtonDirection(element);
+      } else {
+        removeClassFromElements(sortingButtons, SortingElements.SELECTED_FIELD);
+        element.classList.add(SortingElements.SELECTED_FIELD);
       }
 
-      const ordering = orderingButton.dataset.type;
-      const direction = parseInt(directionButton.dataset.direction ?? '0', 10);
-      callback(`${DIRECTIONS[direction].requestPrefix}${ordering}`);
+      selectOrdering(element, changeSortField);
     };
-  }
+  });
 }

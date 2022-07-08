@@ -2,9 +2,9 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 
 import { AnimeData } from '@js-camp/core/dtos/anime.dto';
 
-import { AnimeDataFromDto, AnimeRequestData, RequestConstructionData } from './interfaces';
+import { AnimeDataFromDto, AnimeRequestData, RequestConstructionData } from './variables/interfaces';
 
-import { httpClient } from './client';
+import { httpClient } from './api/client';
 
 /**
  * Receives data from the server by offset and limit.

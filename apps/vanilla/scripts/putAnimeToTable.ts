@@ -1,10 +1,8 @@
 import { Anime } from '@js-camp/core/models/anime.js';
+import { AnimeType } from '@js-camp/core/enums/enums.js';
+import { AnimeSeries } from '@js-camp/core/models/animeSeries.js';
 
-import { AnimeSelector } from './constants.js';
-
-import { AnimeRequestData } from './interfaces.js';
-
-import { AnimeType } from '../../../libs/core/enums/enums.js';
+import { AnimeSelector } from './variables/constants.js';
 
 /**
  * Clears the table and puts the list of anime series there.
@@ -15,7 +13,7 @@ import { AnimeType } from '../../../libs/core/enums/enums.js';
 export function placeAnimeListToTable(
   animeBlockSelector: string,
   captionSelector: string,
-  animeRequestData: AnimeRequestData,
+  anime: Anime,
 ): void {
   const animeBlock = document.querySelector<HTMLTableElement>(animeBlockSelector);
   const caption = document.querySelector<HTMLTableCaptionElement>(captionSelector);
@@ -24,11 +22,12 @@ export function placeAnimeListToTable(
     return;
   }
 
-  const { count, results, offset, limit } = animeRequestData;
-  removeRowsFromTable(animeBlock);
-  caption.textContent = `${offset + 1}-${Math.min(offset + limit, count)} of ${count}`;
+  const { count, animeSeries, offset, limit } = anime;
 
-  for (const animeData of results) {
+  caption.textContent = `${offset + 1}-${Math.min(offset + limit + 1, count)} of ${count}`;
+
+  removeRowsFromTable(animeBlock);
+  for (const animeData of animeSeries) {
     pushAnime(animeData, animeBlock);
   }
 }
@@ -38,7 +37,7 @@ export function placeAnimeListToTable(
  * @param anime Anime that will be written in the table row.
  * @param tableBody Table body where the line with the anime will be written.
  */
-function pushAnime(anime: Anime, tableBody: Element): void {
+function pushAnime(anime: AnimeSeries, tableBody: Element): void {
   const row = createAnimeTableRow(anime);
 
   tableBody.append(row);
@@ -49,15 +48,15 @@ function pushAnime(anime: Anime, tableBody: Element): void {
  * @param anime Anime.
  * @returns Row.
  */
-function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
+function createAnimeTableRow(anime: AnimeSeries): HTMLTableRowElement {
   const EMPTY_MESSAGE = '-';
 
-  const { image, titleEng, titleJpn, status, type, start } = anime;
+  const { image, titleEnglish, titleJapanese, status, type, start } = anime;
 
   const row = createNode<HTMLTableRowElement>('tr', '', AnimeSelector.ROW);
 
   const imageCell = createNode<HTMLTableCellElement>('td', '', AnimeSelector.CELL);
-  const title = `${titleEng || EMPTY_MESSAGE} (${titleJpn || EMPTY_MESSAGE})`;
+  const title = `${titleEnglish || EMPTY_MESSAGE} (${titleJapanese || EMPTY_MESSAGE})`;
   const titleCell = createNode<HTMLTableCellElement>('td', title, AnimeSelector.CELL);
   const airedStartCell = createNode<HTMLTableCellElement>('td', start?.toString().split('-')[0] || EMPTY_MESSAGE, AnimeSelector.CELL);
   const typeCell = createNode<HTMLTableCellElement>('td', AnimeType[type as AnimeType] || EMPTY_MESSAGE, AnimeSelector.CELL);
@@ -80,9 +79,10 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
 function removeRowsFromTable(table: HTMLTableElement): void {
   const availableParents = ['TBODY', 'TABLE'];
   const rows = table.querySelectorAll('tr');
-  rows.forEach(elem => {
-    if (availableParents.includes(elem.parentNode?.nodeName ?? '')) {
-      elem.remove();
+  rows.forEach(element => {
+    const parent = element.parentNode;
+    if (parent !== null && availableParents.includes(parent.nodeName)) {
+      element.remove();
     }
   });
 }

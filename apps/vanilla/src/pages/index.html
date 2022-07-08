@@ -8,13 +8,12 @@
     <title>Vite App</title>
   </head>
   <body class="default-layout">
-    <div><a name="top"></a></div>
     <header>
-      <a href="./authorization/index.html" class="waves-effect waves-light btn">Sign in</a>
-      <a href="./registration/index.html" class="waves-effect waves-light btn">Sign up</a>
+      <a href="#" class="waves-effect waves-light btn">Sign in</a>
+      <a href="#" class="waves-effect waves-light btn">Sign up</a>
     </header>
     <main>
-      <h1 class="main-header">Anime Catalog</h1>
+      <h1 class="main-heading center">Anime Catalog</h1>
       <div id="pagination-controls" class="center pagination">
         <div class="left pagination-buttons-wrapper">
           <button type="button" class="pagination-button waves-effect waves-light btn-small">&#x2190;Prev</button>
@@ -29,28 +28,34 @@
           <span id="anime-page--data"></span>
         </caption>
         <thead class="table-header">
-          <tr class="anime-table--row">
-            <th>Image</th>
-            <th class="sort hover-effect">
-              <button type="button" class="select-ordering-button" data-type="title_eng">Title english/japanese</button>
-              <button type="button" class="toggle-button"></button>
+          <tr class="anime-table__row">
+            <th class="table-header">Image</th>
+            <th class="table-header">
+              <button data-ordering="title_eng" class="fit-element table__button sort hover-effect">
+                Title english/japanese
+                <span class="sorting-direction"></span>
+              </button>
             </th>
-            <th class="sort hover-effect">
-              <button type="button" class="select-ordering-button" data-type="aired__startswith">Aired start</button>
-              <button type="button" class="toggle-button"></button>
+            <th class="table-header">
+              <button data-ordering="aired__startswith" class="fit-element table__button sort hover-effect">
+                Aired start
+                <span class="sorting-direction"></span>
+              </button>
             </th>
-            <th class="sort hover-effect">
-              <button type="button" class="select-ordering-button" data-type="status">Status</button>
-              <button type="button" class="toggle-button"></button>
+            <th class="table-header">
+              <button data-ordering="status" class="fit-element table__button sort hover-effect">
+                Status
+                <span class="sorting-direction"></span>
+              </button>
             </th>
-            <th>Type</th>
+            <th class="table-header">Type</th>
           </tr>
         </thead>
         <tbody class="table-body"></tbody>
         <tfoot class="table-footer">
-          <tr class="anime-table--row">
+          <tr class="anime-table__row">
             <td>
-              <a href="#top" class="btn">To top</a>
+              <button class="btn">To top</button>
             </td>
           </tr>
         </tfoot>

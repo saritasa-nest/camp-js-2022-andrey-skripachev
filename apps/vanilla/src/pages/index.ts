@@ -1,58 +1,79 @@
-import { LIMIT, AnimeSelector, PaginationSelector, SortingSelector } from '../../scripts/constants';
+import { LIMIT, AnimeSelector, PaginationElements, SortingElements } from '../../scripts/variables/constants';
 import { placeAnimeListToTable } from '../../scripts/putAnimeToTable';
-import { getAnimeRequestData } from '../../scripts/getAnime';
-import { AnimeRequestData, Pagination, RequestConstructionData } from '../../scripts/interfaces';
+import { PaginationSelector, RequestParameter } from '../../scripts/variables/interfaces';
 import { initializePagination, updatePagination } from '../../scripts/pagination';
+
+import { Api } from '../../scripts/api/api';
 import { initializeSorting } from '../../scripts/initSort';
+
+function changePagination() {
+  const paginationSelector: PaginationSelector = {
+    block: PaginationElements.BLOCK,
+    buttonPrevious: PaginationElements.BUTTON_PREVIOUS,
+    buttonNext: PaginationElements.BUTTON_NEXT,
+  };
+
+  const pagination = Api.AnimeApi.getPagination();
+  updatePagination(pagination, paginationSelector);
+}
+
+function changeAnimeTable() {
+  const animeTable = Api.AnimeApi.getAnimeTable();
+  placeAnimeListToTable(AnimeSelector.TABLE_BODY, AnimeSelector.CAPTION, animeTable);
+}
+
+async function changeApp(requestParameters: readonly Array<RequestParameter>): Promise<void> {
+  await Api.AnimeApi.collectAnime(requestParameters);
+
+  changePagination();
+  changeAnimeTable();
+}
 
 /**
  * Initializes the application: Initializing the anime table view and pagination.
  */
 function initializeApp(): void {
-  let totalPages: number;
-  let animeRequestData: AnimeRequestData;
 
-  const requestConstruction: RequestConstructionData = {
-    page: 0,
-    limit: LIMIT,
-    ordering: 'id',
+  const requestParameters: Array<RequestParameter> = [
+    { name: 'offset', value: 0 },
+    { name: 'limit', value: LIMIT },
+    { name: 'ordering', value: 'id' },
+  ];
+
+  const paginationSelector: PaginationSelector = {
+    block: PaginationElements.BLOCK,
+    buttonPrevious: PaginationElements.BUTTON_PREVIOUS,
+    buttonNext: PaginationElements.BUTTON_NEXT,
   };
-
-  const pagination: Pagination = {
-    blockSelector: PaginationSelector.BLOCK,
-    buttonPreviousSelector: PaginationSelector.BUTTON_PREVIOUS,
-    buttonNextSelector: PaginationSelector.BUTTON_NEXT,
-  };
-
-  /**
-   * Updates app.
-   */
-  async function update(): Promise<void> {
-    animeRequestData = await getAnimeRequestData(requestConstruction);
-    totalPages = Math.ceil(animeRequestData.count / LIMIT);
-
-    placeAnimeListToTable(AnimeSelector.TABLE_BODY, AnimeSelector.CAPTION, animeRequestData);
-    updatePagination(requestConstruction.page, totalPages, pagination);
-  }
 
   initializePagination(
-    pagination,
-    (pageNumber: number): void => {
-      if (pageNumber !== requestConstruction.page) {
-        requestConstruction.page = pageNumber;
-        update();
+    paginationSelector,
+    (newPage: number): void => {
+      const offsetOption = requestParameters.find(({ name }) => name === 'offset');
+      if (offsetOption === undefined) {
+        return;
       }
+      const newOffset = newPage * LIMIT;
+      offsetOption.value = newOffset;
+      const newOffsetOption = { ...offsetOption, value: newOffset };
+      
+      changeApp(requestParameters);
     },
   );
-  initializeSorting(SortingSelector.BLOCK, (newOrdering: string): void => {
-    if (requestConstruction.ordering !== newOrdering) {
-      requestConstruction.ordering = newOrdering;
-      requestConstruction.page = 0;
-      update();
-    }
-  });
 
-  update();
+  initializeSorting(
+    SortingElements.BLOCK,
+    (newOrdering: string): void => {
+      const orderingOption = requestParameters.find(({ name }) => name === 'ordering');
+      if (orderingOption === undefined) {
+        return;
+      }
+      orderingOption.value = `${newOrdering},id`;
+      changeApp(requestParameters);
+    },
+  );
+
+  changeApp(requestParameters);
 }
 
 initializeApp();
