@@ -3,6 +3,7 @@ import { QueryParameter } from '../variables/interfaces';
 
 import { GetAnimeApi } from './gettingAnime';
 
+/** Receiving and sending data to the API. */
 export namespace Api {
 
   /**
