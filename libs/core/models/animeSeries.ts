@@ -1,4 +1,4 @@
-import { AnimeType } from '../enums/enums';
+import { AnimeStatus, AnimeType } from '../enums/enums';
 
 import { Immerable, OmitImmerable } from './immerable';
 
@@ -15,7 +15,7 @@ export class AnimeSeries extends Immerable {
   public readonly image: string;
 
   /** Status (Finished, Aired or Not yet aired). */
-  public readonly status: string;
+  public readonly status: AnimeStatus;
 
   /** Title english. */
   public readonly titleEnglish: string;

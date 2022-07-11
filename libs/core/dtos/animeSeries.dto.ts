@@ -1,4 +1,4 @@
-import { AnimeType } from '../enums/enums';
+import { AnimeStatusDto, AnimeTypeDto } from '../enums/enums';
 
 import { AiredDto } from './aired.dto';
 
@@ -15,7 +15,7 @@ export interface AnimeSeriesDto {
   readonly image: string;
 
   /** Status of anime(Finished, Aired, Yet not aired). */
-  readonly status: string;
+  readonly status: AnimeStatusDto;
 
   /** Anime name in English. */
   readonly title_eng: string;
@@ -24,5 +24,5 @@ export interface AnimeSeriesDto {
   readonly title_jpn: string;
 
   /** Type of anime (OVA, TV etc). */
-  readonly type: AnimeType;
+  readonly type: AnimeTypeDto;
 }

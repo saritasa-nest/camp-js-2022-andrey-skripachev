@@ -1,4 +1,5 @@
 import { AnimeSeriesDto } from '../dtos/animeSeries.dto';
+import { Status, Type } from '../enums/enums';
 
 import { AnimeSeries } from '../models/animeSeries';
 
@@ -13,10 +14,10 @@ export namespace AnimeSeriesMapper {
       start: dto.aired.start,
       id: dto.id,
       image: dto.image,
-      status: dto.status,
+      status: Status[dto.status],
       titleEnglish: dto.title_eng,
       titleJapanese: dto.title_jpn,
-      type: dto.type,
+      type: Type[dto.type],
     });
   }
 }

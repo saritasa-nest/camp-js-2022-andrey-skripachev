@@ -1,5 +1,4 @@
 import { Anime } from '@js-camp/core/models/anime.js';
-import { AnimeType } from '@js-camp/core/enums/enums.js';
 import { AnimeSeries } from '@js-camp/core/models/animeSeries.js';
 
 import { AnimeTableSelector } from '../variables/interfaces';
@@ -67,7 +66,7 @@ function createAnimeTableRow(anime: AnimeSeries): HTMLTableRowElement {
   const title = `${titleEnglish || EMPTY_MESSAGE} (${titleJapanese || EMPTY_MESSAGE})`;
   const titleCell = createNode<HTMLTableCellElement>('td', title, cellElement);
   const airedStartCell = createNode<HTMLTableCellElement>('td', start?.toString().split('-')[0] || EMPTY_MESSAGE, cellElement);
-  const typeCell = createNode<HTMLTableCellElement>('td', AnimeType[type as AnimeType] || EMPTY_MESSAGE, cellElement);
+  const typeCell = createNode<HTMLTableCellElement>('td', type || EMPTY_MESSAGE, cellElement);
   const statusCell = createNode<HTMLTableCellElement>('td', status || EMPTY_MESSAGE, cellElement);
 
   const illustration = createNode<HTMLImageElement>('img', '', imageElement);
