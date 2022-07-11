@@ -105,6 +105,6 @@ a:hover,
   border-radius: 5px;
 }
 
-.form-wrapper .form-header {
+.form__header {
   font-size: 3rem;
 }
