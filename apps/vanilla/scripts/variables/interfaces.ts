@@ -63,7 +63,7 @@ export interface SortingSelector {
 }
 
 /** Request parameter. */
-export interface RequestParameter {
+export interface QueryParameter {
 
   /** Parameter name. */
   readonly name: string;

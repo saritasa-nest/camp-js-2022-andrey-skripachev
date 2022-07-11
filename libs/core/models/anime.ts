@@ -1,21 +1,18 @@
 import { AnimeSeries } from './animeSeries';
 import { Immerable, OmitImmerable } from './immerable';
 
+/** Anime. */
 export class Anime extends Immerable {
 
-  public readonly count: number;
+  /** Information about the current position in the anime list. */
+  public readonly captionInfo: string;
 
-  public readonly limit: number;
-
-  public readonly offset: number;
-
+  /** Received anime. */
   public readonly animeSeries: readonly AnimeSeries[];
 
   public constructor(data: InitArgs) {
     super();
-    this.count = data.count;
-    this.limit = data.limit;
-    this.offset = data.offset;
+    this.captionInfo = data.captionInfo;
     this.animeSeries = data.animeSeries;
   }
 }

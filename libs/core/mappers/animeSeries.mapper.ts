@@ -7,11 +7,15 @@ export namespace AnimeSeriesMapper {
 
   /**
    * Maps dto to model.
-   * @param dto Anime dto.
+   * @param dto Anime series dto.
    */
   export function fromDto(dto: AnimeSeriesDto): AnimeSeries {
+    let { start } = dto.aired;
+    if (start instanceof Date) {
+      start = start.toDateString();
+    }
     return new AnimeSeries({
-      start: dto.aired.start,
+      start,
       id: dto.id,
       image: dto.image,
       status: Status[dto.status],

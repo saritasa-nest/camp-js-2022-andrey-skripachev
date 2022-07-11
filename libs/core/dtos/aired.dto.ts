@@ -1,9 +1,9 @@
-/** Beginning and end of anime release. */
+/** Anime release period. */
 export interface AiredDto {
 
   /** Beginning. */
-  readonly start: string;
+  readonly start: string | Date;
 
   /** End. */
-  readonly end: string;
+  readonly end: string | Date;
 }

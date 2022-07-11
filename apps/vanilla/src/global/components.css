@@ -37,7 +37,7 @@ a:hover,
 }
 
 .hover-effect:hover {
-  background: var(--hover-effect-color);
+  background-color: var(--hover-effect-color);
 }
 
 .fit-element {
@@ -87,7 +87,7 @@ a:hover,
 
 .anime-table .table__row {
   display: grid;
-  grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
+  grid-template-columns: 1fr 4fr repeat(3, 2fr);
 }
 
 .content-center {
@@ -100,11 +100,11 @@ a:hover,
 
 .form-wrapper {
   width: 25%;
-  padding: 19px;
+  padding: 20px;
   border: 1px solid var(--border-color);
   border-radius: 5px;
 }
 
 .form-wrapper .form-header {
-  font-size: 35px;
+  font-size: 3rem;
 }

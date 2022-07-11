@@ -22,7 +22,7 @@ export function placeAnimeListToTable(
   anime: Anime,
 ): void {
   const { table, caption } = animeTableSelector;
-  const { count, animeSeries, offset, limit } = anime;
+  const { captionInfo, animeSeries } = anime;
 
   const animeBlock = document.querySelector<HTMLTableElement>(table);
   const captionBlock = document.querySelector<HTMLTableCaptionElement>(caption);
@@ -31,7 +31,7 @@ export function placeAnimeListToTable(
     return;
   }
 
-  captionBlock.textContent = `${offset + 1}-${Math.min(offset + limit + 1, count)} of ${count}`;
+  captionBlock.textContent = captionInfo;
 
   removeRowsFromTable(animeBlock);
   for (const animeData of animeSeries) {
@@ -71,6 +71,7 @@ function createAnimeTableRow(anime: AnimeSeries): HTMLTableRowElement {
 
   const illustration = createNode<HTMLImageElement>('img', '', imageElement);
   illustration.src = image;
+  illustration.alt = titleEnglish;
 
   imageCell.append(illustration);
 
