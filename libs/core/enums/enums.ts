@@ -8,7 +8,7 @@ export enum AnimeType {
   MUSIC = 'MUSIC',
 }
 
-/** Different statuses of anime */
+/** Different statuses of anime. */
 export enum AnimeStatus {
   AIRING = 'AIRING',
   FINISHED = 'FINISHED',

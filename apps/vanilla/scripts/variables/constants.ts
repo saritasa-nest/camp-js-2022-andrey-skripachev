@@ -4,25 +4,26 @@ import { SortingDirection } from './interfaces';
 export const LIMIT = 10;
 
 /** Selectors. */
-export namespace AnimeSelector {
-  export const TABLE_BODY = '#anime-table .table-body';
-  export const CAPTION = '#anime-page--data';
-  export const ROW = 'anime-table__row';
-  export const CELL = 'anime-table-row-data';
-  export const TABLE_IMAGE = 'table-image';
+export namespace AnimeTableElements {
+  export const TABLE_BODY = '.anime-table .table__body';
+  export const CAPTION = '.anime-table .table__caption';
+  export const ROW = 'table__row';
+  export const CELL = 'table_cell';
+  export const TABLE_IMAGE = 'table__image';
 }
 
 export namespace PaginationElements {
-  export const BLOCK = '#compressed-pagination';
-  export const BUTTON_PREVIOUS = '#pagination-controls .left > button';
-  export const BUTTON_NEXT = '#pagination-controls .right > button';
+  export const BLOCK = '.compressed-pagination';
+  export const BUTTON_PREVIOUS = '.pagination__previous';
+  export const BUTTON_NEXT = '.pagination__next';
   export const BUTTON_SELECTED = 'lighten-3';
   export const BUTTON_NOT_SELECTED = 'lighten-5';
+  export const BUTTON = 'pagination__button';
 }
 
 export namespace SortingElements {
-  export const BLOCK = '#anime-table .sort';
-  export const TOGGLE_DIRECTION = '.sorting-direction';
+  export const ELEMENT = '.sort';
+  export const DIRECTION = '.sorting-direction';
   export const SELECTED_FIELD = 'ordering-selected';
 }
 
@@ -49,3 +50,5 @@ export const SORTING_DIRECTIONS = [
   SORTING_DECREMENT,
 ];
 export const DEFAULT_DIRECTION = 0;
+
+export const TOP_OF_PAGE = 0;

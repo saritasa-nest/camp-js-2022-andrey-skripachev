@@ -53,12 +53,11 @@ a:hover,
   justify-content: center;
 }
 
-.pagination .pagination-buttons-wrapper,
-.pagination .pagination-button {
-  margin: 0 10px;
+.pagination__button {
+  margin: 10px;
 }
 
-.section-table {
+.section__table {
   min-width: 400px;
   width: 80%;
   margin: 50px auto;
@@ -71,41 +70,22 @@ a:hover,
   font: inherit;
 }
 
-.section-table .table-header th {
+.table-column__heading {
   padding: 20px 0;
 }
 
-.section-table th.sort {
+.table__button.sort {
   position: relative;
   transition: var(--animation-duration-short);
-}
-
-th.sort .toggle-button {
-  position: absolute;
-  width: auto;
-  right: 5px;
-  bottom: 0;
-  transition: var(--animation-duration-short);
-  border: 1px solid var(--border-color);
-}
-
-th.sort button {
-  display: inline-block;
-  border: none;
-  background: transparent;
-  cursor: pointer;
   font: inherit;
+  cursor: pointer;
 }
 
-th.sort .toggle-button:hover {
-  background: var(--hover-effect-dark-color);
-}
-
-.section-table .table-image {
+.table__image {
   max-width: 100%;
 }
 
-.section-table .anime-table__row {
+.anime-table .table__row {
   display: grid;
   grid-template-columns: 1fr 4fr 2fr 2fr 2fr;
 }

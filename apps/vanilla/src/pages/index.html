@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="./index.css" />
-    <title>Vite App</title>
+    <title>Anime App</title>
   </head>
   <body class="default-layout">
     <header>
@@ -14,48 +14,46 @@
     </header>
     <main>
       <h1 class="main-heading center">Anime Catalog</h1>
-      <div id="pagination-controls" class="center pagination">
-        <div class="left pagination-buttons-wrapper">
-          <button type="button" class="pagination-button waves-effect waves-light btn-small">&#x2190;Prev</button>
+      <div class="center pagination anime-table-pagination">
+        <div class="pagination__buttons-wrapper">
+          <button type="button" class="pagination__button pagination__previous waves-effect waves-light btn-small">&#x2190;Prev</button>
         </div>
-        <div id="compressed-pagination" class="center pagination-buttons-wrapper"></div>
-        <div class="right pagination-buttons-wrapper">
-          <button type="button" class="pagination-button waves-effect waves-light btn-small">Next&#x2192;</button>
+        <div class="pagination__buttons-wrapper compressed-pagination"></div>
+        <div class="pagination__buttons-wrapper">
+          <button type="button" class="pagination__button pagination__next waves-effect waves-light btn-small">Next&#x2192;</button>
         </div>
       </div>
-      <table id="anime-table" class="centered striped section-table">
-        <caption class="table--caption">
-          <span id="anime-page--data"></span>
-        </caption>
-        <thead class="table-header">
-          <tr class="anime-table__row">
-            <th class="table-header">Image</th>
-            <th class="table-header">
-              <button data-ordering="title_eng" class="fit-element table__button sort hover-effect">
+      <table class="centered striped section__table anime-table">
+        <caption class="table__caption"></caption>
+        <thead class="table__header">
+          <tr class="table__row">
+            <th class="table__column-heading">Image</th>
+            <th class="table__column-heading">
+              <button data-ordering="title_eng" class="fit-element hover-effect table__button sort">
                 Title english/japanese
                 <span class="sorting-direction"></span>
               </button>
             </th>
-            <th class="table-header">
-              <button data-ordering="aired__startswith" class="fit-element table__button sort hover-effect">
+            <th class="table__column-heading">
+              <button data-ordering="aired__startswith" class="fit-element hover-effect table__button sort">
                 Aired start
                 <span class="sorting-direction"></span>
               </button>
             </th>
-            <th class="table-header">
-              <button data-ordering="status" class="fit-element table__button sort hover-effect">
+            <th class="table__column-heading">
+              <button data-ordering="status" class="fit-element hover-effect table__button sort">
                 Status
                 <span class="sorting-direction"></span>
               </button>
             </th>
-            <th class="table-header">Type</th>
+            <th class="table__column-heading">Type</th>
           </tr>
         </thead>
-        <tbody class="table-body"></tbody>
-        <tfoot class="table-footer">
-          <tr class="anime-table__row">
+        <tbody class="table__body"></tbody>
+        <tfoot class="table__footer">
+          <tr class="table__row">
             <td>
-              <button class="btn">To top</button>
+              <button class="btn top-moving-button">To top</button>
             </td>
           </tr>
         </tfoot>
