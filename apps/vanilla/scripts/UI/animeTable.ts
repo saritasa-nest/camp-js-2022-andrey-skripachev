@@ -7,10 +7,10 @@ import { AnimeTableElements } from '../variables/constants';
 import { createNode } from './dom';
 
 const animeTableSelector: AnimeTableSelector = {
-  table: AnimeTableElements.TABLE_BODY,
+  table: `.${AnimeTableElements.TABLE_BODY}`,
   row: AnimeTableElements.ROW,
   cell: AnimeTableElements.CELL,
-  caption: AnimeTableElements.CAPTION,
+  caption: `.${AnimeTableElements.CAPTION}`,
   image: AnimeTableElements.TABLE_IMAGE,
 };
 

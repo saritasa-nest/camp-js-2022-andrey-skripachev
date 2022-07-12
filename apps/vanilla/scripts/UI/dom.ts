@@ -1,4 +1,4 @@
-import { DISABLED } from '../variables/constants';
+import { DISABLED, FormElements, HIDDEN } from '../variables/constants';
 
 /**
  * Inserts text into an element.
@@ -52,4 +52,41 @@ export function changeDisabled(condition: boolean, button: HTMLButtonElement): v
     button.removeAttribute(DISABLED);
     button.classList.remove(DISABLED);
   }
+}
+
+/**
+ * Hides the error message in the form.
+ * @param form Form element.
+ */
+export function hideFormErrorMessage(form: HTMLFormElement): void {
+  const errorBlock = form.querySelector<HTMLDivElement>(FormElements.error);
+
+  if (errorBlock === null) {
+    return;
+  }
+
+  if (!errorBlock.classList.contains(HIDDEN)) {
+    errorBlock.classList.add(HIDDEN);
+  }
+
+  errorBlock.textContent = '';
+}
+
+/**
+ * Outputs an error in the form.
+ * @param form Form element.
+ * @param text Text content of the error.
+ */
+export function printFormErrorMessage(form: HTMLFormElement, text: string): void {
+  const errorBlock = form.querySelector<HTMLDivElement>(FormElements.error);
+
+  if (errorBlock === null) {
+    return;
+  }
+
+  if (errorBlock.classList.contains(HIDDEN)) {
+    errorBlock.classList.remove(HIDDEN);
+  }
+
+  insertUnicodeText(errorBlock, text);
 }

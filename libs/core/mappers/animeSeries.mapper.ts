@@ -1,5 +1,5 @@
 import { AnimeSeriesDto } from '../dtos/animeSeries.dto';
-import { Status, Type } from '../enums/enums';
+import { Status, Type } from '../enums/anime';
 
 import { AnimeSeries } from '../models/animeSeries';
 

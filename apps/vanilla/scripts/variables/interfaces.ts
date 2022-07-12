@@ -71,3 +71,34 @@ export interface QueryParameter {
   /** Parameter value. */
   readonly value: number | string;
 }
+
+/** Token for user authentication. */
+export interface Token {
+
+  /** Refresh token. */
+  readonly refresh: string;
+
+  /** Access token. */
+  readonly access: string;
+}
+
+/** User authentication error. */
+export interface AuthError {
+
+  /** General information about the error. */
+  readonly detail: string;
+
+  /** Detailed error data. */
+  readonly data?: AuthErrorData;
+}
+
+type ErrorParameter = [info: string];
+
+interface AuthErrorData {
+
+  /** Password error. */
+  readonly password?: ErrorParameter;
+
+  /** Email error. */
+  readonly email?: ErrorParameter;
+}

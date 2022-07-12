@@ -3,10 +3,10 @@ import { SortingDirection } from './interfaces';
 /** Request. */
 export const LIMIT = 10;
 
-/** Selectors. */
+/** Class names. */
 export namespace AnimeTableElements {
-  export const TABLE_BODY = '.anime-table .table__body';
-  export const CAPTION = '.anime-table .table__caption';
+  export const TABLE_BODY = 'anime-table .table__body';
+  export const CAPTION = 'anime-table .table__caption';
   export const ROW = 'table__row';
   export const CELL = 'table_cell';
   export const TABLE_IMAGE = 'table__image';
@@ -29,12 +29,28 @@ export namespace SortingElements {
 
 export namespace RequestPrefix {
   export const ANIME_LIST = 'anime/anime/';
+  export const AUTH = 'auth/';
+}
+
+export namespace FormElements {
+  export const error = '.error';
+}
+
+export namespace RegistrationFormElements {
+  export const form = '.registration-form';
+  export const formName = 'registration';
+  export const inputs = '.registration-from__input';
+  export const error = '.error';
 }
 
 /** Other. */
+export const HIDDEN = 'hide';
 export const DISABLED = 'disabled';
 export const ENABLED = 'enabled';
 export const RANGE = 2;
+export const OK_MESSAGE = 'ok';
+export const REFRESH = 'refresh';
+export const ACCESS = 'access';
 
 const SORTING_INCREMENT: SortingDirection = {
   text: '&#8593;',

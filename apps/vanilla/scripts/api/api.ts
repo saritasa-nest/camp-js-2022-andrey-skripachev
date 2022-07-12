@@ -2,6 +2,7 @@ import { RequestPrefix } from '../variables/constants';
 import { QueryParameter } from '../variables/interfaces';
 
 import { GetAnimeApi } from './gettingAnime';
+import { UserApi } from './user';
 
 /** Receiving and sending data to the API. */
 export namespace Api {
@@ -22,4 +23,6 @@ export namespace Api {
   }
 
   export const animeApi = new GetAnimeApi(createUrl, RequestPrefix.ANIME_LIST);
+
+  export const userApi = new UserApi();
 }

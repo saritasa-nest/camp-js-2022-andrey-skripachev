@@ -1,4 +1,4 @@
-import { AnimeStatusDto, AnimeTypeDto } from '../enums/enums';
+import { AnimeStatusDto, AnimeTypeDto } from '../enums/anime';
 
 import { AiredDto } from './aired.dto';
 
