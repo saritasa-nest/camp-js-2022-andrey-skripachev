@@ -24,7 +24,7 @@ export class SortingElement {
     this.sortingButtons.forEach(element => {
       this.initializeSortingButton(element);
 
-      element.onclick = () => {
+      element.addEventListener('click', () => {
         if (element.classList.contains(this.sorting.selected)) {
           this.toggleButtonDirection(element);
         } else {
@@ -33,7 +33,7 @@ export class SortingElement {
         }
 
         this.selectOrdering(element);
-      };
+      });
 
     });
   }

@@ -3,7 +3,7 @@ import { DISABLED } from '../variables/constants';
 /**
  * Inserts text into an element.
  * @param element Element for inserting text.
- * @param text Text.
+ * @param text Element text content.
  */
 export function insertUnicodeText(element: HTMLElement, text: string): void {
   const temporary = document.createElement('div');
@@ -32,17 +32,21 @@ export function removeClassFromElements(elements: NodeListOf<HTMLElement>, class
  * @param classes Classes that the element will have.
  * @returns New HTML element.
  */
-export function createNode<Type extends HTMLElement>(tagName: string, textContent: string, classes: string): Type {
-  const newElement = document.createElement(tagName);
+export function createNode<T extends keyof HTMLElementTagNameMap>(
+  tagName: T,
+  textContent: string,
+  classes: string,
+): HTMLElementTagNameMap[T] {
+  const newElement = document.createElement<typeof tagName>(tagName);
   newElement.className = classes;
   newElement.textContent = textContent;
-  return newElement as Type;
+  return newElement;
 }
 
 /**
  * Locks or unlocks the button.
  * @param condition Button lock condition.
- * @param button Button.
+ * @param button Button for locking/unlocking.
  */
 export function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
   if (condition) {

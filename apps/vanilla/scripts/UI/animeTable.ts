@@ -61,16 +61,16 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
 
   const { row: rowElement, cell: cellElement, image: imageElement } = animeTableSelector;
 
-  const row = createNode<HTMLTableRowElement>('tr', '', rowElement);
+  const row = createNode('tr', '', rowElement);
 
-  const imageCell = createNode<HTMLTableCellElement>('td', '', cellElement);
+  const imageCell = createNode('td', '', cellElement);
   const title = `${titleEnglish || EMPTY_MESSAGE} (${titleJapanese || EMPTY_MESSAGE})`;
-  const titleCell = createNode<HTMLTableCellElement>('td', title, cellElement);
-  const airedStartCell = createNode<HTMLTableCellElement>('td', dateStart || EMPTY_MESSAGE, cellElement);
-  const typeCell = createNode<HTMLTableCellElement>('td', type || EMPTY_MESSAGE, cellElement);
-  const statusCell = createNode<HTMLTableCellElement>('td', status || EMPTY_MESSAGE, cellElement);
+  const titleCell = createNode('td', title, cellElement);
+  const airedStartCell = createNode('td', dateStart || EMPTY_MESSAGE, cellElement);
+  const typeCell = createNode('td', type || EMPTY_MESSAGE, cellElement);
+  const statusCell = createNode('td', status || EMPTY_MESSAGE, cellElement);
 
-  const picture = createNode<HTMLImageElement>('img', '', imageElement);
+  const picture = createNode('img', '', imageElement);
   picture.src = image;
   picture.alt = titleEnglish;
 

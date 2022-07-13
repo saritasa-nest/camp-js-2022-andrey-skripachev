@@ -33,30 +33,30 @@ export class PaginationElement {
    */
   public initialize(): void {
     if (this.paginationBlock !== null) {
-      this.paginationBlock.onclick = event => {
+      this.paginationBlock.addEventListener('click', event => {
         const { target } = event;
         if (target instanceof HTMLButtonElement) {
           this.handleClick(target);
         }
-      };
+      });
     }
 
     if (this.buttonNext !== null) {
-      this.buttonNext.onclick = event => {
+      this.buttonNext.addEventListener('click', event => {
         const { target } = event;
         if (target instanceof HTMLButtonElement) {
           this.handleClick(target);
         }
-      };
+      });
     }
 
     if (this.buttonPrevious !== null) {
-      this.buttonPrevious.onclick = event => {
+      this.buttonPrevious.addEventListener('click', event => {
         const { target } = event;
         if (target instanceof HTMLButtonElement) {
           this.handleClick(target);
         }
-      };
+      });
     }
   }
 
@@ -88,7 +88,7 @@ export class PaginationElement {
       elementList.push(this.createPaginationButton(0, currentPage === 0));
     }
     if (currentPage - range > 1) {
-      elementList.push(createNode<HTMLSpanElement>('span', '...', ''));
+      elementList.push(createNode('span', '...', ''));
     }
 
     for (let i = Math.max(0, currentPage - range); i <= Math.min(totalPages - 1, currentPage + range); i++) {
@@ -96,7 +96,7 @@ export class PaginationElement {
     }
 
     if (currentPage + range < totalPages - 2) {
-      elementList.push(createNode<HTMLSpanElement>('span', '...', ''));
+      elementList.push(createNode('span', '...', ''));
     }
     if (currentPage + range < totalPages - 2) {
       elementList.push(this.createPaginationButton(totalPages - 1, currentPage === totalPages - 1));

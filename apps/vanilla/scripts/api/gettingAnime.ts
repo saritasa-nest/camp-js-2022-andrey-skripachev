@@ -49,7 +49,7 @@ export class GetAnimeApi {
   }
 
   /**
-   * @returns Anime info.
+   * Returns previously obtained anime data.
    */
   public getAnimeList(): AnimeList {
     if (this.animeList === null) {
@@ -60,7 +60,7 @@ export class GetAnimeApi {
   }
 
   /**
-   * @returns Pagination info.
+   * Returns previously obtained pagination data.
    */
   public getPagination(): Pagination {
     if (this.pagination === null) {

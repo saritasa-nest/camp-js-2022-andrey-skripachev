@@ -12,7 +12,7 @@ export namespace Api {
    * @param parameters Parameters of the request.
    * @returns URL from the prefix and query parameters.
    */
-  function createUrl(baseUrl: string, parameters: QueryParameter[]): string {
+  function createUrl(baseUrl: string, parameters: readonly QueryParameter[]): string {
     let url = baseUrl;
     if (parameters.length !== 0) {
       const options = parameters.map(({ name, value }) => `${name}=${value}`).join('&');

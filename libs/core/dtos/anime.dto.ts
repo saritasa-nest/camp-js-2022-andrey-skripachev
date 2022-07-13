@@ -14,7 +14,7 @@ export interface AnimeDto {
   /** Image link to the anime. */
   readonly image: string;
 
-  /** Status of anime(Finished, Airing, Yet not aired). */
+  /** Status of anime. */
   readonly status: keyof Status;
 
   /** Anime name in English. */
@@ -23,6 +23,6 @@ export interface AnimeDto {
   /** Anime name in Japanese. */
   readonly title_jpn: string;
 
-  /** Type of anime (OVA, TV etc). */
+  /** Type of anime. */
   readonly type: keyof Type;
 }

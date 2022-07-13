@@ -24,7 +24,7 @@ export class QueryParameters {
   }
 
   /**
-   * @returns Query parameters.
+   * @returns A copy of the query parameters.
    */
   public getOptions(): QueryParameter[] {
     const parametersCopy: QueryParameter[] = [];
