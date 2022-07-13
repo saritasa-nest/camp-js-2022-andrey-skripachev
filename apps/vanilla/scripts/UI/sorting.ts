@@ -5,15 +5,15 @@ import { insertUnicodeText, removeClassFromElements } from './dom';
 
 /** Sorting element. */
 export class SortingElement {
-  private sorting: SortingSelector;
+  private readonly sorting: SortingSelector;
 
-  private sortingButtons: NodeListOf<HTMLButtonElement>;
+  private readonly sortingButtons: NodeListOf<HTMLButtonElement>;
 
-  private changeSortField: (sortingTarget: string) => void;
+  private readonly changeSortField: (sortingTarget: string) => void;
 
   public constructor(sortingSelector: SortingSelector, changeSortField: (sortingTarget: string) => void) {
     this.sorting = sortingSelector;
-    this.sortingButtons = document.querySelectorAll(sortingSelector.elements);
+    this.sortingButtons = document.querySelectorAll(`.${sortingSelector.elements}`);
     this.changeSortField = changeSortField;
   }
 
@@ -40,7 +40,7 @@ export class SortingElement {
 
   private initializeSortingButton(button: HTMLButtonElement): void {
     const sortingDirection = DEFAULT_DIRECTION;
-    const directionElement = button.querySelector<HTMLSpanElement>(this.sorting.direction);
+    const directionElement = button.querySelector<HTMLSpanElement>(`.${this.sorting.direction}`);
     if (directionElement === null) {
       return;
     }
@@ -52,7 +52,7 @@ export class SortingElement {
     const currentDirection = Number(button.dataset.direction);
     const newDirection = (currentDirection + 1) % SORTING_DIRECTIONS.length;
     button.dataset.direction = newDirection.toString();
-    const directionElement = button.querySelector<HTMLSpanElement>(this.sorting.direction);
+    const directionElement = button.querySelector<HTMLSpanElement>(`.${this.sorting.direction}`);
 
     if (directionElement !== null) {
       insertUnicodeText(directionElement, SORTING_DIRECTIONS[newDirection].text);

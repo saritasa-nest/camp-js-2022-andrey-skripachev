@@ -12,15 +12,15 @@ import { QueryParameters } from './request';
 /** Getting anime data. */
 export class GetAnimeApi {
 
-  private createUrl: (baseUrl: string, parameters: QueryParameter[]) => string;
+  private readonly createUrl: (baseUrl: string, parameters: readonly QueryParameter[]) => string;
 
-  private requestBaseUrl: string;
+  private readonly requestBaseUrl: string;
 
   private animeList: AnimeList | null;
 
   private pagination: Pagination | null;
 
-  public constructor(createUrl: (baseUrl: string, parameters: Array<QueryParameter>) => string, prefix: string) {
+  public constructor(createUrl: (baseUrl: string, parameters: readonly QueryParameter[]) => string, prefix: string) {
     this.createUrl = createUrl;
     this.requestBaseUrl = prefix;
     this.animeList = null;

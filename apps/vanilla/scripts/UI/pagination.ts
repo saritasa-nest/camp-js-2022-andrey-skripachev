@@ -9,23 +9,23 @@ import { changeDisabled, createNode } from './dom';
  * Pagination element.
  */
 export class PaginationElement {
-  private pagination: PaginationSelector;
+  private readonly pagination: PaginationSelector;
 
-  private paginationBlock: HTMLDivElement | null;
+  private readonly paginationBlock: HTMLDivElement | null;
 
-  private buttonNext: HTMLButtonElement | null;
+  private readonly buttonNext: HTMLButtonElement | null;
 
-  private buttonPrevious: HTMLButtonElement | null;
+  private readonly buttonPrevious: HTMLButtonElement | null;
 
-  private changePage: (page: number) => void;
+  private readonly changePage: (page: number) => void;
 
   public constructor(pagination: PaginationSelector, changePage: (page: number) => void) {
     this.pagination = pagination;
     this.changePage = changePage;
 
-    this.paginationBlock = document.querySelector<HTMLDivElement>(pagination.block);
-    this.buttonNext = document.querySelector<HTMLButtonElement>(pagination.buttonNext);
-    this.buttonPrevious = document.querySelector<HTMLButtonElement>(pagination.buttonPrevious);
+    this.paginationBlock = document.querySelector<HTMLDivElement>(`.${pagination.block}`);
+    this.buttonNext = document.querySelector<HTMLButtonElement>(`.${pagination.buttonNext}`);
+    this.buttonPrevious = document.querySelector<HTMLButtonElement>(`.${pagination.buttonPrevious}`);
   }
 
   /**

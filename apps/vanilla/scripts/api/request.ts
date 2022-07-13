@@ -2,9 +2,9 @@ import { QueryParameter } from '../variables/interfaces';
 
 /** Query Parameters. */
 export class QueryParameters {
-  private parameters: QueryParameter[];
+  private parameters: readonly QueryParameter[];
 
-  public constructor(parameters: QueryParameter[]) {
+  public constructor(parameters: readonly QueryParameter[]) {
     this.parameters = parameters;
   }
 
@@ -27,7 +27,11 @@ export class QueryParameters {
    * @returns Query parameters.
    */
   public getOptions(): QueryParameter[] {
-    return this.parameters;
+    const parametersCopy: QueryParameter[] = [];
+    this.parameters.forEach(({ name, value }) => {
+      parametersCopy.push({ name, value });
+    });
+    return parametersCopy;
   }
 
   /**

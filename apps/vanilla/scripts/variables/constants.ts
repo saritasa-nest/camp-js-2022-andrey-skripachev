@@ -5,25 +5,25 @@ export const LIMIT = 10;
 
 /** Selectors. */
 export namespace AnimeTableElements {
-  export const TABLE_BODY = '.anime-table .table__body';
-  export const CAPTION = '.anime-table .table__caption';
+  export const TABLE_BODY = 'anime-table .table__body';
+  export const CAPTION = 'anime-table .table__caption';
   export const ROW = 'table__row';
   export const CELL = 'table_cell';
   export const TABLE_IMAGE = 'table__image';
 }
 
 export namespace PaginationElements {
-  export const BLOCK = '.compressed-pagination';
-  export const BUTTON_PREVIOUS = '.pagination__previous';
-  export const BUTTON_NEXT = '.pagination__next';
+  export const BLOCK = 'compressed-pagination';
+  export const BUTTON_PREVIOUS = 'pagination__previous';
+  export const BUTTON_NEXT = 'pagination__next';
   export const BUTTON_SELECTED = 'lighten-3';
   export const BUTTON_NOT_SELECTED = 'lighten-5';
   export const BUTTON = 'pagination__button';
 }
 
 export namespace SortingElements {
-  export const ELEMENT = '.sort';
-  export const DIRECTION = '.sorting-direction';
+  export const ELEMENT = 'sort';
+  export const DIRECTION = 'sorting-direction';
   export const SELECTED_FIELD = 'ordering-selected';
 }
 

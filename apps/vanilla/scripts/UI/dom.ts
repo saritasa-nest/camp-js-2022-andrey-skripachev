@@ -36,7 +36,7 @@ export function createNode<Type extends HTMLElement>(tagName: string, textConten
   const newElement = document.createElement(tagName);
   newElement.className = classes;
   newElement.textContent = textContent;
-  return <Type>newElement;
+  return newElement as Type;
 }
 
 /**

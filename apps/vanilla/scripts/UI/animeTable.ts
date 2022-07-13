@@ -24,8 +24,8 @@ export function placeAnimeListToTable(
   const { table, caption } = animeTableSelector;
   const { positionInfo, anime } = animeList;
 
-  const animeBlock = document.querySelector<HTMLTableElement>(table);
-  const captionBlock = document.querySelector<HTMLTableCaptionElement>(caption);
+  const animeBlock = document.querySelector<HTMLTableElement>(`.${table}`);
+  const captionBlock = document.querySelector<HTMLTableCaptionElement>(`.${caption}`);
 
   if (animeBlock === null || captionBlock === null) {
     return;
@@ -70,11 +70,11 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
   const typeCell = createNode<HTMLTableCellElement>('td', type || EMPTY_MESSAGE, cellElement);
   const statusCell = createNode<HTMLTableCellElement>('td', status || EMPTY_MESSAGE, cellElement);
 
-  const illustration = createNode<HTMLImageElement>('img', '', imageElement);
-  illustration.src = image;
-  illustration.alt = titleEnglish;
+  const picture = createNode<HTMLImageElement>('img', '', imageElement);
+  picture.src = image;
+  picture.alt = titleEnglish;
 
-  imageCell.append(illustration);
+  imageCell.append(picture);
 
   row.append(imageCell, titleCell, airedStartCell, statusCell, typeCell);
 
