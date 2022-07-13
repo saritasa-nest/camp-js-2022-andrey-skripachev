@@ -17,12 +17,12 @@ export namespace AnimeMapper {
 
     const { status, type } = dto;
 
-    let statusValue = String(Status.DEFAULT);
+    let statusValue = String(Status['']);
     if (isStatus(status)) {
       statusValue = Status[status];
     }
 
-    let typeValue = String(Type.DEFAULT);
+    let typeValue = String(Type['']);
     if (isType(type)) {
       typeValue = Type[type];
     }

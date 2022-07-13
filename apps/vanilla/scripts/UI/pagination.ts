@@ -6,8 +6,10 @@ import { PaginationSelector } from '../variables/interfaces';
 import { changeDisabled, createNode } from './dom';
 
 /**
- * Pagination element.
+ * TODO (andrey-skripachev): Describe the interfaces for the class constructor.
  */
+
+/** Pagination element. */
 export class PaginationElement {
   private readonly pagination: PaginationSelector;
 

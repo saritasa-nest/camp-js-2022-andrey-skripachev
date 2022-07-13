@@ -1,6 +1,8 @@
+import { Status, Type } from '@js-camp/core/utils/types/anime';
+
 import { LIMIT, PaginationElements, SortingElements } from '../../scripts/variables/constants';
 import { placeAnimeListToTable } from '../../scripts/UI/animeTable';
-import { FilteringSelector, PaginationSelector, SortingSelector } from '../../scripts/variables/interfaces';
+import { PaginationSelector, SortingSelector } from '../../scripts/variables/interfaces';
 import { PaginationElement } from '../../scripts/UI/pagination';
 import { Api } from '../../scripts/api/api';
 import { SortingElement } from '../../scripts/UI/sorting';
@@ -32,19 +34,30 @@ function initializeApp(): void {
     direction: SortingElements.DIRECTION,
     selected: SortingElements.SELECTED_FIELD,
   };
-  const filteringEl: FilteringSelector = {
-    inputs: '.change-filter',
-  };
+  const filteringByTypeSelect = '.filtering-by-type';
+  const filteringByStatusSelect = '.filtering-by-status';
 
-  const filtering = new Filtering(
-    filteringEl,
-    (status: string): void => {
-      queryParameters.replaceOption('status', status);
+  const filteringByType = new Filtering(
+    filteringByTypeSelect,
+    Type,
+    (newType: string): void => {
+      queryParameters.replaceOption('type', newType);
       queryParameters.replaceOption('offset', '0');
       updateApp(queryParameters, pagination);
     },
   );
-  filtering.initialize();
+  filteringByType.initialize();
+
+  const filteringByStatus = new Filtering(
+    filteringByStatusSelect,
+    Status,
+    (newStatus: string): void => {
+      queryParameters.replaceOption('status', newStatus);
+      queryParameters.replaceOption('offset', '0');
+      updateApp(queryParameters, pagination);
+    },
+  );
+  filteringByStatus.initialize();
 
   const pagination = new PaginationElement(
     paginationSelector,

@@ -74,4 +74,5 @@ export interface QueryParameter {
 
 export class FilteringSelector {
   readonly inputs: string;
+  readonly block: string;
 }

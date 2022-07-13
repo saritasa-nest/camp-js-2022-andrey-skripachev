@@ -3,6 +3,10 @@ import { SortingSelector } from '../variables/interfaces';
 
 import { insertUnicodeText, removeClassFromElements } from './dom';
 
+/**
+ * TODO (andrey-skripachev): Describe the interfaces for the class constructor.
+ */
+
 /** Sorting element. */
 export class SortingElement {
   private readonly sorting: SortingSelector;
