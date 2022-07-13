@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
     <link rel="stylesheet" href="./index.css" />
     <title>Anime App</title>
   </head>
@@ -22,6 +22,22 @@
         <div class="pagination__buttons-wrapper">
           <button type="button" class="pagination__button pagination__next waves-effect waves-light btn-small">Next&#x2192;</button>
         </div>
+      </div>
+      <div class="filtering">
+        <form class="default">
+          <label>
+            Airing
+            <input type="radio" value="AIRING" name="filtering" class="change-filter" />
+          </label>
+          <label>
+            Finished
+            <input type="radio" value="FINISHED" name="filtering" class="change-filter" />
+          </label>
+          <label>
+            Not Yet
+            <input type="radio" value="NOT_YET_AIRED" name="filtering" class="change-filter" />
+          </label>
+        </form>
       </div>
       <table class="centered striped section__table anime-table">
         <caption class="table__caption"></caption>

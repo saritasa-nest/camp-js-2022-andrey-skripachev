@@ -1,11 +1,12 @@
 import { LIMIT, PaginationElements, SortingElements } from '../../scripts/variables/constants';
 import { placeAnimeListToTable } from '../../scripts/UI/animeTable';
-import { PaginationSelector, SortingSelector } from '../../scripts/variables/interfaces';
+import { FilteringSelector, PaginationSelector, SortingSelector } from '../../scripts/variables/interfaces';
 import { PaginationElement } from '../../scripts/UI/pagination';
 import { Api } from '../../scripts/api/api';
 import { SortingElement } from '../../scripts/UI/sorting';
 import { RequestCalculationData } from '../../scripts/api/requestCalculation';
 import { QueryParameters } from '../../scripts/api/request';
+import { Filtering } from '../../scripts/UI/filtering';
 
 /**
  * Initializes the application: Initializing the anime table view and pagination.
@@ -31,6 +32,19 @@ function initializeApp(): void {
     direction: SortingElements.DIRECTION,
     selected: SortingElements.SELECTED_FIELD,
   };
+  const filteringEl: FilteringSelector = {
+    inputs: '.change-filter',
+  };
+
+  const filtering = new Filtering(
+    filteringEl,
+    (status: string): void => {
+      queryParameters.replaceOption('status', status);
+      queryParameters.replaceOption('offset', '0');
+      updateApp(queryParameters, pagination);
+    },
+  );
+  filtering.initialize();
 
   const pagination = new PaginationElement(
     paginationSelector,

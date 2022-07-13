@@ -71,3 +71,7 @@ export interface QueryParameter {
   /** Parameter value. */
   readonly value: number | string;
 }
+
+export class FilteringSelector {
+  readonly inputs: string;
+}
