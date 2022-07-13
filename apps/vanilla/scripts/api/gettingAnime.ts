@@ -1,7 +1,7 @@
-import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
-import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
+import { AnimeListDto } from '@js-camp/core/dtos/animeList.dto';
+import { AnimeListMapper } from '@js-camp/core/mappers/animeList.mapper';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-import { Anime } from '@js-camp/core/models/anime';
+import { AnimeList } from '@js-camp/core/models/animeList';
 import { Pagination } from '@js-camp/core/models/pagination';
 
 import { QueryParameter } from '../variables/interfaces';
@@ -16,14 +16,14 @@ export class GetAnimeApi {
 
   private requestBaseUrl: string;
 
-  private anime: Anime | null;
+  private animeList: AnimeList | null;
 
   private pagination: Pagination | null;
 
   public constructor(createUrl: (baseUrl: string, parameters: Array<QueryParameter>) => string, prefix: string) {
     this.createUrl = createUrl;
     this.requestBaseUrl = prefix;
-    this.anime = null;
+    this.animeList = null;
     this.pagination = null;
   }
 
@@ -31,9 +31,9 @@ export class GetAnimeApi {
    * Collects and saves data for anime and pagination.
    * @param parameters Parameters of the request.
    */
-  public async collectAnime(parameters: QueryParameters): Promise<void> {
+  public async collectAnimeList(parameters: QueryParameters): Promise<void> {
     const urlSearchParams = this.createUrl(this.requestBaseUrl, parameters.getOptions());
-    const request = await httpClient.get<AnimeDto>(urlSearchParams);
+    const request = await httpClient.get<AnimeListDto>(urlSearchParams);
     const response = request.data;
 
     const limit = Number(parameters.getOption('limit'));
@@ -45,18 +45,18 @@ export class GetAnimeApi {
       offset,
     });
 
-    this.anime = AnimeMapper.fromDto(response, limit, offset);
+    this.animeList = AnimeListMapper.fromDto(response, limit, offset);
   }
 
   /**
    * @returns Anime info.
    */
-  public getAnime(): Anime {
-    if (this.anime === null) {
+  public getAnimeList(): AnimeList {
+    if (this.animeList === null) {
       throw new Error('Anime is not defined');
     }
 
-    return this.anime;
+    return this.animeList;
   }
 
   /**

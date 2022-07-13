@@ -1,20 +1,39 @@
 import { AnimeDto } from '../dtos/anime.dto';
-import { Anime } from '../models/anime';
+import { Status, Type } from '../utils/types/anime';
 
-import { AnimeSeriesMapper } from './animeSeries.mapper';
+import { Anime } from '../models/anime';
+import { isStatus } from '../guards/animeStatus';
+import { isType } from '../guards/animeType';
+
+import { AiredMapper } from './aired.mapper';
 
 export namespace AnimeMapper {
 
   /**
    * Maps dto to model.
-   * @param dto  Anime dto.
-   * @param limit Total count of anime.
-   * @param offset The number of the first received element.
+   * @param dto Anime series dto.
    */
-  export function fromDto(dto: AnimeDto, limit: number, offset: number): Anime {
+  export function fromDto(dto: AnimeDto): Anime {
+
+    const { status, type } = dto;
+
+    let statusValue = String(Status.DEFAULT);
+    if (isStatus(status)) {
+      statusValue = Status[status];
+    }
+
+    let typeValue = String(Type.DEFAULT);
+    if (isType(type)) {
+      typeValue = Type[type];
+    }
     return new Anime({
-      captionInfo: `${offset + 1}-${Math.min(offset + limit + 1, dto.count)} of ${dto.count}`,
-      animeSeries: dto.results.map(item => AnimeSeriesMapper.fromDto(item)),
+      aired: AiredMapper.fromDto(dto.aired),
+      id: dto.id,
+      image: dto.image,
+      status: statusValue,
+      titleEnglish: dto.title_eng,
+      titleJapanese: dto.title_jpn,
+      type: typeValue,
     });
   }
 }

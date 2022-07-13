@@ -1,19 +1,40 @@
-import { AnimeSeries } from './animeSeries';
+import { Aired } from './aired';
+
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Anime. */
 export class Anime extends Immerable {
 
-  /** Information about the current position in the anime list. */
-  public readonly captionInfo: string;
+  /** Aired start. */
+  public readonly aired: Aired;
 
-  /** Received anime. */
-  public readonly animeSeries: readonly AnimeSeries[];
+  /** Id. */
+  public readonly id: number;
+
+  /** Image. */
+  public readonly image: string;
+
+  /** Status (Finished, Aired or Not yet aired). */
+  public readonly status: string;
+
+  /** Title english. */
+  public readonly titleEnglish: string;
+
+  /** Title japanese. */
+  public readonly titleJapanese: string;
+
+  /** Type (OVA, TV etc). */
+  public readonly type: string;
 
   public constructor(data: InitArgs) {
     super();
-    this.captionInfo = data.captionInfo;
-    this.animeSeries = data.animeSeries;
+    this.aired = data.aired;
+    this.id = data.id;
+    this.image = data.image;
+    this.status = data.status;
+    this.titleEnglish = data.titleEnglish;
+    this.titleJapanese = data.titleJapanese;
+    this.type = data.type;
   }
 }
 

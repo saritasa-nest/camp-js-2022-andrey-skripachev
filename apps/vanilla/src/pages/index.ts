@@ -64,7 +64,7 @@ async function updateApp(
   queryParameters: QueryParameters,
   pagination: PaginationElement,
 ): Promise<void> {
-  await Api.animeApi.collectAnime(queryParameters);
+  await Api.animeApi.collectAnimeList(queryParameters);
 
   changePagination(pagination);
   changeAnimeTable();
@@ -83,8 +83,8 @@ function changePagination(pagination: PaginationElement): void {
  * Updates the anime table.
  */
 function changeAnimeTable(): void {
-  const anime = Api.animeApi.getAnime();
-  placeAnimeListToTable(anime);
+  const animeList = Api.animeApi.getAnimeList();
+  placeAnimeListToTable(animeList);
 }
 
 initializeApp();

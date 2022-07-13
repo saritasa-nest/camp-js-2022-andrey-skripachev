@@ -1,5 +1,5 @@
+import { AnimeList } from '@js-camp/core/models/animeList.js';
 import { Anime } from '@js-camp/core/models/anime.js';
-import { AnimeSeries } from '@js-camp/core/models/animeSeries.js';
 
 import { AnimeTableSelector } from '../variables/interfaces';
 import { AnimeTableElements } from '../variables/constants';
@@ -16,13 +16,13 @@ const animeTableSelector: AnimeTableSelector = {
 
 /**
  * Places a list of anime in a table.
- * @param anime Number, list, limit and offset of Anime.
+ * @param animeList Caption info.
  */
 export function placeAnimeListToTable(
-  anime: Anime,
+  animeList: AnimeList,
 ): void {
   const { table, caption } = animeTableSelector;
-  const { captionInfo, animeSeries } = anime;
+  const { positionInfo, anime } = animeList;
 
   const animeBlock = document.querySelector<HTMLTableElement>(table);
   const captionBlock = document.querySelector<HTMLTableCaptionElement>(caption);
@@ -31,10 +31,10 @@ export function placeAnimeListToTable(
     return;
   }
 
-  captionBlock.textContent = captionInfo;
+  captionBlock.textContent = positionInfo;
 
   removeRowsFromTable(animeBlock);
-  for (const animeData of animeSeries) {
+  for (const animeData of anime) {
     pushAnime(animeData, animeBlock);
   }
 }
@@ -44,7 +44,7 @@ export function placeAnimeListToTable(
  * @param anime Anime that will be written in the table row.
  * @param tableBody Table body where the line with the anime will be written.
  */
-function pushAnime(anime: AnimeSeries, tableBody: Element): void {
+function pushAnime(anime: Anime, tableBody: Element): void {
   tableBody.append(createAnimeTableRow(anime));
 }
 
@@ -53,10 +53,11 @@ function pushAnime(anime: AnimeSeries, tableBody: Element): void {
  * @param anime Information about the anime series.
  * @returns The table row containing information about the anime.
  */
-function createAnimeTableRow(anime: AnimeSeries): HTMLTableRowElement {
+function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
   const EMPTY_MESSAGE = '-';
 
-  const { image, titleEnglish, titleJapanese, status, type, start } = anime;
+  const { image, titleEnglish, titleJapanese, status, type, aired: { start } } = anime;
+  const dateStart = String(start.getFullYear());
 
   const { row: rowElement, cell: cellElement, image: imageElement } = animeTableSelector;
 
@@ -65,7 +66,7 @@ function createAnimeTableRow(anime: AnimeSeries): HTMLTableRowElement {
   const imageCell = createNode<HTMLTableCellElement>('td', '', cellElement);
   const title = `${titleEnglish || EMPTY_MESSAGE} (${titleJapanese || EMPTY_MESSAGE})`;
   const titleCell = createNode<HTMLTableCellElement>('td', title, cellElement);
-  const airedStartCell = createNode<HTMLTableCellElement>('td', start?.toString().split('-')[0] || EMPTY_MESSAGE, cellElement);
+  const airedStartCell = createNode<HTMLTableCellElement>('td', dateStart || EMPTY_MESSAGE, cellElement);
   const typeCell = createNode<HTMLTableCellElement>('td', type || EMPTY_MESSAGE, cellElement);
   const statusCell = createNode<HTMLTableCellElement>('td', status || EMPTY_MESSAGE, cellElement);
 
