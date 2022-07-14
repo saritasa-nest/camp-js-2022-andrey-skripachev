@@ -9,4 +9,4 @@ export namespace PaginationElements {
 
 export const DISABLED = 'disabled';
 export const ENABLED = 'enabled';
-export const RANGE = 2;
+export const PAGINATION_RANGE = 2;

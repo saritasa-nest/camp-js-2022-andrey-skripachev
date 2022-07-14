@@ -1,4 +1,12 @@
-import { SortingDirection } from '../interfaces';
+/** State of the sorting mode switch button. */
+export interface SortingDirection {
+
+  /** The text content of the sort button. */
+  readonly text: string;
+
+  /** Prefix added to the request when the button is pressed. */
+  readonly value: string;
+}
 
 export namespace SortingElements {
   export const ELEMENT = 'sort';

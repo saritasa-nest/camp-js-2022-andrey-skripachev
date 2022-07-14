@@ -1,4 +1,4 @@
-import { RANGE } from '../variables/constants/pagination';
+import { PAGINATION_RANGE } from '../variables/constants/pagination';
 import { PaginationConstructor } from '../variables/constructors';
 import { PaginationUpdateData } from '../variables/interfaces/pagination';
 
@@ -85,12 +85,12 @@ export class PaginationElement {
 
     if (this.pagination !== null) {
       this.pagination.innerHTML = '';
-      this.pagination.append(...this.createNumberedPagination(currentPage, totalPages, RANGE));
+      this.pagination.append(...this.createNumberedPagination(currentPage, totalPages, PAGINATION_RANGE));
     }
   }
 
-  private createNumberedPagination(currentPage: number, totalPages: number, range: number): Array<HTMLButtonElement | HTMLSpanElement> {
-    const elementList: Array<HTMLButtonElement | HTMLSpanElement> = [];
+  private createNumberedPagination(currentPage: number, totalPages: number, range: number): (HTMLButtonElement | HTMLSpanElement)[] {
+    const elementList: (HTMLButtonElement | HTMLSpanElement)[] = [];
 
     if (currentPage - range > 0) {
       elementList.push(this.createPaginationButton(0, currentPage === 0));

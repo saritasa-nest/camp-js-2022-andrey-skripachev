@@ -2,7 +2,6 @@ import { RECEIVE_LIMIT } from '../../scripts/variables/constants/global';
 import { PaginationElements } from '../../scripts/variables/constants/pagination';
 import { SortingElements } from '../../scripts/variables/constants/sorting';
 import { placeAnimeListToTable } from '../../scripts/UI/table';
-import { SortingSelector } from '../../scripts/variables/interfaces';
 import { PaginationElement } from '../../scripts/UI/pagination';
 import { Api } from '../../scripts/api/api';
 import { SortingElement } from '../../scripts/UI/sorting';
@@ -20,12 +19,6 @@ function initializeApp(): void {
   searchParams.set('limit', RECEIVE_LIMIT.toString());
   searchParams.set('ordering', 'id');
 
-  const sortingSelector: SortingSelector = {
-    elements: SortingElements.ELEMENT,
-    direction: SortingElements.DIRECTION,
-    selected: SortingElements.SELECTED_FIELD,
-  };
-
   const paginationElement = new PaginationElement({
     pagination: document.querySelector(`.${PaginationElements.BLOCK}`),
     buttonNext: document.querySelector(`.${PaginationElements.BUTTON_NEXT}`),
@@ -40,14 +33,16 @@ function initializeApp(): void {
   });
   paginationElement.initialize();
 
-  const sorting = new SortingElement(
-    sortingSelector,
-    (newOrdering: string): void => {
+  const sorting = new SortingElement({
+    sortingButtons: document.querySelectorAll<HTMLButtonElement>(`.${SortingElements.ELEMENT}`),
+    selected: SortingElements.SELECTED_FIELD,
+    direction: SortingElements.DIRECTION,
+    changeSortField(newOrdering: string): void {
       searchParams.set('ordering', `${newOrdering},id`);
       searchParams.set('offset', '0');
       updateApp(searchParams, paginationElement);
     },
-  );
+  });
   sorting.initialize();
 
   updateApp(searchParams, paginationElement);
