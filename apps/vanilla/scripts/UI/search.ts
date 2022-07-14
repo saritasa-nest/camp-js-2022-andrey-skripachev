@@ -20,7 +20,7 @@ export class SearchElement {
     }
     this.searchForm = searchFromElement;
 
-    this.searchInput = document.querySelector(`.${inputSelector}`);
+    this.searchInput = this.searchForm.querySelector(`.${inputSelector}`);
 
     this.changeSearch = changeSearch;
 
