@@ -2,27 +2,13 @@ import { createNode } from './dom';
 
 type Options = [value: string, text: string][];
 
-/**
- * TODO (andrey-skripachev): Describe the interfaces for the class constructor.
- */
-
 /** Filtration unit. */
 export class Filtering<T> {
-  private readonly filtering: string;
-
-  private readonly type: T;
-
-  private readonly changeFiltration: (type: string) => void;
-
   public constructor(
-    filtering: string,
-    type: T,
-    changeFiltration: (type: string) => void,
-  ) {
-    this.filtering = filtering;
-    this.type = type;
-    this.changeFiltration = changeFiltration;
-  }
+    private readonly filtering: string,
+    private readonly type: T,
+    private readonly changeFiltration: (type: string) => void,
+  ) {}
 
   /** Initialize filtration unit. */
   public initialize(): void {

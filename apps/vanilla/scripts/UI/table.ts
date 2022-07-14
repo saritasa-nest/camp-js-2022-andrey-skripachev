@@ -66,8 +66,8 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
   const title = `${titleEnglish || EMPTY_MESSAGE} (${titleJapanese || EMPTY_MESSAGE})`;
   const titleCell = createNode('td', title, cellElement);
   const airedStartCell = createNode('td', dateStart || EMPTY_MESSAGE, cellElement);
-  const typeCell = createNode('td', type || EMPTY_MESSAGE, cellElement);
-  const statusCell = createNode('td', status || EMPTY_MESSAGE, cellElement);
+  const typeCell = createNode('td', type ?? EMPTY_MESSAGE, cellElement);
+  const statusCell = createNode('td', status ?? EMPTY_MESSAGE, cellElement);
 
   const picture = createNode('img', '', imageElement);
   picture.src = image;
