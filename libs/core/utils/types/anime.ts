@@ -3,7 +3,6 @@ export enum Status {
   AIRING = 'Airing',
   FINISHED = 'Finished',
   NOT_YET_AIRED = 'Not yet aired',
-  '' = '-',
 }
 
 /** Different types of anime. */
@@ -14,5 +13,4 @@ export enum Type {
   SPECIAL = 'Special',
   ONA = 'ONA',
   MUSIC = 'Music',
-  '' = '-',
 }

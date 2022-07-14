@@ -17,15 +17,9 @@ export namespace AnimeMapper {
 
     const { status, type } = dto;
 
-    let statusValue = String(Status['']);
-    if (isStatus(status)) {
-      statusValue = Status[status];
-    }
+    const statusValue = isStatus(status) ? Status[status] : null;
+    const typeValue = isType(type) ? Type[type] : null;
 
-    let typeValue = String(Type['']);
-    if (isType(type)) {
-      typeValue = Type[type];
-    }
     return new Anime({
       aired: AiredMapper.fromDto(dto.aired),
       id: dto.id,

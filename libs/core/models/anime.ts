@@ -15,7 +15,7 @@ export class Anime extends Immerable {
   public readonly image: string;
 
   /** Status. */
-  public readonly status: string;
+  public readonly status: string | null;
 
   /** Title english. */
   public readonly titleEnglish: string;
@@ -24,7 +24,7 @@ export class Anime extends Immerable {
   public readonly titleJapanese: string;
 
   /** Type. */
-  public readonly type: string;
+  public readonly type: string | null;
 
   public constructor(data: InitArgs) {
     super();
