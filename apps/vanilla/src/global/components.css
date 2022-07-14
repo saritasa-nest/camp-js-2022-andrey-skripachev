@@ -108,3 +108,8 @@ a:hover,
 .form__header {
   font-size: var(--form-header-font-size);
 }
+
+.search__form {
+  width: 90%;
+  margin: 0 auto;
+}

@@ -35,3 +35,16 @@ export interface PaginationConstructor {
   /** Changing the view page. */
   readonly changePage: (page: number) => void;
 }
+
+/** Search class constructor. */
+export interface SearchConstructor {
+
+  /** Search form element. */
+  readonly searchFromElement: HTMLFormElement | null;
+
+  /** Search input field element. */
+  readonly inputSelector: string;
+
+  /** Changing the search.  */
+  readonly changeSearch: (search: string) => void;
+}

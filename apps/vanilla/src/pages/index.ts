@@ -8,7 +8,10 @@ import { Api } from '../../scripts/api/api';
 import { SortingElement } from '../../scripts/UI/sorting';
 import { RequestCalculationData } from '../../scripts/api/requestCalculation';
 
+import { SearchElement } from '../../scripts/UI/search';
+
 import '../../scripts/UI/pageNavigation';
+import { SearchElements } from '../../scripts/variables/constants/search';
 
 /**
  * Initializes the application: Initializing the anime table view and pagination.
@@ -19,6 +22,17 @@ function initializeApp(): void {
   searchParams.set('offset', '0');
   searchParams.set('limit', RECEIVE_LIMIT.toString());
   searchParams.set('ordering', 'id');
+
+  const searchElement = new SearchElement({
+    searchFromElement: document.querySelector(`.${SearchElements.BLOCK}`),
+    inputSelector: SearchElements.SEARCH,
+    changeSearch(search: string): void {
+      searchParams.set('search', search.trim());
+      searchParams.set('offset', '0');
+      updateApp(searchParams, paginationElement);
+    },
+  });
+  searchElement.initialize();
 
   const sortingSelector: SortingSelector = {
     elements: SortingElements.ELEMENT,
