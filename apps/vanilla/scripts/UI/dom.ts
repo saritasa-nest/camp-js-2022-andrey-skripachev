@@ -1,16 +1,4 @@
-import { DISABLED } from '../variables/constants';
-
-/**
- * Inserts text into an element.
- * @param element Element for inserting text.
- * @param text Element text content.
- */
-export function insertUnicodeText(element: HTMLElement, text: string): void {
-  const temporary = document.createElement('div');
-  temporary.innerHTML = text;
-
-  element.innerText = temporary.innerText;
-}
+import { DISABLED } from '../variables/constants/pagination';
 
 /**
  * Deletes the class from the elements.

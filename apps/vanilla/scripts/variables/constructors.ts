@@ -2,10 +2,10 @@
 export interface SortingConstructor{
 
   /** Sorting buttons. */
-  readonly elements: HTMLButtonElement | null;
+  readonly sortingButtons: NodeListOf<HTMLButtonElement>;
 
   /** Element showing sorting direction. */
-  readonly direction: HTMLSpanElement | null;
+  readonly direction: string;
 
   /** The class name of the selected button. */
   readonly selected: string;

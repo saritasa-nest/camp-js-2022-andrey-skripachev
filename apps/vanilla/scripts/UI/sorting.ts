@@ -1,7 +1,7 @@
-import { SORTING_DIRECTIONS, DEFAULT_DIRECTION } from '../variables/constants';
-import { SortingSelector } from '../variables/interfaces';
+import { SORTING_DIRECTIONS, DEFAULT_DIRECTION } from '../variables/constants/sorting';
+import { SortingConstructor } from '../variables/constructors';
 
-import { insertUnicodeText, removeClassFromElements } from './dom';
+import { removeClassFromElements } from './dom';
 
 /**
  * TODO (andrey-skripachev): Describe the interfaces for the class constructor.
@@ -9,15 +9,20 @@ import { insertUnicodeText, removeClassFromElements } from './dom';
 
 /** Sorting element. */
 export class SortingElement {
-  private readonly sorting: SortingSelector;
-
   private readonly sortingButtons: NodeListOf<HTMLButtonElement>;
+
+  private readonly selected: string;
+
+  private readonly directionElementSelector: string;
 
   private readonly changeSortField: (sortingTarget: string) => void;
 
-  public constructor(sortingSelector: SortingSelector, changeSortField: (sortingTarget: string) => void) {
-    this.sorting = sortingSelector;
-    this.sortingButtons = document.querySelectorAll(`.${sortingSelector.elements}`);
+  public constructor({
+    sortingButtons, direction, selected, changeSortField,
+  }: SortingConstructor) {
+    this.sortingButtons = sortingButtons;
+    this.directionElementSelector = direction;
+    this.selected = selected;
     this.changeSortField = changeSortField;
   }
 
@@ -29,11 +34,11 @@ export class SortingElement {
       this.initializeSortingButton(element);
 
       element.addEventListener('click', () => {
-        if (element.classList.contains(this.sorting.selected)) {
+        if (element.classList.contains(this.selected)) {
           this.toggleButtonDirection(element);
         } else {
-          removeClassFromElements(this.sortingButtons, this.sorting.selected);
-          element.classList.add(this.sorting.selected);
+          removeClassFromElements(this.sortingButtons, this.selected);
+          element.classList.add(this.selected);
         }
 
         this.selectOrdering(element);
@@ -44,22 +49,22 @@ export class SortingElement {
 
   private initializeSortingButton(button: HTMLButtonElement): void {
     const sortingDirection = DEFAULT_DIRECTION;
-    const directionElement = button.querySelector<HTMLSpanElement>(`.${this.sorting.direction}`);
+    const directionElement = button.querySelector<HTMLSpanElement>(`.${this.directionElementSelector}`);
     if (directionElement === null) {
       return;
     }
     button.dataset.direction = sortingDirection.toString();
-    insertUnicodeText(directionElement, SORTING_DIRECTIONS[DEFAULT_DIRECTION].text);
+    directionElement.innerHTML = SORTING_DIRECTIONS[DEFAULT_DIRECTION].text;
   }
 
   private toggleButtonDirection(button: HTMLButtonElement): void {
     const currentDirection = Number(button.dataset.direction);
     const newDirection = (currentDirection + 1) % SORTING_DIRECTIONS.length;
     button.dataset.direction = newDirection.toString();
-    const directionElement = button.querySelector<HTMLSpanElement>(`.${this.sorting.direction}`);
+    const directionElement = button.querySelector<HTMLSpanElement>(`.${this.directionElementSelector}`);
 
     if (directionElement !== null) {
-      insertUnicodeText(directionElement, SORTING_DIRECTIONS[newDirection].text);
+      directionElement.innerHTML = SORTING_DIRECTIONS[newDirection].text;
     }
   }
 
