@@ -1,7 +1,6 @@
-import { Pagination } from '@js-camp/core/models/pagination';
-
 import { RANGE } from '../variables/constants';
-import { PaginationSelector } from '../variables/interfaces';
+import { PaginationConstructor } from '../variables/constructor';
+import { PaginationUpdateData } from '../variables/interfaces/pagination';
 
 import { changeDisabled, createNode } from './dom';
 
@@ -9,31 +8,40 @@ import { changeDisabled, createNode } from './dom';
  * Pagination element.
  */
 export class PaginationElement {
-  private readonly pagination: PaginationSelector;
-
-  private readonly paginationBlock: HTMLDivElement | null;
+  private readonly pagination: HTMLDivElement | null;
 
   private readonly buttonNext: HTMLButtonElement | null;
 
   private readonly buttonPrevious: HTMLButtonElement | null;
 
+  private readonly buttonSelected: string;
+
+  private readonly buttonNotSelected: string;
+
   private readonly changePage: (page: number) => void;
 
-  public constructor(pagination: PaginationSelector, changePage: (page: number) => void) {
+  public constructor({
+    pagination,
+    buttonNext,
+    buttonPrevious,
+    buttonSelected,
+    buttonNotSelected,
+    changePage,
+  }: PaginationConstructor) {
     this.pagination = pagination;
+    this.buttonNext = buttonNext;
+    this.buttonPrevious = buttonPrevious;
+    this.buttonSelected = buttonSelected;
+    this.buttonNotSelected = buttonNotSelected;
     this.changePage = changePage;
-
-    this.paginationBlock = document.querySelector<HTMLDivElement>(`.${pagination.block}`);
-    this.buttonNext = document.querySelector<HTMLButtonElement>(`.${pagination.buttonNext}`);
-    this.buttonPrevious = document.querySelector<HTMLButtonElement>(`.${pagination.buttonPrevious}`);
   }
 
   /**
    * Initializes pagination.
    */
   public initialize(): void {
-    if (this.paginationBlock !== null) {
-      this.paginationBlock.addEventListener('click', event => {
+    if (this.pagination !== null) {
+      this.pagination.addEventListener('click', event => {
         const { target } = event;
         if (target instanceof HTMLButtonElement) {
           this.handleClick(target);
@@ -64,7 +72,7 @@ export class PaginationElement {
    * Updates the pagination.
    * @param param0 Current page number and total number of pages.
    */
-  public update({ currentPage, totalPages }: Pagination): void {
+  public update({ currentPage, totalPages }: PaginationUpdateData): void {
     if (this.buttonPrevious !== null) {
       this.buttonPrevious.dataset.page = (currentPage - 1).toString();
       changeDisabled(currentPage === 0, this.buttonPrevious);
@@ -75,9 +83,9 @@ export class PaginationElement {
       changeDisabled(currentPage === totalPages - 1, this.buttonNext);
     }
 
-    if (this.paginationBlock !== null) {
-      this.paginationBlock.innerHTML = '';
-      this.paginationBlock.append(...this.createNumberedPagination(currentPage, totalPages, RANGE));
+    if (this.pagination !== null) {
+      this.pagination.innerHTML = '';
+      this.pagination.append(...this.createNumberedPagination(currentPage, totalPages, RANGE));
     }
   }
 
@@ -106,18 +114,17 @@ export class PaginationElement {
   }
 
   private createPaginationButton(page: number, isSelected: boolean): HTMLButtonElement {
-    const { selectedButton, notSelectedButton, button } = this.pagination;
 
     const paginationButton = document.createElement('button');
     paginationButton.textContent = (page + 1).toString();
     paginationButton.setAttribute('type', 'button');
     paginationButton.dataset.page = page.toString();
-    paginationButton.classList.add('btn-flat', 'teal', button, isSelected ? selectedButton : notSelectedButton);
+    paginationButton.classList.add('btn-flat', 'teal', isSelected ? this.buttonSelected : this.buttonNotSelected);
     return paginationButton;
   }
 
   private handleClick(button: HTMLButtonElement): void {
-    if (!(button.classList.contains(this.pagination.selectedButton))) {
+    if (!(button.classList.contains(this.buttonSelected))) {
       this.changePage(Number(button.dataset.page));
     }
   }

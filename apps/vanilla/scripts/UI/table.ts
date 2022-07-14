@@ -1,8 +1,8 @@
-import { AnimeList } from '@js-camp/core/models/animeList.js';
 import { Anime } from '@js-camp/core/models/anime.js';
 
 import { AnimeTableSelector } from '../variables/interfaces';
 import { AnimeTableElements } from '../variables/constants';
+import { TableUpdateData } from '../variables/interfaces/table';
 
 import { createNode } from './dom';
 
@@ -19,10 +19,9 @@ const animeTableSelector: AnimeTableSelector = {
  * @param animeList Caption info.
  */
 export function placeAnimeListToTable(
-  animeList: AnimeList,
+  { positionInfo, results }: TableUpdateData<Anime>,
 ): void {
   const { table, caption } = animeTableSelector;
-  const { positionInfo, anime } = animeList;
 
   const animeBlock = document.querySelector<HTMLTableElement>(`.${table}`);
   const captionBlock = document.querySelector<HTMLTableCaptionElement>(`.${caption}`);
@@ -34,7 +33,7 @@ export function placeAnimeListToTable(
   captionBlock.textContent = positionInfo;
 
   removeRowsFromTable(animeBlock);
-  for (const animeData of anime) {
+  for (const animeData of results) {
     pushAnime(animeData, animeBlock);
   }
 }

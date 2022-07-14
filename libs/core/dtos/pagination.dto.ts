@@ -1,11 +1,15 @@
-export interface PaginationDto {
+/** Pagination data from the server. */
+export interface PaginationDto<T> {
 
-  /** Total count of elements. */
+  /** Total number of results. */
   readonly count: number;
 
-  /** Maximum number of received elements. */
-  readonly limit: number;
+  /** Next request page. */
+  readonly next: string;
 
-  /** The number of the first received element. */
-  readonly offset: number;
+  /** Previous request page. */
+  readonly previous: string;
+
+  /** Received results. */
+  readonly results: readonly T[];
 }
