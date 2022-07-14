@@ -38,7 +38,7 @@ export class Filtering<T> {
   private initializeSelect(select: HTMLSelectElement): void {
     const optionsInfo = this.getOptionsInfo();
 
-    for (const [value, text] of optionsInfo) {
+    for (const [value, text] of [...optionsInfo]) {
       const option = createNode('option', text, 'filtering__option');
       option.value = value;
 
@@ -49,6 +49,7 @@ export class Filtering<T> {
   private getOptionsInfo(): Options {
     const optionsInfo: Options = [];
 
+    optionsInfo.push(['', '-']);
     for (const option of Object.entries(this.type)) {
       optionsInfo.push(option);
     }
