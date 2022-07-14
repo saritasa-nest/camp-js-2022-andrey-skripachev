@@ -1,8 +1,11 @@
 /** Data to update the table. */
 export interface TableUpdateData<T>{
 
-  /** Information about the user's position in the total list. */
-  positionInfo: string;
+  readonly firstElement: number;
+
+  readonly lastElement: number;
+
+  readonly totalElements: number;
 
   /** List of items received on request. */
   results: readonly T[];

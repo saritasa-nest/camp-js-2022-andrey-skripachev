@@ -1,5 +1,5 @@
-import { RANGE } from '../variables/constants';
-import { PaginationConstructor } from '../variables/constructor';
+import { RANGE } from '../variables/constants/pagination';
+import { PaginationConstructor } from '../variables/constructors';
 import { PaginationUpdateData } from '../variables/interfaces/pagination';
 
 import { changeDisabled, createNode } from './dom';

@@ -1,7 +1,7 @@
 import { Anime } from '@js-camp/core/models/anime.js';
 
 import { AnimeTableSelector } from '../variables/interfaces';
-import { AnimeTableElements } from '../variables/constants';
+import { AnimeTableElements } from '../variables/constants/table';
 import { TableUpdateData } from '../variables/interfaces/table';
 
 import { createNode } from './dom';
@@ -16,10 +16,10 @@ const animeTableSelector: AnimeTableSelector = {
 
 /**
  * Places a list of anime in a table.
- * @param animeList Caption info.
+ * @param a A.
  */
 export function placeAnimeListToTable(
-  { positionInfo, results }: TableUpdateData<Anime>,
+  { firstElement, lastElement, totalElements, results }: TableUpdateData<Anime>,
 ): void {
   const { table, caption } = animeTableSelector;
 
@@ -30,7 +30,7 @@ export function placeAnimeListToTable(
     return;
   }
 
-  captionBlock.textContent = positionInfo;
+  captionBlock.textContent = `${firstElement}-${lastElement} of ${totalElements}`;
 
   removeRowsFromTable(animeBlock);
   for (const animeData of results) {

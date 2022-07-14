@@ -1,4 +1,4 @@
-import { SORTING_DIRECTIONS, DEFAULT_DIRECTION } from '../variables/constants';
+import { SORTING_DIRECTIONS, DEFAULT_DIRECTION } from '../variables/constants/sorting';
 import { SortingSelector } from '../variables/interfaces';
 
 import { insertUnicodeText, removeClassFromElements } from './dom';

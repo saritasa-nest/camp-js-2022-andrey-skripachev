@@ -1,4 +1,4 @@
-import { DISABLED } from '../variables/constants';
+import { DISABLED } from '../variables/constants/pagination';
 
 /**
  * Inserts text into an element.
