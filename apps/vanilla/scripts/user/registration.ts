@@ -32,7 +32,7 @@ export function isValidRegistrationData(formData: FormData): boolean {
  * @returns Data to be displayed on the client side.
  */
 export async function registerUser(formData: FormData): Promise<string> {
-  const avatar = `https://s3.us-west-2.amazonaws.com/camp-js-backend-files-dev/user_avatars%2Ff33c09a7-a15e-4b7c-b47f-650bfe19faff%2Fprofile.jpg`;
+  const avatar = getAvatar();
 
   const registration = new Registration({
     firstName: String(formData.get(RegistrationFormFields.FirstName)),
@@ -60,6 +60,11 @@ export async function registerUser(formData: FormData): Promise<string> {
  * @param object An object that can be a token.
  * @returns Is the object a token.
  */
-function isToken(object: object): object is Token {
+export function isToken(object: object): object is Token {
   return 'refresh' in object;
+}
+
+/** Returns the URL of the user's avatar picture. */
+function getAvatar(): string {
+  return 'https://s3.us-west-2.amazonaws.com/camp-js-backend-files-dev/user_avatars%2Ff33c09a7-a15e-4b7c-b47f-650bfe19faff%2Fprofile.jpg';
 }

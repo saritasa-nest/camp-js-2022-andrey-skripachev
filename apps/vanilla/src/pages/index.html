@@ -8,12 +8,11 @@
     <title>Anime App</title>
   </head>
   <body class="default-layout">
-    <header class="header">
-      <a href="./authorization/index.html" class="waves-effect waves-light btn">Sign in</a>
-      <a href="./registration/index.html" class="waves-effect waves-light btn">Sign up</a>
+    <header class="header" style="width: 100%">
+      <h1 class="header__heading">Anime Catalog</h1>
+      <div class="header__userinfo"></div>
     </header>
     <main>
-      <h1 class="main-heading center">Anime Catalog</h1>
       <div class="center pagination anime-table-pagination">
         <div class="pagination__buttons-wrapper">
           <button type="button" class="pagination__button pagination__previous waves-effect waves-light btn-small">&#x2190;Prev</button>
@@ -59,6 +58,11 @@
         </tfoot>
       </table>
     </main>
+    <template class="header__user-register"></template>
+    <template class="header__user-unregister">
+      <a href="./authorization/index.html" class="waves-effect waves-light btn">Sign in</a>
+      <a href="./registration/index.html" class="waves-effect waves-light btn">Sign up</a>
+    </template>
     <script type="module" src="./index.ts"></script>
   </body>
 </html>

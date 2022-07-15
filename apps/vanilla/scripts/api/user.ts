@@ -18,8 +18,23 @@ export class UserApi {
     const registrationDto = RegistrationMapper.toDto(registration);
 
     const response = await httpClient.post<Token | AuthError>(`${this.baseUrl}register/`, registrationDto)
-      .then(q => q.data)
-      .catch(a => a.response.data);
+      .then(data => data.data)
+      .catch(data => data.response.data);
+
+    return response;
+  }
+
+  public async isValidAccess(accessToken: string): Promise<boolean> {
+    const status = await httpClient.post<string>(`${this.baseUrl}token/verify/`, { token: accessToken })
+      .then(data => data.status)
+      .catch(data => data.response.status);
+    return status === 200 || status === 201;
+  }
+
+  public async refreshToken(refresh: string): Promise<Token | AuthError> {
+    const response = await httpClient.post(`${this.baseUrl}token/refresh/`, { refresh })
+      .then(data => data.data)
+      .catch(data => data.response);
 
     return response;
   }
