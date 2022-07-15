@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./index.css" />
+    <title>Registration</title>
+  </head>
+  <body class="default-layout">
+    <main>
+      <div class="content-center">
+        <div class="form-wrapper">
+          <form class="form registration-form">
+            <h1 class="form__header">Registration</h1>
+            <label class="form__label">
+              First name:
+              <input name="first-name" type="text" class="form__input" placeholder="First name..." />
+            </label>
+            <label class="form__label">
+              Last name:
+              <input name="last-name" type="text" class="form__input" placeholder="Last name..." />
+            </label>
+            <label class="form__label">
+              E-mail:
+              <input name="email" type="text" class="form__input" placeholder="First name..." />
+            </label>
+            <label class="form__label">
+              Password:
+              <input name="password" type="password" class="form__input" placeholder="First name..." />
+            </label>
+            <label class="form__label">
+              Confirm password:
+              <input name="confirm-password" type="password" class="form__input" placeholder="First name..." />
+            </label>
+            <div class="error hide"></div>
+            <button type="submit" class="form__button registration-form__button">Register</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>
