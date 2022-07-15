@@ -1,5 +1,3 @@
-import { Status, Type } from '../utils/types/anime';
-
 import { AiredDto } from './aired.dto';
 
 /** Anime data from the server. */
@@ -15,7 +13,7 @@ export interface AnimeDto {
   readonly image: string;
 
   /** Status of anime. */
-  readonly status: keyof Status;
+  readonly status: string;
 
   /** Anime name in English. */
   readonly title_eng: string;
@@ -24,5 +22,5 @@ export interface AnimeDto {
   readonly title_jpn: string;
 
   /** Type of anime. */
-  readonly type: keyof Type;
+  readonly type: string;
 }

@@ -1,4 +1,4 @@
-import { Status, Type } from '@js-camp/core/utils/types/anime';
+import { AnimeStatus, AnimeType } from '@js-camp/core/utils/types/anime';
 
 import { RECEIVE_LIMIT } from '../../scripts/variables/constants/global';
 import { PaginationElements } from '../../scripts/variables/constants/pagination';
@@ -7,7 +7,7 @@ import { placeAnimeListToTable } from '../../scripts/UI/table';
 import { PaginationElement } from '../../scripts/UI/pagination';
 import { Api } from '../../scripts/api/api';
 import { SortingElement } from '../../scripts/UI/sorting';
-import { RequestCalculationData } from '../../scripts/api/requestCalculation';
+
 import { Filtering } from '../../scripts/UI/filtering';
 
 import '../../scripts/UI/pageNavigation';
@@ -27,7 +27,7 @@ function initializeApp(): void {
 
   const filteringByType = new Filtering(
     filteringByTypeSelect,
-    Type,
+    AnimeType,
     (newType: string): void => {
       searchParams.set('type', newType);
       searchParams.set('offset', '0');
@@ -38,7 +38,7 @@ function initializeApp(): void {
 
   const filteringByStatus = new Filtering(
     filteringByStatusSelect,
-    Status,
+    AnimeStatus,
     (newStatus: string): void => {
       searchParams.set('status', newStatus);
       searchParams.set('offset', '0');
@@ -54,7 +54,7 @@ function initializeApp(): void {
     buttonSelected: PaginationElements.BUTTON_SELECTED,
     buttonNotSelected: PaginationElements.BUTTON_NOT_SELECTED,
     changePage(newPage: number): void {
-      const newOffset = RequestCalculationData.offset(newPage, RECEIVE_LIMIT);
+      const newOffset = newPage * RECEIVE_LIMIT;
       searchParams.set('offset', newOffset.toString());
       updateApp(searchParams, paginationElement);
     },

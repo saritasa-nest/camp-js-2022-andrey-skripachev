@@ -6,9 +6,9 @@ if (buttonMoveTop === null) {
   throw new Error('Button for moving on page is null');
 }
 
-buttonMoveTop.onclick = () => {
+buttonMoveTop.addEventListener('click', () => {
   window.scrollTo({
     top: TOP_OF_PAGE,
     behavior: 'smooth',
   });
-};
+});

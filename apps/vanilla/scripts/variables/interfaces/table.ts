@@ -11,5 +11,5 @@ export interface TableUpdateData<T>{
   readonly totalElements: number;
 
   /** List of items received on request. */
-  results: readonly T[];
+  readonly results: readonly T[];
 }

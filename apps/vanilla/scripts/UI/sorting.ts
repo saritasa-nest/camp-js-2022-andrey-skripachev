@@ -1,11 +1,22 @@
 import { SORTING_DIRECTIONS, DEFAULT_DIRECTION } from '../variables/constants/sorting';
-import { SortingConstructor } from '../variables/constructors';
 
 import { removeClassFromElements } from './dom';
 
-/**
- * TODO (andrey-skripachev): Describe the interfaces for the class constructor.
- */
+/** Sort class constructor. */
+export interface SortingConstructor{
+
+  /** Sorting buttons. */
+  readonly sortingButtons: NodeListOf<HTMLButtonElement>;
+
+  /** Element showing sorting direction. */
+  readonly direction: string;
+
+  /** The class name of the selected button. */
+  readonly selected: string;
+
+  /** Changing the sorting target. */
+  readonly changeSortField: (sortingTarget: string) => void;
+}
 
 /** Sorting element. */
 export class SortingElement {
@@ -26,9 +37,7 @@ export class SortingElement {
     this.changeSortField = changeSortField;
   }
 
-  /**
-   * Initializes sorting.
-   */
+  /** Initializes sorting. */
   public initialize(): void {
     this.sortingButtons.forEach(element => {
       this.initializeSortingButton(element);
