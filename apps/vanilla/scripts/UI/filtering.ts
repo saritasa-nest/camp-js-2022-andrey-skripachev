@@ -51,7 +51,10 @@ export class Filtering<T> {
 
     optionsInfo.push(['', '-']);
     for (const option of Object.entries(this.type)) {
-      optionsInfo.push(option);
+      if (typeof option[1] === 'string') {
+        optionsInfo.push(option);
+      }
+
     }
 
     return optionsInfo;
