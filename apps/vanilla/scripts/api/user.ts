@@ -1,7 +1,7 @@
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
 import { Registration } from '@js-camp/core/models/registration';
 
-import { AuthError, Token } from '../variables/interfaces';
+import { AuthError, Token } from '../variables/interfaces/user';
 
 import { httpClient } from './client';
 

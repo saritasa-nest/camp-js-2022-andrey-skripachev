@@ -2,8 +2,8 @@ import { isExistsRegistrationField, RegistrationFormFields } from '@js-camp/core
 import { Registration } from '@js-camp/core/models/registration';
 
 import { Api } from '../api/api';
-import { ACCESS, OK_MESSAGE, REFRESH } from '../variables/constants';
-import { Token } from '../variables/interfaces';
+import { ACCESS, OK_REGISTER_MESSAGE, REFRESH } from '../variables/constants/user';
+import { Token } from '../variables/interfaces/user';
 
 /**
  * Checks fields for empty values and equality of passwords.
@@ -31,10 +31,8 @@ export function isValidRegistrationData(formData: FormData): boolean {
  * @param formData Registration form data.
  * @returns Data to be displayed on the client side.
  */
-export async function RegisterUser(formData: FormData): Promise<string> {
-  const avatar = `
-    https://s3.us-west-2.amazonaws.com/camp-js-backend-files-dev/user_avatars%2Ff33c09a7-a15e-4b7c-b47f-650bfe19faff%2Fprofile.jpg
-  `;
+export async function registerUser(formData: FormData): Promise<string> {
+  const avatar = `https://s3.us-west-2.amazonaws.com/camp-js-backend-files-dev/user_avatars%2Ff33c09a7-a15e-4b7c-b47f-650bfe19faff%2Fprofile.jpg`;
 
   const registration = new Registration({
     firstName: String(formData.get(RegistrationFormFields.FirstName)),
@@ -49,20 +47,12 @@ export async function RegisterUser(formData: FormData): Promise<string> {
   if (isToken(result)) {
     localStorage.setItem(ACCESS, result.access);
     localStorage.setItem(REFRESH, result.refresh);
-    return OK_MESSAGE;
-  }
-
-  if (result.data === undefined) {
-    return result.detail;
+    return OK_REGISTER_MESSAGE;
   }
 
   const { password, email } = result.data;
 
-  if (password === undefined) {
-    return String(email);
-  }
-
-  return String(password);
+  return String(email ?? password ?? result.detail);
 }
 
 /**

@@ -1,3 +1,5 @@
+import { FormElements } from '../variables/constants/form';
+import { HIDDEN } from '../variables/constants/global';
 import { DISABLED } from '../variables/constants/pagination';
 
 /**
@@ -51,7 +53,7 @@ export function changeDisabled(condition: boolean, button: HTMLButtonElement): v
  * @param form Form element.
  */
 export function hideFormErrorMessage(form: HTMLFormElement): void {
-  const errorBlock = form.querySelector<HTMLDivElement>(FormElements.error);
+  const errorBlock = form.querySelector<HTMLDivElement>(FormElements.ERROR);
 
   if (errorBlock === null) {
     return;
@@ -70,7 +72,7 @@ export function hideFormErrorMessage(form: HTMLFormElement): void {
  * @param text Text content of the error.
  */
 export function printFormErrorMessage(form: HTMLFormElement, text: string): void {
-  const errorBlock = form.querySelector<HTMLDivElement>(FormElements.error);
+  const errorBlock = form.querySelector<HTMLDivElement>(`.${FormElements.ERROR}`);
 
   if (errorBlock === null) {
     return;
@@ -80,5 +82,5 @@ export function printFormErrorMessage(form: HTMLFormElement, text: string): void
     errorBlock.classList.remove(HIDDEN);
   }
 
-  insertUnicodeText(errorBlock, text);
+  errorBlock.innerHTML = text;
 }
