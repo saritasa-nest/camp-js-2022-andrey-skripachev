@@ -1,20 +1,25 @@
 import { AnimeDto } from '../dtos/anime.dto';
-import { Anime } from '../models/anime';
 
-import { AnimeSeriesMapper } from './animeSeries.mapper';
+import { Anime } from '../models/anime';
+import { AnimeStatus, AnimeType } from '../utils/types/anime';
+
+import { AiredMapper } from './aired.mapper';
 
 export namespace AnimeMapper {
 
   /**
    * Maps dto to model.
-   * @param dto  Anime dto.
-   * @param limit Total count of anime.
-   * @param offset The number of the first received element.
+   * @param dto Anime series dto.
    */
-  export function fromDto(dto: AnimeDto, limit: number, offset: number): Anime {
+  export function fromDto(dto: AnimeDto): Anime {
     return new Anime({
-      captionInfo: `${offset + 1}-${Math.min(offset + limit + 1, dto.count)} of ${dto.count}`,
-      animeSeries: dto.results.map(item => AnimeSeriesMapper.fromDto(item)),
+      aired: AiredMapper.fromDto(dto.aired),
+      id: dto.id,
+      image: dto.image,
+      status: AnimeStatus.toAnimeStatus(dto.status),
+      titleEnglish: dto.title_eng,
+      titleJapanese: dto.title_jpn,
+      type: AnimeType.toAnimeType(dto.type),
     });
   }
 }

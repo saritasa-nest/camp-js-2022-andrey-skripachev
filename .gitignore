@@ -41,6 +41,3 @@ Thumbs.db
 .angular
 
 .env
-
-/apps/vanilla/src/pages/registration
-/apps/vanilla/src/pages/authorization

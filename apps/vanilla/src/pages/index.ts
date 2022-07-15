@@ -1,90 +1,76 @@
-import { LIMIT, PaginationElements, SortingElements } from '../../scripts/variables/constants';
-import { placeAnimeListToTable } from '../../scripts/UI/animeTable';
-import { PaginationSelector, SortingSelector } from '../../scripts/variables/interfaces';
+import { RECEIVE_LIMIT } from '../../scripts/variables/constants/global';
+import { PaginationElements } from '../../scripts/variables/constants/pagination';
+import { SortingElements } from '../../scripts/variables/constants/sorting';
+import { placeAnimeListToTable } from '../../scripts/UI/table';
 import { PaginationElement } from '../../scripts/UI/pagination';
 import { Api } from '../../scripts/api/api';
 import { SortingElement } from '../../scripts/UI/sorting';
-import { RequestCalculationData } from '../../scripts/api/requestCalculation';
-import { QueryParameters } from '../../scripts/api/request';
+
+import '../../scripts/UI/pageNavigation';
 
 /**
  * Initializes the application: Initializing the anime table view and pagination.
  */
 function initializeApp(): void {
 
-  const queryParameters = new QueryParameters([
-    { name: 'offset', value: 0 },
-    { name: 'limit', value: LIMIT },
-    { name: 'ordering', value: 'id' },
-  ]);
+  const searchParams = new URLSearchParams();
+  searchParams.set('offset', '0');
+  searchParams.set('limit', RECEIVE_LIMIT.toString());
+  searchParams.set('ordering', 'id');
 
-  const paginationSelector: PaginationSelector = {
-    block: PaginationElements.BLOCK,
-    buttonPrevious: PaginationElements.BUTTON_PREVIOUS,
-    buttonNext: PaginationElements.BUTTON_NEXT,
-    button: PaginationElements.BUTTON,
-    selectedButton: PaginationElements.BUTTON_SELECTED,
-    notSelectedButton: PaginationElements.BUTTON_NOT_SELECTED,
-  };
-  const sortingSelector: SortingSelector = {
-    elements: SortingElements.ELEMENT,
-    direction: SortingElements.DIRECTION,
+  const paginationElement = new PaginationElement({
+    pagination: document.querySelector(`.${PaginationElements.BLOCK}`),
+    buttonNext: document.querySelector(`.${PaginationElements.BUTTON_NEXT}`),
+    buttonPrevious: document.querySelector(`.${PaginationElements.BUTTON_PREVIOUS}`),
+    buttonSelected: PaginationElements.BUTTON_SELECTED,
+    buttonNotSelected: PaginationElements.BUTTON_NOT_SELECTED,
+    changePage(newPage: number): void {
+      const newOffset = newPage * RECEIVE_LIMIT;
+      searchParams.set('offset', newOffset.toString());
+      updateApp(searchParams, paginationElement);
+    },
+  });
+  paginationElement.initialize();
+
+  const sorting = new SortingElement({
+    sortingButtons: document.querySelectorAll<HTMLButtonElement>(`.${SortingElements.ELEMENT}`),
     selected: SortingElements.SELECTED_FIELD,
-  };
-
-  const pagination = new PaginationElement(
-    paginationSelector,
-    (newPage: number): void => {
-      const newOffset = RequestCalculationData.offset(newPage, LIMIT);
-      queryParameters.replaceOption('offset', newOffset.toString());
-      updateApp(queryParameters, pagination);
+    direction: SortingElements.DIRECTION,
+    changeSortField(newOrdering: string): void {
+      searchParams.set('ordering', `${newOrdering},id`);
+      searchParams.set('offset', '0');
+      updateApp(searchParams, paginationElement);
     },
-  );
-  pagination.initialize();
-
-  const sorting = new SortingElement(
-    sortingSelector,
-    (newOrdering: string): void => {
-      queryParameters.replaceOption('ordering', `${newOrdering},id`);
-      queryParameters.replaceOption('offset', '0');
-      updateApp(queryParameters, pagination);
-    },
-  );
+  });
   sorting.initialize();
 
-  updateApp(queryParameters, pagination);
+  updateApp(searchParams, paginationElement);
 }
 
 /**
  * Updates the pagination and the table.
- * @param queryParameters Parameters of the request.
- * @param pagination Pagination.
+ * @param searchParams Parameters of the request.
+ * @param paginationElement Pagination.
  */
 async function updateApp(
-  queryParameters: QueryParameters,
-  pagination: PaginationElement,
+  searchParams: URLSearchParams,
+  paginationElement: PaginationElement,
 ): Promise<void> {
-  await Api.animeApi.collectAnime(queryParameters);
+  const pagination = await Api.animeApi.getPagination(searchParams);
 
-  changePagination(pagination);
-  changeAnimeTable();
-}
+  paginationElement.update({
+    currentPage: Math.floor(Number(searchParams.get('offset')) / RECEIVE_LIMIT),
+    totalPages: Math.ceil(pagination.count / RECEIVE_LIMIT),
+  });
 
-/**
- * Updates the contents of the pagination block.
- * @param pagination Pagination.
- */
-function changePagination(pagination: PaginationElement): void {
-  const paginationData = Api.animeApi.getPagination();
-  pagination.update(paginationData);
-}
+  const offset = Number(searchParams.get('offset'));
 
-/**
- * Updates the anime table.
- */
-function changeAnimeTable(): void {
-  const anime = Api.animeApi.getAnime();
-  placeAnimeListToTable(anime);
+  placeAnimeListToTable({
+    firstElement: offset + 1,
+    lastElement: Math.min(offset + RECEIVE_LIMIT + 1, pagination.count),
+    totalElements: pagination.count,
+    results: pagination.results,
+  });
 }
 
 initializeApp();

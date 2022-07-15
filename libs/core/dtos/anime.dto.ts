@@ -1,11 +1,26 @@
-import { AnimeSeriesDto } from './animeSeries.dto';
+import { AiredDto } from './aired.dto';
 
-/** The structure of the received anime series.*/
+/** Anime data from the server. */
 export interface AnimeDto {
 
-  /** Total number of anime series.*/
-  readonly count: number;
+  /** Anime start and end dates. */
+  readonly aired: AiredDto;
 
-  /** List of anime received on request.*/
-  readonly results: readonly AnimeSeriesDto[];
+  /** Anime ID. */
+  readonly id: number;
+
+  /** Image link to the anime. */
+  readonly image: string;
+
+  /** Status of anime. */
+  readonly status: string;
+
+  /** Anime name in English. */
+  readonly title_eng: string;
+
+  /** Anime name in Japanese. */
+  readonly title_jpn: string;
+
+  /** Type of anime. */
+  readonly type: string;
 }

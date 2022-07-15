@@ -106,7 +106,7 @@ a:hover,
 }
 
 .form__header {
-  font-size: 3rem;
+  font-size: var(--form-header-font-size);
 }
 
 .error {
