@@ -1,4 +1,5 @@
 import { Anime } from '@js-camp/core/models/anime.js';
+import { AnimeStatus, AnimeType } from '@js-camp/core/utils/types/anime';
 
 import { AnimeTableSelector } from '../variables/interfaces';
 import { AnimeTableElementsSelector } from '../variables/constants/table';
@@ -16,7 +17,7 @@ const animeTableSelector: AnimeTableSelector = {
 
 /**
  * Places a list of anime in a table.
- * @param a A.
+ * @param TableUpdateData Data for table content update.
  */
 export function placeAnimeListToTable(
   { firstElement, lastElement, totalElements, results }: TableUpdateData<Anime>,
@@ -66,8 +67,8 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
   const title = `${titleEnglish || EMPTY_MESSAGE} (${titleJapanese || EMPTY_MESSAGE})`;
   const titleCell = createNode('td', title, cellSelector);
   const airedStartCell = createNode('td', dateStart || EMPTY_MESSAGE, cellSelector);
-  const typeCell = createNode('td', type || EMPTY_MESSAGE, cellSelector);
-  const statusCell = createNode('td', status || EMPTY_MESSAGE, cellSelector);
+  const typeCell = createNode('td', AnimeType.toReadable(type) ?? EMPTY_MESSAGE, cellSelector);
+  const statusCell = createNode('td', AnimeStatus.toReadable(status) ?? EMPTY_MESSAGE, cellSelector);
 
   const picture = createNode('img', '', imageSelector);
   picture.src = image;

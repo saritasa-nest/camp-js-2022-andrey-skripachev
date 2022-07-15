@@ -17,7 +17,7 @@ export function removeClassFromElements(elements: NodeListOf<HTMLElement>, class
  * Creates a new HTML element with classes and text content.
  * @param tagName HTML element name.
  * @param textContent The text content of the HTML element.
- * @param classes Classes that the element will have.
+ * @param classes A string of class names separated by a space that the element will have.
  * @returns New HTML element.
  */
 export function createNode<T extends keyof HTMLElementTagNameMap>(
@@ -25,7 +25,7 @@ export function createNode<T extends keyof HTMLElementTagNameMap>(
   textContent: string,
   classes: string,
 ): HTMLElementTagNameMap[T] {
-  const newElement = document.createElement<typeof tagName>(tagName);
+  const newElement = document.createElement<T>(tagName);
   newElement.className = classes;
   newElement.textContent = textContent;
   return newElement;

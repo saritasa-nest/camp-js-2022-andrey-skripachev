@@ -1,12 +1,31 @@
 import { PAGINATION_RANGE } from '../variables/constants/pagination';
-import { PaginationConstructor } from '../variables/constructors';
 import { PaginationUpdateData } from '../variables/interfaces/pagination';
 
 import { changeDisabled, createNode } from './dom';
 
-/**
- * Pagination element.
- */
+/** Pagination class constructor. */
+export interface PaginationConstructor {
+
+  /** Element containing numbered pagination buttons. */
+  readonly pagination: HTMLDivElement | null;
+
+  /** Button to go to the next page. */
+  readonly buttonNext: HTMLButtonElement | null;
+
+  /** Button to go to the previous page. */
+  readonly buttonPrevious: HTMLButtonElement | null;
+
+  /** The class name of the selected button. */
+  readonly buttonSelected: string;
+
+  /** Class name of the unselected button. */
+  readonly buttonNotSelected: string;
+
+  /** Changing the view page. */
+  readonly changePage: (page: number) => void;
+}
+
+/** Pagination element. */
 export class PaginationElement {
   private readonly pagination: HTMLDivElement | null;
 
@@ -36,9 +55,7 @@ export class PaginationElement {
     this.changePage = changePage;
   }
 
-  /**
-   * Initializes pagination.
-   */
+  /** Initializes pagination. */
   public initialize(): void {
     if (this.pagination !== null) {
       this.pagination.addEventListener('click', event => {
@@ -70,7 +87,7 @@ export class PaginationElement {
 
   /**
    * Updates the pagination.
-   * @param param0 Current page number and total number of pages.
+   * @param PaginationUpdateData Data for updating the content of the pagination block.
    */
   public update({ currentPage, totalPages }: PaginationUpdateData): void {
     if (this.buttonPrevious !== null) {

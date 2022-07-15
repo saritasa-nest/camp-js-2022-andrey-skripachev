@@ -5,7 +5,6 @@ import { placeAnimeListToTable } from '../../scripts/UI/table';
 import { PaginationElement } from '../../scripts/UI/pagination';
 import { Api } from '../../scripts/api/api';
 import { SortingElement } from '../../scripts/UI/sorting';
-import { RequestCalculationData } from '../../scripts/api/requestCalculation';
 
 import '../../scripts/UI/pageNavigation';
 
@@ -26,7 +25,7 @@ function initializeApp(): void {
     buttonSelected: PaginationElements.BUTTON_SELECTED,
     buttonNotSelected: PaginationElements.BUTTON_NOT_SELECTED,
     changePage(newPage: number): void {
-      const newOffset = RequestCalculationData.offset(newPage, RECEIVE_LIMIT);
+      const newOffset = newPage * RECEIVE_LIMIT;
       searchParams.set('offset', newOffset.toString());
       updateApp(searchParams, paginationElement);
     },
