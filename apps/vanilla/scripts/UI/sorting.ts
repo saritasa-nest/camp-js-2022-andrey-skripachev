@@ -3,12 +3,12 @@ import { SORTING_DIRECTIONS, DEFAULT_DIRECTION } from '../variables/constants/so
 import { removeClassFromElements } from './dom';
 
 /** Sort class constructor. */
-export interface SortingConstructor{
+export interface SortingConstructorData {
 
   /** Sorting buttons. */
   readonly sortingButtons: NodeListOf<HTMLButtonElement>;
 
-  /** Element showing sorting direction. */
+  /** Selector of element showing sorting direction. */
   readonly direction: string;
 
   /** The class name of the selected button. */
@@ -19,7 +19,7 @@ export interface SortingConstructor{
 }
 
 /** Sorting element. */
-export class SortingElement {
+export class SortingController {
   private readonly sortingButtons: NodeListOf<HTMLButtonElement>;
 
   private readonly selected: string;
@@ -30,7 +30,7 @@ export class SortingElement {
 
   public constructor({
     sortingButtons, direction, selected, changeSortField,
-  }: SortingConstructor) {
+  }: SortingConstructorData) {
     this.sortingButtons = sortingButtons;
     this.directionElementSelector = direction;
     this.selected = selected;
@@ -59,11 +59,10 @@ export class SortingElement {
   private initializeSortingButton(button: HTMLButtonElement): void {
     const sortingDirection = DEFAULT_DIRECTION;
     const directionElement = button.querySelector<HTMLSpanElement>(`.${this.directionElementSelector}`);
-    if (directionElement === null) {
-      return;
+    if (directionElement !== null) {
+      directionElement.innerHTML = SORTING_DIRECTIONS[DEFAULT_DIRECTION].text;
     }
     button.dataset.direction = sortingDirection.toString();
-    directionElement.innerHTML = SORTING_DIRECTIONS[DEFAULT_DIRECTION].text;
   }
 
   private toggleButtonDirection(button: HTMLButtonElement): void {

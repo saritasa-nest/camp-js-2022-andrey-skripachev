@@ -26,26 +26,6 @@ a:hover,
   max-width: var(--default-layout-width);
 }
 
-.hover-effect {
-  transition: var(--animation-duration-short);
-  background: none;
-}
-
-.hover-effect,
-.hover-effect * {
-  cursor: pointer;
-}
-
-.hover-effect:hover {
-  background-color: var(--hover-effect-color);
-}
-
-.fit-element {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-}
-
 .pagination {
   margin: 30px 0;
   display: flex;
@@ -88,23 +68,4 @@ a:hover,
 .anime-table .table__row {
   display: grid;
   grid-template-columns: 1fr 4fr repeat(3, 2fr);
-}
-
-.content-center {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.form-wrapper {
-  width: 25%;
-  padding: 20px;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-}
-
-.form__header {
-  font-size: var(--form-header-font-size);
 }

@@ -9,7 +9,7 @@ export interface SortingDirection {
 }
 
 export namespace SortingElements {
-  export const ELEMENT = 'sort';
+  export const ELEMENT = 'table__button-sort';
   export const DIRECTION = 'sorting-direction';
   export const SELECTED_FIELD = 'ordering-selected';
 }
