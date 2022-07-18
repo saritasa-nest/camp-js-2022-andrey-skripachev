@@ -3,9 +3,9 @@ import { isType } from '../../guards/animeType';
 
 /** Different statuses of anime. */
 export enum AnimeStatus {
-  AIRING = 'Airing',
-  FINISHED = 'Finished',
-  NOT_YET_AIRED = 'Not yet aired',
+  AIRING = 'AIRING',
+  FINISHED = 'FINISHED',
+  NOT_YET_AIRED = 'NOT_YET_AIRED',
 }
 
 const MAP_TO_READABLE_STATUS: Readonly<Record<AnimeStatus, string>> = {
@@ -18,10 +18,10 @@ const MAP_TO_READABLE_STATUS: Readonly<Record<AnimeStatus, string>> = {
 export enum AnimeType {
   TV = 'TV',
   OVA = 'OVA',
-  MOVIE = 'Movie',
-  SPECIAL = 'Special',
+  MOVIE = 'MOVIE',
+  SPECIAL = 'SPECIAL',
   ONA = 'ONA',
-  MUSIC = 'Music',
+  MUSIC = 'MUSIC',
 }
 
 const MAP_TO_READABLE_TYPE: Readonly<Record<AnimeType, string>> = {
