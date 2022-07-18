@@ -5,6 +5,7 @@ import { placeAnimeListToTable } from '../../scripts/UI/table';
 import { PaginationElement } from '../../scripts/UI/pagination';
 import { Api } from '../../scripts/api/api';
 import { SortingElement } from '../../scripts/UI/sorting';
+import { changeHeader } from '../../scripts/UI/header';
 
 import '../../scripts/UI/pageNavigation';
 
@@ -74,3 +75,8 @@ async function updateApp(
 }
 
 initializeApp();
+changeHeader(
+  'header__user-register',
+  'header__user-unregister',
+  'header__userinfo',
+);

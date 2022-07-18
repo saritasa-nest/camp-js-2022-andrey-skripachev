@@ -1,4 +1,4 @@
-import { AnimeStatus, AnimeType } from '../utils/types/anime';
+import { AnimeStatus, AnimeStatusDto, AnimeType } from '../utils/types/anime';
 
 import { Aired } from './aired';
 
@@ -17,7 +17,7 @@ export class Anime extends Immerable {
   public readonly image: string;
 
   /** Status. */
-  public readonly status: AnimeStatus | null;
+  public readonly status: AnimeStatusDto | null;
 
   /** Title english. */
   public readonly titleEnglish: string;
