@@ -24,7 +24,7 @@ function initializeApp(): void {
   searchParams.set('ordering', 'id');
 
   const searchElement = new SearchElement({
-    searchFromElement: document.querySelector(`.${SearchElements.BLOCK}`),
+    searchFormElement: document.querySelector(`.${SearchElements.BLOCK}`),
     inputSelector: SearchElements.SEARCH,
     changeSearch(search: string): void {
       searchParams.set('search', search.trim());

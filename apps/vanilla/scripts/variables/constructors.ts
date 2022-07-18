@@ -40,7 +40,7 @@ export interface PaginationConstructor {
 export interface SearchConstructor {
 
   /** Search form element. */
-  readonly searchFromElement: HTMLFormElement | null;
+  readonly searchFormElement: HTMLFormElement | null;
 
   /** Search input field element. */
   readonly inputSelector: string;
