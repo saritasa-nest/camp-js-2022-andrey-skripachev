@@ -1,37 +1,25 @@
 import { Anime } from '@js-camp/core/models/anime.js';
 import { AnimeStatus, AnimeType } from '@js-camp/core/utils/types/anime';
 
-import { AnimeTableSelector } from '../variables/interfaces';
 import { AnimeTableElementsSelector } from '../variables/constants/table';
 import { TableUpdateData } from '../variables/interfaces/table';
 
 import { createNode } from './dom';
-
-const animeTableSelector: AnimeTableSelector = {
-  table: AnimeTableElementsSelector.TABLE_BODY,
-  row: AnimeTableElementsSelector.ROW,
-  cell: AnimeTableElementsSelector.CELL,
-  caption: AnimeTableElementsSelector.CAPTION,
-  image: AnimeTableElementsSelector.TABLE_IMAGE,
-};
 
 /**
  * Places a list of anime in a table.
  * @param TableUpdateData Data for table content update.
  */
 export function placeAnimeListToTable(
-  { firstElement, lastElement, totalElements, results }: TableUpdateData<Anime>,
+  { results }: TableUpdateData<Anime>,
 ): void {
-  const { table, caption } = animeTableSelector;
+  const { TABLE_BODY } = AnimeTableElementsSelector;
 
-  const animeBlock = document.querySelector<HTMLTableElement>(`.${table}`);
-  const captionBlock = document.querySelector<HTMLTableCaptionElement>(`.${caption}`);
+  const animeBlock = document.querySelector<HTMLTableElement>(`.${TABLE_BODY}`);
 
-  if (animeBlock === null || captionBlock === null) {
-    throw new Error('One of the table components is not found');
+  if (animeBlock === null) {
+    throw new Error('Table components is not found');
   }
-
-  captionBlock.textContent = `${firstElement}-${lastElement} of ${totalElements}`;
 
   removeRowsFromTable(animeBlock);
   for (const animeData of results) {
@@ -59,18 +47,18 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
   const { image, titleEnglish, titleJapanese, status, type, aired: { start } } = anime;
   const dateStart = String(start.getFullYear());
 
-  const { row: rowSelector, cell: cellSelector, image: imageSelector } = animeTableSelector;
+  const { TABLE_IMAGE, ROW, CELL } = AnimeTableElementsSelector;
 
-  const row = createNode('tr', '', rowSelector);
+  const row = createNode('tr', '', ROW);
 
-  const imageCell = createNode('td', '', cellSelector);
+  const imageCell = createNode('td', '', CELL);
   const title = `${titleEnglish || EMPTY_MESSAGE} (${titleJapanese || EMPTY_MESSAGE})`;
-  const titleCell = createNode('td', title, cellSelector);
-  const airedStartCell = createNode('td', dateStart || EMPTY_MESSAGE, cellSelector);
-  const typeCell = createNode('td', AnimeType.toReadable(type) ?? EMPTY_MESSAGE, cellSelector);
-  const statusCell = createNode('td', AnimeStatus.toReadable(status) ?? EMPTY_MESSAGE, cellSelector);
+  const titleCell = createNode('td', title, CELL);
+  const airedStartCell = createNode('td', dateStart || EMPTY_MESSAGE, CELL);
+  const typeCell = createNode('td', AnimeType.toReadable(type) ?? EMPTY_MESSAGE, CELL);
+  const statusCell = createNode('td', AnimeStatus.toReadable(status) ?? EMPTY_MESSAGE, CELL);
 
-  const picture = createNode('img', '', imageSelector);
+  const picture = createNode('img', '', TABLE_IMAGE);
   picture.src = image;
   picture.alt = titleEnglish;
 
