@@ -23,7 +23,7 @@ interface PaginationButtonTemplate {
 /** Existing pagination button. */
 class PaginationButton implements PaginationButtonTemplate {
   public constructor(
-    private button: HTMLButtonElement,
+    private readonly button: HTMLButtonElement,
   ) {}
 
   /**
@@ -64,8 +64,7 @@ class PaginationButton implements PaginationButtonTemplate {
 
 /** Non-existent pagination button. */
 class PaginationButtonNull implements PaginationButtonTemplate {
-  public constructor(
-  ) {}
+  public constructor() {}
 
   /** Sets the value of the data attribute. */
   public setDataAttribute(): void {
