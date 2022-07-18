@@ -22,6 +22,15 @@ export class QueryParamsService {
   }
 
   /**
+   * Sets the value of the filter field.
+   * @param fieldName Filter field name.
+   * @param fieldVale Filter field value.
+   */
+  public setFiltering(fieldName: string, fieldVale: string): void {
+    this.urlSearchParams.set(fieldName, fieldVale);
+  }
+
+  /**
    * Sets the new page number.
    * @param page New page number.
    */
