@@ -15,7 +15,6 @@ import '../../scripts/UI/pageNavigation';
  * Initializes the application: Initializing the anime table view and pagination.
  */
 function initializeApp(): void {
-
   const queryParamsService = new QueryParamsService();
   queryParamsService.setPage(0);
 

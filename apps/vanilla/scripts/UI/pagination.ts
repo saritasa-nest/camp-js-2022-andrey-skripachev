@@ -214,7 +214,6 @@ export class PaginationController {
   }
 
   private createPaginationButton(page: number, isSelected: boolean): HTMLButtonElement {
-
     const paginationButton = document.createElement('button');
     paginationButton.textContent = (page + 1).toString();
     paginationButton.setAttribute('type', 'button');

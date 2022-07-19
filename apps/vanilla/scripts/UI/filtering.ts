@@ -54,7 +54,6 @@ export class Filtering<T> {
       if (typeof option[1] === 'string') {
         optionsInfo.push(option);
       }
-
     }
 
     return optionsInfo;
