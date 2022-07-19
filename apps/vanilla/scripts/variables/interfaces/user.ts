@@ -28,3 +28,10 @@ export interface AuthError {
   /** Error message. */
   readonly detail: string;
 }
+
+export interface Authorization {
+
+  readonly email: string;
+
+  readonly password: string;
+}

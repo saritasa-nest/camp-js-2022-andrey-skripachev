@@ -1,7 +1,7 @@
 import { isUserAuthorized } from '../../../scripts/user/validateToken';
 import { hideFormErrorMessage, printFormErrorMessage } from '../../../scripts/UI/dom';
 import { isValidRegistrationData, registerUser } from '../../../scripts/user/registration';
-import { OK_REGISTER_MESSAGE } from '../../../scripts/variables/constants/user';
+import { OK_MESSAGE } from '../../../scripts/variables/constants/user';
 
 /** Initializes registration form. */
 async function initializeRegistrationForm(): Promise<void> {
@@ -24,7 +24,7 @@ async function initializeRegistrationForm(): Promise<void> {
 
     if (isValidRegistrationData(formData)) {
       const registrationResponse = await registerUser(formData);
-      if (registrationResponse === OK_REGISTER_MESSAGE) {
+      if (registrationResponse === OK_MESSAGE) {
         window.location.replace('../');
       } else {
         printFormErrorMessage(form, registrationResponse);

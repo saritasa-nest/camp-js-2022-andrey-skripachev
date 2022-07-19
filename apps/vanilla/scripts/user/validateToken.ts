@@ -2,6 +2,7 @@ import { Api } from "../api/api";
 import { ACCESS, REFRESH } from "../variables/constants/user";
 import { isToken } from "./registration";
 
+/** Checks if the user is authorized. */
 export async function isUserAuthorized(): Promise<boolean> {
 
   const access = localStorage.getItem('access');

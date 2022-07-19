@@ -2,7 +2,7 @@ import { isExistsRegistrationField, RegistrationFormFields } from '@js-camp/core
 import { Registration } from '@js-camp/core/models/registration';
 
 import { Api } from '../api/api';
-import { ACCESS, OK_REGISTER_MESSAGE, REFRESH } from '../variables/constants/user';
+import { ACCESS, OK_MESSAGE, REFRESH } from '../variables/constants/user';
 import { Token } from '../variables/interfaces/user';
 
 /**
@@ -47,7 +47,7 @@ export async function registerUser(formData: FormData): Promise<string> {
   if (isToken(result)) {
     localStorage.setItem(ACCESS, result.access);
     localStorage.setItem(REFRESH, result.refresh);
-    return OK_REGISTER_MESSAGE;
+    return OK_MESSAGE;
   }
 
   const { password, email } = result.data;

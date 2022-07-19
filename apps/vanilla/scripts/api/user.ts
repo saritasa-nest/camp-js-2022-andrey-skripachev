@@ -1,7 +1,7 @@
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
 import { Registration } from '@js-camp/core/models/registration';
 
-import { AuthError, Token } from '../variables/interfaces/user';
+import { AuthError, Authorization, Token } from '../variables/interfaces/user';
 
 import { httpClient } from './client';
 
@@ -24,6 +24,23 @@ export class UserApi {
     return response;
   }
 
+  /**
+   * Receives access and refresh tokens from the server.
+   * @param authorization User email and password.
+   * @returns Tokens or error.
+   */
+  public async authorizeUser(authorization: Authorization): Promise<Token | AuthError> {
+    const response = await httpClient.post<Token | AuthError>(`${this.baseUrl}login/`, authorization)
+      .then(data => data.data)
+      .catch(data => data.response.data);
+
+    return response;
+  }
+
+  /**
+   * Checks the validity of the access token.
+   * @param accessToken Access token.
+   */
   public async isValidAccess(accessToken: string): Promise<boolean> {
     const status = await httpClient.post<string>(`${this.baseUrl}token/verify/`, { token: accessToken })
       .then(data => data.status)
@@ -31,6 +48,11 @@ export class UserApi {
     return status === 200 || status === 201;
   }
 
+  /**
+   * Updates the access token.
+   * @param refresh Refresh token.
+   * @returns
+   */
   public async refreshToken(refresh: string): Promise<Token | AuthError> {
     const response = await httpClient.post(`${this.baseUrl}token/refresh/`, { refresh })
       .then(data => data.data)

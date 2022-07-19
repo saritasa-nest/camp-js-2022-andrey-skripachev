@@ -4,6 +4,7 @@ import { placeAnimeListToTable } from '../../scripts/UI/table';
 import { PaginationController } from '../../scripts/UI/pagination';
 import { SortingController } from '../../scripts/UI/sorting';
 import { QueryParamsService } from '../../scripts/domain/queryParamsService';
+import { changeHeader } from '../../scripts/UI/header';
 
 import '../../scripts/UI/pageNavigation';
 

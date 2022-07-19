@@ -1,4 +1,4 @@
-export const OK_REGISTER_MESSAGE = 'ok';
+export const OK_MESSAGE = 'ok';
 
 export const ACCESS = 'access';
 
