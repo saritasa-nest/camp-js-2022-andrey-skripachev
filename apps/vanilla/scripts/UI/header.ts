@@ -11,12 +11,12 @@ export async function changeHeader(
     throw new Error('Cannot find header');
   }
 
-  const templateAuthorized = document.querySelector(`#${templateAuthorizedId}`);
-  const templateNotAuthorized = document.querySelector(`#${templateNotAuthorizedId}`);
-  const headerInsertionBlock = header.querySelector(`.${headerInsertionBlockSelector}`);
+  const templateAuthorized = document.querySelector<HTMLTemplateElement>(`#${templateAuthorizedId}`);
+  const templateNotAuthorized = document.querySelector<HTMLTemplateElement>(`#${templateNotAuthorizedId}`);
+  const headerInsertionBlock = header.querySelector<HTMLTemplateElement>(`.${headerInsertionBlockSelector}`);
 
   if (templateAuthorized === null || templateNotAuthorized === null || headerInsertionBlock === null) {
-    throw new Error('Cannot find component');
+    throw new Error('Cannot find header component');
   }
 
   const isAuthorized = await isUserAuthorized();
