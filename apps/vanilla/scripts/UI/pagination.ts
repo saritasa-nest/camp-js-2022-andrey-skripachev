@@ -3,8 +3,103 @@ import { PaginationUpdateData } from '../variables/interfaces/pagination';
 
 import { changeDisabled, createNode } from './dom';
 
+type PaginationCallback = (page: number) => void;
+
+interface PaginationButtonTemplate {
+
+  /** Sets the value of the data attribute. */
+  setDataAttribute: (name: string, value: string) => void;
+
+  /** Gets the value of the data attribute. */
+  getDataAttribute: (name: string) => string | undefined;
+
+  /** Disables or enables button. */
+  changeDisabled: (condition: boolean) => void;
+
+  /** Hinges the click event handler on the button. */
+  handleClick: (callback: PaginationCallback) => void;
+}
+
+/** Existing pagination button. */
+class PaginationButton implements PaginationButtonTemplate {
+  public constructor(
+    private readonly button: HTMLButtonElement,
+  ) {}
+
+  /**
+   * Sets the value of the data attribute.
+   * @param name Data attribute name.
+   * @param value New data attribute value.
+   */
+  public setDataAttribute(name: string, value: string): void {
+    this.button.dataset[name] = value;
+  }
+
+  /**
+   * Gets the value of the data attribute.
+   * @param name Data attribute name.
+   */
+  public getDataAttribute(name: string): string | undefined {
+    return this.button.dataset[name];
+  }
+
+  /**
+   * Disables or enables button.
+   * @param condition Condition for disabling the button.
+   */
+  public changeDisabled(condition: boolean): void {
+    changeDisabled(condition, this.button);
+  }
+
+  /**
+   * Hinges the click event handler on the button..
+   * @param callback Function that is called by clicking on the button.
+   */
+  public handleClick(callback: PaginationCallback): void {
+    this.button.addEventListener('click', () => {
+      callback(Number(this.getDataAttribute('page')));
+    });
+  }
+}
+
+/** Non-existent pagination button. */
+class PaginationButtonNull implements PaginationButtonTemplate {
+  public constructor() {}
+
+  /** Sets the value of the data attribute. */
+  public setDataAttribute(): void {
+    return undefined;
+  }
+
+  /** Gets the value of the data attribute. */
+  public getDataAttribute(): undefined {
+    return undefined;
+  }
+
+  /** Disables or enables button. */
+  public changeDisabled(): void {
+    return undefined;
+  }
+
+  /** Hinges the click event handler on the button. */
+  public handleClick(): void {
+    return undefined;
+  }
+}
+
+/**
+ * Initializing the pagination button.
+ * @param button Pagination button.
+ */
+function initPaginationButton(button: HTMLButtonElement | null): PaginationButton | PaginationButtonNull {
+  if (button === null) {
+    return new PaginationButtonNull();
+  }
+  return new PaginationButton(button);
+}
+
 /** Pagination class constructor. */
-export interface PaginationConstructor {
+export interface PaginationConstructorData {
 
   /** Element containing numbered pagination buttons. */
   readonly pagination: HTMLDivElement | null;
@@ -22,22 +117,22 @@ export interface PaginationConstructor {
   readonly buttonNotSelected: string;
 
   /** Changing the view page. */
-  readonly changePage: (page: number) => void;
+  readonly changePage: PaginationCallback;
 }
 
 /** Pagination element. */
-export class PaginationElement {
-  private readonly pagination: HTMLDivElement | null;
+export class PaginationController {
+  private readonly pagination;
 
-  private readonly buttonNext: HTMLButtonElement | null;
+  private readonly buttonNext;
 
-  private readonly buttonPrevious: HTMLButtonElement | null;
+  private readonly buttonPrevious;
 
-  private readonly buttonSelected: string;
+  private readonly buttonSelected;
 
-  private readonly buttonNotSelected: string;
+  private readonly buttonNotSelected;
 
-  private readonly changePage: (page: number) => void;
+  private readonly changePage;
 
   public constructor({
     pagination,
@@ -46,10 +141,10 @@ export class PaginationElement {
     buttonSelected,
     buttonNotSelected,
     changePage,
-  }: PaginationConstructor) {
+  }: PaginationConstructorData) {
     this.pagination = pagination;
-    this.buttonNext = buttonNext;
-    this.buttonPrevious = buttonPrevious;
+    this.buttonNext = initPaginationButton(buttonNext);
+    this.buttonPrevious = initPaginationButton(buttonPrevious);
     this.buttonSelected = buttonSelected;
     this.buttonNotSelected = buttonNotSelected;
     this.changePage = changePage;
@@ -66,23 +161,13 @@ export class PaginationElement {
       });
     }
 
-    if (this.buttonNext !== null) {
-      this.buttonNext.addEventListener('click', event => {
-        const { target } = event;
-        if (target instanceof HTMLButtonElement) {
-          this.handleClick(target);
-        }
-      });
-    }
+    this.buttonNext.handleClick(page => {
+      this.changePage(page);
+    });
 
-    if (this.buttonPrevious !== null) {
-      this.buttonPrevious.addEventListener('click', event => {
-        const { target } = event;
-        if (target instanceof HTMLButtonElement) {
-          this.handleClick(target);
-        }
-      });
-    }
+    this.buttonPrevious.handleClick(page => {
+      this.changePage(page);
+    });
   }
 
   /**
@@ -90,15 +175,12 @@ export class PaginationElement {
    * @param PaginationUpdateData Data for updating the content of the pagination block.
    */
   public update({ currentPage, totalPages }: PaginationUpdateData): void {
-    if (this.buttonPrevious !== null) {
-      this.buttonPrevious.dataset.page = (currentPage - 1).toString();
-      changeDisabled(currentPage === 0, this.buttonPrevious);
-    }
 
-    if (this.buttonNext !== null) {
-      this.buttonNext.dataset.page = (currentPage + 1).toString();
-      changeDisabled(currentPage === totalPages - 1, this.buttonNext);
-    }
+    this.buttonPrevious.setDataAttribute('page', String(currentPage - 1));
+    this.buttonPrevious.changeDisabled(currentPage === 0);
+
+    this.buttonNext.setDataAttribute('page', String(currentPage + 1));
+    this.buttonNext.changeDisabled(currentPage === totalPages - 1);
 
     if (this.pagination !== null) {
       this.pagination.innerHTML = '';

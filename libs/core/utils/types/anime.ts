@@ -3,9 +3,9 @@ import { isType } from '../../guards/animeType';
 
 /** Different statuses of anime. */
 export enum AnimeStatus {
-  AIRING = 'Airing',
-  FINISHED = 'Finished',
-  NOT_YET_AIRED = 'Not yet aired',
+  AIRING = 'AIRING',
+  FINISHED = 'FINISHED',
+  NOT_YET_AIRED = 'NOT_YET_AIRED',
 }
 
 const MAP_TO_READABLE_STATUS: Readonly<Record<AnimeStatus, string>> = {
@@ -18,10 +18,10 @@ const MAP_TO_READABLE_STATUS: Readonly<Record<AnimeStatus, string>> = {
 export enum AnimeType {
   TV = 'TV',
   OVA = 'OVA',
-  MOVIE = 'Movie',
-  SPECIAL = 'Special',
+  MOVIE = 'MOVIE',
+  SPECIAL = 'SPECIAL',
   ONA = 'ONA',
-  MUSIC = 'Music',
+  MUSIC = 'MUSIC',
 }
 
 const MAP_TO_READABLE_TYPE: Readonly<Record<AnimeType, string>> = {
@@ -44,10 +44,11 @@ export namespace AnimeStatus {
   }
 
   /**
+   * Converts the value to a status if it exists in the statuses.
    * @param value String for conversion.
    */
   export function toAnimeStatus(value: string): AnimeStatus | null {
-    return isStatus(value) ? value as AnimeStatus : null;
+    return isStatus(value) ? value : null;
   }
 
 }
@@ -63,10 +64,11 @@ export namespace AnimeType {
   }
 
   /**
+   * Converts the value to a type if it exists in the types.
    * @param value String for conversion.
    */
   export function toAnimeType(value: string): AnimeType | null {
-    return isType(value) ? value as AnimeType : null;
+    return isType(value) ? value : null;
   }
 
 }

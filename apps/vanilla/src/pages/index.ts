@@ -1,11 +1,9 @@
-import { RECEIVE_LIMIT } from '../../scripts/variables/constants/global';
 import { PaginationElements } from '../../scripts/variables/constants/pagination';
 import { SortingElements } from '../../scripts/variables/constants/sorting';
 import { placeAnimeListToTable } from '../../scripts/UI/table';
-import { PaginationElement } from '../../scripts/UI/pagination';
-import { Api } from '../../scripts/api/api';
-import { SortingElement } from '../../scripts/UI/sorting';
-import { changeHeader } from '../../scripts/UI/header';
+import { PaginationController } from '../../scripts/UI/pagination';
+import { SortingController } from '../../scripts/UI/sorting';
+import { QueryParamsService } from '../../scripts/domain/queryParamsService';
 
 import '../../scripts/UI/pageNavigation';
 
@@ -14,62 +12,54 @@ import '../../scripts/UI/pageNavigation';
  */
 function initializeApp(): void {
 
-  const searchParams = new URLSearchParams();
-  searchParams.set('offset', '0');
-  searchParams.set('limit', RECEIVE_LIMIT.toString());
-  searchParams.set('ordering', 'id');
+  const queryParamsService = new QueryParamsService();
+  queryParamsService.setPage(0);
 
-  const paginationElement = new PaginationElement({
+  const paginationElement = new PaginationController({
     pagination: document.querySelector(`.${PaginationElements.BLOCK}`),
     buttonNext: document.querySelector(`.${PaginationElements.BUTTON_NEXT}`),
     buttonPrevious: document.querySelector(`.${PaginationElements.BUTTON_PREVIOUS}`),
     buttonSelected: PaginationElements.BUTTON_SELECTED,
     buttonNotSelected: PaginationElements.BUTTON_NOT_SELECTED,
     changePage(newPage: number): void {
-      const newOffset = newPage * RECEIVE_LIMIT;
-      searchParams.set('offset', newOffset.toString());
-      updateApp(searchParams, paginationElement);
+      queryParamsService.setPage(newPage);
+      updateApp(queryParamsService, paginationElement);
     },
   });
   paginationElement.initialize();
 
-  const sorting = new SortingElement({
+  const sorting = new SortingController({
     sortingButtons: document.querySelectorAll<HTMLButtonElement>(`.${SortingElements.ELEMENT}`),
     selected: SortingElements.SELECTED_FIELD,
     direction: SortingElements.DIRECTION,
-    changeSortField(newOrdering: string): void {
-      searchParams.set('ordering', `${newOrdering},id`);
-      searchParams.set('offset', '0');
-      updateApp(searchParams, paginationElement);
+    changeSortField(newTarget: string): void {
+      queryParamsService.setSortingTarget(newTarget);
+      queryParamsService.setPage(0);
+      updateApp(queryParamsService, paginationElement);
     },
   });
   sorting.initialize();
 
-  updateApp(searchParams, paginationElement);
+  updateApp(queryParamsService, paginationElement);
 }
 
 /**
  * Updates the pagination and the table.
- * @param searchParams Parameters of the request.
+ * @param queryParams Parameters of the request.
  * @param paginationElement Pagination.
  */
 async function updateApp(
-  searchParams: URLSearchParams,
-  paginationElement: PaginationElement,
+  queryParams: QueryParamsService,
+  paginationElement: PaginationController,
 ): Promise<void> {
-  const pagination = await Api.animeApi.getPagination(searchParams);
+  const pagination = await queryParams.getAnimeList();
 
   paginationElement.update({
-    currentPage: Math.floor(Number(searchParams.get('offset')) / RECEIVE_LIMIT),
-    totalPages: Math.ceil(pagination.count / RECEIVE_LIMIT),
+    currentPage: queryParams.getPage(),
+    totalPages: queryParams.getTotalPages(pagination.count),
   });
 
-  const offset = Number(searchParams.get('offset'));
-
   placeAnimeListToTable({
-    firstElement: offset + 1,
-    lastElement: Math.min(offset + RECEIVE_LIMIT + 1, pagination.count),
-    totalElements: pagination.count,
     results: pagination.results,
   });
 }
