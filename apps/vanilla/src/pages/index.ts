@@ -1,0 +1,101 @@
+import { RECEIVE_LIMIT } from '../../scripts/variables/constants/global';
+import { PaginationElements } from '../../scripts/variables/constants/pagination';
+import { SortingElements } from '../../scripts/variables/constants/sorting';
+import { placeAnimeListToTable } from '../../scripts/UI/table';
+import { SortingSelector } from '../../scripts/variables/interfaces';
+import { PaginationElement } from '../../scripts/UI/pagination';
+import { Api } from '../../scripts/api/api';
+import { SortingElement } from '../../scripts/UI/sorting';
+import { RequestCalculationData } from '../../scripts/api/requestCalculation';
+
+import { SearchElement } from '../../scripts/UI/search';
+
+import '../../scripts/UI/pageNavigation';
+import { SearchElements } from '../../scripts/variables/constants/search';
+
+const params = {
+  offset: 'offset',
+  limit: 'limit',
+  ordering: 'ordering',
+  search: 'search',
+};
+
+/** Initializes the application: Initializing the anime table view and pagination.*/
+function initializeApp(): void {
+
+  const searchParams = new URLSearchParams();
+  searchParams.set(params.offset, '0');
+  searchParams.set(params.limit, RECEIVE_LIMIT.toString());
+  searchParams.set(params.ordering, 'id');
+
+  const searchElement = new SearchElement({
+    searchFormElement: document.querySelector(`.${SearchElements.BLOCK}`),
+    inputSelector: SearchElements.SEARCH,
+    changeSearch(search: string): void {
+      searchParams.set(params.search, search.trim());
+      searchParams.set(params.offset, '0');
+      updateApp(searchParams, paginationElement);
+    },
+  });
+  searchElement.initialize();
+
+  const sortingSelector: SortingSelector = {
+    elements: SortingElements.ELEMENT,
+    direction: SortingElements.DIRECTION,
+    selected: SortingElements.SELECTED_FIELD,
+  };
+
+  const paginationElement = new PaginationElement({
+    pagination: document.querySelector(`.${PaginationElements.BLOCK}`),
+    buttonNext: document.querySelector(`.${PaginationElements.BUTTON_NEXT}`),
+    buttonPrevious: document.querySelector(`.${PaginationElements.BUTTON_PREVIOUS}`),
+    buttonSelected: PaginationElements.BUTTON_SELECTED,
+    buttonNotSelected: PaginationElements.BUTTON_NOT_SELECTED,
+    changePage(newPage: number): void {
+      const newOffset = RequestCalculationData.offset(newPage, RECEIVE_LIMIT);
+      searchParams.set(params.offset, newOffset.toString());
+      updateApp(searchParams, paginationElement);
+    },
+  });
+  paginationElement.initialize();
+
+  const sorting = new SortingElement(
+    sortingSelector,
+    (newOrdering: string): void => {
+      searchParams.set(params.ordering, `${newOrdering},id`);
+      searchParams.set(params.offset, '0');
+      updateApp(searchParams, paginationElement);
+    },
+  );
+  sorting.initialize();
+
+  updateApp(searchParams, paginationElement);
+}
+
+/**
+ * Updates the pagination and the table.
+ * @param searchParams Parameters of the request.
+ * @param paginationElement Pagination.
+ */
+async function updateApp(
+  searchParams: URLSearchParams,
+  paginationElement: PaginationElement,
+): Promise<void> {
+  const pagination = await Api.animeApi.getPagination(searchParams);
+
+  paginationElement.update({
+    currentPage: Math.floor(Number(searchParams.get('offset')) / RECEIVE_LIMIT),
+    totalPages: Math.ceil(pagination.count / RECEIVE_LIMIT),
+  });
+
+  const offset = Number(searchParams.get('offset'));
+
+  placeAnimeListToTable({
+    firstElement: offset + 1,
+    lastElement: Math.min(offset + RECEIVE_LIMIT + 1, pagination.count),
+    totalElements: pagination.count,
+    results: pagination.results,
+  });
+}
+
+initializeApp();
