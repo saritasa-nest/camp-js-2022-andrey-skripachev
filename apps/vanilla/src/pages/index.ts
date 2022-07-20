@@ -13,22 +13,27 @@ import { SearchElement } from '../../scripts/UI/search';
 import '../../scripts/UI/pageNavigation';
 import { SearchElements } from '../../scripts/variables/constants/search';
 
-/**
- * Initializes the application: Initializing the anime table view and pagination.
- */
+const params = {
+  offset: 'offset',
+  limit: 'limit',
+  ordering: 'ordering',
+  search: 'search',
+};
+
+/** Initializes the application: Initializing the anime table view and pagination.*/
 function initializeApp(): void {
 
   const searchParams = new URLSearchParams();
-  searchParams.set('offset', '0');
-  searchParams.set('limit', RECEIVE_LIMIT.toString());
-  searchParams.set('ordering', 'id');
+  searchParams.set(params.offset, '0');
+  searchParams.set(params.limit, RECEIVE_LIMIT.toString());
+  searchParams.set(params.ordering, 'id');
 
   const searchElement = new SearchElement({
     searchFormElement: document.querySelector(`.${SearchElements.BLOCK}`),
     inputSelector: SearchElements.SEARCH,
     changeSearch(search: string): void {
-      searchParams.set('search', search.trim());
-      searchParams.set('offset', '0');
+      searchParams.set(params.search, search.trim());
+      searchParams.set(params.offset, '0');
       updateApp(searchParams, paginationElement);
     },
   });
@@ -48,7 +53,7 @@ function initializeApp(): void {
     buttonNotSelected: PaginationElements.BUTTON_NOT_SELECTED,
     changePage(newPage: number): void {
       const newOffset = RequestCalculationData.offset(newPage, RECEIVE_LIMIT);
-      searchParams.set('offset', newOffset.toString());
+      searchParams.set(params.offset, newOffset.toString());
       updateApp(searchParams, paginationElement);
     },
   });
@@ -57,8 +62,8 @@ function initializeApp(): void {
   const sorting = new SortingElement(
     sortingSelector,
     (newOrdering: string): void => {
-      searchParams.set('ordering', `${newOrdering},id`);
-      searchParams.set('offset', '0');
+      searchParams.set(params.ordering, `${newOrdering},id`);
+      searchParams.set(params.offset, '0');
       updateApp(searchParams, paginationElement);
     },
   );

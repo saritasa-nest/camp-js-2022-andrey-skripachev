@@ -13,6 +13,7 @@ export class SearchElement {
     searchFormElement,
     inputSelector,
   }: SearchConstructor) {
+
     if (searchFormElement === null) {
       throw new Error('Search form not found in html');
     }
@@ -25,7 +26,6 @@ export class SearchElement {
     this.searchInput = searchInput as HTMLInputElement;
 
     this.changeSearch = changeSearch;
-
   }
 
   /** Initializes search. */
