@@ -27,4 +27,19 @@ export class AnimeApi {
 
     return pagination;
   }
+
+  public async getDetailedAnime(search: string): Promise<Anime> {
+    const searchParams = new URLSearchParams(search);
+    const animeId = searchParams.get('id') ?? '0';
+    const url = `anime/anime/${animeId}/`;
+
+    const request = await httpClient.get<AnimeDetailsDto>(url, {
+    });
+
+    const response = request.data;
+
+    const anime = AnimeMapper.fromDto(response);
+
+    return anime;
+  }
 }

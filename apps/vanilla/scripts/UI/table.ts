@@ -44,7 +44,7 @@ function placeAnime(anime: Anime, tableBody: HTMLTableElement): void {
 function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
   const EMPTY_MESSAGE = '-';
 
-  const { image, titleEnglish, titleJapanese, status, type, aired: { start } } = anime;
+  const { image, titleEnglish, titleJapanese, status, type, aired: { start }, id } = anime;
   const dateStart = String(start.getFullYear());
 
   const { TABLE_IMAGE, ROW, CELL } = AnimeTableElementsSelector;
@@ -58,13 +58,18 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
   const typeCell = createNode('td', AnimeType.toReadable(type) ?? EMPTY_MESSAGE, CELL);
   const statusCell = createNode('td', AnimeStatus.toReadable(status) ?? EMPTY_MESSAGE, CELL);
 
+  const showDetailsCell = createNode('td', '', CELL);
+  const linkShowDetails = createNode('a', 'Details', 'btn');
+  linkShowDetails.href = `details/?id=${id}`;
+  showDetailsCell.append(linkShowDetails);
+
   const picture = createNode('img', '', TABLE_IMAGE);
   picture.src = image;
   picture.alt = titleEnglish;
 
   imageCell.append(picture);
 
-  row.append(imageCell, titleCell, airedStartCell, statusCell, typeCell);
+  row.append(imageCell, titleCell, airedStartCell, statusCell, typeCell, showDetailsCell);
 
   return row;
 }
