@@ -1,6 +1,6 @@
 import { AnimeStatus, AnimeType } from '../utils/types/anime';
 
-import { Aired } from './aired';
+import { DateTimeRange } from './dateTimeRange';
 
 import { Immerable, OmitImmerable } from './immerable';
 
@@ -8,7 +8,7 @@ import { Immerable, OmitImmerable } from './immerable';
 export class Anime extends Immerable {
 
   /** Aired start. */
-  public readonly aired: Aired;
+  public readonly aired: DateTimeRange;
 
   /** Id. */
   public readonly id: number;

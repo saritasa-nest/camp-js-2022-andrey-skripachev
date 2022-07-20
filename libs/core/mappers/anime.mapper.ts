@@ -3,7 +3,7 @@ import { AnimeDto } from '../dtos/anime.dto';
 import { Anime } from '../models/anime';
 import { AnimeStatus, AnimeType } from '../utils/types/anime';
 
-import { AiredMapper } from './aired.mapper';
+import { DateTimeRangeMapper } from './dateTimeRange.mapper';
 
 export namespace AnimeMapper {
 
@@ -13,7 +13,7 @@ export namespace AnimeMapper {
    */
   export function fromDto(dto: AnimeDto): Anime {
     return new Anime({
-      aired: AiredMapper.fromDto(dto.aired),
+      aired: DateTimeRangeMapper.fromDto(dto.aired),
       id: dto.id,
       image: dto.image,
       status: AnimeStatus.toAnimeStatus(dto.status),

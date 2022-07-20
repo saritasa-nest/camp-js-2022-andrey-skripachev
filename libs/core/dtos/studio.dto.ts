@@ -1,6 +1,9 @@
+/** Studio. */
 export interface StudioDto {
+
+  /** Id. */
   readonly id: number;
-  readonly created: string;
-  readonly modified: string;
+
+  /** Name. */
   readonly name: string;
 }

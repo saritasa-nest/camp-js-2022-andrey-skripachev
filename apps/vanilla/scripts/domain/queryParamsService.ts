@@ -50,3 +50,15 @@ export class QueryParamsService {
     return pagination;
   }
 }
+
+/**
+ * Gets the parameter from the search parameter string.
+ * @param search Search parameter string.
+ * @param parameter Parameter name.
+ */
+export function getItemFromSearchParams(search: string, parameter: string): string | undefined {
+  const urlSearchParams = new URLSearchParams(search);
+  const paramValue = urlSearchParams.get(parameter) ?? undefined;
+
+  return paramValue;
+}

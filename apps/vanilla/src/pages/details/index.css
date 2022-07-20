@@ -1,1 +1,11 @@
 @import url("../../global/index.css");
+
+.anime-details {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.anime-details__image {
+  width: 100%;
+}

@@ -26,6 +26,11 @@ a:hover,
   max-width: var(--default-layout-width);
 }
 
+.main {
+  width: 80%;
+  margin: auto;
+}
+
 .pagination {
   margin: 30px 0;
   display: flex;

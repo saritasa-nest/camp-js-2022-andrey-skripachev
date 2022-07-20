@@ -1,5 +1,5 @@
-/** Anime release period. */
-export interface AiredDto {
+/** Event period. */
+export interface DateTimeRangeDto {
 
   /** Beginning. */
   readonly start: string;

@@ -47,8 +47,8 @@ export namespace AnimeStatus {
    * Converts the value to a status if it exists in the statuses.
    * @param value String for conversion.
    */
-  export function toAnimeStatus(value: string): AnimeStatus | null {
-    return isStatus(value) ? value : null;
+  export function toAnimeStatus(value: string): AnimeStatus {
+    return isStatus(value) ? value : AnimeStatus.FINISHED;
   }
 
 }
@@ -67,8 +67,8 @@ export namespace AnimeType {
    * Converts the value to a type if it exists in the types.
    * @param value String for conversion.
    */
-  export function toAnimeType(value: string): AnimeType | null {
-    return isType(value) ? value : null;
+  export function toAnimeType(value: string): AnimeType {
+    return isType(value) ? value : AnimeType.OVA;
   }
 
 }
