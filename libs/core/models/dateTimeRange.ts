@@ -1,12 +1,12 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** Anime release period. */
-export class Aired extends Immerable {
+/** Event period. */
+export class DateTimeRange extends Immerable {
 
-  /** The beginning of the release of the anime. */
+  /** The beginning of the event. */
   public readonly start: Date;
 
-  /** End of anime release. */
+  /** End of the event. */
   public readonly end: Date;
 
   public constructor(data: InitArgs) {
@@ -16,4 +16,4 @@ export class Aired extends Immerable {
   }
 }
 
-type InitArgs = OmitImmerable<Aired>;
+type InitArgs = OmitImmerable<DateTimeRange>;

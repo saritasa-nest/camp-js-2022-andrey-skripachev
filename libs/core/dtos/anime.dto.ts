@@ -1,10 +1,10 @@
-import { AiredDto } from './aired.dto';
+import { DateTimeRangeDto } from './dateTimeRange.dto';
 
 /** Anime data from the server. */
 export interface AnimeDto {
 
   /** Anime start and end dates. */
-  readonly aired: AiredDto;
+  readonly aired: DateTimeRangeDto;
 
   /** Anime ID. */
   readonly id: number;
