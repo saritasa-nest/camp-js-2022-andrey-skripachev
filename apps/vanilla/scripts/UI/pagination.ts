@@ -8,16 +8,16 @@ type PaginationCallback = (page: number) => void;
 interface PaginationButtonTemplate {
 
   /** Sets the value of the data attribute. */
-  setDataAttribute: (name: string, value: string) => void;
+  readonly setDataAttribute: (name: string, value: string) => void;
 
   /** Gets the value of the data attribute. */
-  getDataAttribute: (name: string) => string | undefined;
+  readonly getDataAttribute: (name: string) => string | undefined;
 
   /** Disables or enables button. */
-  changeDisabled: (condition: boolean) => void;
+  readonly changeDisabled: (condition: boolean) => void;
 
   /** Hinges the click event handler on the button. */
-  handleClick: (callback: PaginationCallback) => void;
+  readonly handleClick: (callback: PaginationCallback) => void;
 }
 
 /** Existing pagination button. */

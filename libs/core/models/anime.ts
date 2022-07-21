@@ -1,4 +1,5 @@
-import { AnimeStatus, AnimeType } from '../utils/types/anime';
+import { AnimeType } from '../utils/types/animeType';
+import { AnimeStatus } from '../utils/types/animeStatus';
 
 import { DateTimeRange } from './dateTimeRange';
 

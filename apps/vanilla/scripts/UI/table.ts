@@ -1,5 +1,6 @@
 import { Anime } from '@js-camp/core/models/anime.js';
-import { AnimeStatus, AnimeType } from '@js-camp/core/utils/types/anime';
+import { AnimeType } from '@js-camp/core/utils/types/animeType';
+import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 
 import { AnimeTableElementsSelector } from '../variables/constants/table';
 import { TableUpdateData } from '../variables/interfaces/table';

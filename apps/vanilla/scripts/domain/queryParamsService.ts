@@ -2,7 +2,8 @@ import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 
 import { Api } from '../api/api';
-import { RECEIVING_LIMIT } from '../variables/constants/global';
+
+const RECEIVING_LIMIT = 10;
 
 /** Request parameters management service. */
 export class QueryParamsService {
