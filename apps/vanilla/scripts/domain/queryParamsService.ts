@@ -7,11 +7,22 @@ const RECEIVING_LIMIT = 10;
 
 /** Request parameters management service. */
 export class QueryParamsService {
-  private readonly urlSearchParams;
+  private static instance: QueryParamsService;
 
-  public constructor() {
+  private readonly urlSearchParams: URLSearchParams;
+
+  private constructor() {
     this.urlSearchParams = new URLSearchParams();
     this.urlSearchParams.set('limit', String(RECEIVING_LIMIT));
+  }
+
+  /** Gives access to an instance of the class. */
+  public static getInstance(): QueryParamsService {
+    if (!this.instance) {
+      QueryParamsService.instance = new QueryParamsService();
+    }
+
+    return QueryParamsService.instance;
   }
 
   /**

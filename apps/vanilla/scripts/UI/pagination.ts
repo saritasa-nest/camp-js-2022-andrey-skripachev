@@ -1,9 +1,11 @@
 import { PAGINATION_RANGE } from '../variables/constants/pagination';
 import { PaginationUpdateData } from '../variables/interfaces/pagination';
 
-import { changeDisabled, createNode } from './dom';
+import { toggleDisabledState, createNode } from './dom';
 
 type PaginationCallback = (page: number) => void;
+type PaginationButton = PaginationButtonComponent | null;
+type PaginationBlock = HTMLDivElement | null;
 
 interface PaginationButtonTemplate {
 
@@ -14,14 +16,14 @@ interface PaginationButtonTemplate {
   readonly getDataAttribute: (name: string) => string | undefined;
 
   /** Disables or enables button. */
-  readonly changeDisabled: (condition: boolean) => void;
+  readonly toggleDisabledState: (condition: boolean) => void;
 
   /** Hinges the click event handler on the button. */
   readonly handleClick: (callback: PaginationCallback) => void;
 }
 
-/** Existing pagination button. */
-class PaginationButton implements PaginationButtonTemplate {
+/** Pagination button. */
+class PaginationButtonComponent implements PaginationButtonTemplate {
   public constructor(
     private readonly button: HTMLButtonElement,
   ) {}
@@ -47,8 +49,8 @@ class PaginationButton implements PaginationButtonTemplate {
    * Disables or enables button.
    * @param condition Condition for disabling the button.
    */
-  public changeDisabled(condition: boolean): void {
-    changeDisabled(condition, this.button);
+  public toggleDisabledState(condition: boolean): void {
+    toggleDisabledState(condition, this.button);
   }
 
   /**
@@ -62,92 +64,59 @@ class PaginationButton implements PaginationButtonTemplate {
   }
 }
 
-/** Non-existent pagination button. */
-class PaginationButtonNull implements PaginationButtonTemplate {
-  public constructor() {}
-
-  /** Sets the value of the data attribute. */
-  public setDataAttribute(): void {
-    return undefined;
-  }
-
-  /** Gets the value of the data attribute. */
-  public getDataAttribute(): undefined {
-    return undefined;
-  }
-
-  /** Disables or enables button. */
-  public changeDisabled(): void {
-    return undefined;
-  }
-
-  /** Hinges the click event handler on the button. */
-  public handleClick(): void {
-    return undefined;
-  }
-}
-
 /**
  * Initializing the pagination button.
  * @param button Pagination button.
  */
-function initPaginationButton(button: HTMLButtonElement | null): PaginationButton | PaginationButtonNull {
+function initPaginationButton(button: HTMLButtonElement | null): PaginationButton {
   if (button === null) {
-    return new PaginationButtonNull();
+    return null;
   }
-  return new PaginationButton(button);
+  return new PaginationButtonComponent(button);
 }
 
-/** Pagination class constructor. */
-export interface PaginationConstructorData {
+interface PaginationConstructorData {
 
-  /** Element containing numbered pagination buttons. */
-  readonly pagination: HTMLDivElement | null;
+  /** Pagination element class name. */
+  readonly pagination: string;
 
-  /** Button to go to the next page. */
-  readonly buttonNext: HTMLButtonElement | null;
+  /** Button for moving next page class name. */
+  readonly buttonNext: string;
 
-  /** Button to go to the previous page. */
-  readonly buttonPrevious: HTMLButtonElement | null;
+  /** Button for moving previous page class name. */
+  readonly buttonPrevious: string;
 
-  /** The class name of the selected button. */
+  /** The class name of the selected button.  */
   readonly buttonSelected: string;
 
-  /** Class name of the unselected button. */
+  /** The class name of the not selected button .*/
   readonly buttonNotSelected: string;
 
-  /** Changing the view page. */
+  /** Change page function. */
   readonly changePage: PaginationCallback;
 }
 
 /** Pagination element. */
 export class PaginationController {
-  private readonly pagination;
+  private readonly pagination: PaginationBlock;
 
-  private readonly buttonNext;
+  private readonly buttonNext: PaginationButton;
 
-  private readonly buttonPrevious;
+  private readonly buttonPrevious: PaginationButton;
 
-  private readonly buttonSelected;
+  private readonly buttonSelected: string;
 
-  private readonly buttonNotSelected;
+  private readonly buttonNotSelected: string;
 
-  private readonly changePage;
+  private readonly changePage: PaginationCallback;
 
-  public constructor({
-    pagination,
-    buttonNext,
-    buttonPrevious,
-    buttonSelected,
-    buttonNotSelected,
-    changePage,
-  }: PaginationConstructorData) {
-    this.pagination = pagination;
-    this.buttonNext = initPaginationButton(buttonNext);
-    this.buttonPrevious = initPaginationButton(buttonPrevious);
-    this.buttonSelected = buttonSelected;
-    this.buttonNotSelected = buttonNotSelected;
-    this.changePage = changePage;
+  public constructor(data: PaginationConstructorData) {
+    this.pagination = document.querySelector<HTMLDivElement>(data.pagination);
+    this.buttonNext = initPaginationButton(document.querySelector<HTMLButtonElement>(data.buttonNext));
+    this.buttonPrevious = initPaginationButton(document.querySelector<HTMLButtonElement>(data.buttonPrevious));
+    this.buttonSelected = data.buttonSelected;
+    this.buttonNotSelected = data.buttonNotSelected;
+    this.changePage = data.changePage;
   }
 
   /** Initializes pagination. */
@@ -161,13 +130,17 @@ export class PaginationController {
       });
     }
 
-    this.buttonNext.handleClick(page => {
-      this.changePage(page);
-    });
+    if (this.buttonNext !== null) {
+      this.buttonNext.handleClick(page => {
+        this.changePage(page);
+      });
+    }
 
-    this.buttonPrevious.handleClick(page => {
-      this.changePage(page);
-    });
+    if (this.buttonPrevious !== null) {
+      this.buttonPrevious.handleClick(page => {
+        this.changePage(page);
+      });
+    }
   }
 
   /**
@@ -176,11 +149,15 @@ export class PaginationController {
    */
   public update({ currentPage, totalPages }: PaginationUpdateData): void {
 
-    this.buttonPrevious.setDataAttribute('page', String(currentPage - 1));
-    this.buttonPrevious.changeDisabled(currentPage === 0);
+    if (this.buttonPrevious !== null) {
+      this.buttonPrevious.setDataAttribute('page', String(currentPage - 1));
+      this.buttonPrevious.toggleDisabledState(currentPage === 0);
+    }
 
-    this.buttonNext.setDataAttribute('page', String(currentPage + 1));
-    this.buttonNext.changeDisabled(currentPage === totalPages - 1);
+    if (this.buttonNext !== null) {
+      this.buttonNext.setDataAttribute('page', String(currentPage + 1));
+      this.buttonNext.toggleDisabledState(currentPage === totalPages - 1);
+    }
 
     if (this.pagination !== null) {
       this.pagination.innerHTML = '';
@@ -195,7 +172,7 @@ export class PaginationController {
       elementList.push(this.createPaginationButton(0, currentPage === 0));
     }
     if (currentPage - range > 1) {
-      elementList.push(createNode('span', '...', ''));
+      elementList.push(createNode('span', '...'));
     }
 
     for (let i = Math.max(0, currentPage - range); i <= Math.min(totalPages - 1, currentPage + range); i++) {
@@ -203,7 +180,7 @@ export class PaginationController {
     }
 
     if (currentPage + range < totalPages - 2) {
-      elementList.push(createNode('span', '...', ''));
+      elementList.push(createNode('span', '...'));
     }
     if (currentPage + range < totalPages - 2) {
       elementList.push(this.createPaginationButton(totalPages - 1, currentPage === totalPages - 1));

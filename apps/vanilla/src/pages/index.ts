@@ -12,13 +12,13 @@ import '../../scripts/UI/pageNavigation';
  */
 function initializeApp(): void {
 
-  const queryParamsService = new QueryParamsService();
+  const queryParamsService = QueryParamsService.getInstance();
   queryParamsService.setPage(0);
 
   const paginationElement = new PaginationController({
-    pagination: document.querySelector(`.${PaginationElements.BLOCK}`),
-    buttonNext: document.querySelector(`.${PaginationElements.BUTTON_NEXT}`),
-    buttonPrevious: document.querySelector(`.${PaginationElements.BUTTON_PREVIOUS}`),
+    pagination: `.${PaginationElements.BLOCK}`,
+    buttonNext: `.${PaginationElements.BUTTON_NEXT}`,
+    buttonPrevious: `.${PaginationElements.BUTTON_PREVIOUS}`,
     buttonSelected: PaginationElements.BUTTON_SELECTED,
     buttonNotSelected: PaginationElements.BUTTON_NOT_SELECTED,
     changePage(newPage: number): void {

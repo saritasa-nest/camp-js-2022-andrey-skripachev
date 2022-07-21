@@ -50,16 +50,16 @@ function createAnimeTableRow(anime: Anime): HTMLTableRowElement {
 
   const { TABLE_IMAGE, ROW, CELL } = AnimeTableElementsSelector;
 
-  const row = createNode('tr', '', ROW);
+  const row = createNode('tr', '', [ROW]);
 
-  const imageCell = createNode('td', '', CELL);
+  const imageCell = createNode('td', '', [CELL]);
   const title = `${titleEnglish || EMPTY_MESSAGE} (${titleJapanese || EMPTY_MESSAGE})`;
-  const titleCell = createNode('td', title, CELL);
-  const airedStartCell = createNode('td', dateStart || EMPTY_MESSAGE, CELL);
-  const typeCell = createNode('td', AnimeType.toReadable(type) ?? EMPTY_MESSAGE, CELL);
-  const statusCell = createNode('td', AnimeStatus.toReadable(status) ?? EMPTY_MESSAGE, CELL);
+  const titleCell = createNode('td', title, [CELL]);
+  const airedStartCell = createNode('td', dateStart || EMPTY_MESSAGE, [CELL]);
+  const typeCell = createNode('td', AnimeType.toReadable(type) ?? EMPTY_MESSAGE, [CELL]);
+  const statusCell = createNode('td', AnimeStatus.toReadable(status) ?? EMPTY_MESSAGE, [CELL]);
 
-  const picture = createNode('img', '', TABLE_IMAGE);
+  const picture = createNode('img', '', [TABLE_IMAGE]);
   picture.src = image;
   picture.alt = titleEnglish;
 

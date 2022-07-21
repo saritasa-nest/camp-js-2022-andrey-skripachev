@@ -1,4 +1,4 @@
-import { DISABLED } from '../variables/constants/pagination';
+const DISABLED = 'disabled';
 
 /**
  * Deletes the class from the elements.
@@ -17,30 +17,32 @@ export function removeClassFromElements(elements: NodeListOf<HTMLElement>, class
  * Creates a new HTML element with classes and text content.
  * @param tagName HTML element name.
  * @param textContent The text content of the HTML element.
- * @param classes A string of class names separated by a space that the element will have.
+ * @param classes A list of class names that the element will have.
  * @returns New HTML element.
  */
 export function createNode<T extends keyof HTMLElementTagNameMap>(
   tagName: T,
   textContent: string,
-  classes: string,
+  classes?: string[],
 ): HTMLElementTagNameMap[T] {
   const newElement = document.createElement<T>(tagName);
-  newElement.className = classes;
+  if (classes !== undefined) {
+    newElement.classList.add(...classes);
+  }
   newElement.textContent = textContent;
   return newElement;
 }
 
 /**
- * Locks or unlocks the button.
- * @param condition Button lock condition.
+ * Disables or enables the button.
+ * @param isDisabled Button disabling condition.
  * @param button Button for locking/unlocking.
  */
-export function changeDisabled(condition: boolean, button: HTMLButtonElement): void {
-  if (condition) {
+export function toggleDisabledState(isDisabled: boolean, button: HTMLButtonElement): void {
+  if (isDisabled && !button.hasAttribute(DISABLED)) {
     button.setAttribute(DISABLED, DISABLED);
     button.classList.add(DISABLED);
-  } else {
+  } else if (button.hasAttribute(DISABLED)) {
     button.removeAttribute(DISABLED);
     button.classList.remove(DISABLED);
   }
