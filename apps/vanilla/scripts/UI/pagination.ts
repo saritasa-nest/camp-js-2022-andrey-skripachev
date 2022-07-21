@@ -4,95 +4,27 @@ import { PaginationUpdateData } from '../variables/interfaces/pagination';
 import { toggleDisabledState, createNode } from './dom';
 
 type PaginationCallback = (page: number) => void;
-type PaginationButton = PaginationButtonComponent | null;
+type PaginationButton = HTMLButtonElement | null;
 type PaginationBlock = HTMLDivElement | null;
 
-interface PaginationButtonTemplate {
+interface PaginationCreationData {
 
-  /** Sets the value of the data attribute. */
-  readonly setDataAttribute: (name: string, value: string) => void;
+  /** Pagination block. */
+  readonly pagination: PaginationBlock;
 
-  /** Gets the value of the data attribute. */
-  readonly getDataAttribute: (name: string) => string | undefined;
+  /** Button for moving next page. */
+  readonly buttonNext: PaginationButton;
 
-  /** Disables or enables button. */
-  readonly toggleDisabledState: (condition: boolean) => void;
+  /** Button for moving previous page. */
+  readonly buttonPrevious: PaginationButton;
 
-  /** Hinges the click event handler on the button. */
-  readonly handleClick: (callback: PaginationCallback) => void;
-}
-
-/** Pagination button. */
-class PaginationButtonComponent implements PaginationButtonTemplate {
-  public constructor(
-    private readonly button: HTMLButtonElement,
-  ) {}
-
-  /**
-   * Sets the value of the data attribute.
-   * @param name Data attribute name.
-   * @param value New data attribute value.
-   */
-  public setDataAttribute(name: string, value: string): void {
-    this.button.dataset[name] = value;
-  }
-
-  /**
-   * Gets the value of the data attribute.
-   * @param name Data attribute name.
-   */
-  public getDataAttribute(name: string): string | undefined {
-    return this.button.dataset[name];
-  }
-
-  /**
-   * Disables or enables button.
-   * @param condition Condition for disabling the button.
-   */
-  public toggleDisabledState(condition: boolean): void {
-    toggleDisabledState(condition, this.button);
-  }
-
-  /**
-   * Hinges the click event handler on the button..
-   * @param callback Function that is called by clicking on the button.
-   */
-  public handleClick(callback: PaginationCallback): void {
-    this.button.addEventListener('click', () => {
-      callback(Number(this.getDataAttribute('page')));
-    });
-  }
-}
-
-/**
- * Initializing the pagination button.
- * @param button Pagination button.
- */
-function initPaginationButton(button: HTMLButtonElement | null): PaginationButton {
-  if (button === null) {
-    return null;
-  }
-  return new PaginationButtonComponent(button);
-}
-
-interface PaginationConstructorData {
-
-  /** Pagination element class name. */
-  readonly pagination: string;
-
-  /** Button for moving next page class name. */
-  readonly buttonNext: string;
-
-  /** Button for moving previous page class name. */
-  readonly buttonPrevious: string;
-
-  /** The class name of the selected button.  */
+  /** Class name of selected button. */
   readonly buttonSelected: string;
 
-  /** The class name of the not selected button .*/
+  /** Class name of not selected button. */
   readonly buttonNotSelected: string;
 
-  /** Change page function. */
+  /** Changes new page. */
   readonly changePage: PaginationCallback;
 }
 
@@ -110,10 +42,10 @@ export class PaginationController {
 
   private readonly changePage: PaginationCallback;
 
-  public constructor(data: PaginationConstructorData) {
-    this.pagination = document.querySelector<HTMLDivElement>(data.pagination);
-    this.buttonNext = initPaginationButton(document.querySelector<HTMLButtonElement>(data.buttonNext));
-    this.buttonPrevious = initPaginationButton(document.querySelector<HTMLButtonElement>(data.buttonPrevious));
+  public constructor(data: PaginationCreationData) {
+    this.pagination = data.pagination;
+    this.buttonNext = data.buttonNext;
+    this.buttonPrevious = data.buttonPrevious;
     this.buttonSelected = data.buttonSelected;
     this.buttonNotSelected = data.buttonNotSelected;
     this.changePage = data.changePage;
@@ -131,14 +63,20 @@ export class PaginationController {
     }
 
     if (this.buttonNext !== null) {
-      this.buttonNext.handleClick(page => {
-        this.changePage(page);
+      this.buttonNext.addEventListener('click', event => {
+        const { target } = event;
+        if (target instanceof HTMLButtonElement) {
+          this.handleClick(target);
+        }
       });
     }
 
     if (this.buttonPrevious !== null) {
-      this.buttonPrevious.handleClick(page => {
-        this.changePage(page);
+      this.buttonPrevious.addEventListener('click', event => {
+        const { target } = event;
+        if (target instanceof HTMLButtonElement) {
+          this.handleClick(target);
+        }
       });
     }
   }
@@ -150,13 +88,13 @@ export class PaginationController {
   public update({ currentPage, totalPages }: PaginationUpdateData): void {
 
     if (this.buttonPrevious !== null) {
-      this.buttonPrevious.setDataAttribute('page', String(currentPage - 1));
-      this.buttonPrevious.toggleDisabledState(currentPage === 0);
+      this.buttonPrevious.dataset.page = String(currentPage - 1);
+      toggleDisabledState(currentPage === 0, this.buttonPrevious);
     }
 
     if (this.buttonNext !== null) {
-      this.buttonNext.setDataAttribute('page', String(currentPage + 1));
-      this.buttonNext.toggleDisabledState(currentPage === totalPages - 1);
+      this.buttonNext.dataset.page = String(currentPage + 1);
+      toggleDisabledState(currentPage === totalPages - 1, this.buttonNext);
     }
 
     if (this.pagination !== null) {

@@ -16,9 +16,9 @@ function initializeApp(): void {
   queryParamsService.setPage(0);
 
   const paginationElement = new PaginationController({
-    pagination: `.${PaginationElements.BLOCK}`,
-    buttonNext: `.${PaginationElements.BUTTON_NEXT}`,
-    buttonPrevious: `.${PaginationElements.BUTTON_PREVIOUS}`,
+    pagination: document.querySelector<HTMLDivElement>(`.${PaginationElements.BLOCK}`),
+    buttonNext: document.querySelector<HTMLButtonElement>(`.${PaginationElements.BUTTON_NEXT}`),
+    buttonPrevious: document.querySelector<HTMLButtonElement>(`.${PaginationElements.BUTTON_PREVIOUS}`),
     buttonSelected: PaginationElements.BUTTON_SELECTED,
     buttonNotSelected: PaginationElements.BUTTON_NOT_SELECTED,
     changePage(newPage: number): void {
