@@ -1,6 +1,6 @@
-import { PaginationDto } from '../dtos/pagination.dto';
+import { PaginationDto } from './dtos/pagination.dto';
 
-import { Pagination } from '../models/pagination';
+import { Pagination } from '../../models/pagination';
 
 export namespace PaginationMapper {
 
@@ -9,7 +9,8 @@ export namespace PaginationMapper {
    * @param dto Pagination dto.
    * @param mapper Result mapping function.
    * @returns
-   */
+\
+  */
   export function fromDto<Dto, Model>(
     dto: PaginationDto<Dto>,
     mapper: (result: Dto) => Model,

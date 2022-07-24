@@ -1,0 +1,16 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+table {
+  width: 60%;
+  margin: auto;
+}
+
+tr {
+  height: fit-content;
+}
+
+img {
+  height: 150px;
+}
+
+/* TODO: add angular-material */

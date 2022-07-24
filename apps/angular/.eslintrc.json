@@ -15,6 +15,7 @@
       ],
       "plugins": ["rxjs"],
       "rules": {
+        "linebreak-style": ["error", "windows"],
         "rxjs/no-exposed-subjects": [
           "error",
           { "allowProtected": true }

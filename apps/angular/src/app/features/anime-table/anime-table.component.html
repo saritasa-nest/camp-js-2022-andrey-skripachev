@@ -1,0 +1,21 @@
+<table mat-table *ngIf="anime$" class="mat-elevation-z8">
+  <tr class="mat-row" mat-row *ngFor="let anime of anime$ | async">
+    <td>
+      <img [src]="anime.image" />
+    </td>
+    <td>
+      {{anime.titleEnglish || '-'}} ({{anime.titleJapanese || '-'}})
+    </td>
+    <td>
+      {{anime.aired.start.getFullYear()}}
+    </td>
+    <td>
+      {{anime.status}}
+    </td>
+    <td>
+      {{anime.type}}
+    </td>
+  </tr>
+</table>
+
+<!-- Image, title, status, type -->

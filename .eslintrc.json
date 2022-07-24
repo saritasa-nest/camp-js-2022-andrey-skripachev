@@ -19,7 +19,8 @@
               }
             ]
           }
-        ]
+        ],
+        "linebreak-style": ["error", "windows"]
       }
     }
   ]
