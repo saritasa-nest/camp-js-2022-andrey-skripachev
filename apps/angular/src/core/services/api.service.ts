@@ -24,7 +24,6 @@ export class ApiService {
    * Retrieving data from the API.
    * @param path Additional path.
    * @param httpParams Query parameters.
-   * @returns
    */
   public getData<T>(path: string, httpParams: HttpParams): Observable<T> {
     const url = `${environment.apiBaseUrl}${path}?${httpParams.toString()}`;
