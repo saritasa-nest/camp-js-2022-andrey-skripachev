@@ -88,7 +88,7 @@
     "eslint-plugin-rxjs": "^5.0.2",
     "jest": "27.5.1",
     "jest-preset-angular": "~11.1.2",
-    "nx": "^14.4.3",
+    "nx": "^14.3.5",
     "nx-stylelint": "^13.4.0",
     "prettier": "^2.6.2",
     "react-test-renderer": "18.1.0",
