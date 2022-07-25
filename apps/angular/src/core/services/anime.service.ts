@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Anime } from '@js-camp/core/models/anime';
 
 import { map, Observable } from 'rxjs';
 
 import { Pagination } from '../models/pagination';
+import { Anime } from '../models/anime';
 
 import { PaginationDto } from './mappers/dtos/pagination.dto';
 import { PaginationMapper } from './mappers/pagination.mapper';
@@ -33,7 +33,7 @@ export class AnimeService {
   /** Gets 1st page. */
   public getAnime(): Observable<Pagination<Anime>> {
     const url = 'https://api.camp-js.saritasa.rocks/api/v1/anime/anime/?limit=10&offset=0&ordering=id';
-    return this.http.get<PaginationDto<Anime>>(url, options)
+    return this.http.get<PaginationDto<AnimeDto>>(url, options)
       .pipe(
         map(dto => PaginationMapper.fromDto<AnimeDto, Anime>(dto, AnimeMapper.fromDto)),
       );
