@@ -1,5 +1,3 @@
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
-
 table {
   width: 60%;
   margin: auto;
@@ -7,6 +5,11 @@ table {
 
 tr {
   height: fit-content;
+}
+
+td,
+th {
+  text-align: center;
 }
 
 img {

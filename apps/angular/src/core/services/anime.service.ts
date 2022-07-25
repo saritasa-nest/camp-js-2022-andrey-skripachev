@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
-import { environment } from '../../environments/environment';
-
-import { Anime } from '../models/anime';
 import { Pagination } from '../models/pagination';
+import { Anime } from '../models/anime';
 
 import { PaginationDto } from './mappers/dtos/pagination.dto';
 import { PaginationMapper } from './mappers/pagination.mapper';
@@ -13,12 +11,6 @@ import { AnimeDto } from './mappers/dtos/anime.dto';
 import { AnimeMapper } from './mappers/anime.mapper';
 import { ApiService } from './api.service';
 
-const headerOptions = {
-  'Api-Key': environment.apiKey,
-  'headers': new HttpHeaders({
-    'Content-Type': 'application/json',
-  }),
-};
 const DEFAULT_SEARCH_OPTIONS = new HttpParams({
   fromString: 'limit=10&offset=0&ordering=id',
 });
