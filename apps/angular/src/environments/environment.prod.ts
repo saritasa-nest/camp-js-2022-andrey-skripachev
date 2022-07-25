@@ -1,5 +1,6 @@
+
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api.camp-js.saritasa.rocks/api/v1/',
-  apiKey: 'a842f444-64aa-457f-a915-500956ef78fb',
+  apiBaseUrl: process.env.NG_APP_API_BASE_URL,
+  apiKey: process.env.NG_APP_API_KEY,
 };

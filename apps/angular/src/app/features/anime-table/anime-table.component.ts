@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { map, Observable, Subscription } from 'rxjs';
 
 import { AnimeService } from '../../../core/services/anime.service';
 import { Anime } from '../../../core/models/anime';
@@ -10,10 +10,12 @@ import { Anime } from '../../../core/models/anime';
   templateUrl: './anime-table.component.html',
   styleUrls: ['./anime-table.component.css'],
 })
-export class AnimeTableComponent implements OnInit {
+export class AnimeTableComponent implements OnInit, OnDestroy {
 
   /** Current anime list. */
   public anime$: Observable<readonly Anime[]> | null = null;
+
+  private subscription: Subscription | null = null;
 
   /** Table column names. */
   public tableColumns: string[] = ['image', 'title', 'aired start', 'status', 'type'];
@@ -30,10 +32,17 @@ export class AnimeTableComponent implements OnInit {
     this.getAnime();
   }
 
+  /**
+   * @inheritdoc
+   */
+  public ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
+
   private getAnime(): void {
     this.anime$ = this.animeService.getAnime().pipe(
       map(result => result.results),
     );
-    this.anime$.subscribe();
+    this.subscription = this.anime$.subscribe();
   }
 }
