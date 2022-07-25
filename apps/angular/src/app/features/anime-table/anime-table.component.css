@@ -7,11 +7,6 @@ tr {
   height: fit-content;
 }
 
-td,
-th {
-  text-align: center;
-}
-
 img {
   height: 150px;
 }

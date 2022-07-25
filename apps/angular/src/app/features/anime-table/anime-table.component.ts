@@ -22,7 +22,10 @@ export class AnimeTableComponent implements OnInit {
     private animeService: AnimeService,
   ) {}
 
-  /** @inheritdoc */
+  /**
+   * Gets a list of anime from the server.
+   * @inheritdoc
+   */
   public ngOnInit(): void {
     this.getAnime();
   }
