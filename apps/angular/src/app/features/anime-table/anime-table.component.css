@@ -1,9 +1,9 @@
-table {
+.anime-table {
   width: 60%;
   margin: auto;
 }
 
-tr {
+.anime-table__row {
   height: fit-content;
 }
 
