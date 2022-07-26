@@ -1,0 +1,14 @@
+.anime-table {
+  width: 60%;
+  margin: auto;
+}
+
+.anime-table__row {
+  height: fit-content;
+}
+
+.anime-table__image {
+  height: 150px;
+}
+
+/* TODO: add angular-material */

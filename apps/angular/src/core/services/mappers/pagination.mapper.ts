@@ -8,7 +8,6 @@ export namespace PaginationMapper {
    * Maps dto to model.
    * @param dto Pagination dto.
    * @param mapper Result mapping function.
-   * @returns
    */
   export function fromDto<Dto, Model>(
     dto: PaginationDto<Dto>,
