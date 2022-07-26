@@ -11,10 +11,6 @@ import { AnimeDto } from './mappers/dtos/anime.dto';
 import { AnimeMapper } from './mappers/anime.mapper';
 import { ApiService } from './api.service';
 
-const DEFAULT_SEARCH_OPTIONS = new HttpParams({
-  fromString: 'limit=10&offset=0&ordering=id',
-});
-
 /** Fetch anime. */
 @Injectable({
   providedIn: 'root',
@@ -25,8 +21,11 @@ export class AnimeService {
   ) {}
 
   /** Gets 1st page. */
-  public getAnime(): Observable<Pagination<Anime>> {
-    return this.apiService.getData<PaginationDto<AnimeDto>>('anime/anime/', DEFAULT_SEARCH_OPTIONS).pipe(
+  public getAnimeList(searchParamsString: string): Observable<Pagination<Anime>> {
+    const httpParams = new HttpParams({
+      fromString: searchParamsString,
+    });
+    return this.apiService.getData<PaginationDto<AnimeDto>>('anime/anime/', httpParams).pipe(
       map(dto => PaginationMapper.fromDto<AnimeDto, Anime>(dto, AnimeMapper.fromDto)),
     );
   }

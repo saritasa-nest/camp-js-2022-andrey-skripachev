@@ -4,3 +4,16 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.default-layout {
+  width: 60%;
+  margin: auto;
+}
+
+.loading-layout {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

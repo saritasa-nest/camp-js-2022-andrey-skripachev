@@ -1,8 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { map, Observable, Subscription } from 'rxjs';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { AnimeService } from '../../../core/services/anime.service';
 import { Anime } from '../../../core/models/anime';
+import { Pagination } from '../../../core/models/pagination';
+import { SearchParamsService } from '../../../core/services/search-params.service';
+
+const START_PAGE = 0;
 
 /** Table for displaying the anime list. */
 @Component({
@@ -10,18 +16,25 @@ import { Anime } from '../../../core/models/anime';
   templateUrl: './anime-table.component.html',
   styleUrls: ['./anime-table.component.css'],
 })
-export class AnimeTableComponent implements OnInit, OnDestroy {
+export class AnimeTableComponent implements OnInit, AfterViewInit {
+
+  private readonly dataSource = new MatTableDataSource<Anime>();
+
+  /** Paginator. */
+  @ViewChild(MatPaginator) private readonly paginator: MatPaginator;
 
   /** Current anime list. */
-  public anime$: Observable<readonly Anime[]> | null = null;
+  public animeData$: Observable<Pagination<Anime>> | null = null;
 
-  private subscription: Subscription | null = null;
+  /**  */
+  public currentPage = START_PAGE;
 
   /** Table column names. */
   public tableColumns: string[] = ['image', 'title', 'aired start', 'status', 'type'];
 
   public constructor(
     private animeService: AnimeService,
+    private searchParamsService: SearchParamsService,
   ) {}
 
   /**
@@ -33,16 +46,29 @@ export class AnimeTableComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Initialize paginator.
    * @inheritdoc
    */
-  public ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  public ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.currentPage = this.searchParamsService.getPage();
+  }
+
+  /**
+   * Changes page.
+   * @param pageEvent Page event.
+   */
+  public async changePage(pageEvent: PageEvent): Promise<void> {
+    const newPage = pageEvent.pageIndex;
+    this.currentPage = newPage;
+
+    console.log(newPage);
+
+    await this.searchParamsService.setPage(newPage);
+    this.getAnime();
   }
 
   private getAnime(): void {
-    this.anime$ = this.animeService.getAnime().pipe(
-      map(result => result.results),
-    );
-    this.subscription = this.anime$.subscribe();
+    this.animeData$ = this.animeService.getAnimeList(this.searchParamsService.getParams());
   }
 }
