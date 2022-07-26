@@ -5,8 +5,8 @@
 </mat-toolbar>
 <table
   mat-table
-  *ngIf="anime$"
-  [dataSource]="anime$"
+  *ngIf="animeList$ | async as animeList"
+  [dataSource]="animeList$"
   class="mat-elevation-z8 anime-table"
   aria-label="anime"
   aria-describedby="page-heading">

@@ -21,7 +21,7 @@ const DEFAULT_SEARCH_OPTIONS = new HttpParams({
 })
 export class AnimeService {
   public constructor(
-    private apiService: ApiService,
+    private readonly apiService: ApiService,
   ) {}
 
   /** Gets 1st page. */
