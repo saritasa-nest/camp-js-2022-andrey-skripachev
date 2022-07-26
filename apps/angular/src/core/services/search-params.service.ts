@@ -8,11 +8,7 @@ import { Router } from '@angular/router';
 })
 export class SearchParamsService {
   private httpParams: HttpParams = new HttpParams({
-    fromObject: {
-      limit: 10,
-      offset: 0,
-      ordering: 'id',
-    },
+    fromString: window.location.search,
   });
 
   private receivesItemsLimit = 10;

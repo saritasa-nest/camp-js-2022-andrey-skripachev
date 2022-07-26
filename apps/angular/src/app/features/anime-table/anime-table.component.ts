@@ -27,7 +27,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
   public animeData$: Observable<Pagination<Anime>> | null = null;
 
   /**  */
-  public currentPage = START_PAGE;
+  public currentPage: number;
 
   /** Table column names. */
   public tableColumns: string[] = ['image', 'title', 'aired start', 'status', 'type'];
@@ -35,7 +35,9 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
   public constructor(
     private animeService: AnimeService,
     private searchParamsService: SearchParamsService,
-  ) {}
+  ) {
+    this.currentPage = this.searchParamsService.getPage();
+  }
 
   /**
    * Gets a list of anime from the server.
