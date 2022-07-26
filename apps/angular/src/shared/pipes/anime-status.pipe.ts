@@ -9,9 +9,8 @@ import { AnimeStatus } from '../../core/utils/types/animeStatus';
 export class AnimeStatusPipe implements PipeTransform {
 
   /** @inheritdoc */
-  public transform(value: string): string {
-    const animeStatus = AnimeStatus.toAnimeStatus(value);
-    return AnimeStatus.toReadable(animeStatus) ?? value;
+  public transform(value: AnimeStatus): string {
+    return AnimeStatus.toReadable(value);
   }
 
 }

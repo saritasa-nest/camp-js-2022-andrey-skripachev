@@ -1,5 +1,22 @@
 import { DateTimeRangeDto } from './dateTimeRange.dto';
 
+/** Anime statuses receives from backend. */
+export enum AnimeStatusDto {
+  AIRING = 'AIRING',
+  FINISHED = 'FINISHED',
+  NOT_YET_AIRED = 'NOT_YET_AIRED',
+}
+
+/** Anime types receives from backend. */
+export enum AnimeTypeDto {
+  TV = 'TV',
+  OVA = 'OVA',
+  MOVIE = 'MOVIE',
+  SPECIAL = 'SPECIAL',
+  ONA = 'ONA',
+  MUSIC = 'MUSIC',
+}
+
 /** Anime data from the server. */
 export interface AnimeDto {
 
@@ -13,7 +30,7 @@ export interface AnimeDto {
   readonly image: string;
 
   /** Status of anime. */
-  readonly status: string;
+  readonly status: AnimeStatusDto;
 
   /** Anime name in English. */
   readonly title_eng: string;
@@ -22,5 +39,5 @@ export interface AnimeDto {
   readonly title_jpn: string;
 
   /** Type of anime. */
-  readonly type: string;
+  readonly type: AnimeTypeDto;
 }

@@ -9,9 +9,8 @@ import { AnimeType } from '../../core/utils/types/animeType';
 export class AnimeTypePipe implements PipeTransform {
 
   /** @inheritdoc */
-  public transform(value: string): string {
-    const animeType = AnimeType.toAnimeType(value);
-    return AnimeType.toReadable(animeType) ?? value;
+  public transform(value: AnimeType): string {
+    return AnimeType.toReadable(value);
   }
 
 }

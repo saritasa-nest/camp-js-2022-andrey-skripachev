@@ -1,21 +1,40 @@
+import { AnimeTypeDto } from '../../services/mappers/dtos/anime.dto';
+
 /** Different types of anime. */
 export enum AnimeType {
   TV = 'TV',
   OVA = 'OVA',
-  MOVIE = 'MOVIE',
-  SPECIAL = 'SPECIAL',
+  Movie = 'Movie',
+  Special = 'Special',
   ONA = 'ONA',
-  MUSIC = 'MUSIC',
+  Music = 'Music',
 }
 
+const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
+  [AnimeTypeDto.MOVIE]: AnimeType.Movie,
+  [AnimeTypeDto.MUSIC]: AnimeType.Music,
+  [AnimeTypeDto.ONA]: AnimeType.ONA,
+  [AnimeTypeDto.OVA]: AnimeType.OVA,
+  [AnimeTypeDto.SPECIAL]: AnimeType.Special,
+  [AnimeTypeDto.TV]: AnimeType.TV,
+};
+
 const MAP_TO_READABLE_TYPE: Readonly<Record<AnimeType, string>> = {
-  [AnimeType.MOVIE]: 'Movie',
-  [AnimeType.MUSIC]: 'Music',
+  [AnimeType.Movie]: 'Movie',
+  [AnimeType.Music]: 'Music',
   [AnimeType.ONA]: 'ONA',
   [AnimeType.OVA]: 'OVA',
-  [AnimeType.SPECIAL]: 'Special',
+  [AnimeType.Special]: 'Special',
   [AnimeType.TV]: 'TV',
 };
+
+/**
+ * Mapper for anime type.
+ * @param typeDto Type dto.
+ */
+export function mapAnimeTypeFromDto(typeDto: AnimeTypeDto): AnimeType {
+  return TYPE_FROM_DTO[typeDto];
+}
 
 /**
  * Checks if the value is a type.
@@ -31,8 +50,8 @@ export namespace AnimeType {
    * Converts anime type into readable form.
    * @param value Anime type.
    */
-  export function toReadable(value: AnimeType | null): string | null {
-    return value !== null ? MAP_TO_READABLE_TYPE[value] : null;
+  export function toReadable(value: AnimeType): string {
+    return MAP_TO_READABLE_TYPE[value];
   }
 
   /**

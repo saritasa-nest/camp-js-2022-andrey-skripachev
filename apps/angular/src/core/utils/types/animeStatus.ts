@@ -1,15 +1,31 @@
+import { AnimeStatusDto } from '../../services/mappers/dtos/anime.dto';
+
 /** Different statuses of anime. */
 export enum AnimeStatus {
-  AIRING = 'AIRING',
-  FINISHED = 'FINISHED',
-  NOT_YET_AIRED = 'NOT_YET_AIRED',
+  Airing = 'Airing',
+  Finished = 'Finished',
+  NotYetAired = 'NotYetAired',
 }
 
-const MAP_TO_READABLE_STATUS: Readonly<Record<AnimeStatus, string>> = {
-  [AnimeStatus.AIRING]: 'Airing',
-  [AnimeStatus.FINISHED]: 'Finished',
-  [AnimeStatus.NOT_YET_AIRED]: 'Not yet aired',
+const STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
+  [AnimeStatusDto.AIRING]: AnimeStatus.Airing,
+  [AnimeStatusDto.FINISHED]: AnimeStatus.Finished,
+  [AnimeStatusDto.NOT_YET_AIRED]: AnimeStatus.NotYetAired,
 };
+
+const MAP_TO_READABLE_STATUS: Readonly<Record<AnimeStatus, string>> = {
+  [AnimeStatus.Airing]: 'Airing',
+  [AnimeStatus.Finished]: 'Finished',
+  [AnimeStatus.NotYetAired]: 'Not yet aired',
+};
+
+/**
+ * Mapper for anime status.
+ * @param statusDto Status dto.
+ */
+export function mapAnimeStatusFromDto(statusDto: AnimeStatusDto): AnimeStatus {
+  return STATUS_FROM_DTO[statusDto];
+}
 
 /**
  * Checks if the value is a status.
@@ -25,8 +41,8 @@ export namespace AnimeStatus {
    * Converts anime status into readable form.
    * @param value Anime status.
    */
-  export function toReadable(value: AnimeStatus | null): string | null {
-    return value !== null ? MAP_TO_READABLE_STATUS[value] : null;
+  export function toReadable(value: AnimeStatus): string {
+    return MAP_TO_READABLE_STATUS[value];
   }
 
   /**

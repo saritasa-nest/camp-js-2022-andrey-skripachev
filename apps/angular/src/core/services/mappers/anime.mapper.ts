@@ -1,6 +1,6 @@
 import { Anime } from '../../models/anime';
-import { AnimeType } from '../../utils/types/animeType';
-import { AnimeStatus } from '../../utils/types/animeStatus';
+import { mapAnimeTypeFromDto } from '../../utils/types/animeType';
+import { mapAnimeStatusFromDto } from '../../utils/types/animeStatus';
 
 import { AnimeDto } from './dtos/anime.dto';
 import { DateTimeRangeMapper } from './dateTimeRange.mapper';
@@ -16,10 +16,10 @@ export namespace AnimeMapper {
       aired: DateTimeRangeMapper.fromDto(dto.aired),
       id: dto.id,
       image: dto.image,
-      status: AnimeStatus.toAnimeStatus(dto.status),
+      status: mapAnimeStatusFromDto(dto.status),
       titleEnglish: dto.title_eng,
       titleJapanese: dto.title_jpn,
-      type: AnimeType.toAnimeType(dto.type),
+      type: mapAnimeTypeFromDto(dto.type),
     });
   }
 }
