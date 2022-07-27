@@ -5,7 +5,7 @@ export interface AnimeListSearchParamsDto {
 
   readonly ordering: string;
 
-  readonly type: string;
+  readonly type__in: string;
 
   readonly search: string;
 }

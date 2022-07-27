@@ -41,12 +41,12 @@ export class SearchParamsService {
 
   public getAnimeListSearchParams(): Observable<AnimeListSearchParams> {
     return this.activatedRoute.queryParams.pipe(
-      map(({limit, offset, type, ordering, search}: Params) => {
-        console.log(limit, offset, type, ordering, search)
+      map(({limit, offset, type__in, ordering, search}: Params) => {
+        console.log(limit, offset, type__in, ordering, search)
         return {
           limit: Number(limit || 10),
           offset: Number(offset || 0),
-          type: String(type || ''),
+          type__in: String(type__in || ''),
           ordering: String(ordering || ''),
           search: String(search || ''),
         };

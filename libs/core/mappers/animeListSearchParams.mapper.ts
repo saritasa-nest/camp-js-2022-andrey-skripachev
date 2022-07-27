@@ -37,9 +37,9 @@ export namespace AnimeListSearchParamsMapper {
 
   export function fromDto(dto: AnimeListSearchParamsDto): AnimeListSearchParams {
     console.log(dto);
-    const { limit, offset, ordering, type, search} = dto;
+    const { limit, offset, ordering, type__in, search} = dto;
 
-    const types = type.split(',').filter(isTypeDto).map(mapAnimeTypeFromDto)
+    const types = type__in.split(',').filter(isTypeDto).map(mapAnimeTypeFromDto)
 
     return new AnimeListSearchParams({
       pageNumber: Math.floor(offset / limit),
@@ -58,7 +58,7 @@ export namespace AnimeListSearchParamsMapper {
       offset: pageNumber * maximumItemsOnPage,
       ordering: fromSortingToOrdering(sorting),
       search: titlePart,
-      type: types.map(mapAnimeTypeToDto).join(','),
+      type__in: types.map(mapAnimeTypeToDto).join(','),
     }
   }
 }
