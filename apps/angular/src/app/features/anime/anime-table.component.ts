@@ -9,6 +9,7 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 
 import { AnimeService } from '../../../core/services/anime.service';
+import { SearchParamsService } from '../../../core/services/search-params.service';
 
 /** Table for displaying the anime list. */
 @Component({
@@ -58,7 +59,10 @@ export class AnimeTableComponent implements AfterViewInit {
     .values(AnimeType)
     .filter(element => typeof element === 'string');
 
-  public constructor(private animeService: AnimeService) {
+  public constructor(
+    private readonly animeService: AnimeService,
+    private readonly searchParamsService: SearchParamsService,
+  ) {
     this.getAnimeData();
   }
 
@@ -138,12 +142,12 @@ export class AnimeTableComponent implements AfterViewInit {
   };
 
   private getAnimeData(): void {
-    this.animeData$ = this.animeService.getAnimeList({
+    this.animeData$ = this.animeService.getAnimeList(this.searchParamsService.createSearchParams({
       pageNumber: this.currentPage,
       maximumItemsOnPage: this.maximumAnimeOnPage,
       sorting: this.sorting,
       types: this.selectedAnimeTypes.map(AnimeType.toAnimeType),
       title: this.animeTitle,
-    });
+    }));
   }
 }
