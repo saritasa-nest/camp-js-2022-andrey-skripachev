@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeType, mapAnimeTypeToDto } from '@js-camp/core/utils/types/animeType';
 
 /** Search fields. */
@@ -10,7 +10,7 @@ enum GettingAnimeListSearchFields {
   Limit = 'limit',
   Ordering = 'ordering',
   Types = 'type__in',
-  Title = 'title_eng__icontains',
+  Title = 'search',
 }
 
 interface AnimeListGetterConstructionData {
@@ -39,6 +39,7 @@ export class SearchParamsService {
 
   public constructor(
     private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
   ) { }
 
   /**
