@@ -9,6 +9,7 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
+import { AnimeType, mapAnimeTypeToDto } from '@js-camp/core/utils/types/animeType';
 
 import { ApiService } from './api.service';
 
@@ -33,7 +34,7 @@ interface AnimeListGetterConstructionData {
   sorting: Sort;
 
   /** Selected anime types. */
-  types: string[];
+  types: AnimeType[];
 
   /** Searching title. */
   title: string;
@@ -57,7 +58,7 @@ export class AnimeService {
     const limit = data.maximumItemsOnPage;
     const ordering = this.sortingToOrdering(data.sorting);
     const offset = limit * data.pageNumber;
-    const types = data.types.join(',');
+    const types = data.types.map(mapAnimeTypeToDto).join(',');
     const { title } = data;
 
     const searchParams = new HttpParams({

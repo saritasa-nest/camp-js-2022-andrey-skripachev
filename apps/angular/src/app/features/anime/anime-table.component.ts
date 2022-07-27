@@ -40,17 +40,23 @@ export class AnimeTableComponent implements AfterViewInit {
     direction: '',
   };
 
+  private lastSelectedAnimeTypes = [];
+
   /** Selected anime types. */
-  public selectedAnimeTypes: string[] = [];
+  public selectedAnimeTypes = [];
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
+
+  private lastAnimeTitle = '';
 
   /** Searching english title. */
   public animeTitle = '';
 
   /** Anime types. */
-  public readonly availableAnimeTypes = Object.values(AnimeType).filter(element => typeof element === 'string');
+  public readonly availableAnimeTypes = Object
+    .values(AnimeType)
+    .filter(element => typeof element === 'string');
 
   public constructor(private animeService: AnimeService) {
     this.getAnimeData();
@@ -95,12 +101,6 @@ export class AnimeTableComponent implements AfterViewInit {
     this.selectedAnimeTypes = value;
   }
 
-  /** Completes the entry of values. */
-  public confirmChanges(): void {
-    this.currentPage = 0;
-    this.getAnimeData();
-  }
-
   /**
    * Changes title when changes input value.
    * @param target Event target.
@@ -111,6 +111,21 @@ export class AnimeTableComponent implements AfterViewInit {
 
       this.animeTitle = String(value);
     }
+  }
+
+  /** Completes the entry of values. */
+  public confirmChanges(): void {
+    if (this.animeTitle === this.lastAnimeTitle &&
+      this.selectedAnimeTypes.join('') === this.lastSelectedAnimeTypes.join('')
+    ) {
+      return;
+    }
+
+    this.lastAnimeTitle = this.animeTitle;
+    this.lastSelectedAnimeTypes = this.selectedAnimeTypes;
+
+    this.currentPage = 0;
+    this.getAnimeData();
   }
 
   /**
@@ -127,7 +142,7 @@ export class AnimeTableComponent implements AfterViewInit {
       pageNumber: this.currentPage,
       maximumItemsOnPage: this.maximumAnimeOnPage,
       sorting: this.sorting,
-      types: this.selectedAnimeTypes,
+      types: this.selectedAnimeTypes.map(AnimeType.toAnimeType),
       title: this.animeTitle,
     });
   }

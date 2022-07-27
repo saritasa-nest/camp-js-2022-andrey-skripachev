@@ -19,6 +19,15 @@ const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
   [AnimeTypeDto.TV]: AnimeType.TV,
 };
 
+const TYPE_TO_DTO: Readonly<Record<AnimeType, AnimeTypeDto>> = {
+  [AnimeType.Movie]: AnimeTypeDto.MOVIE,
+  [AnimeType.Music]: AnimeTypeDto.MUSIC,
+  [AnimeType.ONA]: AnimeTypeDto.ONA,
+  [AnimeType.OVA]: AnimeTypeDto.OVA,
+  [AnimeType.Special]: AnimeTypeDto.SPECIAL,
+  [AnimeType.TV]: AnimeTypeDto.TV,
+};
+
 const MAP_TO_READABLE_TYPE: Readonly<Record<AnimeType, string>> = {
   [AnimeType.Movie]: 'Movie',
   [AnimeType.Music]: 'Music',
@@ -29,11 +38,19 @@ const MAP_TO_READABLE_TYPE: Readonly<Record<AnimeType, string>> = {
 };
 
 /**
- * Mapper for anime type.
+ * Maps anime type from dto to model.
  * @param typeDto Type dto.
  */
 export function mapAnimeTypeFromDto(typeDto: AnimeTypeDto): AnimeType {
   return TYPE_FROM_DTO[typeDto];
+}
+
+/**
+ * Maps anime type from model to dto.
+ * @param type Type model.
+ */
+export function mapAnimeTypeToDto(type: AnimeType): AnimeTypeDto {
+  return TYPE_TO_DTO[type];
 }
 
 /**
@@ -58,8 +75,8 @@ export namespace AnimeType {
    * Converts the value to a type if it exists in the types.
    * @param value String for conversion.
    */
-  export function toAnimeType(value: string): AnimeType | null {
-    return isType(value) ? value : null;
+  export function toAnimeType(value: string): AnimeType {
+    return isType(value) ? value : AnimeType.Movie;
   }
 
 }

@@ -3,7 +3,8 @@
 }
 
 .anime-table__image {
-  height: 150px;
+  max-height: 150px;
+  max-width: 150px;
 }
 
 /* TODO: add angular-material */
