@@ -2,10 +2,6 @@
   width: 100%;
 }
 
-.anime-table__row {
-  height: fit-content;
-}
-
 .anime-table__image {
   height: 150px;
 }

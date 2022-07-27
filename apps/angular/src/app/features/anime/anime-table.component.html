@@ -3,7 +3,7 @@
     <span id="page-heading">Anime Catalog</span>
   </mat-toolbar-row>
 </mat-toolbar>
-<div class="mat-elevation-z8 default-layout" *ngIf="animeData$ | async as anime else loading">
+<div class="mat-elevation-z8 default-layout" *ngIf="animeData$ | async as anime; else loading">
   <mat-paginator
     (page)="changePage($event)"
     [length]="anime.count"
@@ -13,9 +13,10 @@
     hidePageSize>
   </mat-paginator>
   <table
-    *ngIf=""
     matSort
     (matSortChange)="changeSortingTarget($event)"
+    [matSortDirection]="sorting.direction"
+    [matSortActive]="sorting.active"
     mat-table
     [dataSource]="anime.results"
     class="anime-table"
@@ -51,7 +52,7 @@
         {{anime.type | animeType}}
       </td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="tableColumns" class="anime-table__heading-row"></tr>
+    <tr id="anime-table__heading-row" mat-header-row *matHeaderRowDef="tableColumns" class="anime-table__row"></tr>
     <tr mat-row *matRowDef="let row; columns: tableColumns" class="anime-table__row"></tr>
   </table>
 </div>
@@ -63,5 +64,4 @@
       [diameter]="120">
     </mat-spinner>
   </div>
-
 </ng-template>

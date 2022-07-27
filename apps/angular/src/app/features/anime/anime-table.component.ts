@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +13,7 @@ import { Pagination } from '../../../core/models/pagination';
   selector: 'camp-anime-table',
   templateUrl: './anime-table.component.html',
   styleUrls: ['./anime-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeTableComponent implements AfterViewInit {
 
@@ -70,6 +71,7 @@ export class AnimeTableComponent implements AfterViewInit {
    */
   public changeSortingTarget(sorting: Sort): void {
     this.sorting = sorting;
+    this.currentPage = 0;
 
     this.getAnimeData();
   }
