@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-import { AnimeStatus } from '../../core/utils/types/animeStatus';
+import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 
 /** Converts anime status into readable form. */
 @Pipe({

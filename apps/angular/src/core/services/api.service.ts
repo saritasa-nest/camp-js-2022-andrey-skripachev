@@ -17,7 +17,7 @@ const optionsForGetMethod = {
 })
 export class ApiService {
   public constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
   ) {}
 
   /**

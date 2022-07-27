@@ -1,53 +1,74 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Sort } from '@angular/material/sort';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AnimeType, mapAnimeTypeToDto } from '@js-camp/core/utils/types/animeType';
 
-/** Class for construction search parameters of the request. */
+/** Search fields. */
+enum GettingAnimeListSearchFields {
+  Offset = 'offset',
+  Limit = 'limit',
+  Ordering = 'ordering',
+  Types = 'type__in',
+  Title = 'search',
+}
+
+interface AnimeListGetterConstructionData {
+
+  /** Number of received page. */
+  readonly pageNumber: number;
+
+  /** Maximum items on page. */
+  readonly maximumItemsOnPage: number;
+
+  /** Sorting target. */
+  readonly sorting: Sort;
+
+  /** Selected anime types. */
+  readonly types: AnimeType[];
+
+  /** Searching title. */
+  readonly title: string;
+}
+
+/** Construct and redirecting by query search params. */
 @Injectable({
   providedIn: 'root',
 })
 export class SearchParamsService {
-  private httpParams: HttpParams = new HttpParams({
-    fromString: window.location.search,
-  });
-
-  private receivesItemsLimit = 10;
 
   public constructor(
-    private routing: Router,
-  ) {}
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+  ) { }
 
-  public async setPage(pageNumber: number): Promise<void> {
-    await this.set('offset', pageNumber * this.receivesItemsLimit);
-  }
+  /**
+   * Creates search params for anime list GET query.
+   * @param data Construction data.
+   */
+  public createSearchParams(data: AnimeListGetterConstructionData): HttpParams {
+    const limit = data.maximumItemsOnPage;
+    const ordering = this.sortingToOrdering(data.sorting);
+    const offset = limit * data.pageNumber;
+    const types = data.types.map(mapAnimeTypeToDto).join(',');
+    const { title } = data;
 
-  public getPage(): number {
-    const offset = this.httpParams.get('offset');
-    const page = typeof offset === 'number' ? Math.floor(offset / this.receivesItemsLimit) : 0;
-    return page;
-  }
-
-  public async setMaximumItemsCount(newItemsCount: number): Promise<void> {
-    await this.set('limit', newItemsCount);
-  }
-
-  public getMaximumItemsCount(): number {
-    return Number(this.httpParams.get('limit')) ?? 10;
-  }
-
-  public getParams(): string {
-    return window.location.search;
-  }
-
-  private async set(paramName: string, paramValue: string | number): Promise<void> {
-    this.httpParams = this.httpParams.set(paramName, paramValue);
-    const offset = this.httpParams.get('offset');
-    this.routing.navigate([], {
-      queryParams: {
-        offset,
-        limit: this.httpParams.get('limit'),
-        ordering: this.httpParams.get('ordering'),
+    return new HttpParams({
+      fromObject: {
+        [GettingAnimeListSearchFields.Limit]: limit,
+        [GettingAnimeListSearchFields.Offset]: offset,
+        [GettingAnimeListSearchFields.Ordering]: ordering,
+        [GettingAnimeListSearchFields.Types]: types,
+        [GettingAnimeListSearchFields.Title]: title,
       },
     });
+  }
+
+  private sortingToOrdering({ direction, active }: Sort): string {
+    if (direction === '') {
+      return 'id';
+    }
+
+    return `${direction === 'asc' ? '' : '-'}${active},id`;
   }
 }
