@@ -13,6 +13,7 @@
     hidePageSize>
   </mat-paginator>
   <table
+    *ngIf=""
     matSort
     (matSortChange)="changeSortingTarget($event)"
     mat-table

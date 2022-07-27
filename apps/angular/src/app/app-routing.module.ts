@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AnimeTableComponent } from './features/anime-table/anime-table.component';
+import { AnimeTableComponent } from './features/anime/anime-table.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'anime-table', pathMatch: 'full' },
