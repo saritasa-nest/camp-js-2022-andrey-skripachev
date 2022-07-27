@@ -1,8 +1,9 @@
-import { Anime } from '../../models/anime';
-import { mapAnimeTypeFromDto } from '../../utils/types/animeType';
-import { mapAnimeStatusFromDto } from '../../utils/types/animeStatus';
+import { Anime } from '../models/anime';
+import { mapAnimeTypeFromDto } from '../utils/types/animeType';
+import { mapAnimeStatusFromDto } from '../utils/types/animeStatus';
 
-import { AnimeDto } from './dtos/anime.dto';
+import { AnimeDto } from '../dtos/anime.dto';
+
 import { DateTimeRangeMapper } from './dateTimeRange.mapper';
 
 export namespace AnimeMapper {

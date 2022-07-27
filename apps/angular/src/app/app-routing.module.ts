@@ -1,7 +1,8 @@
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AnimeTableComponent } from './features/anime-table/anime-table.component';
+import { AnimeTableComponent } from './features/anime/anime-table.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'anime-table', pathMatch: 'full' },
@@ -13,5 +14,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })
 export class AppRoutingModule {}

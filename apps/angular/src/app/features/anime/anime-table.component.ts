@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, TrackByFunction } from '@angular/core';
+import { Anime } from '@js-camp/core/models/anime';
 import { map, Observable } from 'rxjs';
 
 import { AnimeService } from '../../../core/services/anime.service';
-import { Anime } from '../../../core/models/anime';
 
 /** Table for displaying the anime list. */
 @Component({
@@ -13,7 +13,7 @@ import { Anime } from '../../../core/models/anime';
 export class AnimeTableComponent {
 
   /** Current anime list. */
-  public readonly animeList$: Observable<readonly Anime[]>;
+  public animeList$ = new Observable<readonly Anime[]>();
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
@@ -25,4 +25,13 @@ export class AnimeTableComponent {
       map(result => result.results),
     );
   }
+
+  /**
+   * Tracks anime by id.
+   * @param _  Anime index in list.
+   * @param anime Current anime.
+   */
+  public trackById: TrackByFunction<Anime> = function(_, anime) {
+    return anime.id;
+  };
 }

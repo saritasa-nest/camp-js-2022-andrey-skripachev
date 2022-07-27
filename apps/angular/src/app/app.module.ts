@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AnimeTableComponent } from './features/anime-table/anime-table.component';
+import { AnimeTableComponent } from './features/anime/anime-table.component';
 
 /** App module. */
 @NgModule({
