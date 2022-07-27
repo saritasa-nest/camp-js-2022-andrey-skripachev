@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,9 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AnimeService } from '../../../core/services/anime.service';
 import { Anime } from '../../../core/models/anime';
 import { Pagination } from '../../../core/models/pagination';
-import { SearchParamsService } from '../../../core/services/search-params.service';
-
-const START_PAGE = 0;
 
 /** Table for displaying the anime list. */
 @Component({
@@ -16,7 +13,7 @@ const START_PAGE = 0;
   templateUrl: './anime-table.component.html',
   styleUrls: ['./anime-table.component.css'],
 })
-export class AnimeTableComponent implements OnInit, AfterViewInit {
+export class AnimeTableComponent implements AfterViewInit {
 
   private readonly dataSource = new MatTableDataSource<Anime>();
 
@@ -24,25 +21,24 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) private readonly paginator: MatPaginator;
 
   /** Current anime list. */
-  public animeData$: Observable<Pagination<Anime>> | null = null;
+  public animeData$ = new Observable<Pagination<Anime>>();
 
-  /**  */
-  public currentPage = START_PAGE;
+  /** Current page number.  */
+  public currentPage = 0;
+
+  /** Maximum anime in page. */
+  public readonly maximumAnimeOnPage = 10;
+
+  /** Sorting target. */
+  public readonly sortingTarget = 'id';
 
   /** Table column names. */
-  public tableColumns: string[] = ['image', 'title', 'aired start', 'status', 'type'];
+  public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
   public constructor(
     private animeService: AnimeService,
-    private searchParamsService: SearchParamsService,
-  ) {}
-
-  /**
-   * Gets a list of anime from the server.
-   * @inheritdoc
-   */
-  public ngOnInit(): void {
-    this.getAnime();
+  ) {
+    this.getAnimeData();
   }
 
   /**
@@ -51,24 +47,24 @@ export class AnimeTableComponent implements OnInit, AfterViewInit {
    */
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.currentPage = this.searchParamsService.getPage();
   }
 
   /**
    * Changes page.
    * @param pageEvent Page event.
    */
-  public async changePage(pageEvent: PageEvent): Promise<void> {
+  public changePage(pageEvent: PageEvent): void {
     const newPage = pageEvent.pageIndex;
     this.currentPage = newPage;
 
-    console.log(newPage);
-
-    await this.searchParamsService.setPage(newPage);
-    this.getAnime();
+    this.getAnimeData();
   }
 
-  private getAnime(): void {
-    this.animeData$ = this.animeService.getAnimeList(this.searchParamsService.getParams());
+  private getAnimeData(): void {
+    this.animeData$ = this.animeService.getAnimeList({
+      pageNumber: this.currentPage,
+      maximumItemsOnPage: this.maximumAnimeOnPage,
+      sortingTarget: this.sortingTarget,
+    });
   }
 }
