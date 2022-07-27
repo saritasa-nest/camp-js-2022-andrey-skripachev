@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
 
 import { AnimeService } from '../../../core/services/anime.service';
 import { Anime } from '../../../core/models/anime';
@@ -17,8 +18,9 @@ export class AnimeTableComponent implements AfterViewInit {
 
   private readonly dataSource = new MatTableDataSource<Anime>();
 
-  /** Paginator. */
   @ViewChild(MatPaginator) private readonly paginator: MatPaginator;
+
+  @ViewChild(MatSort) private readonly sort: MatSort;
 
   /** Current anime list. */
   public animeData$ = new Observable<Pagination<Anime>>();
@@ -27,17 +29,18 @@ export class AnimeTableComponent implements AfterViewInit {
   public currentPage = 0;
 
   /** Maximum anime in page. */
-  public readonly maximumAnimeOnPage = 10;
+  public maximumAnimeOnPage = 10;
 
   /** Sorting target. */
-  public readonly sortingTarget = 'id';
+  public sorting: Sort = {
+    active: '',
+    direction: '',
+  };
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
-  public constructor(
-    private animeService: AnimeService,
-  ) {
+  public constructor(private animeService: AnimeService) {
     this.getAnimeData();
   }
 
@@ -47,6 +50,7 @@ export class AnimeTableComponent implements AfterViewInit {
    */
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   /**
@@ -60,11 +64,21 @@ export class AnimeTableComponent implements AfterViewInit {
     this.getAnimeData();
   }
 
+  /**
+   * Changes sorting target.
+   * @param sorting Sort event.
+   */
+  public changeSortingTarget(sorting: Sort): void {
+    this.sorting = sorting;
+
+    this.getAnimeData();
+  }
+
   private getAnimeData(): void {
     this.animeData$ = this.animeService.getAnimeList({
       pageNumber: this.currentPage,
       maximumItemsOnPage: this.maximumAnimeOnPage,
-      sortingTarget: this.sortingTarget,
+      sorting: this.sorting,
     });
   }
 }

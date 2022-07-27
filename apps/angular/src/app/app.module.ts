@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -18,6 +20,7 @@ import { AnimeTableComponent } from './features/anime-table/anime-table.componen
   declarations: [AppComponent, AnimeTableComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,
     HttpClientModule,
@@ -25,6 +28,7 @@ import { AnimeTableComponent } from './features/anime-table/anime-table.componen
     MatToolbarModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

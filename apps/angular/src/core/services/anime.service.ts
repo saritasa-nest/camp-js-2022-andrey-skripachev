@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Sort } from '@angular/material/sort';
 import { map, Observable } from 'rxjs';
 
 import { Pagination } from '../models/pagination';
@@ -21,7 +22,7 @@ interface AnimeListGetterConstructionData {
   maximumItemsOnPage: number;
 
   /** Sorting target. */
-  sortingTarget: string;
+  sorting: Sort;
 }
 
 /** Fetch anime. */
@@ -41,7 +42,7 @@ export class AnimeService {
   public getAnimeList(data: AnimeListGetterConstructionData): Observable<Pagination<Anime>> {
 
     const limit = data.maximumItemsOnPage;
-    const ordering = data.sortingTarget;
+    const ordering = this.sortingToOrdering(data.sorting);
     const offset = limit * data.pageNumber;
 
     const searchParams = new HttpParams({
@@ -51,5 +52,13 @@ export class AnimeService {
     return this.apiService.getData<PaginationDto<AnimeDto>>('anime/anime/', searchParams).pipe(
       map(dto => PaginationMapper.fromDto<AnimeDto, Anime>(dto, AnimeMapper.fromDto)),
     );
+  }
+
+  private sortingToOrdering({ direction, active }: Sort): string {
+    if (direction === '') {
+      return 'id';
+    }
+
+    return `${direction === 'asc' ? '' : '-'}${active},id`;
   }
 }
