@@ -12,6 +12,15 @@
     showFirstLastButtons
     hidePageSize>
   </mat-paginator>
+  <mat-form-field appearance="fill">
+    <mat-label>Anime types</mat-label>
+    <mat-select [value]="selectedAnimeTypes" (closed)="confirmAnimeTypesChanges()" (selectionChange)="changeAnimeTypes($event)" multiple>
+      <mat-option *ngFor="let type of availableAnimeTypes"
+        [value]="type">
+        {{type}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <table
     matSort
     (matSortChange)="changeSortingTarget($event)"

@@ -3,10 +3,12 @@ import { Observable } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
+import { MatSelectChange } from '@angular/material/select';
 
 import { AnimeService } from '../../../core/services/anime.service';
 import { Anime } from '../../../core/models/anime';
 import { Pagination } from '../../../core/models/pagination';
+import { AnimeType } from '../../../core/utils/types/animeType';
 
 /** Table for displaying the anime list. */
 @Component({
@@ -38,8 +40,14 @@ export class AnimeTableComponent implements AfterViewInit {
     direction: '',
   };
 
+  /** Selected anime types. */
+  public selectedAnimeTypes: string[] = [];
+
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
+
+  /** Anime types. */
+  public readonly availableAnimeTypes = Object.values(AnimeType).filter(element => typeof element === 'string');
 
   public constructor(private animeService: AnimeService) {
     this.getAnimeData();
@@ -76,11 +84,26 @@ export class AnimeTableComponent implements AfterViewInit {
     this.getAnimeData();
   }
 
+  /**
+   * Updates selected anime types.
+   * @param value Array of selected anime types.
+   */
+  public changeAnimeTypes({ value }: MatSelectChange): void {
+    this.selectedAnimeTypes = value;
+  }
+
+  /** Completes the entry of values. */
+  public confirmAnimeTypesChanges(): void {
+    this.currentPage = 0;
+    this.getAnimeData();
+  }
+
   private getAnimeData(): void {
     this.animeData$ = this.animeService.getAnimeList({
       pageNumber: this.currentPage,
       maximumItemsOnPage: this.maximumAnimeOnPage,
       sorting: this.sorting,
+      types: this.selectedAnimeTypes,
     });
   }
 }

@@ -23,6 +23,9 @@ interface AnimeListGetterConstructionData {
 
   /** Sorting target. */
   sorting: Sort;
+
+  /** Selected anime types. */
+  types: string[];
 }
 
 /** Fetch anime. */
@@ -44,9 +47,10 @@ export class AnimeService {
     const limit = data.maximumItemsOnPage;
     const ordering = this.sortingToOrdering(data.sorting);
     const offset = limit * data.pageNumber;
+    const types = data.types.join(',');
 
     const searchParams = new HttpParams({
-      fromObject: { limit, ordering, offset },
+      fromObject: { limit, ordering, offset, type__in: types },
     });
 
     return this.apiService.getData<PaginationDto<AnimeDto>>('anime/anime/', searchParams).pipe(
