@@ -1,35 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AnimeType, mapAnimeTypeToDto } from '@js-camp/core/utils/types/animeType';
-
-/** Search fields. */
-enum GettingAnimeListSearchFields {
-  Offset = 'offset',
-  Limit = 'limit',
-  Ordering = 'ordering',
-  Types = 'type__in',
-  Title = 'search',
-}
-
-interface AnimeListGetterConstructionData {
-
-  /** Number of received page. */
-  readonly pageNumber: number;
-
-  /** Maximum items on page. */
-  readonly maximumItemsOnPage: number;
-
-  /** Sorting target. */
-  readonly sorting: Sort;
-
-  /** Selected anime types. */
-  readonly types: AnimeType[];
-
-  /** Searching title. */
-  readonly title: string;
-}
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AnimeListSearchParamsMapper } from '@js-camp/core/mappers/animeListSearchParams.mapper';
+import { AnimeListSearchParams } from '@js-camp/core/models/animeListSearchParams';
+import { map, Observable } from 'rxjs';
 
 /** Construct and redirecting by query search params. */
 @Injectable({
@@ -46,29 +20,38 @@ export class SearchParamsService {
    * Creates search params for anime list GET query.
    * @param data Construction data.
    */
-  public createSearchParams(data: AnimeListGetterConstructionData): HttpParams {
-    const limit = data.maximumItemsOnPage;
-    const ordering = this.sortingToOrdering(data.sorting);
-    const offset = limit * data.pageNumber;
-    const types = data.types.map(mapAnimeTypeToDto).join(',');
-    const { title } = data;
+  public setSearchParams(data: AnimeListSearchParams): HttpParams {
+    const searchParams = { ...AnimeListSearchParamsMapper.toDto(data) };
+
+    const filteredSearchParams: Params = [];
+    for (const [name, value] of Object.entries(searchParams)) {
+      if (Boolean(value)) {
+        filteredSearchParams[name] = value;
+      }
+    }
+
+    this.router.navigate([], {
+      queryParams: filteredSearchParams,
+    })
 
     return new HttpParams({
-      fromObject: {
-        [GettingAnimeListSearchFields.Limit]: limit,
-        [GettingAnimeListSearchFields.Offset]: offset,
-        [GettingAnimeListSearchFields.Ordering]: ordering,
-        [GettingAnimeListSearchFields.Types]: types,
-        [GettingAnimeListSearchFields.Title]: title,
-      },
+      fromObject: searchParams,
     });
   }
 
-  private sortingToOrdering({ direction, active }: Sort): string {
-    if (direction === '') {
-      return 'id';
-    }
-
-    return `${direction === 'asc' ? '' : '-'}${active},id`;
+  public getAnimeListSearchParams(): Observable<AnimeListSearchParams> {
+    return this.activatedRoute.queryParams.pipe(
+      map(({limit, offset, type, ordering, search}: Params) => {
+        console.log(limit, offset, type, ordering, search)
+        return {
+          limit: Number(limit || 10),
+          offset: Number(offset || 0),
+          type: String(type || ''),
+          ordering: String(ordering || ''),
+          search: String(search || ''),
+        };
+      }),
+      map(AnimeListSearchParamsMapper.fromDto)
+    )
   }
 }

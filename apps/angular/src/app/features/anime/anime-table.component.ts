@@ -10,6 +10,7 @@ import { AnimeType } from '@js-camp/core/utils/types/animeType';
 
 import { AnimeService } from '../../../core/services/anime.service';
 import { SearchParamsService } from '../../../core/services/search-params.service';
+import { AnimeListSearchParams } from '@js-camp/core/models/animeListSearchParams';
 
 /** Table for displaying the anime list. */
 @Component({
@@ -30,29 +31,26 @@ export class AnimeTableComponent implements AfterViewInit {
   public animeData$ = new Observable<Pagination<Anime>>();
 
   /** Current page number.  */
-  public currentPage = 0;
+  public currentPage: number;
 
   /** Maximum anime in page. */
-  public readonly maximumAnimeOnPage = 10;
+  public maximumAnimeOnPage: number;
 
   /** Sorting target. */
-  public sorting: Sort = {
-    active: '',
-    direction: '',
-  };
+  public sorting: Sort;
 
-  private lastSelectedAnimeTypes = [];
+  private lastSelectedAnimeTypes: AnimeType[];
 
   /** Selected anime types. */
-  public selectedAnimeTypes = [];
+  public selectedAnimeTypes: AnimeType[];
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
-  private lastAnimeTitle = '';
+  private lastAnimeTitle: string;
 
   /** Searching english title. */
-  public animeTitle = '';
+  public animeTitle: string;
 
   /** Anime types. */
   public readonly availableAnimeTypes = Object
@@ -63,7 +61,15 @@ export class AnimeTableComponent implements AfterViewInit {
     private readonly animeService: AnimeService,
     private readonly searchParamsService: SearchParamsService,
   ) {
-    this.getAnimeData();
+    this.searchParamsService.getAnimeListSearchParams().subscribe(animeTableDefaultData => {
+      this.currentPage = animeTableDefaultData.pageNumber;
+      this.maximumAnimeOnPage = animeTableDefaultData.maximumItemsOnPage;
+      this.sorting = animeTableDefaultData.sorting;
+      this.animeTitle = animeTableDefaultData.titlePart;
+      this.selectedAnimeTypes = animeTableDefaultData.types;
+
+      this.getAnimeData();
+    })
   }
 
   /**
@@ -142,12 +148,14 @@ export class AnimeTableComponent implements AfterViewInit {
   };
 
   private getAnimeData(): void {
-    this.animeData$ = this.animeService.getAnimeList(this.searchParamsService.createSearchParams({
-      pageNumber: this.currentPage,
+    const params = this.searchParamsService.setSearchParams(new AnimeListSearchParams({
       maximumItemsOnPage: this.maximumAnimeOnPage,
+      pageNumber: this.currentPage,
       sorting: this.sorting,
-      types: this.selectedAnimeTypes.map(AnimeType.toAnimeType),
-      title: this.animeTitle,
+      types: this.selectedAnimeTypes,
+      titlePart: this.animeTitle
     }));
+
+    this.animeData$ = this.animeService.getAnimeList(params);
   }
 }

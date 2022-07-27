@@ -61,6 +61,10 @@ export function isType(value: string): value is AnimeType {
   return Object.keys(AnimeType).includes(value as AnimeType);
 }
 
+export function isTypeDto(value: string): value is AnimeTypeDto {
+  return Object.keys(AnimeTypeDto).includes(value);
+}
+
 export namespace AnimeType {
 
   /**
