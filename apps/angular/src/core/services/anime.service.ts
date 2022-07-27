@@ -13,6 +13,14 @@ import { AnimeDto } from './mappers/dtos/anime.dto';
 import { AnimeMapper } from './mappers/anime.mapper';
 import { ApiService } from './api.service';
 
+/** Search fields. */
+enum SearchFields {
+  Offset = 'offset',
+  Limit = 'limit',
+  Ordering = 'ordering',
+  Types = 'type__in',
+}
+
 interface AnimeListGetterConstructionData {
 
   /** Number of received page. */
@@ -50,7 +58,12 @@ export class AnimeService {
     const types = data.types.join(',');
 
     const searchParams = new HttpParams({
-      fromObject: { limit, ordering, offset, type__in: types },
+      fromObject: {
+        [SearchFields.Limit]: limit,
+        [SearchFields.Offset]: offset,
+        [SearchFields.Ordering]: ordering,
+        [SearchFields.Types]: types,
+      },
     });
 
     return this.apiService.getData<PaginationDto<AnimeDto>>('anime/anime/', searchParams).pipe(

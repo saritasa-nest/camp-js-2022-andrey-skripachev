@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -33,6 +34,7 @@ import { AnimeTableComponent } from './features/anime/anime-table.component';
     MatSortModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
