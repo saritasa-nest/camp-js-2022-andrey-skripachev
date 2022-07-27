@@ -33,7 +33,7 @@ export class AnimeTableComponent implements AfterViewInit {
   public currentPage = 0;
 
   /** Maximum anime in page. */
-  public maximumAnimeOnPage = 10;
+  public readonly maximumAnimeOnPage = 10;
 
   /** Sorting target. */
   public sorting: Sort = {

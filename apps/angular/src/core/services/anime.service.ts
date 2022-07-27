@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
@@ -9,29 +8,8 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
-import { AnimeType } from '@js-camp/core/utils/types/animeType';
 
 import { ApiService } from './api.service';
-import { SearchParamsService } from './search-params.service';
-
-/** Search params for anime list query. */
-export interface AnimeListGetterConstructionData {
-
-  /** Number of received page. */
-  pageNumber: number;
-
-  /** Maximum items on page. */
-  maximumItemsOnPage: number;
-
-  /** Sorting target. */
-  sorting: Sort;
-
-  /** Selected anime types. */
-  types: AnimeType[];
-
-  /** Searching title. */
-  title: string;
-}
 
 /** Fetch anime. */
 @Injectable({
@@ -40,7 +18,6 @@ export interface AnimeListGetterConstructionData {
 export class AnimeService {
   public constructor(
     private readonly apiService: ApiService,
-    private readonly searchParamsService: SearchParamsService,
   ) {}
 
   /**

@@ -16,19 +16,19 @@ enum GettingAnimeListSearchFields {
 interface AnimeListGetterConstructionData {
 
   /** Number of received page. */
-  pageNumber: number;
+  readonly pageNumber: number;
 
   /** Maximum items on page. */
-  maximumItemsOnPage: number;
+  readonly maximumItemsOnPage: number;
 
   /** Sorting target. */
-  sorting: Sort;
+  readonly sorting: Sort;
 
   /** Selected anime types. */
-  types: AnimeType[];
+  readonly types: AnimeType[];
 
   /** Searching title. */
-  title: string;
+  readonly title: string;
 }
 
 /** Construct and redirecting by query search params. */
