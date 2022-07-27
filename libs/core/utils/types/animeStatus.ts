@@ -1,4 +1,4 @@
-import { AnimeStatusDto } from '../../services/mappers/dtos/anime.dto';
+import { AnimeStatusDto } from '../../dtos/anime.dto';
 
 /** Different statuses of anime. */
 export enum AnimeStatus {

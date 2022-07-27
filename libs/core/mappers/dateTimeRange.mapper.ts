@@ -1,6 +1,6 @@
-import { DateTimeRange } from '../../models/dateTimeRange';
+import { DateTimeRange } from '../models/dateTimeRange';
 
-import { DateTimeRangeDto } from './dtos/dateTimeRange.dto';
+import { DateTimeRangeDto } from '../dtos/dateTimeRange.dto';
 
 export namespace DateTimeRangeMapper {
 

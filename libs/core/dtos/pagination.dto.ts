@@ -1,15 +1,15 @@
-/** Pagination meta info. */
+/** Pagination data from the server. */
 export interface PaginationDto<T> {
 
-  /** Total count of items. */
+  /** Total number of results. */
   readonly count: number;
 
-  /** Next page of items. */
+  /** Next request page. */
   readonly next: string;
 
-  /** Previous page of items. */
+  /** Previous request page. */
   readonly previous: string;
 
-  /** Array of items requested. */
+  /** Received results. */
   readonly results: readonly T[];
 }

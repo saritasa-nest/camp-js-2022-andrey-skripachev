@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { map, Observable, Subscription } from 'rxjs';
+import { Component, TrackByFunction } from '@angular/core';
+import { Anime } from '@js-camp/core/models/anime';
+import { map, Observable } from 'rxjs';
 
 import { AnimeService } from '../../../core/services/anime.service';
-import { Anime } from '../../../core/models/anime';
 
 /** Table for displaying the anime list. */
 @Component({
@@ -10,39 +10,28 @@ import { Anime } from '../../../core/models/anime';
   templateUrl: './anime-table.component.html',
   styleUrls: ['./anime-table.component.css'],
 })
-export class AnimeTableComponent implements OnInit, OnDestroy {
+export class AnimeTableComponent {
 
   /** Current anime list. */
-  public anime$: Observable<readonly Anime[]> | null = null;
-
-  private subscription: Subscription | null = null;
+  public animeList$ = new Observable<readonly Anime[]>();
 
   /** Table column names. */
-  public tableColumns: string[] = ['image', 'title', 'aired start', 'status', 'type'];
+  public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
   public constructor(
-    private animeService: AnimeService,
-  ) {}
-
-  /**
-   * Gets a list of anime from the server.
-   * @inheritdoc
-   */
-  public ngOnInit(): void {
-    this.getAnime();
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-  private getAnime(): void {
-    this.anime$ = this.animeService.getAnime().pipe(
+    private readonly animeService: AnimeService,
+  ) {
+    this.animeList$ = this.animeService.getAnime().pipe(
       map(result => result.results),
     );
-    this.subscription = this.anime$.subscribe();
   }
+
+  /**
+   * Tracks anime by id.
+   * @param _  Anime index in list.
+   * @param anime Current anime.
+   */
+  public trackById: TrackByFunction<Anime> = function(_, anime) {
+    return anime.id;
+  };
 }
