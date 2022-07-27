@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { map, Observable } from 'rxjs';
 
-import { Pagination } from '../models/pagination';
-import { Anime } from '../models/anime';
+import { Pagination } from '@js-camp/core/models/pagination';
+import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
+import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
+import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
+import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
+import { Anime } from '@js-camp/core/models/anime';
 
-import { PaginationDto } from './mappers/dtos/pagination.dto';
-import { PaginationMapper } from './mappers/pagination.mapper';
-import { AnimeDto } from './mappers/dtos/anime.dto';
-import { AnimeMapper } from './mappers/anime.mapper';
 import { ApiService } from './api.service';
 
 /** Search fields. */
@@ -46,8 +45,7 @@ interface AnimeListGetterConstructionData {
 })
 export class AnimeService {
   public constructor(
-    private apiService: ApiService,
-    private router: Router,
+    private readonly apiService: ApiService,
   ) {}
 
   /**

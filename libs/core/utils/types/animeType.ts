@@ -1,4 +1,4 @@
-import { AnimeTypeDto } from '../../services/mappers/dtos/anime.dto';
+import { AnimeTypeDto } from '../../dtos/anime.dto';
 
 /** Different types of anime. */
 export enum AnimeType {

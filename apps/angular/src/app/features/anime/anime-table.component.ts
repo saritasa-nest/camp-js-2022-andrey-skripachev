@@ -1,14 +1,14 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ViewChild, TrackByFunction, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
+import { Anime } from '@js-camp/core/models/anime';
+import { Pagination } from '@js-camp/core/models/pagination';
+import { AnimeType } from '@js-camp/core/utils/types/animeType';
 
 import { AnimeService } from '../../../core/services/anime.service';
-import { Anime } from '../../../core/models/anime';
-import { Pagination } from '../../../core/models/pagination';
-import { AnimeType } from '../../../core/utils/types/animeType';
 
 /** Table for displaying the anime list. */
 @Component({
@@ -112,6 +112,15 @@ export class AnimeTableComponent implements AfterViewInit {
       this.animeTitle = String(value);
     }
   }
+
+  /**
+   * Tracks changes by anime id.
+   * @param _ Anime position in list.
+   * @param anime Current anime.
+   */
+  public trackById: TrackByFunction<Anime> = function(_, anime) {
+    return anime.id;
+  };
 
   private getAnimeData(): void {
     this.animeData$ = this.animeService.getAnimeList({
