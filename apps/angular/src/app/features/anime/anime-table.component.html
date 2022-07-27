@@ -15,13 +15,21 @@
   <form>
     <mat-form-field appearance="fill">
       <mat-label>Anime types</mat-label>
-      <mat-select [value]="selectedAnimeTypes" (closed)="confirmAnimeTypesChanges()" (selectionChange)="changeAnimeTypes($event)" multiple>
+      <mat-select [value]="selectedAnimeTypes" (closed)="confirmChanges()" (selectionChange)="changeAnimeTypes($event)" multiple>
         <mat-option *ngFor="let type of availableAnimeTypes"
           [value]="type">
           {{type}}
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+  </form>
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Search anime</mat-label>
+      <input matInput placeholder="Ex. JoJo" [value]="animeTitle" (input)="changeSearchingTitle($event)"/>
+    </mat-form-field>
+    <button type="button" mat-raised-button color="primary" (click)="confirmChanges()">Search</button>
   </form>
   <table
     matSort

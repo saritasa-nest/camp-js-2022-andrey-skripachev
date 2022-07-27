@@ -19,6 +19,7 @@ enum SearchFields {
   Limit = 'limit',
   Ordering = 'ordering',
   Types = 'type__in',
+  Title = 'title_eng__icontains',
 }
 
 interface AnimeListGetterConstructionData {
@@ -34,6 +35,9 @@ interface AnimeListGetterConstructionData {
 
   /** Selected anime types. */
   types: string[];
+
+  /** Searching title. */
+  title: string;
 }
 
 /** Fetch anime. */
@@ -56,6 +60,7 @@ export class AnimeService {
     const ordering = this.sortingToOrdering(data.sorting);
     const offset = limit * data.pageNumber;
     const types = data.types.join(',');
+    const { title } = data;
 
     const searchParams = new HttpParams({
       fromObject: {
@@ -63,6 +68,7 @@ export class AnimeService {
         [SearchFields.Offset]: offset,
         [SearchFields.Ordering]: ordering,
         [SearchFields.Types]: types,
+        [SearchFields.Title]: title,
       },
     });
 

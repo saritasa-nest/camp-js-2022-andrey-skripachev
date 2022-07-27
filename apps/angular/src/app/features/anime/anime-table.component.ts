@@ -46,6 +46,9 @@ export class AnimeTableComponent implements AfterViewInit {
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
+  /** Searching english title. */
+  public animeTitle = '';
+
   /** Anime types. */
   public readonly availableAnimeTypes = Object.values(AnimeType).filter(element => typeof element === 'string');
 
@@ -93,9 +96,21 @@ export class AnimeTableComponent implements AfterViewInit {
   }
 
   /** Completes the entry of values. */
-  public confirmAnimeTypesChanges(): void {
+  public confirmChanges(): void {
     this.currentPage = 0;
     this.getAnimeData();
+  }
+
+  /**
+   * Changes title when changes input value.
+   * @param target Event target.
+   */
+  public changeSearchingTitle({ target }: Event): void {
+    if (target instanceof HTMLInputElement) {
+      const { value } = target;
+
+      this.animeTitle = String(value);
+    }
   }
 
   private getAnimeData(): void {
@@ -104,6 +119,7 @@ export class AnimeTableComponent implements AfterViewInit {
       maximumItemsOnPage: this.maximumAnimeOnPage,
       sorting: this.sorting,
       types: this.selectedAnimeTypes,
+      title: this.animeTitle,
     });
   }
 }
