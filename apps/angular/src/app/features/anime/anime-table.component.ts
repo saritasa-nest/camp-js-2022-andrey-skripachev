@@ -88,7 +88,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
           pageNumber: page,
           sorting,
           types: filter,
-          titlePart: String(search),
+          searchingTitlePart: String(search),
         }));
         return animeService.getAnimeList(params);
       }),
@@ -106,7 +106,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.maximumAnimeOnPage = animeTableDefaultData.maximumItemsOnPage;
         this.currentPage$.next(animeTableDefaultData.pageNumber);
         this.sorting$.next(animeTableDefaultData.sorting);
-        this.searchFormControl.setValue(animeTableDefaultData.titlePart);
+        this.searchFormControl.setValue(animeTableDefaultData.searchingTitlePart);
         this.filterFormControl.setValue(animeTableDefaultData.types);
       });
   }

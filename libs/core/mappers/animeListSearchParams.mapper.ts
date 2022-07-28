@@ -56,7 +56,7 @@ export namespace AnimeListSearchParamsMapper {
     return new AnimeListSearchParams({
       pageNumber: Math.floor(offset / limit),
       maximumItemsOnPage: limit,
-      titlePart: search,
+      searchingTitlePart: search,
       sorting: fromOrderingToSort(ordering),
       types,
     });
@@ -67,13 +67,13 @@ export namespace AnimeListSearchParamsMapper {
    * @param model Search params model.
    */
   export function toDto(model: AnimeListSearchParams): AnimeListSearchParamsDto {
-    const { pageNumber, maximumItemsOnPage, sorting, titlePart, types } = model;
+    const { pageNumber, maximumItemsOnPage, sorting, searchingTitlePart, types } = model;
 
     return {
       limit: maximumItemsOnPage,
       offset: pageNumber * maximumItemsOnPage,
       ordering: fromSortingToOrdering(sorting),
-      search: titlePart,
+      search: searchingTitlePart,
       type__in: types.map(mapAnimeTypeToDto).join(','),
     };
   }

@@ -19,7 +19,7 @@ export class AnimeListSearchParams extends Immerable {
   public readonly types: AnimeType[];
 
   /** Searching title part. */
-  public readonly titlePart: string;
+  public readonly searchingTitlePart: string;
 
   public constructor(data: InitArgs) {
     super();
@@ -27,7 +27,7 @@ export class AnimeListSearchParams extends Immerable {
     this.maximumItemsOnPage = data.maximumItemsOnPage;
     this.sorting = data.sorting;
     this.types = data.types;
-    this.titlePart = data.titlePart;
+    this.searchingTitlePart = data.searchingTitlePart;
   }
 }
 
