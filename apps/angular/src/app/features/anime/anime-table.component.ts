@@ -1,4 +1,4 @@
-import { Component, TrackByFunction } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime';
 import { map, Observable } from 'rxjs';
 
@@ -9,11 +9,12 @@ import { AnimeService } from '../../../core/services/anime.service';
   selector: 'camp-anime-table',
   templateUrl: './anime-table.component.html',
   styleUrls: ['./anime-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeTableComponent {
 
   /** Current anime list. */
-  public animeList$ = new Observable<readonly Anime[]>();
+  public readonly animeList$: Observable<readonly Anime[]>;
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
@@ -31,7 +32,7 @@ export class AnimeTableComponent {
    * @param _  Anime index in list.
    * @param anime Current anime.
    */
-  public trackById: TrackByFunction<Anime> = function(_, anime) {
+  public trackById(_: number, anime: Anime): number {
     return anime.id;
-  };
+  }
 }

@@ -12,7 +12,11 @@ import { Anime } from '@js-camp/core/models/anime';
 import { ApiService } from './api.service';
 
 const DEFAULT_SEARCH_OPTIONS = new HttpParams({
-  fromString: 'limit=10&offset=0&ordering=id',
+  fromObject: {
+    limit: 10,
+    offset: 0,
+    ordering: 'id',
+  },
 });
 
 /** Fetch anime. */
@@ -24,10 +28,10 @@ export class AnimeService {
     private readonly apiService: ApiService,
   ) {}
 
-  /** Gets 1st page. */
+  /** Gets anime list. */
   public getAnime(): Observable<Pagination<Anime>> {
     return this.apiService.getData<PaginationDto<AnimeDto>>('anime/anime/', DEFAULT_SEARCH_OPTIONS).pipe(
-      map(dto => PaginationMapper.fromDto<AnimeDto, Anime>(dto, AnimeMapper.fromDto)),
+      map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)),
     );
   }
 }
