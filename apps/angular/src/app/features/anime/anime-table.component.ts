@@ -45,7 +45,6 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
-  private lastAnimeTitle: string;
 
   /** Subscription of handling search params changes. */
   public searchParamsChangesSubscription: Subscription = new Subscription();

@@ -43,7 +43,6 @@ import { AnimeTableComponent } from './features/anime/anime-table.component';
     MatButtonModule,
     MatIconModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
