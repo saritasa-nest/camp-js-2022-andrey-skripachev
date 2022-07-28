@@ -1,16 +1,16 @@
-import { AfterViewInit, ChangeDetectionStrategy, ViewChild, TrackByFunction, Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { AfterViewInit, ChangeDetectionStrategy, ViewChild, Component, OnInit, OnDestroy } from '@angular/core';
+import { combineLatestWith, debounceTime, Observable, startWith, Subscription, switchMap } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatSelectChange } from '@angular/material/select';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
+import { AnimeListSearchParams } from '@js-camp/core/models/animeListSearchParams';
+import { FormControl } from '@angular/forms';
 
 import { AnimeService } from '../../../core/services/anime.service';
 import { SearchParamsService } from '../../../core/services/search-params.service';
-import { AnimeListSearchParams } from '@js-camp/core/models/animeListSearchParams';
 
 /** Table for displaying the anime list. */
 @Component({
@@ -19,7 +19,7 @@ import { AnimeListSearchParams } from '@js-camp/core/models/animeListSearchParam
   styleUrls: ['./anime-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeTableComponent implements AfterViewInit {
+export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly dataSource = new MatTableDataSource<Anime>();
 
@@ -39,8 +39,6 @@ export class AnimeTableComponent implements AfterViewInit {
   /** Sorting target. */
   public sorting: Sort;
 
-  private lastSelectedAnimeTypes: AnimeType[];
-
   /** Selected anime types. */
   public selectedAnimeTypes: AnimeType[];
 
@@ -49,8 +47,18 @@ export class AnimeTableComponent implements AfterViewInit {
 
   private lastAnimeTitle: string;
 
-  /** Searching english title. */
-  public animeTitle: string;
+  /** Subscription of handling search params changes. */
+  public searchParamsChangesSubscription: Subscription = new Subscription();
+
+  /** Filtering field form controller. */
+  public filterFormControl = new FormControl<AnimeType[]>([], {
+    nonNullable: true,
+  });
+
+  /** Searching input form controller. */
+  public searchFormControl = new FormControl('', {
+    nonNullable: true,
+  });
 
   /** Anime types. */
   public readonly availableAnimeTypes = Object
@@ -61,15 +69,42 @@ export class AnimeTableComponent implements AfterViewInit {
     private readonly animeService: AnimeService,
     private readonly searchParamsService: SearchParamsService,
   ) {
-    this.searchParamsService.getAnimeListSearchParams().subscribe(animeTableDefaultData => {
-      this.currentPage = animeTableDefaultData.pageNumber;
-      this.maximumAnimeOnPage = animeTableDefaultData.maximumItemsOnPage;
-      this.sorting = animeTableDefaultData.sorting;
-      this.animeTitle = animeTableDefaultData.titlePart;
-      this.selectedAnimeTypes = animeTableDefaultData.types;
+    this.animeData$ = this.filterFormControl.valueChanges.pipe(
+      startWith(this.filterFormControl.value),
+      combineLatestWith(this.searchFormControl.valueChanges.pipe(
+        startWith(this.searchFormControl.value),
+      )),
 
-      this.getAnimeData();
-    })
+      debounceTime(500),
+
+      switchMap(([filter, search]) => {
+        const params = this.searchParamsService.setSearchParams(new AnimeListSearchParams({
+          maximumItemsOnPage: this.maximumAnimeOnPage,
+          pageNumber: this.currentPage,
+          sorting: this.sorting,
+          types: filter,
+          titlePart: search,
+        }));
+
+        return animeService.getAnimeList(params);
+      }),
+    );
+  }
+
+  /**
+   * Initialize component.
+   * @inheritdoc
+   */
+  public ngOnInit(): void {
+    this.searchParamsChangesSubscription = this.searchParamsService
+      .getAnimeListSearchParams()
+      .subscribe(animeTableDefaultData => {
+        this.currentPage = animeTableDefaultData.pageNumber;
+        this.maximumAnimeOnPage = animeTableDefaultData.maximumItemsOnPage;
+        this.sorting = animeTableDefaultData.sorting;
+        this.searchFormControl.setValue(animeTableDefaultData.titlePart);
+        this.filterFormControl.setValue(animeTableDefaultData.types);
+      });
   }
 
   /**
@@ -79,6 +114,14 @@ export class AnimeTableComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  /**
+   * Unsubscribes.
+   * @inheritdoc
+   * */
+  public ngOnDestroy(): void {
+    this.searchParamsChangesSubscription.unsubscribe();
   }
 
   /**
@@ -104,56 +147,21 @@ export class AnimeTableComponent implements AfterViewInit {
   }
 
   /**
-   * Updates selected anime types.
-   * @param value Array of selected anime types.
-   */
-  public changeAnimeTypes({ value }: MatSelectChange): void {
-    this.selectedAnimeTypes = value;
-  }
-
-  /**
-   * Changes title when changes input value.
-   * @param target Event target.
-   */
-  public changeSearchingTitle({ target }: Event): void {
-    if (target instanceof HTMLInputElement) {
-      const { value } = target;
-
-      this.animeTitle = String(value);
-    }
-  }
-
-  /** Completes the entry of values. */
-  public confirmChanges(): void {
-    if (this.animeTitle === this.lastAnimeTitle &&
-      this.selectedAnimeTypes.join('') === this.lastSelectedAnimeTypes.join('')
-    ) {
-      return;
-    }
-
-    this.lastAnimeTitle = this.animeTitle;
-    this.lastSelectedAnimeTypes = this.selectedAnimeTypes;
-
-    this.currentPage = 0;
-    this.getAnimeData();
-  }
-
-  /**
    * Tracks changes by anime id.
    * @param _ Anime position in list.
    * @param anime Current anime.
    */
-  public trackById: TrackByFunction<Anime> = function(_, anime) {
+  public trackById(_: number, anime: Anime): number {
     return anime.id;
-  };
+  }
 
   private getAnimeData(): void {
     const params = this.searchParamsService.setSearchParams(new AnimeListSearchParams({
       maximumItemsOnPage: this.maximumAnimeOnPage,
       pageNumber: this.currentPage,
       sorting: this.sorting,
-      types: this.selectedAnimeTypes,
-      titlePart: this.animeTitle
+      types: this.filterFormControl.value,
+      titlePart: this.searchFormControl.value,
     }));
 
     this.animeData$ = this.animeService.getAnimeList(params);

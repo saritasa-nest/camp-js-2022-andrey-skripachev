@@ -1,45 +1,57 @@
-import { AnimeListSearchParams } from "../models/animeListSearchParams";
-import { AnimeListSearchParamsDto } from "../dtos/animeListSearchParams.dto";
-import { Sort } from "@angular/material/sort";
-import { isTypeDto, mapAnimeTypeFromDto, mapAnimeTypeToDto } from "../utils/types/animeType";
+import { Sort } from '@angular/material/sort';
+
+import { AnimeListSearchParams } from '../models/animeListSearchParams';
+import { AnimeListSearchParamsDto } from '../dtos/animeListSearchParams.dto';
+import { isTypeDto, mapAnimeTypeFromDto, mapAnimeTypeToDto } from '../utils/types/animeType';
 
 export namespace AnimeListSearchParamsMapper {
 
+  /**
+   * Maps ordering to sorting.
+   * @param ordering Ordering.
+   */
   function fromOrderingToSort(ordering: string): Sort {
-    const decreaseOrderingPattern = /^\-(.*)\,/;
-    const increaseOrderingPattern = /^(.*),/;
-
-    const sort: Sort = {
-      active: '',
-      direction: '',
-    };
-
-    const matchedDecrease = decreaseOrderingPattern.exec(ordering);
-    const matchedIncrease = increaseOrderingPattern.exec(ordering);
-    if (matchedDecrease !== null) {
-      sort.active = matchedDecrease[0];
-      sort.direction = 'asc';
-    } else if (matchedIncrease !== null) {
-      sort.active = matchedIncrease[0];
-      sort.direction = 'desc';
+    if (ordering === '') {
+      return {
+        active: '',
+        direction: '',
+      };
+    } else if (ordering[0] === '-') {
+      return {
+        active: ordering.slice(1),
+        direction: 'desc',
+      };
     }
 
-    return sort;
+    return {
+      active: ordering,
+      direction: 'asc',
+    };
   }
 
+  /**
+   * Maps sorting to ordering.
+   * @param sort Sort.
+   */
   function fromSortingToOrdering({ direction, active }: Sort): string {
     if (direction === '') {
-      return 'id';
+      return '';
     }
 
     return `${direction === 'asc' ? '' : '-'}${active}`;
   }
 
+  /**
+   * Maps dto to model.
+   * @param dto Search params dto.
+   */
   export function fromDto(dto: AnimeListSearchParamsDto): AnimeListSearchParams {
-    console.log(dto);
-    const { limit, offset, ordering, type__in, search} = dto;
+    const { limit, offset, ordering, type__in, search } = dto;
 
-    const types = type__in.split(',').filter(isTypeDto).map(mapAnimeTypeFromDto)
+    const types = type__in
+      .split(',')
+      .filter(isTypeDto)
+      .map(mapAnimeTypeFromDto);
 
     return new AnimeListSearchParams({
       pageNumber: Math.floor(offset / limit),
@@ -50,6 +62,10 @@ export namespace AnimeListSearchParamsMapper {
     });
   }
 
+  /**
+   * Maps model to dto.
+   * @param model Search params model.
+   */
   export function toDto(model: AnimeListSearchParams): AnimeListSearchParamsDto {
     const { pageNumber, maximumItemsOnPage, sorting, titlePart, types } = model;
 
@@ -59,6 +75,6 @@ export namespace AnimeListSearchParamsMapper {
       ordering: fromSortingToOrdering(sorting),
       search: titlePart,
       type__in: types.map(mapAnimeTypeToDto).join(','),
-    }
+    };
   }
 }

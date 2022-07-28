@@ -61,6 +61,11 @@ export function isType(value: string): value is AnimeType {
   return Object.keys(AnimeType).includes(value as AnimeType);
 }
 
+/**
+ * Checks if the value is a anime type dto.
+ * @param value Value, possibly being a anime type dto.
+ * @returns
+ */
 export function isTypeDto(value: string): value is AnimeTypeDto {
   return Object.keys(AnimeTypeDto).includes(value);
 }

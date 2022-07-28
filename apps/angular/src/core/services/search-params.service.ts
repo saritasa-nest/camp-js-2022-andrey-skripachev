@@ -25,33 +25,31 @@ export class SearchParamsService {
 
     const filteredSearchParams: Params = [];
     for (const [name, value] of Object.entries(searchParams)) {
-      if (Boolean(value)) {
+      if (value !== '' && value !== 0) {
         filteredSearchParams[name] = value;
       }
     }
 
     this.router.navigate([], {
       queryParams: filteredSearchParams,
-    })
+    });
 
     return new HttpParams({
       fromObject: searchParams,
     });
   }
 
+  /** Gets search params from browser address string. */
   public getAnimeListSearchParams(): Observable<AnimeListSearchParams> {
     return this.activatedRoute.queryParams.pipe(
-      map(({limit, offset, type__in, ordering, search}: Params) => {
-        console.log(limit, offset, type__in, ordering, search)
-        return {
+      map(({ limit, offset, type__in, ordering, search }: Params) => ({
           limit: Number(limit || 10),
           offset: Number(offset || 0),
           type__in: String(type__in || ''),
           ordering: String(ordering || ''),
           search: String(search || ''),
-        };
-      }),
-      map(AnimeListSearchParamsMapper.fromDto)
-    )
+      })),
+      map(AnimeListSearchParamsMapper.fromDto),
+    );
   }
 }

@@ -5,29 +5,23 @@
 </mat-toolbar>
 
 <div class="mat-elevation-z8 default-layout" *ngIf="animeData$ | async as anime; else loading">
-  <form>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Anime types</mat-label>
-        <mat-select [value]="selectedAnimeTypes" (closed)="confirmChanges()" (selectionChange)="changeAnimeTypes($event)" multiple>
-          <mat-option *ngFor="let type of availableAnimeTypes"
-            [value]="type">
-            {{type}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label>Search anime</mat-label>
-        <input matInput placeholder="Ex. JoJo" [value]="animeTitle" (input)="changeSearchingTitle($event)"/>
-        <button type="button" mat-icon-button color="primary" (click)="confirmChanges()">
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-  </form>
-
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Anime types</mat-label>
+      <mat-select [formControl]="filterFormControl" multiple>
+        <mat-option *ngFor="let type of availableAnimeTypes"
+          [value]="type">
+          {{type}}
+         </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Search anime</mat-label>
+      <input [formControl]="searchFormControl" matInput placeholder="Ex. JoJo"/>
+    </mat-form-field>
+  </div>
   <mat-paginator
     (page)="changePage($event)"
     [length]="anime.count"
