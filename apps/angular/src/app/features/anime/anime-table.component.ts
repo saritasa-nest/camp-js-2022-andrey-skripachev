@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ViewChild, Component, OnInit, OnDestroy } from '@angular/core';
-import { combineLatestWith, debounceTime, Observable, startWith, Subscription, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatestWith, debounceTime, map, Observable, startWith, Subscription, switchMap } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -23,28 +23,32 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly dataSource = new MatTableDataSource<Anime>();
 
+  /** Anime types. */
+  public readonly availableAnimeTypes = Object
+    .values(AnimeType)
+    .filter(element => typeof element === 'string');
+
+  /** Table column names. */
+  public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
+
   @ViewChild(MatPaginator) private readonly paginator: MatPaginator;
 
   @ViewChild(MatSort) private readonly sort: MatSort;
 
   /** Current anime list. */
-  public animeData$ = new Observable<Pagination<Anime>>();
+  public readonly animeData$: Observable<Pagination<Anime>>;
 
-  /** Current page number.  */
-  public currentPage: number;
+  /** Current page. */
+  public readonly currentPage$ = new BehaviorSubject<number>(0);
+
+  /** Sorting. */
+  public readonly sorting$ = new BehaviorSubject<Sort>({
+    active: '',
+    direction: '',
+  });
 
   /** Maximum anime in page. */
   public maximumAnimeOnPage: number;
-
-  /** Sorting target. */
-  public sorting: Sort;
-
-  /** Selected anime types. */
-  public selectedAnimeTypes: AnimeType[];
-
-  /** Table column names. */
-  public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
-
 
   /** Subscription of handling search params changes. */
   public searchParamsChangesSubscription: Subscription = new Subscription();
@@ -59,32 +63,33 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
     nonNullable: true,
   });
 
-  /** Anime types. */
-  public readonly availableAnimeTypes = Object
-    .values(AnimeType)
-    .filter(element => typeof element === 'string');
-
   public constructor(
-    private readonly animeService: AnimeService,
+    animeService: AnimeService,
     private readonly searchParamsService: SearchParamsService,
   ) {
+
     this.animeData$ = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
-      combineLatestWith(this.searchFormControl.valueChanges.pipe(
-        startWith(this.searchFormControl.value),
-      )),
-
+      combineLatestWith(
+        this.searchFormControl.valueChanges.pipe(
+          map(item => {
+            this.currentPage$.next(0);
+            return item;
+          }),
+          startWith(this.searchFormControl.value),
+        ),
+        this.currentPage$,
+        this.sorting$,
+      ),
       debounceTime(500),
-
-      switchMap(([filter, search]) => {
+      switchMap(([filter, search, page, sorting]) => {
         const params = this.searchParamsService.setSearchParams(new AnimeListSearchParams({
           maximumItemsOnPage: this.maximumAnimeOnPage,
-          pageNumber: this.currentPage,
-          sorting: this.sorting,
+          pageNumber: page,
+          sorting,
           types: filter,
-          titlePart: search,
+          titlePart: String(search),
         }));
-
         return animeService.getAnimeList(params);
       }),
     );
@@ -98,9 +103,9 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchParamsChangesSubscription = this.searchParamsService
       .getAnimeListSearchParams()
       .subscribe(animeTableDefaultData => {
-        this.currentPage = animeTableDefaultData.pageNumber;
         this.maximumAnimeOnPage = animeTableDefaultData.maximumItemsOnPage;
-        this.sorting = animeTableDefaultData.sorting;
+        this.currentPage$.next(animeTableDefaultData.pageNumber);
+        this.sorting$.next(animeTableDefaultData.sorting);
         this.searchFormControl.setValue(animeTableDefaultData.titlePart);
         this.filterFormControl.setValue(animeTableDefaultData.types);
       });
@@ -124,25 +129,19 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * Changes page.
-   * @param pageEvent Page event.
-   */
-  public changePage(pageEvent: PageEvent): void {
-    const newPage = pageEvent.pageIndex;
-    this.currentPage = newPage;
-
-    this.getAnimeData();
-  }
-
-  /**
    * Changes sorting target.
    * @param sorting Sort event.
    */
   public changeSortingTarget(sorting: Sort): void {
-    this.sorting = sorting;
-    this.currentPage = 0;
+    this.sorting$.next(sorting);
+  }
 
-    this.getAnimeData();
+  /**
+   * Changes current page.
+   * @param event Page event.
+   */
+  public changePage(event: PageEvent): void {
+    this.currentPage$.next(event.pageIndex);
   }
 
   /**
@@ -152,17 +151,5 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   public trackById(_: number, anime: Anime): number {
     return anime.id;
-  }
-
-  private getAnimeData(): void {
-    const params = this.searchParamsService.setSearchParams(new AnimeListSearchParams({
-      maximumItemsOnPage: this.maximumAnimeOnPage,
-      pageNumber: this.currentPage,
-      sorting: this.sorting,
-      types: this.filterFormControl.value,
-      titlePart: this.searchFormControl.value,
-    }));
-
-    this.animeData$ = this.animeService.getAnimeList(params);
   }
 }

@@ -25,17 +25,18 @@
   <mat-paginator
     (page)="changePage($event)"
     [length]="anime.count"
-    [pageSize]="10"
-    [pageIndex]="currentPage"
+    [pageSize]="maximumAnimeOnPage"
+    [pageIndex]="currentPage$ | async"
     showFirstLastButtons
     hidePageSize>
   </mat-paginator>
 
+  <!-- AndreyScripachev: needs to remove constructions like (soriong) -->
   <table
     matSort
     (matSortChange)="changeSortingTarget($event)"
-    [matSortDirection]="sorting.direction"
-    [matSortActive]="sorting.active"
+    [matSortDirection]="(sorting$ | async)?.direction || '' "
+    [matSortActive]="(sorting$ | async)?.active || '' "
     mat-table
     [dataSource]="anime.results"
     class="anime-table"
@@ -79,7 +80,7 @@
   <div class="loading-layout">
     <mat-spinner
       color="primary"
-      [diameter]="120">
+      diameter="120">
     </mat-spinner>
   </div>
 </ng-template>

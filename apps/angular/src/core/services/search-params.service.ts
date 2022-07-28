@@ -32,6 +32,7 @@ export class SearchParamsService {
 
     this.router.navigate([], {
       queryParams: filteredSearchParams,
+      queryParamsHandling: 'preserve',
     });
 
     return new HttpParams({
