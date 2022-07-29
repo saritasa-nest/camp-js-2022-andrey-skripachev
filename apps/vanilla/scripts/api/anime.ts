@@ -14,8 +14,8 @@ export class AnimeApi {
   ) {}
 
   /**
+   * Gets pagination with a list of anime.
    * @param parameters Query options.
-   * @returns Pagination with a list of anime.
    */
   public async getPagination(parameters: URLSearchParams): Promise<Pagination<Anime>> {
     const url = `${this.requestBaseUrl}?${parameters.toString()}`;
