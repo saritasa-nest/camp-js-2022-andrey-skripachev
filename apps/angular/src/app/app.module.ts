@@ -21,7 +21,6 @@ import { AnimeTableComponent } from './features/anime/anime-table.component';
     MatTableModule,
     MatToolbarModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
