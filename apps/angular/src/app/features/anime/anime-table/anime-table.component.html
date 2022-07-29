@@ -1,10 +1,7 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span id="page-heading">Anime Catalog</span>
-  </mat-toolbar-row>
-</mat-toolbar>
+
 
 <div class="mat-elevation-z8 default-layout" *ngIf="animeData$ | async as anime; else loading">
+  <h2 class="section-heading">Anime recommended for you</h2>
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Anime types</mat-label>

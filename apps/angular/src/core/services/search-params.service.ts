@@ -1,9 +1,11 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AnimeListSearchParamsMapper } from '@js-camp/core/mappers/animeListSearchParams.mapper';
-import { AnimeListSearchParams } from '@js-camp/core/models/animeListSearchParams';
 import { map, Observable } from 'rxjs';
+
+import { AnimeListSearchParams } from '../models/animeListSearchParams';
+
+import { AnimeListSearchParamsMapper } from './mappers/animeListSearchParams.mapper';
 
 /** Construct and redirecting by query search params. */
 @Injectable({

@@ -1,6 +1,5 @@
 import { Sort } from '@angular/material/sort';
-
-import { AnimeType } from '../utils/types/animeType';
+import { AnimeType } from '@js-camp/core/utils/types/animeType';
 
 import { Immerable, OmitImmerable } from './immerable';
 

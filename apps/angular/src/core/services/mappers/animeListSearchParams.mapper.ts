@@ -1,8 +1,9 @@
 import { Sort } from '@angular/material/sort';
+import { isTypeDto, mapAnimeTypeFromDto, mapAnimeTypeToDto } from '@js-camp/core/utils/types/animeType';
 
-import { AnimeListSearchParams } from '../models/animeListSearchParams';
-import { AnimeListSearchParamsDto } from '../dtos/animeListSearchParams.dto';
-import { isTypeDto, mapAnimeTypeFromDto, mapAnimeTypeToDto } from '../utils/types/animeType';
+import { AnimeListSearchParams } from '../../models/animeListSearchParams';
+
+import { AnimeListSearchParamsDto } from './dto/animeListSearchParams.dto';
 
 export namespace AnimeListSearchParamsMapper {
 

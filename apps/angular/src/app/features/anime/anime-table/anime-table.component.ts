@@ -6,11 +6,12 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
-import { AnimeListSearchParams } from '@js-camp/core/models/animeListSearchParams';
 import { FormControl } from '@angular/forms';
 
-import { AnimeService } from '../../../core/services/anime.service';
-import { SearchParamsService } from '../../../core/services/search-params.service';
+import { AnimeListSearchParams } from '../../../../core/models/animeListSearchParams';
+
+import { AnimeService } from '../../../../core/services/anime.service';
+import { SearchParamsService } from '../../../../core/services/search-params.service';
 
 /** Table for displaying the anime list. */
 @Component({
@@ -67,7 +68,6 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
     animeService: AnimeService,
     private readonly searchParamsService: SearchParamsService,
   ) {
-
     this.animeData$ = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
       combineLatestWith(
