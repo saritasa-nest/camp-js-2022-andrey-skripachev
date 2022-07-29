@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
-import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
@@ -29,9 +28,9 @@ export class AnimeService {
   ) {}
 
   /** Gets anime list. */
-  public getAnime(): Observable<Pagination<Anime>> {
+  public getAnimeList(): Observable<readonly Anime[]> {
     return this.apiService.getData<PaginationDto<AnimeDto>>('anime/anime/', DEFAULT_SEARCH_OPTIONS).pipe(
-      map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)),
+      map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto).results),
     );
   }
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { AnimeService } from '../../../core/services/anime.service';
 
@@ -20,11 +20,9 @@ export class AnimeTableComponent {
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
   public constructor(
-    private readonly animeService: AnimeService,
+    animeService: AnimeService,
   ) {
-    this.animeList$ = this.animeService.getAnime().pipe(
-      map(result => result.results),
-    );
+    this.animeList$ = animeService.getAnimeList();
   }
 
   /**
