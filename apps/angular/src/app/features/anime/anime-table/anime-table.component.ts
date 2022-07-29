@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ViewChild, Component, OnInit, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatestWith, debounceTime, Observable, startWith, Subscription, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, Observable, startWith, Subscription, switchMap } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -49,7 +49,7 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   /** Maximum anime in page. */
-  public maximumAnimeOnPage: number;
+  public maximumAnimeOnPage = 10;
 
   /** Subscription of handling search params changes. */
   public searchParamsChangesSubscription: Subscription = new Subscription();
@@ -68,17 +68,19 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
     animeService: AnimeService,
     private readonly searchParamsService: SearchParamsService,
   ) {
-
-    this.animeData$ = this.filterFormControl.valueChanges.pipe(
+    const filterChanges$ = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
-      combineLatestWith(
-        this.searchFormControl.valueChanges.pipe(
-          startWith(this.searchFormControl.value),
-        ),
-        this.currentPage$,
-        this.sorting$,
-      ),
-      debounceTime(500),
+    );
+    const searchChanges$ = this.searchFormControl.valueChanges.pipe(
+      startWith(this.searchFormControl.value),
+    );
+    this.animeData$ = combineLatest([
+      filterChanges$,
+      searchChanges$,
+      this.currentPage$,
+      this.sorting$,
+    ]).pipe(
+      debounceTime(300),
       switchMap(([filter, search, page, sorting]) => {
         const params = this.searchParamsService.setSearchParams(new AnimeListSearchParams({
           maximumItemsOnPage: this.maximumAnimeOnPage,
@@ -99,12 +101,12 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnInit(): void {
     this.searchParamsChangesSubscription = this.searchParamsService
       .getAnimeListSearchParams()
-      .subscribe(animeTableDefaultData => {
-        this.maximumAnimeOnPage = animeTableDefaultData.maximumItemsOnPage;
-        this.currentPage$.next(animeTableDefaultData.pageNumber);
-        this.sorting$.next(animeTableDefaultData.sorting);
-        this.searchFormControl.setValue(animeTableDefaultData.searchingTitlePart);
-        this.filterFormControl.setValue(animeTableDefaultData.types);
+      .subscribe(animeTableOptions => {
+        this.maximumAnimeOnPage = animeTableOptions.maximumItemsOnPage;
+        this.currentPage$.next(animeTableOptions.pageNumber);
+        this.sorting$.next(animeTableOptions.sorting);
+        this.searchFormControl.setValue(animeTableOptions.searchingTitlePart);
+        this.filterFormControl.setValue(animeTableOptions.types);
       });
   }
 
