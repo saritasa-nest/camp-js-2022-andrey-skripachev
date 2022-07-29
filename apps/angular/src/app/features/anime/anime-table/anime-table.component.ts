@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ViewChild, Component, OnInit, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatestWith, debounceTime, map, Observable, startWith, Subscription, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatestWith, debounceTime, Observable, startWith, Subscription, switchMap } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -68,14 +68,11 @@ export class AnimeTableComponent implements OnInit, AfterViewInit, OnDestroy {
     animeService: AnimeService,
     private readonly searchParamsService: SearchParamsService,
   ) {
+
     this.animeData$ = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
       combineLatestWith(
         this.searchFormControl.valueChanges.pipe(
-          map(item => {
-            this.currentPage$.next(0);
-            return item;
-          }),
           startWith(this.searchFormControl.value),
         ),
         this.currentPage$,

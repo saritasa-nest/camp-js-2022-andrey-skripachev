@@ -37,7 +37,7 @@ export class SearchParamsService {
     });
 
     return new HttpParams({
-      fromObject: searchParams,
+      fromObject: filteredSearchParams,
     });
   }
 
