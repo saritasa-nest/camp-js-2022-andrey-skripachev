@@ -1,7 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
 
 import { AnimeListSearchParams } from '../models/animeListSearchParams';
 
@@ -22,30 +21,29 @@ export class SearchParamsService {
    * Creates search params for anime list GET query.
    * @param data Construction data.
    */
-  public setSearchParams(data: AnimeListSearchParams): HttpParams {
-    const searchParams = { ...AnimeListSearchParamsMapper.toDto(data) };
+  public changeSearchParams(data: AnimeListSearchParams): HttpParams {
+    const newSearchParams = { ...AnimeListSearchParamsMapper.toDto(data) };
 
-    const filteredSearchParams: Params = [];
-    for (const [name, value] of Object.entries(searchParams)) {
+    const filteredNewSearchParams: Params = [];
+    for (const [name, value] of Object.entries(newSearchParams)) {
       if (value !== '' && value !== 0) {
-        filteredSearchParams[name] = value;
+        filteredNewSearchParams[name] = value;
       }
     }
 
     this.router.navigate([], {
-      queryParams: filteredSearchParams,
+      queryParams: filteredNewSearchParams,
     });
 
     return new HttpParams({
-      fromObject: filteredSearchParams,
+      fromObject: filteredNewSearchParams,
     });
   }
 
   /** Gets search params from browser address string. */
-  public getAnimeListSearchParams(): Observable<AnimeListSearchParams> {
-    return this.activatedRoute.queryParams.pipe(
-      map(AnimeListSearchParamsMapper.createDtoFromParams),
-      map(AnimeListSearchParamsMapper.fromDto),
-    );
+  public getAnimeListSearchParams(): AnimeListSearchParams {
+    const { queryParams } = this.activatedRoute.snapshot;
+
+    return AnimeListSearchParamsMapper.fromDto(queryParams);
   }
 }

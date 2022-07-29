@@ -44,20 +44,11 @@ export namespace AnimeListSearchParamsMapper {
   }
 
   /**
-   * Gets dto search params from params.
-   * @param params Params.
-   */
-  export function createDtoFromParams(params: Params): AnimeListSearchParamsDto {
-    const { limit = 10, offset = 0, ordering = 'id', type__in = '', search = '' } = params;
-    return { limit, offset, ordering, type__in, search };
-  }
-
-  /**
    * Maps dto to model.
    * @param dto Search params dto.
    */
-  export function fromDto(dto: AnimeListSearchParamsDto): AnimeListSearchParams {
-    const { limit, offset, ordering, type__in, search } = dto;
+  export function fromDto(dto: AnimeListSearchParamsDto | Params): AnimeListSearchParams {
+    const { limit = 10, offset = 0, ordering = '', type__in = '', search = '' } = dto;
 
     const types = type__in
       .split(',')

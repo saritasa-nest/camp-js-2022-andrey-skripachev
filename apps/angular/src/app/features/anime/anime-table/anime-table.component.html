@@ -1,5 +1,3 @@
-
-
 <div class="mat-elevation-z8 default-layout" *ngIf="animeData$ | async as anime; else loading">
   <h2 class="section-heading">Anime recommended for you</h2>
   <div>
@@ -28,8 +26,9 @@
     hidePageSize>
   </mat-paginator>
 
-  <!-- AndreyScripachev: needs to remove constructions like (soriong) -->
+  <!-- AndreyScripachev: needs to remove constructions like (sorting$ | async)?.paramName || else -->
   <table
+    [trackBy]="trackById"
     matSort
     (matSortChange)="changeSortingTarget($event)"
     [matSortDirection]="(sorting$ | async)?.direction || '' "
