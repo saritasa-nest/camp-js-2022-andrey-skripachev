@@ -1,4 +1,5 @@
 import { Sort } from '@angular/material/sort';
+import { Params } from '@angular/router';
 import { isTypeDto, mapAnimeTypeFromDto, mapAnimeTypeToDto } from '@js-camp/core/utils/types/animeType';
 
 import { AnimeListSearchParams } from '../../models/animeListSearchParams';
@@ -40,6 +41,15 @@ export namespace AnimeListSearchParamsMapper {
     }
 
     return `${direction === 'asc' ? '' : '-'}${active}`;
+  }
+
+  /**
+   * Gets dto search params from params.
+   * @param params Params.
+   */
+  export function createDtoFromParams(params: Params): AnimeListSearchParamsDto {
+    const { limit = 10, offset = 0, ordering = 'id', type__in = '', search = '' } = params;
+    return { limit, offset, ordering, type__in, search };
   }
 
   /**

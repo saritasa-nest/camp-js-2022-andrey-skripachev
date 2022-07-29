@@ -34,7 +34,6 @@ export class SearchParamsService {
 
     this.router.navigate([], {
       queryParams: filteredSearchParams,
-      queryParamsHandling: 'preserve',
     });
 
     return new HttpParams({
@@ -45,13 +44,7 @@ export class SearchParamsService {
   /** Gets search params from browser address string. */
   public getAnimeListSearchParams(): Observable<AnimeListSearchParams> {
     return this.activatedRoute.queryParams.pipe(
-      map(({ limit, offset, type__in, ordering, search }: Params) => ({
-          limit: Number(limit || 10),
-          offset: Number(offset || 0),
-          type__in: String(type__in || ''),
-          ordering: String(ordering || ''),
-          search: String(search || ''),
-      })),
+      map(AnimeListSearchParamsMapper.createDtoFromParams),
       map(AnimeListSearchParamsMapper.fromDto),
     );
   }
