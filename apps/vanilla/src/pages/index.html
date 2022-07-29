@@ -3,14 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="./index.css" />
-    <title>Vite App</title>
+    <title>Anime App</title>
   </head>
   <body class="default-layout">
-    <h1 class="title">Main page ⚡</h1>
-    <div class="links">
-      <a href="/example/">Go to example page</a>
-    </div>
+    <header>
+      <a href="#" class="waves-effect waves-light btn">Sign in</a>
+      <a href="#" class="waves-effect waves-light btn">Sign up</a>
+    </header>
+    <main>
+      <h1 class="main-heading center">Anime Catalog</h1>
+      <div class="center pagination anime-table-pagination">
+        <button type="button" class="pagination__button pagination__previous waves-effect waves-light btn-small" title="Go to previous page">&#x2190;Prev</button>
+        <div class="pagination__wrapper compressed-pagination"></div>
+        <button type="button" class="pagination__button pagination__next waves-effect waves-light btn-small" title="Go to next page">Next&#x2192;</button>
+      </div>
+      <table class="centered striped section__table anime-table">
+        <caption class="table__caption">Anime recommended for you</caption>
+        <thead class="table__header">
+          <tr class="table__row">
+            <th class="table__column-heading">Image</th>
+            <th class="table__column-heading">
+              <button type="button" data-ordering="title_eng" class="table__button table__button-sort" title="Sorting by english title">
+                English title
+                <span class="sorting-direction" title="Direction"></span>
+              </button>
+            </th>
+            <th class="table__column-heading">
+              <button type="button" data-ordering="aired__startswith" class="table__button table__button-sort" title="Sorting by airing start">
+                Aired start
+                <span class="sorting-direction"></span>
+              </button>
+            </th>
+            <th class="table__column-heading">
+              <button type="button" data-ordering="status" class="table__button table__button-sort" title="Sorting by status">
+                Status
+                <span class="sorting-direction"></span>
+              </button>
+            </th>
+            <th class="table__column-heading">Type</th>
+          </tr>
+        </thead>
+        <tbody class="table__body"></tbody>
+      </table>
+      <button type="button" class="btn top-moving-button">To top</button>
+    </main>
     <script type="module" src="./index.ts"></script>
   </body>
 </html>

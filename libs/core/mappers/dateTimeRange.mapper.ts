@@ -1,5 +1,4 @@
 import { DateTimeRange } from '../models/dateTimeRange';
-
 import { DateTimeRangeDto } from '../dtos/dateTimeRange.dto';
 
 export namespace DateTimeRangeMapper {
