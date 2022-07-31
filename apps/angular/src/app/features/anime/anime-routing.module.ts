@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AnimeTableComponent } from './anime-table/anime-table.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'anime-list', pathMatch: 'full' },
-  { path: 'anime-list', component: AnimeTableComponent },
+  { path: '', redirectTo: 'table-view', pathMatch: 'full' },
+  { path: 'table-view', component: AnimeTableComponent },
 ];
 
 /** Anime list routing module. */

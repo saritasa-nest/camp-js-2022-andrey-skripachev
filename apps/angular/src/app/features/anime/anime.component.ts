@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-/** Anime list page. */
+/** Anime page. */
 @Component({
-  selector: 'camp-anime-list',
+  selector: 'camp-anime',
   templateUrl: './anime.component.html',
   styleUrls: [],
 })
