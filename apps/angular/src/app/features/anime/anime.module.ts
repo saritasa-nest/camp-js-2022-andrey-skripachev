@@ -24,8 +24,8 @@ import { AnimeComponent } from './anime.component';
   declarations: [AnimeComponent, AnimeTableComponent],
   imports: [
     CommonModule,
-    SharedModule,
     AnimeRoutingModule,
+    SharedModule,
     ReactiveFormsModule,
     FormsModule,
     MatTableModule,

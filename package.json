@@ -1,6 +1,6 @@
 {
-  "name": "saritasa-frontend-boilerplate-camp",
-  "version": "0.0.0",
+  "name": "andrey-skripachev",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "postinstall": "ngcc --properties es2020 browser module main",
@@ -36,6 +36,7 @@
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "ng": "^0.0.0",
+    "materialize-css": "^1.0.0",
     "react": "18.0.0",
     "react-dom": "18.1.0",
     "react-redux": "^8.0.2",
@@ -100,5 +101,16 @@
     "typescript": "~4.7.2",
     "vite": "^2.9.9",
     "vite-plugin-eslint": "1.3.0"
-  }
+  },
+  "description": "Monorepo with Angular, React, Vanilla TS boilerplates for JS camp. Created with [Nx](https://nx.dev/). Update project name and description, when you start working on your own project.",
+  "main": "jest.preset.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saritasa-nest/camp-js-2022-andrey-skripachev.git"
+  },
+  "author": "andrey-skripachev",
+  "bugs": {
+    "url": "https://github.com/saritasa-nest/camp-js-2022-andrey-skripachev/issues"
+  },
+  "homepage": "https://github.com/saritasa-nest/camp-js-2022-andrey-skripachev#readme"
 }

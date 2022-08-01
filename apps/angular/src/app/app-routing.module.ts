@@ -6,7 +6,7 @@ import { AnimeComponent } from './features/anime/anime.component';
 import { AuthComponent } from './features/auth/auth.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'catalog' },
+  { path: '', redirectTo: 'catalog', pathMatch: 'full' },
   { path: 'catalog', component: AnimeComponent },
   { path: 'auth', component: AuthComponent },
 ];
