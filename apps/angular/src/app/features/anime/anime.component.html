@@ -1,13 +1,12 @@
 <header class="header">
   <mat-toolbar color="primary">
-    <mat-toolbar-row>
+    <mat-toolbar-row class="content-space-between">
       <h1 id="page-heading">Anime Catalog</h1>
-      <a mat-icon-button routerLink="/auth">
-        <mat-icon>favorite</mat-icon>
-      </a>
-      <button type="button" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
-      </button>
+      <div>
+        <a mat-raised-button color="basic" routerLink="/auth">
+          Login
+        </a>
+      </div>
     </mat-toolbar-row>
   </mat-toolbar>
 </header>

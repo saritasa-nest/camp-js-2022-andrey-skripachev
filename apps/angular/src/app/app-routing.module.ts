@@ -6,9 +6,19 @@ import { AnimeComponent } from './features/anime/anime.component';
 import { AuthComponent } from './features/auth/auth.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'catalog', pathMatch: 'full' },
-  { path: 'catalog', component: AnimeComponent },
+  { path: '', redirectTo: 'anime', pathMatch: 'full' },
+  { path: 'anime', component: AnimeComponent },
   { path: 'auth', component: AuthComponent },
+  {
+    path: 'anime',
+    loadChildren: () =>
+      import('./features/anime/anime.module').then(m => m.AnimeModule),
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./features/auth/auth.module').then(m => m.AuthModule),
+  },
 ];
 
 /** App routing module. */
