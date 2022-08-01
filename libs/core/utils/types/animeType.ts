@@ -8,15 +8,6 @@ export enum AnimeType {
   Music = 'Music',
 }
 
-const MAP_TO_READABLE_TYPE: Readonly<Record<AnimeType, string>> = {
-  [AnimeType.Movie]: 'Movie',
-  [AnimeType.Music]: 'Music',
-  [AnimeType.ONA]: 'ONA',
-  [AnimeType.OVA]: 'OVA',
-  [AnimeType.Special]: 'Special',
-  [AnimeType.TV]: 'TV',
-};
-
 /**
  * Checks if the value is a type.
  * @param value Value, possibly being a type.
@@ -28,19 +19,10 @@ export function isType(value: string): value is AnimeType {
 export namespace AnimeType {
 
   /**
-   * Converts anime type into readable form.
-   * @param value Anime type.
-   */
-  export function toReadable(value: AnimeType): string {
-    return MAP_TO_READABLE_TYPE[value];
-  }
-
-  /**
    * Converts the value to a type if it exists in the types.
    * @param value String for conversion.
    */
-  export function toAnimeType(value: string): AnimeType | null {
-    return isType(value) ? value : null;
+  export function toAnimeType(value: string): AnimeType {
+    return isType(value) ? value : AnimeType.Movie;
   }
-
 }
