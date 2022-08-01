@@ -20,8 +20,17 @@ const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
  * Mapper for anime type.
  * @param typeDto Type dto.
  */
-function mapAnimeTypeFromDto(typeDto: AnimeTypeDto): AnimeType {
+export function mapAnimeTypeFromDto(typeDto: AnimeTypeDto): AnimeType {
   return TYPE_FROM_DTO[typeDto];
+}
+
+/**
+ * Checks if the value is a anime type dto.
+ * @param value Value, possibly being a anime type dto.
+ * @returns
+ */
+export function isTypeDto(value: string): value is AnimeTypeDto {
+  return Object.keys(AnimeTypeDto).includes(value);
 }
 
 const STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
@@ -34,7 +43,7 @@ const STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
  * Mapper for anime status.
  * @param statusDto Status dto.
  */
-function mapAnimeStatusFromDto(statusDto: AnimeStatusDto): AnimeStatus {
+export function mapAnimeStatusFromDto(statusDto: AnimeStatusDto): AnimeStatus {
   return STATUS_FROM_DTO[statusDto];
 }
 
