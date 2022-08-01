@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AnimeTableComponent } from './anime-table/anime-table.component';
+import { AnimeComponent } from './anime.component';
 
-const routes: Routes = [{ path: '', component: AnimeTableComponent }];
+const routes: Routes = [{ path: '', component: AnimeComponent }];
 
 /** Anime routing module. */
 @NgModule({

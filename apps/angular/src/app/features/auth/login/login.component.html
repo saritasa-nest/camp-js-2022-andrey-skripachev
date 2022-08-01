@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="content-centered-layout fit-layout">
+  <form (ngSubmit)="handleSubmit()" [formGroup]="loginForm" class="mat-elevation-z8 form">
+    <header class="form__header">
+      <h1 class="form__heading">Login</h1>
+    </header>
+    <div>
+      <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          type="text"
+          placeholder="ex@example.com"
+          matInput
+          formControlName="email"
+        >
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          type="password"
+          placeholder="********"
+          matInput
+          formControlName="password"
+        >
+      </mat-form-field>
+    </div>
+    <div></div>
+    <footer>
+      <button mat-raised-button color="primary" type="submit">Login</button>
+    </footer>
+    <mat-spinner></mat-spinner>
+  </form>
+</div>
+
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+</ng-template>

@@ -1,0 +1,9 @@
+.form {
+  width: 500px;
+  margin: 100px;
+  padding: 25px;
+}
+
+.form__field {
+  width: 100%;
+}

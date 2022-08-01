@@ -19,7 +19,7 @@ import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimeTableComponent } from './anime-table/anime-table.component';
 import { AnimeComponent } from './anime.component';
 
-/**  */
+/** Anime module. */
 @NgModule({
   declarations: [AnimeComponent, AnimeTableComponent],
   imports: [

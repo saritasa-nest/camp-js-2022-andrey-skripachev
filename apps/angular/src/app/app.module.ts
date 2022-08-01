@@ -8,6 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AnimeModule } from './features/anime/anime.module';
+import { AuthModule } from './features/auth/auth.module';
 
 /** App module. */
 @NgModule({
@@ -20,6 +21,7 @@ import { AnimeModule } from './features/anime/anime.module';
     FormsModule,
     HttpClientModule,
     AnimeModule,
+    AuthModule,
   ],
   bootstrap: [AppComponent],
 })
