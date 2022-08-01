@@ -18,7 +18,7 @@ const DEFAULT_SEARCH_OPTIONS = new HttpParams({
   },
 });
 
-/** Fetch anime. */
+/** Anime service. */
 @Injectable({
   providedIn: 'root',
 })
