@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'apps/angular/src/core/services/user.service';
+import { tap } from 'rxjs';
 
 /** Login component. */
 @Component({
@@ -13,7 +15,10 @@ export class LoginComponent {
   /** Login form. */
   public readonly loginForm: FormGroup;
 
-  public constructor(formBuilder: FormBuilder) {
+  public constructor(
+    formBuilder: FormBuilder,
+    private userService: UserService,
+  ) {
     this.loginForm = formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -29,7 +34,9 @@ export class LoginComponent {
 
     const loginData = this.loginForm.value;
 
-    us
+    this.userService.login(loginData).pipe(
+      tap(console.log)
+    ).subscribe();
 
   }
 }

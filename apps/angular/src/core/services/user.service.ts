@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Login } from '@js-camp/core/models/login';
+import { User } from '@js-camp/core/models/user';
 import { delay, Observable, of } from 'rxjs';
 
 /** User service. */
@@ -8,6 +9,8 @@ import { delay, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
+
+  public readonly user$: Observable<User | null>;
 
   public constructor(
     private readonly httpClient: HttpClient,
