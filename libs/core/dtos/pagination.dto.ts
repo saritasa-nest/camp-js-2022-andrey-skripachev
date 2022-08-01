@@ -1,4 +1,4 @@
-/** Pagination data from the server. */
+/** Transfer object for pagination data. */
 export interface PaginationDto<T> {
 
   /** Total number of results. */

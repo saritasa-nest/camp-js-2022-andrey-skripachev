@@ -17,7 +17,7 @@ export enum AnimeTypeDto {
   MUSIC = 'MUSIC',
 }
 
-/** Anime data from the server. */
+/** Transfer object for anime. */
 export interface AnimeDto {
 
   /** Anime start and end dates. */
