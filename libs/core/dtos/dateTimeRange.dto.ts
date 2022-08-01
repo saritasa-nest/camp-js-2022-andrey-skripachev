@@ -2,8 +2,8 @@
 export interface DateTimeRangeDto {
 
   /** Beginning. */
-  readonly start: string;
+  readonly start: string | null;
 
   /** End. */
-  readonly end: string;
+  readonly end: string | null;
 }

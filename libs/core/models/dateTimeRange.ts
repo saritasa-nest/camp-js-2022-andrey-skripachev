@@ -4,10 +4,10 @@ import { Immerable, OmitImmerable } from './immerable';
 export class DateTimeRange extends Immerable {
 
   /** The beginning of the event. */
-  public readonly start: Date;
+  public readonly start: Date | null;
 
   /** End of the event. */
-  public readonly end: Date;
+  public readonly end: Date | null;
 
   public constructor(data: InitArgs) {
     super();

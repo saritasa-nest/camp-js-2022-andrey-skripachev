@@ -14,13 +14,13 @@
   <ng-container matColumnDef="title">
     <th mat-header-cell *matHeaderCellDef>Title</th>
     <td mat-cell *matCellDef="let anime">
-      {{anime.titleEnglish | emptyValue}} ({{anime.titleJapanese | emptyValue}})
+      {{anime.titleEnglish | emptyValueHandler}} ({{anime.titleJapanese | emptyValueHandler}})
     </td>
   </ng-container>
   <ng-container matColumnDef="aired start">
     <th mat-header-cell *matHeaderCellDef>Aired start</th>
     <td mat-cell *matCellDef="let anime">
-      {{anime.aired.start | date:"YYYY"}}
+      {{anime.aired.start | date:"YYYY" | emptyValueHandler}}
     </td>
   </ng-container>
   <ng-container matColumnDef="status">

@@ -7,13 +7,16 @@ const MAP_TO_READABLE_STATUS: Readonly<Record<AnimeStatus, string>> = {
   [AnimeStatus.NotYetAired]: 'Not yet aired',
 };
 
-/** Converts anime status into readable form. */
+/** Pipe to convert anime status into readable form. */
 @Pipe({
   name: 'animeStatus',
 })
 export class AnimeStatusPipe implements PipeTransform {
 
-  /** @inheritdoc */
+  /**
+   * Converts anime status to readable form.
+   * @inheritdoc
+   */
   public transform(value: AnimeStatus): string {
     return MAP_TO_READABLE_STATUS[value];
   }

@@ -10,13 +10,16 @@ const MAP_TO_READABLE_TYPE: Readonly<Record<AnimeType, string>> = {
   [AnimeType.TV]: 'TV',
 };
 
-/** Converts anime type into readable form. */
+/** Pipe to convert anime type into readable form. */
 @Pipe({
   name: 'animeType',
 })
 export class AnimeTypePipe implements PipeTransform {
 
-  /** @inheritdoc */
+  /**
+   * Converts anime type into readable form.
+   * @inheritdoc
+   */
   public transform(value: AnimeType): string {
     return MAP_TO_READABLE_TYPE[value];
   }

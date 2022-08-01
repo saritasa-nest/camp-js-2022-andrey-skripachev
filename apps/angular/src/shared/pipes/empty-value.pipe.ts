@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 /** Pipe to transform empty value into string. */
 @Pipe({
-  name: 'emptyValue',
+  name: 'emptyValueHandler',
 })
 export class EmptyValuePipe implements PipeTransform {
 
