@@ -8,8 +8,8 @@ export namespace DateTimeRangeMapper {
    * @param dto Aired dto.
    */
   export function fromDto(dto: DateTimeRangeDto): DateTimeRange {
-    const start = dto.start?new Date(dto.start): null;
-    const end = dto.end?new Date(dto.end):null;
+    const start = dto.start ? new Date(dto.start) : null;
+    const end = dto.end ? new Date(dto.end) : null;
 
     return new DateTimeRange({ start, end });
   }
