@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AnimeComponent } from './features/anime/anime.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'catalog' },
+  { path: '', redirectTo: 'catalog', pathMatch: 'full' },
   { path: 'catalog', component: AnimeComponent },
 ];
 
