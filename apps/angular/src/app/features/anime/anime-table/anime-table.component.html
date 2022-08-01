@@ -50,9 +50,9 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="aired start">
-      <th mat-sort-header="aired__startswith" mat-header-cell *matHeaderCellDef>Aired start</th>
+      <th mat-sort-header="aired" mat-header-cell *matHeaderCellDef>Aired start</th>
       <td mat-cell *matCellDef="let anime">
-        {{(anime.aired.start | date:"YYYY" )}}
+        {{anime.aired.start | date:"YYYY" | emptyString}}
       </td>
     </ng-container>
     <ng-container matColumnDef="status">
