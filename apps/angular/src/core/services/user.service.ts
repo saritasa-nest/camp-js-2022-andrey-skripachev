@@ -23,7 +23,10 @@ export class UserService {
    * Login user.
    * @param loginData Login data.
    */
-  public login(loginData: Login): Observable<Token> {
-    return this.authService.login(loginData);
+  public login(loginData: Login): Observable<string | null> {
+    return this.authService.login(loginData)
+      .pipe(
+        tap(token => )
+      );
   }
 }
