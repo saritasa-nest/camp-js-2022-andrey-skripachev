@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'apps/angular/src/core/services/user.service';
-import { tap } from 'rxjs';
+import { catchError, of } from 'rxjs';
+
+import { UserService } from '../../../../core/services/user.service';
 
 /** Login component. */
 @Component({
@@ -18,6 +19,7 @@ export class LoginComponent {
   public constructor(
     formBuilder: FormBuilder,
     private userService: UserService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
     this.loginForm = formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -27,7 +29,6 @@ export class LoginComponent {
 
   /** Handles form submitting. */
   public handleSubmit(): void {
-    this.loginForm.markAllAsTouched();
     if (this.loginForm.invalid) {
       return;
     }
@@ -35,8 +36,18 @@ export class LoginComponent {
     const loginData = this.loginForm.value;
 
     this.userService.login(loginData).pipe(
-      tap(console.log)
-    ).subscribe();
+      // eslint-disable-next-line rxjs/no-implicit-any-catch
+      catchError(({ error: { message } }) => {
+          this.loginForm.controls['email'].setErrors({
+            loginError: message,
+          });
+
+          this.cdr.markForCheck();
+
+        return of();
+      }),
+    )
+      .subscribe();
 
   }
 }

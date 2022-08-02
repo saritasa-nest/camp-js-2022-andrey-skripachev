@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Login } from '@js-camp/core/models/login';
+import { Token } from '@js-camp/core/models/token';
 import { User } from '@js-camp/core/models/user';
-import { delay, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { AuthService } from './auth.service';
 
 /** User service. */
 @Injectable({
@@ -10,19 +12,18 @@ import { delay, Observable, of } from 'rxjs';
 })
 export class UserService {
 
+  /** Current user. */
   public readonly user$: Observable<User | null>;
 
   public constructor(
-    private readonly httpClient: HttpClient,
+    private readonly authService: AuthService,
   ) {}
 
   /**
    * Login user.
    * @param loginData Login data.
    */
-  public login(loginData: Login): Observable<string> {
-    return of('Test message').pipe(
-      delay(300),
-    );
+  public login(loginData: Login): Observable<Token> {
+    return this.authService.login(loginData);
   }
 }

@@ -5,9 +5,12 @@
     </header>
     <div>
       <mat-form-field class="form__field" appearance="fill">
-        <mat-label>Email</mat-label>
+        <mat-label>
+          Email
+        </mat-label>
         <input
           type="text"
+          autocomplete="email"
           placeholder="ex@example.com"
           matInput
           formControlName="email"
@@ -19,17 +22,21 @@
         <mat-label>Password</mat-label>
         <input
           type="password"
+          autocomplete="current-password"
           placeholder="********"
           matInput
           formControlName="password"
         >
       </mat-form-field>
     </div>
-    <div></div>
     <footer>
-      <button mat-raised-button color="primary" type="submit">Login</button>
+      <mat-error *ngIf="loginForm.controls['email'].hasError('loginError')">{{ loginForm.getError('loginError') }}</mat-error>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+      >Login</button>
     </footer>
-    <mat-spinner></mat-spinner>
   </form>
 </div>
 
