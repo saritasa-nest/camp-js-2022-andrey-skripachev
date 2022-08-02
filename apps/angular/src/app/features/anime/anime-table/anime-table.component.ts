@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, ViewChild, Component, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, debounceTime, Observable, startWith, Subscription, switchMap, tap } from 'rxjs';
+import { AfterViewInit, ChangeDetectionStrategy, ViewChild, Component } from '@angular/core';
+import { BehaviorSubject, combineLatest, combineLatestWith, debounceTime, Observable, startWith, switchMap, tap } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -19,7 +19,7 @@ import { SearchParamsService } from '../../../../core/services/search-params.ser
   styleUrls: ['./anime-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeTableComponent implements AfterViewInit, OnDestroy {
+export class AnimeTableComponent implements AfterViewInit {
 
   private readonly dataSource = new MatTableDataSource<Anime>();
 
@@ -49,9 +49,6 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
   /** Maximum anime in page. */
   public maximumAnimeOnPage = 10;
-
-  /** Subscription of handling search params changes. */
-  public searchParamsChangesSubscription: Subscription = new Subscription();
 
   /** Filtering field form controller. */
   public filterFormControl = new FormControl<AnimeType[]>([], {
@@ -83,29 +80,26 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
 
     const filterChanges$ = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
-      tap(() => {
-        this.currentPage$.next(0);
-      }),
     );
     const searchChanges$ = this.searchFormControl.valueChanges.pipe(
       startWith(this.searchFormControl.value),
-      tap(() => {
-        this.currentPage$.next(0);
-      }),
     );
-    const sortingChanges$ = this.sorting$.pipe(
-      tap(() => {
-        this.currentPage$.next(0);
-      }),
-    );
-    this.animeData$ = combineLatest([
+    const sortingChanges$ = this.sorting$;
+
+    const resetPaginationChanges$ = combineLatest([
       filterChanges$,
       searchChanges$,
-      this.currentPage$,
       sortingChanges$,
     ]).pipe(
+      tap(() => {
+        this.currentPage$.next(0);
+      }),
+    );
+
+    this.animeData$ = resetPaginationChanges$.pipe(
+      combineLatestWith(this.currentPage$),
       debounceTime(300),
-      switchMap(([selectedFilter, selectedSearch, selectedPage, selectedSorting]) => {
+      switchMap(([[selectedFilter, selectedSearch, selectedSorting], selectedPage]) => {
         const params = this.searchParamsService.changeSearchParams(new AnimeListSearchParams({
           maximumItemsOnPage: this.maximumAnimeOnPage,
           pageNumber: selectedPage,
@@ -125,14 +119,6 @@ export class AnimeTableComponent implements AfterViewInit, OnDestroy {
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-
-  /**
-   * Unsubscribes.
-   * @inheritdoc
-   * */
-  public ngOnDestroy(): void {
-    this.searchParamsChangesSubscription.unsubscribe();
   }
 
   /**
