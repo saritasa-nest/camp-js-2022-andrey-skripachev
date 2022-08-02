@@ -8,32 +8,40 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
 
-import { environment } from '../../environments/environment';
+import { AnimeListSearchParams } from '../models/animeListSearchParams';
 
-const DEFAULT_SEARCH_OPTIONS = new HttpParams({
-  fromObject: {
-    limit: 10,
-    offset: 0,
-    ordering: 'id',
-  },
-});
+import { AppConfigService } from './app-config.service';
+import { AnimeListSearchParamsMapper } from './mappers/animeListSearchParams.mapper';
 
 /** Anime service. */
 @Injectable({
   providedIn: 'root',
 })
 export class AnimeService {
-  public constructor(
-    private readonly httpClient: HttpClient,
-  ) {}
 
-  /** Gets anime list. */
-  public getAnimeList(): Observable<readonly Anime[]> {
-    const url = new URL('anime/anime/', environment.apiUrl);
-    return this.httpClient.get<PaginationDto<AnimeDto>>(url.toString(), {
-      params: DEFAULT_SEARCH_OPTIONS,
-    }).pipe(
-      map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto).results),
-    );
+  private readonly animeListUrl: URL;
+
+  public constructor(
+    appConfig: AppConfigService,
+    private readonly httpClient: HttpClient,
+  ) {
+    this.animeListUrl = new URL('anime/anime/', appConfig.apiUrl);
+  }
+
+  /**
+   * Gets anime list.
+   * @param searchParams Params for searching anime.
+   */
+  public getAnimeList(searchParams: AnimeListSearchParams): Observable<readonly Anime[]> {
+    const searchParamsDto = AnimeListSearchParamsMapper.toDto(searchParams);
+
+    return this.httpClient.get<PaginationDto<AnimeDto>>(
+      this.animeListUrl.toString(),
+      {
+        params: new HttpParams({
+          fromObject: { ...searchParamsDto },
+        }),
+      },
+    ).pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto).results));
   }
 }
