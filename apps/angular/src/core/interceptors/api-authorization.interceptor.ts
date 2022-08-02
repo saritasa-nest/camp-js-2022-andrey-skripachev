@@ -7,13 +7,17 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../environments/environment';
+import { AppConfigService } from '../services/app-config.service';
 
 /** Interceptor to add api key to request. */
 @Injectable({
   providedIn: 'root',
 })
-export class ApiInterceptor implements HttpInterceptor {
+export class ApiAuthorizationInterceptor implements HttpInterceptor {
+
+  public constructor(
+    private readonly appConfig: AppConfigService,
+  ) {}
 
   /**
    * Appends api key.
@@ -24,7 +28,7 @@ export class ApiInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request.clone({
-      headers: request.headers.set('Api-Key', environment.apiKey),
+      headers: request.headers.set('Api-Key', this.appConfig.apiKey),
     }));
   }
 }
