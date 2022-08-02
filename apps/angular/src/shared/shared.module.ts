@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { ApiInterceptor } from '../core/interceptors/api.interceptor';
+import { ApiAuthorizationInterceptor } from '../core/interceptors/api-authorization.interceptor';
 
 import { AnimeTypePipe } from './pipes/anime-type.pipe';
 import { AnimeStatusPipe } from './pipes/anime-status.pipe';
@@ -24,7 +24,7 @@ import { EmptyValuePipe } from './pipes/empty-value.pipe';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
+      useClass: ApiAuthorizationInterceptor,
       multi: true,
     },
   ],

@@ -9,7 +9,6 @@ import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { FormControl } from '@angular/forms';
 
 import { AnimeListSearchParams } from '../../../../core/models/animeListSearchParams';
-
 import { AnimeService } from '../../../../core/services/anime.service';
 import { SearchParamsService } from '../../../../core/services/search-params.service';
 
