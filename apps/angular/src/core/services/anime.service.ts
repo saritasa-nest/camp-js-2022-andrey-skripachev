@@ -7,6 +7,7 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
+import { Pagination } from '@js-camp/core/models/pagination';
 
 import { AppConfigService } from './app-config.service';
 
@@ -29,13 +30,13 @@ export class AnimeService {
    * Gets anime list.
    * @param searchParams Params for searching anime.
    */
-  public getAnimeList(searchParams: HttpParams): Observable<readonly Anime[]> {
+  public getAnimeList(searchParams: HttpParams): Observable<Pagination<Anime>> {
 
     return this.httpClient.get<PaginationDto<AnimeDto>>(
       this.animeListUrl.toString(),
       {
         params: searchParams,
       },
-    ).pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto).results));
+    ).pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)));
   }
 }
