@@ -19,7 +19,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
   /** @inheritdoc */
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-
+    if (request.url.startsWith(new URL('auth', this.appConfig.apiUrl).toString())) {
+      return next.handle(request);
+    }
     return this.tokenService.getToken().pipe(
       map(token => {
         if (token === null) {
@@ -29,7 +31,7 @@ export class AuthInterceptor implements HttpInterceptor {
           headers: request.headers.set('Authorization', `Bearer ${token.access}`),
         });
       }),
-      switchMap(next.handle),
+      switchMap(clonedRequest => next.handle(clonedRequest)),
     );
   }
 }

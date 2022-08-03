@@ -8,6 +8,7 @@ import { AnimeTypePipe } from './pipes/anime-type.pipe';
 import { AnimeStatusPipe } from './pipes/anime-status.pipe';
 import { EmptyValuePipe } from './pipes/empty-value.pipe';
 import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
+import { AuthControlsComponent } from './components/auth-controls/auth-controls.component';
 
 /** Shared module. */
 @NgModule({
@@ -15,12 +16,9 @@ import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
     AnimeTypePipe,
     AnimeStatusPipe,
     EmptyValuePipe,
+    AuthControlsComponent,
   ],
-  exports: [
-    AnimeTypePipe,
-    AnimeStatusPipe,
-    EmptyValuePipe,
-  ],
+  exports: [AnimeTypePipe, AnimeStatusPipe, EmptyValuePipe, AuthControlsComponent],
   imports: [CommonModule],
   providers: [
     {
@@ -32,7 +30,7 @@ import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
+    },
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

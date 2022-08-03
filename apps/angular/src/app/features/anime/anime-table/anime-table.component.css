@@ -1,3 +1,7 @@
+.anime-table {
+  width: 100%;
+}
+
 .anime-table__row {
   height: fit-content;
 }

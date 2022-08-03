@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Token } from '@js-camp/core/models/token';
-import { concat, defer, Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, concat, defer, Observable, ReplaySubject, tap } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 
 const TOKEN_STORAGE_KEY = 'token';
@@ -17,7 +17,7 @@ export class TokenStorageService {
   ) {
     this.currentToken$ = this.initTokenStream();
 
-    this.currentToken$.subscribe(console.log)
+    this.currentToken$.subscribe()
   }
 
   public saveToken(token: Token): void {
@@ -29,12 +29,13 @@ export class TokenStorageService {
   }
 
   public clearToken(): void {
-    this.storageService.delete(TOKEN_STORAGE_KEY);
+
+      this.storageService.delete(TOKEN_STORAGE_KEY)
+
   }
 
   private initTokenStream(): Observable<Token | null> {
     return defer(() =>
-      this.storageService.get<Token>(TOKEN_STORAGE_KEY)
-    )
+      this.storageService.get<Token>(TOKEN_STORAGE_KEY))
   }
 }

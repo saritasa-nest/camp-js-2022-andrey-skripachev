@@ -2,10 +2,9 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row class="content-space-between">
       <h1 id="page-heading">Anime Catalog</h1>
-      <div>
-        <a mat-raised-button color="basic" routerLink="/auth">
-          Login
-        </a>
+      <div *ngIf="isUserAuthorized; else authorized">
+        <button mat-flat-button (click)="handleLogoutClick()">Log out</button>
+        <span>AMOGUS</span>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
@@ -13,3 +12,12 @@
 <main class="content">
   <camp-anime-table class="anime-table-component"></camp-anime-table>
 </main>
+
+<ng-template #authorized>
+  <a mat-raised-button color="basic" routerLink="/auth">
+    Login
+  </a>
+</ng-template>
+<ng-template #notAuthorized>
+  <div>Hi, user</div>
+</ng-template>

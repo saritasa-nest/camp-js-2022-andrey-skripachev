@@ -5,6 +5,7 @@ body {
   padding: 0;
   min-width: 100vw;
   min-height: 100vh;
+  overflow-y: hidden;
 }
 
 .default-layout {

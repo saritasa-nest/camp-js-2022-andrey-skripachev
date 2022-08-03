@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDto } from '@js-camp/core/dtos/user.dto';
 import { UserMapper } from '@js-camp/core/mappers/user.mapper';
 import { Login } from '@js-camp/core/models/login';
 import { User } from '@js-camp/core/models/user';
-import { catchError, Observable, map, of, tap } from 'rxjs';
+import { catchError, Observable, map, of, tap, BehaviorSubject } from 'rxjs';
 import { AppConfigService } from './app-config.service';
 
 import { AuthService } from './auth.service';
@@ -21,6 +21,8 @@ export class UserService {
 
   private readonly currentUser$: Observable<User | null>;
 
+  public readonly isAuthorized$ = new BehaviorSubject<boolean>(false);
+
   public constructor(
     appConfig: AppConfigService,
     private readonly authService: AuthService,
@@ -32,8 +34,7 @@ export class UserService {
 
     this.currentUser$ = this.initCurrentUser();
 
-    this.currentUser$.subscribe(console.log);
-
+    this.currentUser$.subscribe();
   }
 
   /**
@@ -46,13 +47,20 @@ export class UserService {
       .pipe(
         map(token => {
           this.tokenService.saveToken(token);
+          this.isAuthorized$.next(true);
           this.redirectAfterAuth();
           return null;
         }),
         catchError(error => {
-          return of(String(error.error.detail || 'Invalid data'))
+          this.isAuthorized$.next(false);
+          return of(String(error.error.detail || 'Invalid data'));
         })
       );
+  }
+
+  public logout(): void {
+    this.tokenService.clearToken();
+    this.isAuthorized$.next(false);
   }
 
   private async redirectAfterAuth(): Promise<void> {
@@ -64,12 +72,11 @@ export class UserService {
     return this.http.get<UserDto>(this.userUrl.toString())
       .pipe(
         map(data => {
-          console.log(data);
-         return UserMapper.fromDto(data)
+          this.isAuthorized$.next(true);
+          return UserMapper.fromDto(data)
         }),
-        catchError((err) => {
-          console.log(err);
-
+        catchError(() => {
+          this.isAuthorized$.next(false);
           return of(null);
         } ),
       )
