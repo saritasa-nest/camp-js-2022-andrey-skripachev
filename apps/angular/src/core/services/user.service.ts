@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Login } from '@js-camp/core/models/login';
-import { Token } from '@js-camp/core/models/token';
-import { User } from '@js-camp/core/models/user';
-import { Observable } from 'rxjs';
+import { catchError, Observable, map, of } from 'rxjs';
 
 import { AuthService } from './auth.service';
+import { TokenStorageService } from './token-storage.service';
 
 /** User service. */
 @Injectable({
@@ -12,21 +12,33 @@ import { AuthService } from './auth.service';
 })
 export class UserService {
 
-  /** Current user. */
-  public readonly user$: Observable<User | null>;
-
   public constructor(
     private readonly authService: AuthService,
+    private readonly tokenService: TokenStorageService,
+    private readonly router: Router,
   ) {}
 
   /**
-   * Login user.
+   * Saves token.
    * @param loginData Login data.
+   * @return String with the error text or null.
    */
   public login(loginData: Login): Observable<string | null> {
     return this.authService.login(loginData)
       .pipe(
-        tap(token => )
+        map(token => {
+          this.tokenService.saveToken(token);
+          this.redirectAfterAuth();
+          return null;
+        }),
+        catchError(error => {
+          return of(String(error.error.detail || 'Invalid data'))
+        })
       );
+  }
+
+  private async redirectAfterAuth(): Promise<void> {
+    const route = this.router.createUrlTree(['/']);
+    await this.router.navigateByUrl(route);
   }
 }

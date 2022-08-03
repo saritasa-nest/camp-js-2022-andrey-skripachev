@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs';
 
 import { UserService } from '../../../../core/services/user.service';
 
@@ -38,16 +39,20 @@ export class LoginComponent {
     const loginData = this.loginForm.value;
 
     this.userService.login(loginData)
-      .subscribe({
-        // eslint-disable-next-line rxjs/no-implicit-any-catch
-        error: ({ error: { detail } }) => {
+      .pipe(
+        tap(errorMessage => {
+          if (errorMessage === null) {
+            return;
+          }
+
           this.loginForm.setErrors({
-            [this.loginError]: detail,
+            [this.loginError]: errorMessage,
           });
 
           this.cdr.markForCheck();
-        },
-      });
+        })
+      )
+      .subscribe();
 
   }
 }

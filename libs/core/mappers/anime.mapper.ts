@@ -5,7 +5,7 @@ import { AnimeType } from '../utils/types/animeType';
 
 import { AnimeDto, AnimeTypeDto, AnimeStatusDto } from '../dtos/anime.dto';
 
-import { DateTimeRangeMapper } from './dateTimeRange.mapper';
+import { DateTimeRangeMapper } from './date-time-range.mapper';
 
 const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
   [AnimeTypeDto.MOVIE]: AnimeType.Movie,

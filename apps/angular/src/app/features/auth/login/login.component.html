@@ -1,8 +1,6 @@
 <div class="content-centered-layout fit-layout">
   <form (ngSubmit)="handleSubmit()" [formGroup]="loginForm" class="mat-elevation-z8 form">
-    <header class="form__header">
-      <h1 class="form__heading">Login</h1>
-    </header>
+    <h1 class="mat-title">Login</h1>
     <div>
       <mat-form-field class="form__field" appearance="fill">
         <mat-label>
@@ -36,6 +34,10 @@
         color="primary"
         type="submit"
       >Login</button>
+      <div class="content-space-between">
+        <a routerLink="/">Go to main page</a>
+        <a routerLink="/">Register</a>
+      </div>
     </footer>
   </form>
 </div>

@@ -1,7 +1,7 @@
 import { AnimeType } from '../utils/types/animeType';
 import { AnimeStatus } from '../utils/types/animeStatus';
 
-import { DateTimeRange } from './dateTimeRange';
+import { DateTimeRange } from './date-time-range';
 
 import { Immerable, OmitImmerable } from './immerable';
 

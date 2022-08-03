@@ -1,4 +1,4 @@
-import { DateTimeRangeDto } from './dateTimeRange.dto';
+import { DateTimeRangeDto } from './date-time-range.dto';
 
 /** Acceptable values of anime statuses. */
 export enum AnimeStatusDto {
