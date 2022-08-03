@@ -1,4 +1,4 @@
-export interface UserRegistrationDto {
+export interface RegistrationDto {
 
   readonly email: string;
 

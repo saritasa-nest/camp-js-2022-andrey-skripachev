@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Token } from '@js-camp/core/models/token';
-import { concat, defer, Observable } from 'rxjs';
+import { concat, defer, Observable, ReplaySubject } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 
 const TOKEN_STORAGE_KEY = 'token';
@@ -10,19 +10,31 @@ const TOKEN_STORAGE_KEY = 'token';
 })
 export class TokenStorageService {
 
+  private readonly currentToken$: Observable<Token | null>;
+
   public constructor(
     private readonly storageService: LocalStorageService,
-  ) {}
+  ) {
+    this.currentToken$ = this.initTokenStream();
 
-  public async saveToken(token: Token): Promise<void> {
+    this.currentToken$.subscribe(console.log)
+  }
+
+  public saveToken(token: Token): void {
     this.storageService.set(TOKEN_STORAGE_KEY, token)
   }
 
-  public async getToken(): Promise<Token | null> {
-    return await this.storageService.get<Token>(TOKEN_STORAGE_KEY);
+  public getToken(): Observable<Token | null> {
+    return this.currentToken$;
   }
 
-  public async clearToken(): Promise<void> {
+  public clearToken(): void {
     this.storageService.delete(TOKEN_STORAGE_KEY);
+  }
+
+  private initTokenStream(): Observable<Token | null> {
+    return defer(() =>
+      this.storageService.get<Token>(TOKEN_STORAGE_KEY)
+    )
   }
 }
