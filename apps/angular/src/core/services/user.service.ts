@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserDto } from '@js-camp/core/dtos/user.dto';
 import { UserMapper } from '@js-camp/core/mappers/user.mapper';
 import { Login } from '@js-camp/core/models/login';
+import { Registration } from '@js-camp/core/models/registration';
 import { User } from '@js-camp/core/models/user';
 import { catchError, Observable, map, of, tap, BehaviorSubject } from 'rxjs';
 import { AppConfigService } from './app-config.service';
@@ -56,6 +57,22 @@ export class UserService {
           return of(String(error.error.detail || 'Invalid data'));
         })
       );
+  }
+
+  public register(registrationData: Registration): Observable<string | null> {
+    return this.authService.register(registrationData)
+      .pipe(
+        map(token => {
+          this.tokenService.saveToken(token);
+          this.isAuthorized$.next(true);
+          this.redirectAfterAuth();
+          return null;
+        }),
+        catchError(error => {
+          this.isAuthorized$.next(false);
+          return of(String(error.error.detail || 'Invalid data'));
+        })
+      )
   }
 
   public logout(): void {

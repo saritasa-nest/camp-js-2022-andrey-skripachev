@@ -21,7 +21,7 @@ export class LoginComponent {
 
   public constructor(
     formBuilder: FormBuilder,
-    private userService: UserService,
+    private readonly userService: UserService,
     private readonly cdr: ChangeDetectorRef,
   ) {
     this.loginForm = formBuilder.group({

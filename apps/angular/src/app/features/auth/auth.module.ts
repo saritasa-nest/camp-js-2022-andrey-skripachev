@@ -11,15 +11,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { SharedModule } from '../../../shared/shared.module';
 
 import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'registration', component: RegistrationComponent },
 ];
 
 /** Auth module. */
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, RegistrationComponent],
   imports: [
     CommonModule,
     SharedModule,
