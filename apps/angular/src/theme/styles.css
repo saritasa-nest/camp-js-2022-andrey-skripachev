@@ -35,3 +35,9 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+.content {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
