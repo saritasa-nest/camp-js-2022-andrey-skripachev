@@ -23,7 +23,6 @@ export class AnimeTableComponent {
   public constructor(
     animeService: AnimeService,
   ) {
-
     const currentPage = 0;
     const maximumItemsOnPage = 10;
     const sortingTarget = 'id';
