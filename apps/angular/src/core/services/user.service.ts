@@ -93,10 +93,11 @@ export class UserService {
       first(),
       switchMap(token =>
         token !== null ?
-          this.authService.refresh(token.refresh) :
-          throwError(new Error('Unauthorized'))),
+          this.authService.refresh(token) :
+          throwError(() => new Error('Unauthorized'))),
       catchError(() =>
         this.tokenService.clearToken()),
+      switchMap(newToken => newToken ? this.tokenService.saveToken(newToken) : of(null)),
       mapTo(void 0),
     );
   }

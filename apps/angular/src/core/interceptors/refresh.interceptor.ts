@@ -26,7 +26,7 @@ export class RefreshInterceptor implements HttpInterceptor {
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: unknown) => {
-        if (error instanceof HttpErrorResponse && error.status && !this.shouldRefreshToken(request.url)) {
+        if (error instanceof HttpErrorResponse && (error.status !== 401 || !this.shouldRefreshToken(request.url))) {
           return throwError(() => error);
         }
 

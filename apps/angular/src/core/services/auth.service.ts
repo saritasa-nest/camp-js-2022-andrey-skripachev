@@ -30,7 +30,7 @@ export class AuthService {
   ) {
     this.loginUrl = new URL('auth/login/', appConfig.apiUrl);
     this.registrationUrl = new URL('auth/register/', appConfig.apiUrl);
-    this.refreshUrl = new URL('auth/token/refresh', appConfig.apiUrl);
+    this.refreshUrl = new URL('auth/token/refresh/', appConfig.apiUrl);
   }
 
   /**
@@ -58,12 +58,12 @@ export class AuthService {
 
   /**
    * Refreshes access token.
-   * @param refreshToken Refresh token.
+   * @param token Token.
    */
-  public refresh(refreshToken: string): Observable<Token> {
+  public refresh(token: Token): Observable<Token> {
     return this.httpClient.post<TokenDto>(
       this.refreshUrl.toString(),
-      refreshToken,
+      { refresh: token },
     ).pipe(
       map(TokenMapper.fromDto),
     );
