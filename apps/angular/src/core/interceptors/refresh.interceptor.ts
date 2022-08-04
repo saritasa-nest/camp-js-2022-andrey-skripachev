@@ -30,9 +30,6 @@ export class RefreshInterceptor implements HttpInterceptor {
           return throwError(() => error);
         }
 
-        console.log('Insert refresh!)))');
-
-
         this.refreshTokenRequest$ ??= this.userService.refresh();
 
         return this.refreshTokenRequest$.pipe(
