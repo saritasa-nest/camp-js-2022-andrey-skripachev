@@ -1,6 +1,10 @@
 <div class="mat-elevation-z8 default-layout" *ngIf="animeData$ | async as anime; else loading">
-  <h2 class="section-heading">Anime recommended for you</h2>
-  <div>
+  <h2 class="section-heading mat-title">Anime recommended for you</h2>
+  <div class="anime-search-controls">
+    <mat-form-field appearance="fill">
+      <mat-label>Search anime</mat-label>
+      <input [formControl]="searchFormControl" matInput placeholder="Ex. JoJo"/>
+    </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Anime types</mat-label>
       <mat-select [formControl]="filterFormControl" multiple>
@@ -9,12 +13,6 @@
           {{type}}
          </mat-option>
       </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Search anime</mat-label>
-      <input [formControl]="searchFormControl" matInput placeholder="Ex. JoJo"/>
     </mat-form-field>
   </div>
   <mat-paginator
@@ -67,7 +65,7 @@
         {{anime.type | animeType}}
       </td>
     </ng-container>
-    <tr id="anime-table__heading-row" mat-header-row *matHeaderRowDef="tableColumns" class="anime-table__row"></tr>
+    <tr id="anime-table__heading-row" mat-header-row *matHeaderRowDef="tableColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: tableColumns" class="anime-table__row"></tr>
   </table>
 </div>
