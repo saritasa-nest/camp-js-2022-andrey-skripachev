@@ -6,6 +6,12 @@
   height: 150px;
 }
 
+.anime-search-fields {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  margin: 20px 0;
+}
+
 .anime-table__image {
   max-height: 150px;
 }
