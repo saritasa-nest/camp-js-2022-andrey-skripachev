@@ -2,6 +2,7 @@
   <form (ngSubmit)="handleSubmit()" [formGroup]="registrationForm" class="mat-elevation-z8 form">
     <h1 class="mat-title">Registration</h1>
     <div>
+      <mat-error *ngIf="registrationForm.hasError('firstName')">{{ registrationForm.getError('firstName') }}</mat-error>
       <mat-form-field class="form__field" appearance="fill">
         <mat-label>
           First name
@@ -13,10 +14,10 @@
           matInput
           formControlName="firstName"
         >
-        <mat-error *ngIf="registrationForm.hasError('firstName')">{{ registrationForm.getError('firstName') }}</mat-error>
       </mat-form-field>
     </div>
     <div>
+      <mat-error *ngIf="registrationForm.hasError('lastName')">{{ registrationForm.getError('lastName') }}</mat-error>
       <mat-form-field class="form__field" appearance="fill">
         <mat-label>
           Last name
@@ -28,10 +29,10 @@
           matInput
           formControlName="lastName"
         >
-        <mat-error *ngIf="registrationForm.hasError('lastName')">{{ registrationForm.getError('lastName') }}</mat-error>
       </mat-form-field>
     </div>
     <div>
+      <mat-error *ngIf="registrationForm.hasError('email')">{{ registrationForm.getError('email') }}</mat-error>
       <mat-form-field class="form__field" appearance="fill">
         <mat-label>
           Email
@@ -43,10 +44,10 @@
           matInput
           formControlName="email"
         >
-        <mat-error *ngIf="registrationForm.hasError('email')">{{ registrationForm.getError('email') }}</mat-error>
       </mat-form-field>
     </div>
     <div>
+      <mat-error *ngIf="registrationForm.hasError('password')">{{ registrationForm.getError('password') }}</mat-error>
       <mat-form-field class="form__field" appearance="fill">
         <mat-label>Password</mat-label>
         <input
@@ -56,10 +57,10 @@
           matInput
           formControlName="password"
         >
-        <mat-error *ngIf="registrationForm.hasError('password')">{{ registrationForm.getError('password') }}</mat-error>
       </mat-form-field>
     </div>
     <div>
+      <mat-error *ngIf="registrationForm.hasError('confirmPassword')">{{ registrationForm.getError('confirmPassword') }}</mat-error>
       <mat-form-field class="form__field" appearance="fill">
         <mat-label>Confirm password</mat-label>
         <input
@@ -69,19 +70,18 @@
           matInput
           formControlName="confirmPassword"
         >
-        <mat-error *ngIf="registrationForm.hasError('confirmPassword')">{{ registrationForm.getError('confirmPassword') }}</mat-error>
       </mat-form-field>
     </div>
     <footer>
-      <mat-error></mat-error>
+      <mat-error *ngIf="registrationForm.hasError('detail')">{{ registrationForm.getError('detail') }}</mat-error>
       <button
         mat-raised-button
         color="primary"
         type="submit"
       >Register</button>
       <div class="content-space-between">
-        <a routerLink="/">Go to main page</a>
-        <a routerLink="../login">Login</a>
+        <a mat-button routerLink="/">Go to main page</a>
+        <a mat-button routerLink="../login">Login</a>
       </div>
     </footer>
   </form>

@@ -98,7 +98,7 @@ export class AnimeTableComponent implements AfterViewInit {
 
     this.animeData$ = resetPaginationChanges$.pipe(
       combineLatestWith(this.currentPage$),
-      debounceTime(300),
+      debounceTime(500),
       switchMap(([[selectedFilter, selectedSearch, selectedSorting], selectedPage]) => {
         const params = this.searchParamsService.changeSearchParams(new AnimeListSearchParams({
           maximumItemsOnPage: this.maximumAnimeOnPage,

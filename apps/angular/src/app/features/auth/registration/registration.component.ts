@@ -49,6 +49,8 @@ export class RegistrationComponent {
 
     if (password !== confirmPassword) {
       this.registrationForm.setErrors(passwordsIsNowEqualsError);
+
+      this.cdr.markForCheck();
       return;
     }
 
@@ -61,6 +63,8 @@ export class RegistrationComponent {
         this.registrationForm.setErrors({
           [errorMessage[0]]: errorMessage[1],
         });
+
+        this.cdr.markForCheck();
       }),
     )
       .subscribe();

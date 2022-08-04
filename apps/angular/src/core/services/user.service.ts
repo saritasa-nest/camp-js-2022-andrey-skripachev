@@ -108,8 +108,8 @@ export class UserService {
   private getErrorMessage(errorResponse: ValidationErrorResponse): ErrorMessage {
     if (errorResponse.data) {
       for (const [field, message] of Object.entries(errorResponse.data)) {
-        if (message !== null) {
-          return [field, message];
+        if (message) {
+          return [field, message.join(' ')];
         }
       }
     }

@@ -3,10 +3,9 @@
 }
 
 .anime-table__row {
-  height: fit-content;
+  height: 150px;
 }
 
 .anime-table__image {
   max-height: 150px;
-  max-width: 150px;
 }
