@@ -63,7 +63,7 @@ export class AuthService {
   public refresh(token: Token): Observable<Token> {
     return this.httpClient.post<TokenDto>(
       this.refreshUrl.toString(),
-      { refresh: token },
+      { refresh: token.refresh },
     ).pipe(
       map(TokenMapper.fromDto),
     );
