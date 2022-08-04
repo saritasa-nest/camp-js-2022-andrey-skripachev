@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs';
 
 import { UserService } from '../../../../core/services/user.service';
+
+const passwordsIsNowEqualsError = {
+  confirmPassword: 'Passwords is not equals',
+};
 
 /** Registration form component. */
 @Component({
@@ -24,18 +29,43 @@ export class RegistrationComponent {
     private readonly cdr: ChangeDetectorRef,
   ) {
     this.registrationForm = formBuilder.group({
-      firstName: ['1', [Validators.required]],
-      lastName: ['1', [Validators.required]],
-      email: ['1', [Validators.required, Validators.email]],
-      password: ['1', [Validators.required]],
-      confirmPassword: ['1', [Validators.required]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
     });
   }
 
   /** Registers user. */
   public handleSubmit(): void {
     if (this.registrationForm.invalid) {
-      return void 0;
+      return;
     }
+
+    const registrationData = this.registrationForm.value;
+
+    console.log(registrationData);
+
+    const { password, confirmPassword } = registrationData;
+
+    if (password !== confirmPassword) {
+      this.registrationForm.setErrors(passwordsIsNowEqualsError);
+      return;
+    }
+
+    this.userService.register(registrationData).pipe(
+      tap(errorMessage => {
+        if (errorMessage === null) {
+          return;
+        }
+
+        this.registrationForm.setErrors({
+          [errorMessage[0]]: errorMessage[1],
+        });
+      }),
+    )
+      .subscribe();
+
   }
 }
