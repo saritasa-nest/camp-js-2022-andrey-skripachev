@@ -3,18 +3,20 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { map, Observable, switchMap } from 'rxjs';
+
 import { AppConfigService } from '../services/app-config.service';
 import { TokenStorageService } from '../services/token-storage.service';
 
+/** Interceptor to add access token to request. */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   public constructor(
     private readonly appConfig: AppConfigService,
-    private readonly tokenService: TokenStorageService
+    private readonly tokenService: TokenStorageService,
   ) {}
 
   /** @inheritdoc */

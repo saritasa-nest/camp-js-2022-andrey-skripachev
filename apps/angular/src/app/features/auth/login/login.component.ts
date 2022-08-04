@@ -50,7 +50,7 @@ export class LoginComponent {
           });
 
           this.cdr.markForCheck();
-        })
+        }),
       )
       .subscribe();
 

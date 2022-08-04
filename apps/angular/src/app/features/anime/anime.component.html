@@ -3,7 +3,13 @@
     <mat-toolbar-row class="content-space-between">
       <h1 id="page-heading">Anime Catalog</h1>
       <div *ngIf="isUserAuthorized; else authorized">
-        <button mat-flat-button (click)="handleLogoutClick()">Log out</button>
+        <button
+          type="button"
+          mat-flat-button
+          (click)="handleLogoutClick()"
+        >
+          Log out
+        </button>
         <span>AMOGUS</span>
       </div>
     </mat-toolbar-row>

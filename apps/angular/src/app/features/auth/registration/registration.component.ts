@@ -1,27 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { UserService } from 'apps/angular/src/core/services/user.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-type field = (string | ((control: AbstractControl<any, any>) => ValidationErrors | null)[])[]
+import { UserService } from '../../../../core/services/user.service';
 
-type field2 = AbstractControl<any, any>
-
-interface registrationControls {
-  readonly firstName: field;
-  readonly lastName: field;
-  readonly email: field;
-  readonly password: field;
-  readonly confirmPassword: field;
-}
-
-interface reg {
-  readonly firstName:field2;
-  readonly lastName: field2;
-  readonly email: field2;
-  readonly password: field2;
-  readonly confirmPassword: field2;
-}
-
+/** Registration form component. */
 @Component({
   selector: 'camp-registration',
   templateUrl: './registration.component.html',
@@ -30,8 +12,10 @@ interface reg {
 })
 export class RegistrationComponent {
 
+  /** Name of the registration error. */
   public readonly registrationError = 'reg-error';
 
+  /** Registration form group. */
   public readonly registrationForm: FormGroup;
 
   public constructor(
@@ -39,28 +23,19 @@ export class RegistrationComponent {
     private readonly userService: UserService,
     private readonly cdr: ChangeDetectorRef,
   ) {
-    this.registrationForm = formBuilder.group<registrationControls>({
+    this.registrationForm = formBuilder.group({
       firstName: ['1', [Validators.required]],
       lastName: ['1', [Validators.required]],
       email: ['1', [Validators.required, Validators.email]],
       password: ['1', [Validators.required]],
       confirmPassword: ['1', [Validators.required]],
-    }, {
-
-    })
+    });
   }
 
+  /** Registers user. */
   public handleSubmit(): void {
     if (this.registrationForm.invalid) {
-      return;
+      return void 0;
     }
-
-    const registrationData = this.registrationForm.value
-
-    console.log(registrationData);
-
-    this.registrationForm.getRawValue()
-
-
   }
 }

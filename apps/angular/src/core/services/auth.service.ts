@@ -18,6 +18,7 @@ import { AppConfigService } from './app-config.service';
 export class AuthService {
 
   private readonly loginUrl: URL;
+
   private readonly registrationUrl: URL;
 
   public constructor(
@@ -31,7 +32,7 @@ export class AuthService {
 
   /**
    * Sends login request and gets tokens.
-   * @param loginData Data for log in.
+   * @param loginData Data for login.
    */
   public login(loginData: Login): Observable<Token> {
     return this.httpClient.post<TokenDto>(this.loginUrl.toString(), LoginMapper.toDto(loginData)).pipe(
@@ -39,12 +40,17 @@ export class AuthService {
     );
   }
 
+  /**
+   * Sends registration request and gets tokens.
+   * @param registrationData Data for registration.
+   * @returns
+   */
   public register(registrationData: Registration): Observable<Token> {
     return this.httpClient.post<TokenDto>(
       this.registrationUrl.toString(),
       RegistrationMapper.toDto(registrationData),
     ).pipe(
-      map(TokenMapper.fromDto)
+      map(TokenMapper.fromDto),
     );
   }
 }
