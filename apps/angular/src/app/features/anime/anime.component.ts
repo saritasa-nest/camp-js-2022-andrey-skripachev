@@ -34,6 +34,6 @@ export class AnimeComponent implements OnDestroy {
 
   /** @inheritdoc */
   public handleLogoutClick(): void {
-    this.userService.logout();
+    this.sub.add(this.userService.logout().subscribe());
   }
 }

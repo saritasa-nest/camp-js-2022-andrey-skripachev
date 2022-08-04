@@ -46,7 +46,7 @@ export class LoginComponent {
           }
 
           this.loginForm.setErrors({
-            [this.loginError]: errorMessage,
+            [errorMessage[0]]: errorMessage[1],
           });
 
           this.cdr.markForCheck();

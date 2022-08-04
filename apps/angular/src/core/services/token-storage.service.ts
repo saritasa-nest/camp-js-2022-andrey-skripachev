@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Token } from '@js-camp/core/models/token';
-import { defer, Observable } from 'rxjs';
+import { concat, defer, Observable, race, ReplaySubject, shareReplay, tap } from 'rxjs';
 
 import { LocalStorageService } from './local-storage.service';
 
@@ -14,6 +14,8 @@ export class TokenStorageService {
 
   private readonly currentToken$: Observable<Token | null>;
 
+  private readonly currentTokenValue$ = new ReplaySubject<Token | null>(1);
+
   public constructor(
     private readonly storageService: LocalStorageService,
   ) {
@@ -24,8 +26,11 @@ export class TokenStorageService {
    * Saves token into storage.
    * @param token Token.
    */
-  public saveToken(token: Token): void {
-    this.storageService.set(TOKEN_STORAGE_KEY, token);
+  public saveToken(token: Token): Observable<void> {
+    return defer(() =>
+      this.storageService.set(TOKEN_STORAGE_KEY, token)).pipe(
+      tap(() => this.currentTokenValue$.next(token)),
+    );
   }
 
   /**
@@ -38,12 +43,21 @@ export class TokenStorageService {
   /**
    * Deletes token from storage.
    */
-  public clearToken(): void {
-    this.storageService.delete(TOKEN_STORAGE_KEY);
+  public clearToken(): Observable<void> {
+    return defer(() =>
+      this.storageService.delete(TOKEN_STORAGE_KEY)).pipe(tap(() => this.currentTokenValue$.next(null)));
   }
 
   private initTokenStream(): Observable<Token | null> {
-    return defer(() =>
-      this.storageService.get<Token>(TOKEN_STORAGE_KEY));
+    const tokenChange$ = this.currentTokenValue$;
+    const tokenFromStorage$ = concat(
+      defer(() =>
+        this.storageService.get<Token>(TOKEN_STORAGE_KEY)),
+      tokenChange$,
+    );
+
+    return race(tokenChange$, tokenFromStorage$).pipe(
+      shareReplay({ refCount: true, bufferSize: 1 }),
+    );
   }
 }

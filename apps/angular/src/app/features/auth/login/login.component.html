@@ -13,6 +13,7 @@
           matInput
           formControlName="email"
         >
+        <mat-error *ngIf="loginForm.hasError('email')">{{ loginForm.getError('email') }}</mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -25,10 +26,11 @@
           matInput
           formControlName="password"
         >
+        <mat-error *ngIf="loginForm.hasError('password')">{{ loginForm.getError('password') }}</mat-error>
       </mat-form-field>
     </div>
     <footer>
-      <mat-error *ngIf="loginForm.hasError(loginError)">{{ loginForm.getError(loginError) }}</mat-error>
+      <mat-error *ngIf="loginForm.hasError('detail')">{{ loginForm.getError('detail') }}</mat-error>
       <button
         mat-raised-button
         color="primary"
