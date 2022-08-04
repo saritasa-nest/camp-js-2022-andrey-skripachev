@@ -45,8 +45,6 @@ export class RegistrationComponent {
 
     const registrationData = this.registrationForm.value;
 
-    console.log(registrationData);
-
     const { password, confirmPassword } = registrationData;
 
     if (password !== confirmPassword) {

@@ -1,7 +1,12 @@
-import { ValidationErrorsDto } from "../dtos/validation-errors.dto";
-import { ValidationErrors } from "../models/validation-errors";
+import { ValidationErrorsDto } from '../dtos/validation-errors.dto';
+import { ValidationErrors } from '../models/validation-errors';
 
 export namespace ValidationErrorsMapper {
+
+  /**
+   * Maps dto to model.
+   * @param dto Validation error dto.
+   */
   export function fromDto(dto: ValidationErrorsDto): ValidationErrors {
     return new ValidationErrors({
       email: dto.email,

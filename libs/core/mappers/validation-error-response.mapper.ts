@@ -5,6 +5,10 @@ import { ValidationErrorsMapper } from './validation-errors.mapper';
 
 export namespace ValidationErrorResponseMapper {
 
+  /**
+   * Maps dto to model.
+   * @param dto Validation error response dto.
+   */
   export function fromDto(
     dto: ValidationErrorResponseDto,
   ): ValidationErrorResponse {

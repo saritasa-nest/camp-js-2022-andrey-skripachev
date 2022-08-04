@@ -13,7 +13,6 @@ export namespace PaginationMapper {
     dto: PaginationDto<Dto>,
     mapper: (result: Dto) => Model,
   ): Pagination<Model> {
-
     return new Pagination({
       count: dto.count,
       next: dto.next,

@@ -1,17 +1,24 @@
-import { Immerable, OmitImmerable } from "./immerable";
+import { Immerable, OmitImmerable } from './immerable';
 
+/** Validation errors. */
 export class ValidationErrors extends Immerable {
 
+  /** Errors for email. */
   public readonly email?: readonly string[];
 
+  /** Errors for first name. */
   public readonly firstName?: readonly string[];
 
+  /** Errors for last name. */
   public readonly lastName?: readonly string[];
 
+  /** Errors for avatar. */
   public readonly avatar?: readonly string[];
 
+  /** Errors for password. */
   public readonly password?: readonly string[];
 
+  /** Non fields errors. */
   public readonly nonFieldErrors?: readonly string[];
 
   public constructor(data: InitArgs) {
