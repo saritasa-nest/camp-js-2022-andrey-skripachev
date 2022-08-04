@@ -1,0 +1,12 @@
+@import url("@angular/material/prebuilt-themes/indigo-pink.css");
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}

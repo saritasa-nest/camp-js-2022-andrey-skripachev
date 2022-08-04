@@ -1,6 +1,37 @@
 import { DateTimeRangeDto } from './dateTimeRange.dto';
 
-/** Anime data from the server. */
+/** Acceptable values of anime statuses. */
+export enum AnimeStatusDto {
+  AIRING = 'AIRING',
+  FINISHED = 'FINISHED',
+  NOT_YET_AIRED = 'NOT_YET_AIRED',
+}
+
+/**
+ * Acceptable values of anime types.
+ */
+export enum AnimeTypeDto {
+
+  // Anime for TV.
+  TV = 'TV',
+
+  // Anime for promotional purposes.
+  OVA = 'OVA',
+
+  // Full-meter animation movie.
+  MOVIE = 'MOVIE',
+
+  // Anime episodes that aren't part of the original show.
+  SPECIAL = 'SPECIAL',
+
+  // Anime that is directly released onto the Internet.
+  ONA = 'ONA',
+
+  // Musical anime.
+  MUSIC = 'MUSIC',
+}
+
+/** Transfer object for anime. */
 export interface AnimeDto {
 
   /** Anime start and end dates. */
@@ -13,7 +44,7 @@ export interface AnimeDto {
   readonly image: string;
 
   /** Status of anime. */
-  readonly status: string;
+  readonly status: AnimeStatusDto;
 
   /** Anime name in English. */
   readonly title_eng: string;
@@ -22,5 +53,5 @@ export interface AnimeDto {
   readonly title_jpn: string;
 
   /** Type of anime. */
-  readonly type: string;
+  readonly type: AnimeTypeDto;
 }

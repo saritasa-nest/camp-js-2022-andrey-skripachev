@@ -4,7 +4,7 @@
   "prefix": "camp",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@ngx-env/builder:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/angular",
@@ -53,7 +53,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@ngx-env/builder:dev-server",
       "configurations": {
         "production": {
           "browserTarget": "angular:build:production"
