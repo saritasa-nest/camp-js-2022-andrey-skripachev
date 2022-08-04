@@ -2,9 +2,9 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { AnimeListSearchParams } from '../models/animeListSearchParams';
+import { AnimeListSearchParams } from '../models/anime-list-search-params';
 
-import { AnimeListSearchParamsMapper } from './mappers/animeListSearchParams.mapper';
+import { AnimeListSearchParamsMapper } from './mappers/anime-list-search-params.mapper';
 
 /** Construct and redirecting by query search params. */
 @Injectable({

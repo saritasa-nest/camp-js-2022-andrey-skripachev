@@ -8,7 +8,7 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { FormControl } from '@angular/forms';
 
-import { AnimeListSearchParams } from '../../../../core/models/animeListSearchParams';
+import { AnimeListSearchParams } from '../../../../core/models/anime-list-search-params';
 import { AnimeService } from '../../../../core/services/anime.service';
 import { SearchParamsService } from '../../../../core/services/search-params.service';
 
