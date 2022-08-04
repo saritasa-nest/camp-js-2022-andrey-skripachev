@@ -4,6 +4,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { ApiAuthorizationInterceptor } from '../core/interceptors/api-authorization.interceptor';
 import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
+import { RefreshInterceptor } from '../core/interceptors/refresh.interceptor';
 
 import { AnimeTypePipe } from './pipes/anime-type.pipe';
 import { AnimeStatusPipe } from './pipes/anime-status.pipe';
@@ -27,6 +28,11 @@ import { EmptyValuePipe } from './pipes/empty-value.pipe';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RefreshInterceptor,
       multi: true,
     },
   ],

@@ -21,6 +21,8 @@ export class AuthService {
 
   private readonly registrationUrl: URL;
 
+  private readonly refreshUrl: URL;
+
   public constructor(
     appConfig: AppConfigService,
     private readonly httpClient: HttpClient,
@@ -28,6 +30,7 @@ export class AuthService {
   ) {
     this.loginUrl = new URL('auth/login/', appConfig.apiUrl);
     this.registrationUrl = new URL('auth/register/', appConfig.apiUrl);
+    this.refreshUrl = new URL('auth/token/refresh', appConfig.apiUrl);
   }
 
   /**
@@ -43,12 +46,24 @@ export class AuthService {
   /**
    * Sends registration request and gets tokens.
    * @param registrationData Data for registration.
-   * @returns
    */
   public register(registrationData: Registration): Observable<Token> {
     return this.httpClient.post<TokenDto>(
       this.registrationUrl.toString(),
       RegistrationMapper.toDto(registrationData),
+    ).pipe(
+      map(TokenMapper.fromDto),
+    );
+  }
+
+  /**
+   * Refreshes access token.
+   * @param refreshToken Refresh token.
+   */
+  public refresh(refreshToken: string): Observable<Token> {
+    return this.httpClient.post<TokenDto>(
+      this.refreshUrl.toString(),
+      refreshToken,
     ).pipe(
       map(TokenMapper.fromDto),
     );

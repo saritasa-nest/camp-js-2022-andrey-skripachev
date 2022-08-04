@@ -8,7 +8,7 @@ import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registration';
 import { User } from '@js-camp/core/models/user';
 import { ValidationErrorResponse } from '@js-camp/core/models/validation-error-response';
-import { catchError, Observable, map, of, throwError, switchMap, tap } from 'rxjs';
+import { catchError, Observable, map, of, throwError, switchMap, tap, mapTo, first } from 'rxjs';
 
 import { AppConfigService } from './app-config.service';
 
@@ -85,6 +85,20 @@ export class UserService {
           return throwError(error);
         }),
       );
+  }
+
+  /** Refreshes access token. */
+  public refresh(): Observable<void> {
+    return this.tokenService.getToken().pipe(
+      first(),
+      switchMap(token =>
+        token !== null ?
+          this.authService.refresh(token.refresh) :
+          throwError(new Error('Unauthorized'))),
+      catchError(() =>
+        this.tokenService.clearToken()),
+      mapTo(void 0),
+    );
   }
 
   /**
