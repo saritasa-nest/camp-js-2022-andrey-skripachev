@@ -1,6 +1,6 @@
-<div class="mat-elevation-z8 default-layout" *ngIf="animeData$ | async as anime; else loading">
-  <h2 class="section-heading mat-title">Anime recommended for you</h2>
-  <div class="anime-search-controls">
+<div class="mat-elevation-z8" *ngIf="animeData$ | async as anime; else loading">
+  <h2 class="section-heading">Anime recommended for you</h2>
+  <div class="anime-search-fields">
     <mat-form-field appearance="fill">
       <mat-label>Search anime</mat-label>
       <input [formControl]="searchFormControl" matInput placeholder="Ex. JoJo"/>
