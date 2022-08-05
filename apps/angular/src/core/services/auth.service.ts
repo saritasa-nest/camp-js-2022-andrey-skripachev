@@ -7,7 +7,7 @@ import { TokenMapper } from '@js-camp/core/mappers/token.mapper';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registration';
 import { Token } from '@js-camp/core/models/token';
-import { map, Observable } from 'rxjs';
+import { catchError, map, mapTo, Observable, of } from 'rxjs';
 
 import { AppConfigService } from './app-config.service';
 
@@ -23,6 +23,8 @@ export class AuthService {
 
   private readonly refreshUrl: URL;
 
+  private readonly verifyUrl: URL;
+
   public constructor(
     appConfig: AppConfigService,
     private readonly httpClient: HttpClient,
@@ -31,6 +33,7 @@ export class AuthService {
     this.loginUrl = new URL('auth/login/', appConfig.apiUrl);
     this.registrationUrl = new URL('auth/register/', appConfig.apiUrl);
     this.refreshUrl = new URL('auth/token/refresh/', appConfig.apiUrl);
+    this.verifyUrl = new URL('auth/token/verify/', appConfig.apiUrl);
   }
 
   /**
@@ -66,6 +69,20 @@ export class AuthService {
       { refresh: token.refresh },
     ).pipe(
       map(TokenMapper.fromDto),
+    );
+  }
+
+  /**
+   * Verifies access token.
+   * @param access Access token.
+   */
+  public verify({ access }: Token): Observable<boolean> {
+    return this.httpClient.post<TokenDto>(
+      this.verifyUrl.toString(),
+      { token: access },
+    ).pipe(
+      mapTo(true),
+      catchError(() => of(false)),
     );
   }
 }

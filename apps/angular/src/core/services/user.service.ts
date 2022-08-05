@@ -142,4 +142,13 @@ export class UserService {
         catchError(() => of(null)),
       );
   }
+
+  /**
+   * Verifies token.
+   */
+  public verifyToken(): Observable<boolean> {
+    return this.tokenService.getToken().pipe(
+      switchMap(token => token ? this.authService.verify(token) : of(false)),
+    );
+  }
 }

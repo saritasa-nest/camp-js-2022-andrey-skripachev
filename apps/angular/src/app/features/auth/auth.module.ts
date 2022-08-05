@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { SharedModule } from '../../../shared/shared.module';
+import { AuthorizedGuard } from '../../../core/guards/authorized.guard';
 
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
+    canActivate: [AuthorizedGuard],
     children: [
       {
         path: '',
