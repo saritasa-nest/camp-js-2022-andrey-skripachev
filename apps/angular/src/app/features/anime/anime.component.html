@@ -1,23 +1,7 @@
-<!-- <header class="header">
-  <mat-toolbar color="primary">
-    <mat-toolbar-row class="content-space-between">
-      <h1 id="page-heading">Anime Catalog</h1>
-      <div *ngIf="isUserAuthorized; else notAuthorized">
-        <button
-          type="button"
-          mat-button
-          (click)="handleLogoutClick()"
-        >
-          Log out
-        </button>
-        <span>AMOGUS</span>
-      </div>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</header> -->
 <camp-header></camp-header>
 <main class="content">
-  <camp-anime-table class="anime-table-component"></camp-anime-table>
+  <router-outlet></router-outlet>
+  <!-- <camp-anime-table class="anime-table-component"></camp-anime-table> -->
 </main>
 
 <ng-template #notAuthorized>

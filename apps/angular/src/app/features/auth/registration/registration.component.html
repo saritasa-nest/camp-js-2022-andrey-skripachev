@@ -1,88 +1,87 @@
-<div class="content-centered-layout fit-layout">
-  <form (ngSubmit)="handleSubmit()" [formGroup]="registrationForm" class="mat-elevation-z8 form">
-    <h1 class="mat-title">Registration</h1>
-    <div>
-      <mat-error *ngIf="registrationForm.hasError('firstName')">{{ registrationForm.getError('firstName') }}</mat-error>
-      <mat-form-field class="form__field" appearance="fill">
-        <mat-label>
-          First name
-        </mat-label>
-        <input
-          type="text"
-          autocomplete="name"
-          placeholder="first name"
-          matInput
-          formControlName="firstName"
-        >
-      </mat-form-field>
+<form (ngSubmit)="handleSubmit()" [formGroup]="registrationForm" class="mat-elevation-z8 auth-form">
+  <h1 class="mat-title">Registration</h1>
+  <div>
+    <mat-error *ngIf="registrationForm.hasError('firstName')">{{ registrationForm.getError('firstName') }}</mat-error>
+    <mat-form-field class="auth-form__field" appearance="fill">
+      <mat-label>
+        First name
+      </mat-label>
+      <input
+        type="text"
+        autocomplete="name"
+        placeholder="first name"
+        matInput
+        formControlName="firstName"
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-error *ngIf="registrationForm.hasError('lastName')">{{ registrationForm.getError('lastName') }}</mat-error>
+    <mat-form-field class="auth-form__field" appearance="fill">
+      <mat-label>
+        Last name
+      </mat-label>
+      <input
+        type="text"
+        autocomplete="additional-name"
+        placeholder="last name"
+        matInput
+        formControlName="lastName"
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-error *ngIf="registrationForm.hasError('email')">{{ registrationForm.getError('email') }}</mat-error>
+    <mat-form-field class="auth-form__field" appearance="fill">
+      <mat-label>
+        Email
+      </mat-label>
+      <input
+        type="text"
+        autocomplete="email"
+        placeholder="email"
+        matInput
+        formControlName="email"
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-error *ngIf="registrationForm.hasError('password')">{{ registrationForm.getError('password') }}</mat-error>
+    <mat-form-field class="auth-form__field" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        type="password"
+        autocomplete="current-password"
+        placeholder="********"
+        matInput
+        formControlName="password"
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-error *ngIf="registrationForm.hasError('confirmPassword')">{{ registrationForm.getError('confirmPassword') }}</mat-error>
+    <mat-form-field class="auth-form__field" appearance="fill">
+      <mat-label>Confirm password</mat-label>
+      <input
+        type="password"
+        autocomplete="current-password"
+        placeholder="********"
+        matInput
+        formControlName="confirmPassword"
+      >
+    </mat-form-field>
+  </div>
+  <footer>
+    <mat-error *ngIf="registrationForm.hasError('detail')">{{ registrationForm.getError('detail') }}</mat-error>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+    >Register</button>
+    <div class="content-space-between">
+      <a mat-button routerLink="/">Go to main page</a>
+      <a mat-button routerLink="../login">Login</a>
     </div>
-    <div>
-      <mat-error *ngIf="registrationForm.hasError('lastName')">{{ registrationForm.getError('lastName') }}</mat-error>
-      <mat-form-field class="form__field" appearance="fill">
-        <mat-label>
-          Last name
-        </mat-label>
-        <input
-          type="text"
-          autocomplete="additional-name"
-          placeholder="last name"
-          matInput
-          formControlName="lastName"
-        >
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-error *ngIf="registrationForm.hasError('email')">{{ registrationForm.getError('email') }}</mat-error>
-      <mat-form-field class="form__field" appearance="fill">
-        <mat-label>
-          Email
-        </mat-label>
-        <input
-          type="text"
-          autocomplete="email"
-          placeholder="email"
-          matInput
-          formControlName="email"
-        >
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-error *ngIf="registrationForm.hasError('password')">{{ registrationForm.getError('password') }}</mat-error>
-      <mat-form-field class="form__field" appearance="fill">
-        <mat-label>Password</mat-label>
-        <input
-          type="password"
-          autocomplete="current-password"
-          placeholder="********"
-          matInput
-          formControlName="password"
-        >
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-error *ngIf="registrationForm.hasError('confirmPassword')">{{ registrationForm.getError('confirmPassword') }}</mat-error>
-      <mat-form-field class="form__field" appearance="fill">
-        <mat-label>Confirm password</mat-label>
-        <input
-          type="password"
-          autocomplete="current-password"
-          placeholder="********"
-          matInput
-          formControlName="confirmPassword"
-        >
-      </mat-form-field>
-    </div>
-    <footer>
-      <mat-error *ngIf="registrationForm.hasError('detail')">{{ registrationForm.getError('detail') }}</mat-error>
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-      >Register</button>
-      <div class="content-space-between">
-        <a mat-button routerLink="/">Go to main page</a>
-        <a mat-button routerLink="../login">Login</a>
-      </div>
-    </footer>
-  </form>
-</div>
+  </footer>
+</form>
+
