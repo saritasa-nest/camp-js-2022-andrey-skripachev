@@ -3,15 +3,18 @@
   <div class="anime-search-fields">
     <mat-form-field appearance="fill">
       <mat-label>Search anime</mat-label>
-      <input [formControl]="searchFormControl" matInput placeholder="Ex. JoJo"/>
+      <input
+        [formControl]="searchFormControl"
+        matInput
+        placeholder="Ex. JoJo"
+      />
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Anime types</mat-label>
       <mat-select [formControl]="filterFormControl" multiple>
-        <mat-option *ngFor="let type of availableAnimeTypes"
-          [value]="type">
-          {{type}}
-         </mat-option>
+        <mat-option *ngFor="let type of availableAnimeTypes" [value]="type">
+          {{ type }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -21,7 +24,8 @@
     [pageSize]="maximumAnimeOnPage"
     [pageIndex]="currentPage$ | async"
     showFirstLastButtons
-    hidePageSize>
+    hidePageSize
+  >
   </mat-paginator>
   <ng-container *ngIf="sorting$ | async as sorting; else loading">
     <table
@@ -33,48 +37,68 @@
       mat-table
       [dataSource]="anime.results"
       class="anime-table"
-      aria-describedby="page-heading">
+      aria-describedby="page-heading"
+    >
       <ng-container matColumnDef="image">
-        <th mat-header-cell *matHeaderCellDef class="anime-table__heading-cell">Image</th>
+        <th mat-header-cell *matHeaderCellDef class="anime-table__heading-cell">
+          Image
+        </th>
         <td mat-cell *matCellDef="let anime" class="anime-table__cell">
-          <img [src]="anime.image" [alt]="anime.titleEnglish" class="anime-table__image">
+          <img
+            [src]="anime.image"
+            [alt]="anime.titleEnglish"
+            class="anime-table__image"
+          />
         </td>
       </ng-container>
       <ng-container matColumnDef="title">
-        <th mat-sort-header="title_eng" mat-header-cell *matHeaderCellDef>Title</th>
+        <th mat-sort-header="title_eng" mat-header-cell *matHeaderCellDef>
+          Title
+        </th>
         <td mat-cell *matCellDef="let anime">
-          {{anime.titleEnglish | emptyValueHandler}} ({{anime.titleJapanese | emptyValueHandler}})
+          {{ anime.titleEnglish | emptyValueHandler }} ({{
+            anime.titleJapanese | emptyValueHandler
+          }})
         </td>
       </ng-container>
       <ng-container matColumnDef="aired start">
-        <th mat-sort-header="aired" mat-header-cell *matHeaderCellDef>Aired start</th>
+        <th mat-sort-header="aired" mat-header-cell *matHeaderCellDef>
+          Aired start
+        </th>
         <td mat-cell *matCellDef="let anime">
-          {{anime.aired.start | date:"YYYY" | emptyValueHandler}}
+          {{ anime.aired.start | date: "YYYY" | emptyValueHandler }}
         </td>
       </ng-container>
       <ng-container matColumnDef="status">
-        <th mat-sort-header="status" mat-header-cell *matHeaderCellDef>Status</th>
+        <th mat-sort-header="status" mat-header-cell *matHeaderCellDef>
+          Status
+        </th>
         <td mat-cell *matCellDef="let anime">
-          {{anime.status | animeStatus}}
+          {{ anime.status | animeStatus }}
         </td>
       </ng-container>
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef>Type</th>
         <td mat-cell *matCellDef="let anime">
-          {{anime.type | animeType}}
+          {{ anime.type | animeType }}
         </td>
       </ng-container>
-      <tr id="anime-table__heading-row" mat-header-row *matHeaderRowDef="tableColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: tableColumns" class="anime-table__row"></tr>
+      <tr
+        id="anime-table__heading-row"
+        mat-header-row
+        *matHeaderRowDef="tableColumns"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: tableColumns"
+        class="anime-table__row"
+      ></tr>
     </table>
   </ng-container>
 </div>
 
 <ng-template #loading>
   <div class="loading-layout">
-    <mat-spinner
-      color="primary"
-      diameter="120">
-    </mat-spinner>
+    <mat-spinner color="primary" diameter="120"> </mat-spinner>
   </div>
 </ng-template>

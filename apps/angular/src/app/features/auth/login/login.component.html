@@ -1,19 +1,23 @@
-<form (ngSubmit)="handleSubmit()" [formGroup]="loginForm" class="mat-elevation-z8 auth-form">
+<form
+  (ngSubmit)="handleSubmit()"
+  [formGroup]="loginForm"
+  class="mat-elevation-z8 auth-form"
+>
   <h1 class="mat-title">Login</h1>
   <div>
     <mat-form-field class="auth-form__field" appearance="fill">
-      <mat-label>
-        Email
-      </mat-label>
+      <mat-label> Email </mat-label>
       <input
         type="text"
         autocomplete="email"
         placeholder="ex@example.com"
         matInput
         formControlName="email"
-      >
+      />
     </mat-form-field>
-    <mat-error *ngIf="loginForm.hasError('email')">{{ loginForm.getError('email') }}</mat-error>
+    <mat-error *ngIf="loginForm.hasError('email')">{{
+      loginForm.getError("email")
+    }}</mat-error>
   </div>
   <div>
     <mat-form-field class="auth-form__field" appearance="fill">
@@ -24,17 +28,17 @@
         placeholder="********"
         matInput
         formControlName="password"
-      >
+      />
     </mat-form-field>
-    <mat-error *ngIf="loginForm.hasError('password')">{{ loginForm.getError('password') }}</mat-error>
+    <mat-error *ngIf="loginForm.hasError('password')">{{
+      loginForm.getError("password")
+    }}</mat-error>
   </div>
-  <mat-error *ngIf="loginForm.hasError('detail')">{{ loginForm.getError('detail') }}</mat-error>
+  <mat-error *ngIf="loginForm.hasError('detail')">{{
+    loginForm.getError("detail")
+  }}</mat-error>
   <footer>
-    <button
-    mat-raised-button
-    color="primary"
-    type="submit"
-    >Login</button>
+    <button mat-raised-button color="primary" type="submit">Login</button>
     <div class="content-space-between">
       <a mat-button routerLink="/">Go to main page</a>
       <a mat-button routerLink="../registration">Register</a>
