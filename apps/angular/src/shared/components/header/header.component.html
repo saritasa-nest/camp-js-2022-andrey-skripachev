@@ -2,7 +2,7 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row class="content-space-between">
       <h1>Anime catalog</h1>
-      <div *ngIf="isAuthorized$ | async; else notAuthorizedUser">
+      <div *ngIf="userService.currentUser$ | async as user; else notAuthorizedUser">
         <button
           mat-icon-button
           [matMenuTriggerFor]="menu"
@@ -11,22 +11,23 @@
         >
           <mat-icon>account_circle</mat-icon>
         </button>
+        <mat-menu #menu="matMenu">
+          <span mat-menu-item disabled>Hi, {{ user.firstName }}!</span>
+          <button
+            type="button"
+            mat-menu-item
+            (click)="handleLogoutClick()"
+          >
+            <mat-icon>exit_to_app</mat-icon>
+            Log out
+          </button>
+        </mat-menu>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
 </header>
 
-<mat-menu #menu="matMenu">
-  <span mat-menu-item disabled>Hi, user!</span>
-  <button
-    type="button"
-    mat-menu-item
-    (click)="handleLogoutClick()"
-  >
-    <mat-icon>exit_to_app</mat-icon>
-    Log out
-  </button>
-</mat-menu>
+
 
 <ng-template #notAuthorizedUser>
   <div>

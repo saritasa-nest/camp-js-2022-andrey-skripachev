@@ -26,7 +26,8 @@ export class UserService {
 
   private readonly userUrl: URL;
 
-  private readonly currentUser$: Observable<User | null>;
+  /** Current user. */
+  public readonly currentUser$: Observable<User | null>;
 
   /** Is user authorized. */
   public readonly isAuthorized$: Observable<boolean>;
