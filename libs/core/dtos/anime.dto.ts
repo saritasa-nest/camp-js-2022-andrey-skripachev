@@ -7,28 +7,47 @@ export enum AnimeStatusDto {
   NOT_YET_AIRED = 'NOT_YET_AIRED',
 }
 
-/**
- * Acceptable values of anime types.
- */
-export enum AnimeTypeDto {
 
-  // Anime for TV.
-  TV = 'TV',
 
-  // Anime for promotional purposes.
-  OVA = 'OVA',
-
-  // Full-meter animation movie.
-  MOVIE = 'MOVIE',
-
-  // Anime episodes that aren't part of the original show.
-  SPECIAL = 'SPECIAL',
-
-  // Anime that is directly released onto the Internet.
-  ONA = 'ONA',
-
-  // Musical anime.
+/** Acceptable anime sources. */
+export enum AnimeSourceDto {
+  FOUR_KOMA_MANGA = 'FOUR_KOMA_MANGA',
+  BOOK = 'BOOK',
+  CARD_GAME = 'CARD_GAME',
+  GAME = 'GAME',
+  LIGHT_NOVEL = 'LIGHT_NOVEL',
+  MANGA = 'MANGA',
+  MIXED_MEDIA = 'MIXED_MEDIA',
   MUSIC = 'MUSIC',
+  NOVEL = 'NOVEL',
+  ORIGINAL = 'ORIGINAL',
+  PICTURE_BOOK = 'PICTURE_BOOK',
+  RADIO = 'RADIO',
+  VISUAL_NOVEL = 'VISUAL_NOVEL',
+  WEB_MANGA = 'WEB_MANGA',
+  WEB_NOVEL = 'WEB_NOVEL',
+  OTHER = 'OTHER',
+  UNKNOWN = 'UNKNOWN',
+}
+
+/** Acceptable anime rating. */
+export enum AnimeRatingDto {
+  G = 'G',
+  PG = 'PG',
+  PG_13 = 'PG_13',
+  R_17 = 'R_17',
+  R_PLUS = 'R_PLUS',
+  R_X = 'R_X',
+  UNKNOWN = 'UNKNOWN',
+}
+
+/** Anime seasons. */
+export enum AnimeSeasonDto {
+  SUMMER = 'SUMMER',
+  WINTER = 'WINTER',
+  SPRING = 'SPRING',
+  FALL = 'FALL',
+  NON_SEASONAL = 'NON_SEASONAL',
 }
 
 /** Transfer object for anime. */
