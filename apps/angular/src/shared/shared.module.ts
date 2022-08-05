@@ -5,6 +5,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ApiAuthorizationInterceptor } from '../core/interceptors/api-authorization.interceptor';
 import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
@@ -24,7 +26,14 @@ import { HeaderComponent } from './components/header/header.component';
     HeaderComponent,
   ],
   exports: [AnimeTypePipe, AnimeStatusPipe, EmptyValuePipe, HeaderComponent],
-  imports: [CommonModule, RouterModule, MatToolbarModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
