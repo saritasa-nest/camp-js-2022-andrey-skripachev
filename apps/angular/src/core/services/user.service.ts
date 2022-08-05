@@ -98,8 +98,8 @@ export class UserService {
       catchError(() =>
         this.tokenService.clearToken()),
       switchMap(newToken => newToken ?
-          this.tokenService.saveToken(newToken) :
-          of(null)),
+        this.tokenService.saveToken(newToken) :
+        of(null)),
       mapTo(void 0),
     );
   }
