@@ -31,3 +31,7 @@
 .info-list__item-info {
   margin: 0 3px;
 }
+
+.details__image {
+  cursor: zoom-in;
+}

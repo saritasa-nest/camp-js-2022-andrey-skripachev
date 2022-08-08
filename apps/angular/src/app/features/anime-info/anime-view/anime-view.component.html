@@ -1,8 +1,8 @@
 <div class="default-layout">
-  <ng-container *ngIf="animeDetails$ | async as anime">
+  <ng-container *ngIf="animeDetails$ | async as anime; else loading">
     <div class="details">
       <div class="details__sector">
-        <img class="details__media" [src]="anime.image" />
+        <img class="details__media details__image" [src]="anime.image" />
         <iframe
           class="details__media details__trailer"
           *ngIf="animeTrailer$ | async as trailer"
@@ -63,3 +63,9 @@
     </div>
   </ng-container>
 </div>
+
+<ng-template #loading>
+  <div class="loading-layout">
+    <mat-spinner color="primary" diameter="120"> </mat-spinner>
+  </div>
+</ng-template>
