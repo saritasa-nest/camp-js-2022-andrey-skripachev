@@ -59,7 +59,6 @@
           {{ anime.titleEnglish | emptyValueHandler }} ({{
             anime.titleJapanese | emptyValueHandler
           }})
-          <a [routerLink]="'/details/' + anime.id">View details</a>
         </td>
       </ng-container>
       <ng-container matColumnDef="aired start">
@@ -91,7 +90,8 @@
       ></tr>
       <tr
         mat-row
-        *matRowDef="let row; columns: tableColumns"
+        *matRowDef="let anime; columns: tableColumns"
+        (click)="showDetails(anime.id)"
         class="anime-table__row"
       ></tr>
     </table>

@@ -7,6 +7,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AnimeListSearchParams } from '../../../../core/models/anime-list-search-params';
 import { AnimeService } from '../../../../core/services/anime.service';
@@ -63,6 +64,7 @@ export class AnimeTableComponent implements AfterViewInit {
   public constructor(
     animeService: AnimeService,
     private readonly searchParamsService: SearchParamsService,
+    private readonly router: Router,
   ) {
     const {
       maximumItemsOnPage,
@@ -144,5 +146,13 @@ export class AnimeTableComponent implements AfterViewInit {
    */
   public trackById(_: number, anime: Anime): number {
     return anime.id;
+  }
+
+  /**
+   * Redirects user to details page.
+   * @param id Anime id.
+   */
+  public showDetails(id: number): void {
+    this.router.navigate(['details', id]);
   }
 }

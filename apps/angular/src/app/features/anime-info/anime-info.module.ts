@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+
 import { SharedModule } from '../../../shared/shared.module';
 
 import { AnimeInfoRoutingModule } from './anime-info-routing.module';
@@ -17,6 +20,8 @@ import { AnimeViewComponent } from './anime-view/anime-view.component';
     CommonModule,
     AnimeInfoRoutingModule,
     SharedModule,
+    MatIconModule,
+    MatChipsModule,
   ],
 })
 export class AnimeInfoModule {}

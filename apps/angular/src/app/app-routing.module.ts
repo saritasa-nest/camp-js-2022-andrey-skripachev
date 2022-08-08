@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'details',
     loadChildren: () =>
       import('./features/anime-info/anime-info.module').then(m => m.AnimeInfoModule),
-  }
+  },
 ];
 
 /** App routing module. */

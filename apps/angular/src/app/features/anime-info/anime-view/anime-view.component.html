@@ -2,15 +2,64 @@
   <ng-container *ngIf="animeDetails$ | async as anime">
     <div class="details">
       <div class="details__sector">
-        <img class="details__image" [src]="anime.image"/>
+        <img class="details__media" [src]="anime.image" />
+        <iframe
+          class="details__media details__trailer"
+          *ngIf="animeTrailer$ | async as trailer"
+          [src]="trailer"
+          title="Trailer for {{ anime.titleEnglish || anime.titleJapanese }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
       <div class="details__sector">
         <h1 class="mat-title">
-          {{ anime.titleEnglish | emptyValueHandler }} ({{ anime.titleJapanese | emptyValueHandler }})
+          {{ anime.titleEnglish | emptyValueHandler }} ({{
+            anime.titleJapanese | emptyValueHandler
+          }})
         </h1>
-        <p>Synopsis: {{anime.synopsis}}</p>
+        <div class="details__info-list">
+          <div class="info-list__item">
+            <mat-icon>calendar_today</mat-icon>
+            <div>
+              <span class="info-list__item-info"
+                >{{ anime.aired.start | date: "YYYY" | emptyValueHandler }} /
+                {{ anime.aired.end | date: "YYYY" | emptyValueHandler }} ({{
+                  anime.status | animeStatus
+                }})</span
+              >
+            </div>
+          </div>
+          <div class="info-list__item">
+            <mat-icon>theaters</mat-icon>
+            <div>
+              <span
+                class="info-list__item-info"
+                *ngFor="let genre of anime.genresData"
+                >{{ genre.name }}</span
+              >
+            </div>
+          </div>
+          <div class="info-list__item">
+            <mat-icon>movie</mat-icon>
+            <div>
+              <span class="info-list__item-info">{{
+                anime.type | animeType
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <p>{{ anime.synopsis }}</p>
+        <div *ngIf="anime.studiosData.length">
+          Studio:
+          <mat-chip-list>
+            <mat-chip *ngFor="let studio of anime.studiosData">{{
+              studio.name
+            }}</mat-chip>
+          </mat-chip-list>
+        </div>
       </div>
     </div>
   </ng-container>
 </div>
-

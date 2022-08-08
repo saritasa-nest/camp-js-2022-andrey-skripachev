@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
@@ -8,12 +9,11 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
-
-import { AppConfigService } from './app-config.service';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
-import { Router } from '@angular/router';
+
+import { AppConfigService } from './app-config.service';
 
 /** Anime service. */
 @Injectable({
@@ -44,15 +44,19 @@ export class AnimeService {
     ).pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)));
   }
 
+  /**
+   * Gets anime by id.
+   * @param id Anime id.
+   */
   public getAnimeById(id: number): Observable<AnimeDetails> {
     return this.httpClient.get<AnimeDetailsDto>(
       `${this.animeUrl.toString()}${id}/`,
     ).pipe(
       map(dto => AnimeDetailsMapper.fromDto(dto)),
       catchError(() => {
-        this.router.navigate(['/'])
-        return throwError('Anime doesn\'t exists');
-      })
-    )
+        this.router.navigate(['/']);
+        return throwError(new Error('Anime doesn\'t exists'));
+      }),
+    );
   }
 }
