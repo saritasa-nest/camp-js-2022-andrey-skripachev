@@ -14,11 +14,11 @@
         ></iframe>
       </div>
       <div class="details__sector">
-        <h1 class="mat-title">
+        <h2 class="mat-title">
           {{ anime.titleEnglish | emptyValueHandler }} ({{
             anime.titleJapanese | emptyValueHandler
           }})
-        </h1>
+        </h2>
         <div class="details__info-list">
           <div class="info-list__item">
             <mat-icon>calendar_today</mat-icon>
@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-        <p>{{ anime.synopsis }}</p>
+        <p class="mat-font">{{ anime.synopsis }}</p>
         <div *ngIf="anime.studiosData.length">
           Studio:
           <mat-chip-list>
