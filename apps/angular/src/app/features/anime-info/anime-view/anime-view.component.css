@@ -1,0 +1,12 @@
+.details {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+}
+
+.details__sector {
+  padding: 20px;
+}
+
+.details__image {
+  width: 100%;
+}

@@ -59,6 +59,7 @@
           {{ anime.titleEnglish | emptyValueHandler }} ({{
             anime.titleJapanese | emptyValueHandler
           }})
+          <a [routerLink]="'/details/' + anime.id">View details</a>
         </td>
       </ng-container>
       <ng-container matColumnDef="aired start">

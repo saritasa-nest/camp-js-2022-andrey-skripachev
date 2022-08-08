@@ -1,28 +1,32 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { UnauthorizedGuard } from 'apps/angular/src/core/guards/unauthorized.guard';
 
-import { AnimeEditComponent } from './anime-edit/anime-edit.component';
 import { AnimeInfoComponent } from './anime-info.component';
 import { AnimeViewComponent } from './anime-view/anime-view.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'details/',
     component: AnimeInfoComponent,
+    canActivate: [UnauthorizedGuard],
     children: [
       {
-        path: '',
-        redirectTo: 'view',
-        pathMatch: 'full',
-      },
-      {
-        path: 'view',
-        component: AnimeViewComponent,
-      },
-      {
-        path: 'edit',
-        component: AnimeEditComponent,
-      },
+        path: ':id',
+        component: AnimeInfoComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'view',
+            pathMatch: 'full',
+          },
+          {
+            path: 'view',
+            component: AnimeViewComponent,
+          },
+        ]
+      }
+
     ],
   },
 ];

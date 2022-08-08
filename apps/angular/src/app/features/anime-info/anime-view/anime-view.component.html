@@ -1,1 +1,16 @@
-<p>anime-view works!</p>
+<div class="default-layout">
+  <ng-container *ngIf="animeDetails$ | async as anime">
+    <div class="details">
+      <div class="details__sector">
+        <img class="details__image" [src]="anime.image"/>
+      </div>
+      <div class="details__sector">
+        <h1 class="mat-title">
+          {{ anime.titleEnglish | emptyValueHandler }} ({{ anime.titleJapanese | emptyValueHandler }})
+        </h1>
+        <p>Synopsis: {{anime.synopsis}}</p>
+      </div>
+    </div>
+  </ng-container>
+</div>
+

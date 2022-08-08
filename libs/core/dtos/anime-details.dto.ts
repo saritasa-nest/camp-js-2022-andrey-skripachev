@@ -1,16 +1,13 @@
-import { AnimeRatingDto, AnimeSourceDto, AnimeStatusDto, AnimeTypeDto } from "./anime.dto";
-import { DateTimeRangeDto } from "./date-time-range.dto";
+import { AnimeDto } from "./anime.dto";
+import { GenreDto } from "./genre.dto";
+import { StudioDto } from "./studio.dto";
 
-export interface AnimeDetails {
-  readonly id: number;
-  readonly image?: string;
+export interface AnimeDetailsDto extends AnimeDto {
   readonly trailer_youtube_id?: string;
-  readonly title_eng: string;
-  readonly title_jpn: string;
-  readonly type: AnimeTypeDto;
-  readonly status: AnimeStatusDto;
-  readonly source: AnimeSourceDto;
+  readonly synopsis: string;
   readonly airing: boolean;
-  readonly aired: DateTimeRangeDto;
-  readonly rating: AnimeRatingDto;
+  readonly studios: readonly number[];
+  readonly genres: readonly number[];
+  readonly studios_data: readonly StudioDto[];
+  readonly genres_data: readonly GenreDto[];
 }

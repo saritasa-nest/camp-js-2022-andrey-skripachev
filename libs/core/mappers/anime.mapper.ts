@@ -3,7 +3,7 @@ import { Anime } from '../models/anime';
 import { AnimeStatus } from '../utils/types/animeStatus';
 import { AnimeType } from '../utils/types/animeType';
 
-import { AnimeDto, AnimeTypeDto, AnimeStatusDto } from '../dtos/anime.dto';
+import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
 
 import { DateTimeRangeMapper } from './date-time-range.mapper';
 
@@ -20,17 +20,8 @@ const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
  * Mapper for anime type.
  * @param typeDto Type dto.
  */
-export function mapAnimeTypeFromDto(typeDto: AnimeTypeDto): AnimeType {
+function mapAnimeTypeFromDto(typeDto: AnimeTypeDto): AnimeType {
   return TYPE_FROM_DTO[typeDto];
-}
-
-/**
- * Checks if the value is a anime type dto.
- * @param value Value, possibly being a anime type dto.
- * @returns
- */
-export function isTypeDto(value: string): value is AnimeTypeDto {
-  return Object.keys(AnimeTypeDto).includes(value);
 }
 
 const STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
@@ -43,7 +34,7 @@ const STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
  * Mapper for anime status.
  * @param statusDto Status dto.
  */
-export function mapAnimeStatusFromDto(statusDto: AnimeStatusDto): AnimeStatus {
+function mapAnimeStatusFromDto(statusDto: AnimeStatusDto): AnimeStatus {
   return STATUS_FROM_DTO[statusDto];
 }
 
