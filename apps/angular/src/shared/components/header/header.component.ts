@@ -13,7 +13,8 @@ import { UserService } from '../../../../src/core/services/user.service';
 })
 export class HeaderComponent implements OnDestroy {
 
-  @Input() private redirectAfterLogout = false;
+  /** Should redirects user to login page on logout. */
+  @Input() public shouldRedirectAfterLogout = false;
 
   private subscription = new Subscription();
 
@@ -30,7 +31,7 @@ export class HeaderComponent implements OnDestroy {
   /** Handles click on logout button. */
   public handleLogoutClick(): void {
     this.subscription.add(this.userService.logout().subscribe());
-    if (this.redirectAfterLogout) {
+    if (this.shouldRedirectAfterLogout) {
       this.router.navigate(['/auth']);
     }
   }
