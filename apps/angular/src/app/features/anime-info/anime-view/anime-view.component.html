@@ -1,16 +1,81 @@
 <div class="default-layout">
-  <ng-container *ngIf="animeDetails$ | async as anime">
+  <ng-container *ngIf="animeDetails$ | async as anime; else loading">
     <div class="details">
       <div class="details__sector">
-        <img class="details__image" [src]="anime.image"/>
+        <img
+          class="details__media details__image"
+          [src]="anime.image"
+          [alt]="'Image for ' + anime.titleEnglish"
+          (click)="showFullSizeImage(anime.image, anime.titleEnglish)"
+        />
+        <iframe
+          class="details__media details__trailer"
+          *ngIf="anime.trailerYoutubeId"
+          [src]="
+            'https://www.youtube.com/embed/' + anime.trailerYoutubeId
+              | safeResource
+          "
+          title="Trailer for {{
+            anime.titleEnglish || anime.titleJapanese || 'unknown anime'
+          }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
       <div class="details__sector">
-        <h1 class="mat-title">
-          {{ anime.titleEnglish | emptyValueHandler }} ({{ anime.titleJapanese | emptyValueHandler }})
-        </h1>
-        <p>Synopsis: {{anime.synopsis}}</p>
+        <h2 class="mat-title">
+          {{ anime.titleEnglish | emptyValueHandler }} ({{
+            anime.titleJapanese | emptyValueHandler
+          }})
+        </h2>
+        <div class="details__info-list">
+          <div class="info-list__item">
+            <mat-icon>calendar_today</mat-icon>
+            <div>
+              <span class="info-list__item-info"
+                >{{ anime.aired.start | date: "YYYY" | emptyValueHandler }} /
+                {{ anime.aired.end | date: "YYYY" | emptyValueHandler }} ({{
+                  anime.status | animeStatus
+                }})</span
+              >
+            </div>
+          </div>
+          <div class="info-list__item">
+            <mat-icon>theaters</mat-icon>
+            <div>
+              <span
+                class="info-list__item-info"
+                *ngFor="let genre of anime.genresData"
+                >{{ genre.name }}</span
+              >
+            </div>
+          </div>
+          <div class="info-list__item">
+            <mat-icon>movie</mat-icon>
+            <div>
+              <span class="info-list__item-info">{{
+                anime.type | animeType
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <p class="mat-font">{{ anime.synopsis }}</p>
+        <div *ngIf="anime.studiosData.length">
+          Studio:
+          <mat-chip-list>
+            <mat-chip *ngFor="let studio of anime.studiosData">{{
+              studio.name
+            }}</mat-chip>
+          </mat-chip-list>
+        </div>
       </div>
     </div>
   </ng-container>
 </div>
 
+<ng-template #loading>
+  <div class="loading-layout">
+    <mat-spinner color="primary" diameter="120"> </mat-spinner>
+  </div>
+</ng-template>

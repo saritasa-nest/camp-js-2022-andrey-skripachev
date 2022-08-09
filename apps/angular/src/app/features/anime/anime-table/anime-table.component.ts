@@ -7,6 +7,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AnimeListSearchParams } from '../../../../core/models/anime-list-search-params';
 import { AnimeService } from '../../../../core/services/anime.service';
@@ -22,6 +23,9 @@ import { SearchParamsService } from '../../../../core/services/search-params.ser
 export class AnimeTableComponent implements AfterViewInit {
 
   private readonly dataSource = new MatTableDataSource<Anime>();
+
+  /** Temporary solution. */
+  private shouldUpdatePage = false;
 
   /** Anime types. */
   public readonly availableAnimeTypes = Object
@@ -42,27 +46,21 @@ export class AnimeTableComponent implements AfterViewInit {
   public readonly currentPage$ = new BehaviorSubject<number>(0);
 
   /** Sorting. */
-  public readonly sorting$ = new BehaviorSubject<Sort>({
-    active: '',
-    direction: '',
-  });
+  public readonly sorting$: BehaviorSubject<Sort>;
 
   /** Maximum anime in page. */
   public maximumAnimeOnPage = 10;
 
   /** Filtering field form controller. */
-  public filterFormControl = new FormControl<AnimeType[]>([], {
-    nonNullable: true,
-  });
+  public filterFormControl: FormControl<AnimeType[]>;
 
   /** Searching input form controller. */
-  public searchFormControl = new FormControl('', {
-    nonNullable: true,
-  });
+  public searchFormControl: FormControl<string>;
 
   public constructor(
     animeService: AnimeService,
     private readonly searchParamsService: SearchParamsService,
+    private readonly router: Router,
   ) {
     const {
       maximumItemsOnPage,
@@ -73,10 +71,15 @@ export class AnimeTableComponent implements AfterViewInit {
     } = this.searchParamsService.getAnimeListSearchParams();
 
     this.maximumAnimeOnPage = maximumItemsOnPage;
+
+    this.sorting$ = new BehaviorSubject(sorting);
+    this.filterFormControl = new FormControl<AnimeType[]>(types, {
+      nonNullable: true,
+    });
+    this.searchFormControl = new FormControl(searchingTitlePart, {
+      nonNullable: true,
+    });
     this.currentPage$.next(pageNumber);
-    this.sorting$.next(sorting);
-    this.searchFormControl.setValue(searchingTitlePart);
-    this.filterFormControl.setValue(types);
 
     const filterChanges$ = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
@@ -92,7 +95,11 @@ export class AnimeTableComponent implements AfterViewInit {
       sortingChanges$,
     ]).pipe(
       tap(() => {
-        this.currentPage$.next(0);
+        if (this.shouldUpdatePage) {
+          this.currentPage$.next(0);
+        } else {
+          this.shouldUpdatePage = true;
+        }
       }),
     );
 
@@ -144,5 +151,13 @@ export class AnimeTableComponent implements AfterViewInit {
    */
   public trackById(_: number, anime: Anime): number {
     return anime.id;
+  }
+
+  /**
+   * Redirects user to details page.
+   * @param id Anime id.
+   */
+  public showDetails(id: number): void {
+    this.router.navigate(['details', id]);
   }
 }

@@ -1,12 +1,37 @@
 .details {
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: 1fr 2fr;
 }
 
 .details__sector {
   padding: 20px;
 }
 
-.details__image {
+.details__media {
   width: 100%;
+}
+
+.details__trailer {
+  height: 50%;
+}
+
+.details__info-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.info-list__item {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-list__item-info {
+  margin: 0 3px;
+}
+
+.details__image {
+  cursor: zoom-in;
 }

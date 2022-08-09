@@ -16,6 +16,8 @@ import { AnimeTypePipe } from './pipes/anime-type.pipe';
 import { AnimeStatusPipe } from './pipes/anime-status.pipe';
 import { EmptyValuePipe } from './pipes/empty-value.pipe';
 import { HeaderComponent } from './components/header/header.component';
+import { SafeResourcePipe } from './pipes/safe-resource.pipe';
+import { MatDialog } from '@angular/material/dialog';
 
 /** Shared module. */
 @NgModule({
@@ -24,8 +26,15 @@ import { HeaderComponent } from './components/header/header.component';
     AnimeStatusPipe,
     EmptyValuePipe,
     HeaderComponent,
+    SafeResourcePipe,
   ],
-  exports: [AnimeTypePipe, AnimeStatusPipe, EmptyValuePipe, HeaderComponent],
+  exports: [
+    AnimeTypePipe,
+    AnimeStatusPipe,
+    EmptyValuePipe,
+    HeaderComponent,
+    SafeResourcePipe
+  ],
   imports: [
     CommonModule,
     RouterModule,
