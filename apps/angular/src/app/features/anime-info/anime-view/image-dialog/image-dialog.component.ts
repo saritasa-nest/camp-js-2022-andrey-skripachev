@@ -1,8 +1,13 @@
-import { ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+/** Data for image in popup. */
 interface ImageDialogData {
+
+  /** Anime source. */
   readonly src: string;
+
+  /** Anime alt. */
   readonly alt: string;
 }
 
@@ -14,8 +19,7 @@ interface ImageDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageDialogComponent {
-
-  constructor(
+  public constructor(
     @Inject(MAT_DIALOG_DATA) public readonly dialogData: ImageDialogData,
-  ){}
+  ) {}
 }

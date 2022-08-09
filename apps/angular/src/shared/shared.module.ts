@@ -17,7 +17,6 @@ import { AnimeStatusPipe } from './pipes/anime-status.pipe';
 import { EmptyValuePipe } from './pipes/empty-value.pipe';
 import { HeaderComponent } from './components/header/header.component';
 import { SafeResourcePipe } from './pipes/safe-resource.pipe';
-import { MatDialog } from '@angular/material/dialog';
 
 /** Shared module. */
 @NgModule({
@@ -33,7 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
     AnimeStatusPipe,
     EmptyValuePipe,
     HeaderComponent,
-    SafeResourcePipe
+    SafeResourcePipe,
   ],
   imports: [
     CommonModule,

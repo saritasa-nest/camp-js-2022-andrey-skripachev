@@ -5,6 +5,7 @@ import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { Observable, Subscription } from 'rxjs';
 
 import { AnimeService } from '../../../../core/services/anime.service';
+
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 /** Anime information view component. */
@@ -38,9 +39,14 @@ export class AnimeViewComponent implements OnDestroy {
     this.animeDetailsSubscription.unsubscribe();
   }
 
+  /**
+   * Shows popup with image.
+   * @param src Image src.
+   * @param alt Image alt.
+   */
   public showFullSizeImage(src: string, alt: string): void {
     this.dialog.open(ImageDialogComponent, {
-      data: { src, alt }
-    })
+      data: { src, alt },
+    });
   }
 }

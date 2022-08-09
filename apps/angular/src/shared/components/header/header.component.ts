@@ -13,7 +13,7 @@ import { UserService } from '../../../../src/core/services/user.service';
 })
 export class HeaderComponent implements OnDestroy {
 
-  @Input() redirectAfterLogout: boolean = false;
+  @Input() private redirectAfterLogout = false;
 
   private subscription = new Subscription();
 
