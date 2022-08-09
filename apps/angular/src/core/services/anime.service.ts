@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, map, mapTo, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, mapTo, Observable, of, tap, throwError } from 'rxjs';
 
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -10,11 +10,13 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { AnimeDetails } from '@js-camp/core/models/anime-details';
+import { AnimeDetails, AnimeDetailsRequest } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
+import { ErrorMessage, ValidationErrorResponse } from '@js-camp/core/models/validation-error-response';
 
 import { AppConfigService } from './app-config.service';
+import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-error-response.mapper';
 
 const SNACKBAR_DURATION = 2;
 
@@ -33,6 +35,18 @@ export class AnimeService {
     private readonly snackBar: MatSnackBar
   ) {
     this.animeUrl = new URL('anime/anime/', appConfig.apiUrl);
+  }
+
+  private getErrorMessage(errorResponse: ValidationErrorResponse): ErrorMessage {
+    if (errorResponse.data) {
+      for (const [field, message] of Object.entries(errorResponse.data)) {
+        if (message) {
+          return [field, message.join(' ')];
+        }
+      }
+    }
+
+    return ['detail', errorResponse.detail];
   }
 
   private showSnackBarMessage(message: string): void {
@@ -90,5 +104,9 @@ export class AnimeService {
       this.createAnimeUrlById(id)
     ).pipe(
       mapTo(void 0));
+  }
+
+  public changeAnimeById(id: number, newAnimeData: AnimeDetailsRequest): Observable<null | ErrorMessage> {
+    return of(null);
   }
 }

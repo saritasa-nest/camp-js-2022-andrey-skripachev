@@ -1,6 +1,9 @@
-import { AnimeDetailsDto } from "../dtos/anime-details.dto";
-import { AnimeDetails } from "../models/anime-details";
+import { AnimeDetailsDto, AnimeDetailsRequestDto } from "../dtos/anime-details.dto";
+import { AnimeDetails, AnimeDetailsRequest } from "../models/anime-details";
+import { mapAnimeStatusToDto } from "./anime-status.mapper";
+import { mapAnimeTypeToDto } from "./anime-type.mapper";
 import { AnimeMapper } from "./anime.mapper";
+import { DateTimeRangeMapper } from "./date-time-range.mapper";
 import { GenreMapper } from "./genre.mapper";
 import { StudioMapper } from "./studio.mapper";
 
@@ -16,5 +19,21 @@ export namespace AnimeDetailsMapper {
       studiosData: dto.studios_data.map(StudioMapper.fromDto),
       genresData: dto.genres_data.map(GenreMapper.fromDto),
     })
+  }
+
+  export function toDto(model: AnimeDetailsRequest): AnimeDetailsRequestDto {
+    return {
+      trailer_youtube_id: model.trailerYoutubeId,
+      synopsis: model.synopsis,
+      airing: model.isAiring,
+      studios: model.studiosIdList,
+      genres: model.genresIdList,
+      aired: DateTimeRangeMapper.toDto(model.aired),
+      image: model.image,
+      status: mapAnimeStatusToDto(model.status),
+      title_eng: model.titleEnglish,
+      title_jpn: model.titleJapanese,
+      type: mapAnimeTypeToDto(model.type),
+    }
   }
 }

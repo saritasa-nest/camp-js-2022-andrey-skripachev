@@ -1,0 +1,11 @@
+<div>
+  <ng-container *ngIf="currentAnime$ | async as anime; else loading">
+    <camp-anime-edit-form [animeData]="anime"></camp-anime-edit-form>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <div class="loading-layout">
+    <mat-spinner color="primary" diameter="120"> </mat-spinner>
+  </div>
+</ng-template>

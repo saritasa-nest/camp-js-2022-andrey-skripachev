@@ -1,0 +1,41 @@
+<p>anime-edit-form works!</p>
+<form>
+  <mat-form-field>
+    <mat-label>YouTube trailer</mat-label>
+    <input type="text" placeholder="Id of the youtube trailer" matInput>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Image source</mat-label>
+    <input type="text" placeholder="Id of the youtube trailer" matInput>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Synopsis</mat-label>
+    <textarea matInput placeholder="Anime english title"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Title english</mat-label>
+    <input type="text" placeholder="Anime english title" matInput >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Title japanese</mat-label>
+    <input type="text" placeholder="Anime japanese title" matInput>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-checkbox>Is anime airing now?</mat-checkbox>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Aired start</mat-label>
+    <input matInput [matDatepicker]="picker">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Aired end</mat-label>
+    <input matInput [matDatepicker]="picker">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <!-- Add genre/studio chips and type/status selects-->
+</form>
