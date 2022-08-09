@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { AuthModule } from './features/auth/auth.module';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    MatSnackBarModule,
     HttpClientModule,
     AnimeModule,
     AuthModule,

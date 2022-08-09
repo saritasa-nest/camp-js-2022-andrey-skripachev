@@ -28,6 +28,13 @@
           {{ anime.titleEnglish | emptyValueHandler }} ({{
             anime.titleJapanese | emptyValueHandler
           }})
+          <button
+            mat-flat-button
+            color="warn"
+            (click)="handleDeleteButtonClick()"
+          >
+            Delete <mat-icon>delete</mat-icon>
+          </button>
         </h2>
         <div class="details__info-list">
           <div class="info-list__item">

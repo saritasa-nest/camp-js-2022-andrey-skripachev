@@ -13,10 +13,17 @@ import { AnimeInfoRoutingModule } from './anime-info-routing.module';
 import { AnimeInfoComponent } from './anime-info.component';
 import { AnimeViewComponent } from './anime-view/anime-view.component';
 import { ImageDialogComponent } from './anime-view/image-dialog/image-dialog.component';
+import { ConfirmDeletingAnimeComponent } from './anime-view/confirm-deleting-anime/confirm-deleting-anime.component';
+import { MatButtonModule } from '@angular/material/button';
 
 /** Anime information module. */
 @NgModule({
-  declarations: [AnimeInfoComponent, AnimeViewComponent, ImageDialogComponent],
+  declarations: [
+    AnimeInfoComponent,
+    AnimeViewComponent,
+    ImageDialogComponent,
+    ConfirmDeletingAnimeComponent,
+  ],
   imports: [
     CommonModule,
     AnimeInfoRoutingModule,
@@ -26,6 +33,7 @@ import { ImageDialogComponent } from './anime-view/image-dialog/image-dialog.com
     MatListModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatButtonModule
   ],
 })
 export class AnimeInfoModule {}

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, map, mapTo, Observable, tap, throwError } from 'rxjs';
 
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -15,6 +16,8 @@ import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
 
 import { AppConfigService } from './app-config.service';
 
+const SNACKBAR_DURATION = 2;
+
 /** Anime service. */
 @Injectable({
   providedIn: 'root',
@@ -27,8 +30,20 @@ export class AnimeService {
     appConfig: AppConfigService,
     private readonly httpClient: HttpClient,
     private readonly router: Router,
+    private readonly snackBar: MatSnackBar
   ) {
     this.animeUrl = new URL('anime/anime/', appConfig.apiUrl);
+  }
+
+  private showSnackBarMessage(message: string): void {
+    this.snackBar.open(message, '', {
+      duration: SNACKBAR_DURATION * 1000,
+      announcementMessage: 'AMOGUS'
+    });
+  }
+
+  private createAnimeUrlById(id: number): string {
+    return `${this.animeUrl.toString()}${id}/`;
   }
 
   /**
@@ -41,7 +56,9 @@ export class AnimeService {
       {
         params: searchParams,
       },
-    ).pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)));
+    ).pipe(
+      map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto))
+    );
   }
 
   /**
@@ -50,7 +67,7 @@ export class AnimeService {
    */
   public getAnimeById(id: number): Observable<AnimeDetails> {
     return this.httpClient.get<AnimeDetailsDto>(
-      `${this.animeUrl.toString()}${id}/`,
+      this.createAnimeUrlById(id),
     ).pipe(
       map(dto => AnimeDetailsMapper.fromDto(dto)),
       catchError(() => {
@@ -58,5 +75,20 @@ export class AnimeService {
         return throwError(new Error('Anime doesn\'t exists'));
       }),
     );
+  }
+
+  /**
+   * Deletes anime by id.
+   * @param id Anime id.
+   */
+  public deleteAnime(id: number): Observable<void> {
+    this.router.navigate(['/']).then(() => {
+      this.showSnackBarMessage('Deleting successful!')
+    })
+
+    return this.httpClient.delete(
+      this.createAnimeUrlById(id)
+    ).pipe(
+      mapTo(void 0));
   }
 }
