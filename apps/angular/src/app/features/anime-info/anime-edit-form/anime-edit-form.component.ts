@@ -11,6 +11,21 @@ import { switchMap, Observable, Subscription, startWith, tap, debounceTime } fro
 
 const MAXIMUM_AUTOCOMPLETE_COUNT = 3;
 
+interface AnimeEditForm {
+  readonly titleEnglish: string;
+  readonly titleJapanese: string;
+  synopsis: string;
+  airedStart?: Date;
+  airedEnd?: Date;
+  image: string;
+  trailerYoutubeId?: string;
+  status: AnimeStatus;
+  type: AnimeType;
+  isAiring: boolean;
+  genres: Genre[];
+  studios: Studio[];
+}
+
 @Component({
   selector: 'camp-anime-edit-form',
   templateUrl: './anime-edit-form.component.html',
@@ -19,7 +34,7 @@ const MAXIMUM_AUTOCOMPLETE_COUNT = 3;
 })
 export class AnimeEditFormComponent implements OnInit {
 
-  @Input() public onSubmit: (animeData: AnimeDetailsRequest) => ErrorMessage;
+  @Input() public onSubmit: (animeData: AnimeDetailsRequest) => Observable<ErrorMessage | null>;
 
   @Input() public animeData: AnimeDetails;
 
@@ -92,6 +107,10 @@ export class AnimeEditFormComponent implements OnInit {
       titleEnglish: ['', [Validators.required]],
       titleJapanese: ['', [Validators.required]],
       synopsis: ['', [Validators.required]],
+      aired: formBuilder.group({
+        start: [''],
+        end: [''],
+      }),
       airedStart: [''],
       airedEnd: [''],
       image: ['', [Validators.required]],
@@ -113,8 +132,8 @@ export class AnimeEditFormComponent implements OnInit {
     controls['titleEnglish'].setValue(this.animeData.titleEnglish);
     controls['titleJapanese'].setValue(this.animeData.titleJapanese);
     controls['synopsis'].setValue(this.animeData.synopsis);
-    controls['airedStart'].setValue(this.animeData.aired.start);
-    controls['airedEnd'].setValue(this.animeData.aired.end);
+    this.editForm.get(['aired', 'start'])?.setValue(this.animeData.aired.start);
+    this.editForm.get(['aired', 'end'])?.setValue(this.animeData.aired.end);
     controls['image'].setValue(this.animeData.image);
     controls['trailerYoutubeId'].setValue(this.animeData.trailerYoutubeId);
     controls['status'].setValue(this.animeData.status);
@@ -126,6 +145,36 @@ export class AnimeEditFormComponent implements OnInit {
 
   public handleSubmit(): void {
     console.table(this.editForm.value);
+    if (this.editForm.invalid) {
+      return;
+    }
+
+    const editData = this.editForm.value;
+
+    console.log(editData);
+
+    this.subscriptions.add(
+      this.onSubmit(editData).subscribe((data) => { console.log(data)})
+    )
+
+    // const errorMessage = this.onSubmit({
+    //   trailerYoutubeId: editData.trailerYoutubeId,
+    //   synopsis: editData.synopsis,
+    //   isAiring: editData.isAiring,
+    //   studiosIdList: editData.studios.map((el: {id: number}) => el.id),
+    //   genresIdList: editData.genres.map((el: {id: number}) => el.id),
+    //   aired: {
+    //     start: editData.airedStart,
+    //     end: editData.airedEnd,
+    //   },
+    //   image: editData.image,
+    //   status: editData.status,
+    //   titleEnglish: editData.titleEnglish,
+    //   titleJapanese: editData.titleJapanese,
+    //   type: editData.type,
+    // }).subscribe((log) => {
+    //   console.log(log)
+    // })
 
   }
 

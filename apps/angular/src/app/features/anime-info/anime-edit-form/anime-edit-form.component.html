@@ -78,48 +78,50 @@
   </div>
   <div>
     <span>Aired</span>
-    <mat-form-field appearance="fill" class="edit__field edit__short-field">
-      <mat-label>Start</mat-label>
-      <input
-        formControlName="airedStart"
-        matInput
-        [matDatepicker]="datepickerStart"
-      />
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="datepickerStart"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #datepickerStart>
-        <mat-datepicker-actions>
-          <button mat-button matDatepickerCancel>Cancel</button>
-          <button mat-raised-button color="primary" matDatepickerApply>
-            Apply
-          </button>
-        </mat-datepicker-actions>
-      </mat-datepicker>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="edit__field edit__short-field">
-      <mat-label>End</mat-label>
-      <input
-        formControlName="airedEnd"
-        matInput
-        [matDatepicker]="datepickerEnd"
-      />
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="datepickerEnd"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #datepickerEnd>
-        <mat-datepicker-actions>
-          <button mat-button matDatepickerCancel>Cancel</button>
-          <button mat-raised-button color="primary" matDatepickerApply>
-            Apply
-          </button>
-        </mat-datepicker-actions>
-      </mat-datepicker>
-    </mat-form-field>
+    <span formGroupName="aired">
+      <mat-form-field appearance="fill" class="edit__field edit__short-field">
+        <mat-label>Start</mat-label>
+        <input
+          formControlName="start"
+          matInput
+          [matDatepicker]="datepickerStart"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepickerStart"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepickerStart>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="edit__field edit__short-field">
+        <mat-label>End</mat-label>
+        <input
+          formControlName="end"
+          matInput
+          [matDatepicker]="datepickerEnd"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepickerEnd"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepickerEnd>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </span>
     <mat-checkbox formControlName="isAiring">Airing</mat-checkbox>
   </div>
   <div>

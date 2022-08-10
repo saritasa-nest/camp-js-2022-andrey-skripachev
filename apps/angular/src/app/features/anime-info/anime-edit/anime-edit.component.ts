@@ -33,6 +33,8 @@ export class AnimeEditComponent {
     )
 
     this.animeId = Number(id);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   public handleSubmit(animeData: AnimeDetailsRequest): Observable<ErrorMessage | null> {

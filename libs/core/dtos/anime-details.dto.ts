@@ -25,4 +25,5 @@ export interface AnimeDetailsDto extends AnimeDto {
   readonly genres: readonly number[];
   readonly studios_data: readonly StudioDto[];
   readonly genres_data: readonly GenreDto[];
+  
 }

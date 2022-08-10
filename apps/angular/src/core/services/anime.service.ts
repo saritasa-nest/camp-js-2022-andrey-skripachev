@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, map, mapTo, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, map, mapTo, Observable, of, switchMapTo, tap, throwError } from 'rxjs';
 
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -10,10 +14,16 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { AnimeDetails, AnimeDetailsRequest } from '@js-camp/core/models/anime-details';
+import {
+  AnimeDetails,
+  AnimeDetailsRequest,
+} from '@js-camp/core/models/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
-import { ErrorMessage, ValidationErrorResponse } from '@js-camp/core/models/validation-error-response';
+import {
+  ErrorMessage,
+  ValidationErrorResponse,
+} from '@js-camp/core/models/validation-error-response';
 
 import { AppConfigService } from './app-config.service';
 import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-error-response.mapper';
@@ -31,7 +41,6 @@ const SNACKBAR_DURATION = 2;
   providedIn: 'root',
 })
 export class AnimeService {
-
   private readonly animeUrl: URL;
 
   private readonly genresUrl: URL;
@@ -49,7 +58,9 @@ export class AnimeService {
     this.studiosUrl = new URL('anime/studios/', appConfig.apiUrl);
   }
 
-  private getErrorMessage(errorResponse: ValidationErrorResponse): ErrorMessage {
+  private getErrorMessage(
+    errorResponse: ValidationErrorResponse
+  ): ErrorMessage {
     if (errorResponse.data) {
       for (const [field, message] of Object.entries(errorResponse.data)) {
         if (message) {
@@ -64,7 +75,7 @@ export class AnimeService {
   private showSnackBarMessage(message: string): void {
     this.snackBar.open(message, '', {
       duration: SNACKBAR_DURATION * 1000,
-      announcementMessage: 'AMOGUS'
+      announcementMessage: 'AMOGUS',
     });
   }
 
@@ -77,14 +88,11 @@ export class AnimeService {
    * @param searchParams Params for searching anime.
    */
   public getAnimeList(searchParams: HttpParams): Observable<Pagination<Anime>> {
-    return this.httpClient.get<PaginationDto<AnimeDto>>(
-      this.animeUrl.toString(),
-      {
+    return this.httpClient
+      .get<PaginationDto<AnimeDto>>(this.animeUrl.toString(), {
         params: searchParams,
-      },
-    ).pipe(
-      map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto))
-    );
+      })
+      .pipe(map((dto) => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)));
   }
 
   /**
@@ -92,15 +100,15 @@ export class AnimeService {
    * @param id Anime id.
    */
   public getAnimeById(id: number): Observable<AnimeDetails> {
-    return this.httpClient.get<AnimeDetailsDto>(
-      this.createAnimeUrlById(id),
-    ).pipe(
-      map(dto => AnimeDetailsMapper.fromDto(dto)),
-      catchError(() => {
-        this.router.navigate(['/']);
-        return throwError(new Error('Anime doesn\'t exists'));
-      }),
-    );
+    return this.httpClient
+      .get<AnimeDetailsDto>(this.createAnimeUrlById(id))
+      .pipe(
+        map((dto) => AnimeDetailsMapper.fromDto(dto)),
+        catchError(() => {
+          this.router.navigate(['/']);
+          return throwError(new Error("Anime doesn't exists"));
+        })
+      );
   }
 
   /**
@@ -109,69 +117,85 @@ export class AnimeService {
    */
   public deleteAnime(id: number): Observable<void> {
     this.router.navigate(['/']).then(() => {
-      this.showSnackBarMessage('Deleting successful!')
-    })
+      this.showSnackBarMessage('Deleting successful!');
+    });
 
-    return this.httpClient.delete(
-      this.createAnimeUrlById(id)
+    return this.httpClient
+      .delete(this.createAnimeUrlById(id))
+      .pipe(mapTo(void 0));
+  }
+
+  public changeAnimeById(
+    id: number,
+    newAnimeData: AnimeDetailsRequest
+  ): Observable<null | ErrorMessage> {
+    return this.httpClient.put(
+      this.createAnimeUrlById(id),
+      {
+        ...AnimeDetailsMapper.toDto(newAnimeData),
+      },
     ).pipe(
-      mapTo(void 0));
+      mapTo(null),
+      catchError(error => {
+        if (error instanceof HttpErrorResponse) {
+          return of(this.getErrorMessage(error.error));
+        }
+
+        return throwError(new Error(error));
+      })
+    );
   }
 
-  public changeAnimeById(id: number, newAnimeData: AnimeDetailsRequest): Observable<null | ErrorMessage> {
-    return of(null);
-  }
-
-  public getGenresByName(searchingName: string, maximumReceivingCount: number): Observable<readonly Genre[]> {
+  public getGenresByName(
+    searchingName: string,
+    maximumReceivingCount: number
+  ): Observable<readonly Genre[]> {
     const searchParams = {
       search: searchingName,
       limit: maximumReceivingCount,
-    }
-    return this.httpClient.get<PaginationDto<GenreDto>>(
-      this.genresUrl.toString(),
-      {
+    };
+    return this.httpClient
+      .get<PaginationDto<GenreDto>>(this.genresUrl.toString(), {
         params: searchParams,
-      }
-    ).pipe(
-      map(dto => PaginationMapper.fromDto(dto, GenreMapper.fromDto).results)
-    )
+      })
+      .pipe(
+        map((dto) => PaginationMapper.fromDto(dto, GenreMapper.fromDto).results)
+      );
   }
 
-  public getStudiosByName(searchingName: string, maximumReceivingCount: number): Observable<readonly Studio[]> {
+  public getStudiosByName(
+    searchingName: string,
+    maximumReceivingCount: number
+  ): Observable<readonly Studio[]> {
     const searchParams = {
       search: searchingName,
       limit: maximumReceivingCount,
-    }
-    return this.httpClient.get<PaginationDto<StudioDto>>(
-      this.studiosUrl.toString(),
-      {
+    };
+    return this.httpClient
+      .get<PaginationDto<StudioDto>>(this.studiosUrl.toString(), {
         params: searchParams,
-      }
-    ).pipe(
-      map(dto => PaginationMapper.fromDto(dto, StudioMapper.fromDto).results)
-    )
+      })
+      .pipe(
+        map(
+          (dto) => PaginationMapper.fromDto(dto, StudioMapper.fromDto).results
+        )
+      );
   }
 
   public createStudio(studioName: string): Observable<Studio> {
-    return this.httpClient.post<StudioDto>(
-      this.studiosUrl.toString(),
-      {
-        "name": studioName,
-      },
-    ).pipe(
-      map(StudioMapper.fromDto),
-    )
+    return this.httpClient
+      .post<StudioDto>(this.studiosUrl.toString(), {
+        name: studioName,
+      })
+      .pipe(map(StudioMapper.fromDto));
   }
 
   public createGenre(genreName: string): Observable<Genre> {
-    return this.httpClient.post<GenreDto>(
-      this.genresUrl.toString(),
-      {
-        "type": 'GENRES',
-        "name": genreName,
-      },
-    ).pipe(
-      map(GenreMapper.fromDto),
-    )
+    return this.httpClient
+      .post<GenreDto>(this.genresUrl.toString(), {
+        type: 'GENRES',
+        name: genreName,
+      })
+      .pipe(map(GenreMapper.fromDto));
   }
 }
