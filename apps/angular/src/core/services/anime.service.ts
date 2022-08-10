@@ -17,6 +17,12 @@ import { ErrorMessage, ValidationErrorResponse } from '@js-camp/core/models/vali
 
 import { AppConfigService } from './app-config.service';
 import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-error-response.mapper';
+import { Genre } from '@js-camp/core/models/genre';
+import { GenreDto } from '@js-camp/core/dtos/genre.dto';
+import { GenreMapper } from '@js-camp/core/mappers/genre.mapper';
+import { Studio } from '@js-camp/core/models/studio';
+import { StudioDto } from '@js-camp/core/dtos/studio.dto';
+import { StudioMapper } from '@js-camp/core/mappers/studio.mapper';
 
 const SNACKBAR_DURATION = 2;
 
@@ -28,6 +34,10 @@ export class AnimeService {
 
   private readonly animeUrl: URL;
 
+  private readonly genresUrl: URL;
+
+  private readonly studiosUrl: URL;
+
   public constructor(
     appConfig: AppConfigService,
     private readonly httpClient: HttpClient,
@@ -35,6 +45,8 @@ export class AnimeService {
     private readonly snackBar: MatSnackBar
   ) {
     this.animeUrl = new URL('anime/anime/', appConfig.apiUrl);
+    this.genresUrl = new URL('anime/genres/', appConfig.apiUrl);
+    this.studiosUrl = new URL('anime/studios/', appConfig.apiUrl);
   }
 
   private getErrorMessage(errorResponse: ValidationErrorResponse): ErrorMessage {
@@ -108,5 +120,35 @@ export class AnimeService {
 
   public changeAnimeById(id: number, newAnimeData: AnimeDetailsRequest): Observable<null | ErrorMessage> {
     return of(null);
+  }
+
+  public getGenresByName(searchingName: string, maximumReceivingCount: number): Observable<readonly Genre[]> {
+    const searchParams = {
+      search: searchingName,
+      limit: maximumReceivingCount,
+    }
+    return this.httpClient.get<PaginationDto<GenreDto>>(
+      this.genresUrl.toString(),
+      {
+        params: searchParams,
+      }
+    ).pipe(
+      map(dto => PaginationMapper.fromDto(dto, GenreMapper.fromDto).results)
+    )
+  }
+
+  public getStudiosByName(searchingName: string, maximumReceivingCount: number): Observable<readonly Studio[]> {
+    const searchParams = {
+      search: searchingName,
+      limit: maximumReceivingCount,
+    }
+    return this.httpClient.get<PaginationDto<StudioDto>>(
+      this.studiosUrl.toString(),
+      {
+        params: searchParams,
+      }
+    ).pipe(
+      map(dto => PaginationMapper.fromDto(dto, StudioMapper.fromDto).results)
+    )
   }
 }

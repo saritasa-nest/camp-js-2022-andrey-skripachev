@@ -8,8 +8,6 @@ export enum AnimeType {
   Music = 'Music',
 }
 
-export namespace AnimeType {
-
   /**
    * Checks if the value is a type.
    * @param value Value, possibly being a type.
@@ -25,4 +23,4 @@ export namespace AnimeType {
   export function toAnimeType(value: string): AnimeType {
     return isType(value) ? value : AnimeType.Movie;
   }
-}
+

@@ -13,8 +13,6 @@ export function isStatus(value: string): value is AnimeStatus {
   return Object.keys(AnimeStatus).includes(value as AnimeStatus);
 }
 
-export namespace AnimeStatus {
-
   /**
    * Converts the value to a status if it exists in the statuses.
    * @param value String for conversion.
@@ -23,4 +21,4 @@ export namespace AnimeStatus {
     return isStatus(value) ? value : AnimeStatus.NotYetAired;
   }
 
-}
+

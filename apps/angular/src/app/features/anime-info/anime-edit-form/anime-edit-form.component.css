@@ -1,0 +1,12 @@
+.edit {
+  padding: 15px;
+}
+
+.edit__field {
+  margin: 0 5px;
+  width: 100%;
+}
+
+.edit__short-field {
+  width: 25%;
+}

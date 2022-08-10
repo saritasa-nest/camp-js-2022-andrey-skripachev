@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetails, AnimeDetailsRequest } from '@js-camp/core/models/anime-details';
 import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
 import { AnimeService } from 'apps/angular/src/core/services/anime.service';
@@ -20,6 +20,7 @@ export class AnimeEditComponent {
   private readonly animeSubscription = new Subscription();
 
   constructor(
+    private readonly router: Router,
     private readonly animeService: AnimeService,
     activatedRoute: ActivatedRoute,
   ) {
@@ -38,5 +39,9 @@ export class AnimeEditComponent {
     console.log(animeData);
 
     return this.animeService.changeAnimeById(this.animeId, animeData);
+  }
+
+  public goToView(): void {
+    this.router.navigate(['details', this.animeId, 'view']);
   }
 }
