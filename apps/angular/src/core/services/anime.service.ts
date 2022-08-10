@@ -151,4 +151,27 @@ export class AnimeService {
       map(dto => PaginationMapper.fromDto(dto, StudioMapper.fromDto).results)
     )
   }
+
+  public createStudio(studioName: string): Observable<Studio> {
+    return this.httpClient.post<StudioDto>(
+      this.studiosUrl.toString(),
+      {
+        "name": studioName,
+      },
+    ).pipe(
+      map(StudioMapper.fromDto),
+    )
+  }
+
+  public createGenre(genreName: string): Observable<Genre> {
+    return this.httpClient.post<GenreDto>(
+      this.genresUrl.toString(),
+      {
+        "type": 'GENRES',
+        "name": genreName,
+      },
+    ).pipe(
+      map(GenreMapper.fromDto),
+    )
+  }
 }

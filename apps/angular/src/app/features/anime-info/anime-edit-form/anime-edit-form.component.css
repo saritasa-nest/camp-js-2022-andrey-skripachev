@@ -10,3 +10,7 @@
 .edit__short-field {
   width: 25%;
 }
+
+.highlighted {
+  color: #004a7f;
+}

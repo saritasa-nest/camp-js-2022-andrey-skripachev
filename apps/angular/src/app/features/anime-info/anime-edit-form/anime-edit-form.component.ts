@@ -7,7 +7,7 @@ import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
 import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { AnimeService } from 'apps/angular/src/core/services/anime.service';
-import { BehaviorSubject, switchMap, Observable, Subscription, startWith, tap, debounceTime } from 'rxjs';
+import { switchMap, Observable, Subscription, startWith, tap, debounceTime } from 'rxjs';
 
 const MAXIMUM_AUTOCOMPLETE_COUNT = 3;
 
@@ -29,14 +29,18 @@ export class AnimeEditFormComponent implements OnInit {
 
   public currentAnimeStudios: Studio[] = [];
 
+  private readonly subscriptions = new Subscription();
+
   public readonly searchAnimeGenreFormControl = new FormControl<string>('', {
     nonNullable: true,
+    updateOn: 'change',
   });
 
   public readonly searchingAnimeGenres$: Observable<readonly Genre[]>;
 
   public readonly searchAnimeStudioFormControl = new FormControl<string>('', {
     nonNullable: true,
+    updateOn: 'change',
   });
 
   public readonly searchingAnimeStudios$: Observable<readonly Studio[]>;
@@ -49,8 +53,12 @@ export class AnimeEditFormComponent implements OnInit {
     .values(AnimeStatus)
     .filter(element => typeof element === 'string');
 
+  private searchingGenre = '';
+
+  private searchingStudio = '';
+
   public constructor(
-    animeService: AnimeService,
+    private readonly animeService: AnimeService,
     formBuilder: FormBuilder,
   ) {
 
@@ -61,18 +69,22 @@ export class AnimeEditFormComponent implements OnInit {
     this.searchingAnimeGenres$ = searchGenreChange$.pipe(
       debounceTime(100),
       switchMap(name => {
-        return animeService.getGenresByName(name, MAXIMUM_AUTOCOMPLETE_COUNT);
+        this.searchingGenre = name;
+
+        return this.animeService.getGenresByName(name, MAXIMUM_AUTOCOMPLETE_COUNT);
       })
     )
 
     const searchStudioChanges$ = this.searchAnimeStudioFormControl.valueChanges.pipe(
       startWith(this.searchAnimeStudioFormControl.value),
+      tap(() => console.log(this.searchAnimeStudioFormControl))
     );
 
     this.searchingAnimeStudios$ = searchStudioChanges$.pipe(
       debounceTime(100),
       switchMap(name => {
-        return animeService.getStudiosByName(name, MAXIMUM_AUTOCOMPLETE_COUNT);
+        this.searchingStudio = name;
+        return this.animeService.getStudiosByName(name, MAXIMUM_AUTOCOMPLETE_COUNT);
       }),
     )
 
@@ -113,7 +125,7 @@ export class AnimeEditFormComponent implements OnInit {
   }
 
   public handleSubmit(): void {
-    console.log(this.editForm.value);
+    console.table(this.editForm.value);
 
   }
 
@@ -130,12 +142,34 @@ export class AnimeEditFormComponent implements OnInit {
   }
 
   public addGenre(genre: Genre): void {
+    if (this.currentAnimeGenres.some(({ id }) => genre.id === id)) {
+      return
+    }
     this.currentAnimeGenres.push(genre);
     this.searchAnimeGenreFormControl.setValue('');
   }
 
   public addStudio(studio: Studio): void {
+    if (this.currentAnimeStudios.some(({ id }) => studio.id === id)) {
+      return
+    }
     this.currentAnimeStudios.push(studio);
     this.searchAnimeStudioFormControl.setValue('');
+  }
+
+  public createGenre(): void {
+    this.subscriptions.add(this.animeService
+      .createGenre(this.searchingGenre)
+      .pipe(
+        tap(newGenre => this.addGenre(newGenre)),
+      ).subscribe());
+  }
+
+  public createStudio(): void {
+    this.subscriptions.add(this.animeService
+      .createStudio(this.searchingStudio)
+      .pipe(
+        tap(newStudio => this.addStudio(newStudio)),
+      ).subscribe());
   }
 }

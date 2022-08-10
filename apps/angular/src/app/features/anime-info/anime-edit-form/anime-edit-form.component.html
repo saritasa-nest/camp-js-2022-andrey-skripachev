@@ -144,6 +144,12 @@
         />
         <mat-autocomplete #genreAutocomplete="matAutocomplete">
           <mat-option
+            class="highlighted"
+            *ngIf="searchAnimeGenreFormControl.value"
+            (click)="createGenre()"
+            ><mat-icon>control_point</mat-icon> Add new genre</mat-option
+          >
+          <mat-option
             (click)="addGenre(genre)"
             *ngFor="let genre of searchingAnimeGenres$ | async"
             [value]="genre"
@@ -175,6 +181,12 @@
           [matChipInputFor]="studioList"
         />
         <mat-autocomplete #studioAutocomplete="matAutocomplete">
+          <mat-option
+            class="highlighted"
+            *ngIf="searchAnimeStudioFormControl.value"
+            (click)="createStudio()"
+            ><mat-icon>control_point</mat-icon> Add new studio</mat-option
+          >
           <mat-option
             (click)="addStudio(studio)"
             *ngFor="let studio of searchingAnimeStudios$ | async"
