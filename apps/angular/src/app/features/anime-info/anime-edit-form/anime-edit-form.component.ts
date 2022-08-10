@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AnimeDetails, AnimeDetailsRequest } from '@js-camp/core/models/anime-details';
 import { Genre } from '@js-camp/core/models/genre';
 import { Studio } from '@js-camp/core/models/studio';
 import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
 import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
+import { AnimeService } from 'apps/angular/src/core/services/anime.service';
+import { BehaviorSubject, switchMap, Observable, Subscription, startWith, tap, debounceTime } from 'rxjs';
+
+const MAXIMUM_AUTOCOMPLETE_COUNT = 3;
 
 @Component({
   selector: 'camp-anime-edit-form',
@@ -25,6 +29,18 @@ export class AnimeEditFormComponent implements OnInit {
 
   public currentAnimeStudios: Studio[] = [];
 
+  public readonly searchAnimeGenreFormControl = new FormControl<string>('', {
+    nonNullable: true,
+  });
+
+  public readonly searchingAnimeGenres$: Observable<readonly Genre[]>;
+
+  public readonly searchAnimeStudioFormControl = new FormControl<string>('', {
+    nonNullable: true,
+  });
+
+  public readonly searchingAnimeStudios$: Observable<readonly Studio[]>;
+
   public readonly animeTypes = Object
     .values(AnimeType)
     .filter(element => typeof element === 'string');
@@ -34,8 +50,31 @@ export class AnimeEditFormComponent implements OnInit {
     .filter(element => typeof element === 'string');
 
   public constructor(
+    animeService: AnimeService,
     formBuilder: FormBuilder,
   ) {
+
+    const searchGenreChange$ = this.searchAnimeGenreFormControl.valueChanges.pipe(
+      startWith(this.searchAnimeGenreFormControl.value),
+    )
+
+    this.searchingAnimeGenres$ = searchGenreChange$.pipe(
+      debounceTime(100),
+      switchMap(name => {
+        return animeService.getGenresByName(name, MAXIMUM_AUTOCOMPLETE_COUNT);
+      })
+    )
+
+    const searchStudioChanges$ = this.searchAnimeStudioFormControl.valueChanges.pipe(
+      startWith(this.searchAnimeStudioFormControl.value),
+    );
+
+    this.searchingAnimeStudios$ = searchStudioChanges$.pipe(
+      debounceTime(100),
+      switchMap(name => {
+        return animeService.getStudiosByName(name, MAXIMUM_AUTOCOMPLETE_COUNT);
+      }),
+    )
 
     this.editForm = formBuilder.group({
       titleEnglish: ['', [Validators.required]],
@@ -74,6 +113,29 @@ export class AnimeEditFormComponent implements OnInit {
   }
 
   public handleSubmit(): void {
+    console.log(this.editForm.value);
 
+  }
+
+  public removeGenre(currentId: number): void {
+    const genreId = this.currentAnimeGenres.findIndex(({id}) => currentId === id);
+
+    this.currentAnimeGenres.splice(genreId, 1);
+  }
+
+  public removeStudio(currentId: number): void {
+    const studioId = this.currentAnimeStudios.findIndex(({id}) => currentId === id);
+
+    this.currentAnimeStudios.splice(studioId, 1);
+  }
+
+  public addGenre(genre: Genre): void {
+    this.currentAnimeGenres.push(genre);
+    this.searchAnimeGenreFormControl.setValue('');
+  }
+
+  public addStudio(studio: Studio): void {
+    this.currentAnimeStudios.push(studio);
+    this.searchAnimeStudioFormControl.setValue('');
   }
 }

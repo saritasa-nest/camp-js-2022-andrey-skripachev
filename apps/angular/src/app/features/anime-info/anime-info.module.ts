@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { SharedModule } from '../../../shared/shared.module';
 
@@ -51,6 +52,7 @@ import { AnimeEditFormComponent } from './anime-edit-form/anime-edit-form.compon
     MatCheckboxModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ],
 })
 export class AnimeInfoModule {}
