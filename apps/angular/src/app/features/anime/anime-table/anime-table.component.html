@@ -28,7 +28,7 @@
     hidePageSize
   >
   </mat-paginator>
-  <ng-container *ngIf="sorting$ | async as sorting; else loading">
+  <ng-container *ngIf="sorting$ | async | sorting as sorting; else loading">
     <table
       [trackBy]="trackById"
       matSort

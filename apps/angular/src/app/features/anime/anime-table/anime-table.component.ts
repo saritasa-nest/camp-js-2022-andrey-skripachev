@@ -11,9 +11,18 @@ import { FormControl } from '@angular/forms';
 import { AnimeListSearchParams } from '../../../../core/models/animeListSearchParams';
 import { AnimeService } from '../../../../core/services/anime.service';
 import { SearchParamsService } from '../../../../core/services/search-params.service';
+import { Sorting } from '../../../../core/models/sorting';
+import { SortingMapper } from '../../../../core/services/mappers/sorting.mapper';
 
 /** Delay between controller state changes and request sending. */
 const CONTROL_ACTION_DELAY = 0.3;
+
+const INITIAL_PAGE = 0;
+const INITIAL_SEARCH_STRING = '';
+const INITIAL_SORTING: Sorting = {
+  target: '',
+  direction: '',
+};
 
 /** Table for displaying the anime list. */
 @Component({
@@ -27,7 +36,7 @@ export class AnimeTableComponent implements AfterViewInit {
   private readonly dataSource = new MatTableDataSource<Anime>();
 
   /** Anime types. */
-  public readonly availableAnimeTypes = Object.values(AnimeType);
+  public readonly availableAnimeTypes = Object.keys(AnimeType);
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
@@ -42,13 +51,10 @@ export class AnimeTableComponent implements AfterViewInit {
   public readonly animeData$: Observable<Pagination<Anime>>;
 
   /** Current page. */
-  public readonly currentPage$ = new BehaviorSubject(0);
+  public readonly currentPage$ = new BehaviorSubject(INITIAL_PAGE);
 
   /** Sorting. */
-  public readonly sorting$ = new BehaviorSubject<Sort>({
-    active: '',
-    direction: '',
-  });
+  public readonly sorting$ = new BehaviorSubject(INITIAL_SORTING);
 
   /** Maximum anime in page. */
   public maximumAnimeOnPage = 10;
@@ -59,7 +65,7 @@ export class AnimeTableComponent implements AfterViewInit {
   });
 
   /** Searching input form controller. */
-  public readonly searchFormControl = new FormControl('', {
+  public readonly searchFormControl = new FormControl(INITIAL_SEARCH_STRING, {
     nonNullable: true,
   });
 
@@ -95,7 +101,7 @@ export class AnimeTableComponent implements AfterViewInit {
       sortingChanges$,
     ]).pipe(
       tap(() => {
-        this.currentPage$.next(0);
+        this.currentPage$.next(INITIAL_PAGE);
       }),
     );
 
@@ -121,10 +127,10 @@ export class AnimeTableComponent implements AfterViewInit {
 
   /**
    * Changes sorting target.
-   * @param sorting Sort event.
+   * @param sort Sort event.
    */
-  public onChangeSortingTarget(sorting: Sort): void {
-    this.sorting$.next(sorting);
+  public onChangeSortingTarget(sort: Sort): void {
+    this.sorting$.next(SortingMapper.fromSort(sort));
   }
 
   /**

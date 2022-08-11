@@ -7,6 +7,7 @@ import { ApiAuthorizationInterceptor } from '../core/interceptors/api-authorizat
 import { AnimeTypePipe } from './pipes/anime-type.pipe';
 import { AnimeStatusPipe } from './pipes/anime-status.pipe';
 import { EmptyValuePipe } from './pipes/empty-value.pipe';
+import { SortingPipe } from './pipes/sorting.pipe';
 
 /** Shared module. */
 @NgModule({
@@ -14,11 +15,13 @@ import { EmptyValuePipe } from './pipes/empty-value.pipe';
     AnimeTypePipe,
     AnimeStatusPipe,
     EmptyValuePipe,
+    SortingPipe,
   ],
   exports: [
     AnimeTypePipe,
     AnimeStatusPipe,
     EmptyValuePipe,
+    SortingPipe,
   ],
   imports: [CommonModule],
   providers: [
