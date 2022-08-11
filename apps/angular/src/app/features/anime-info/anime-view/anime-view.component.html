@@ -2,15 +2,11 @@
   <ng-container *ngIf="animeDetails$ | async as anime; else loading">
     <div class="details">
       <div class="details__sector">
-        <img class="details__media details__image" [src]="anime.image" />
+        <img class="details__media details__image" alt="Image for {{anime.titleEnglish}}" [src]="anime.image" />
         <iframe
           class="details__media details__trailer"
           *ngIf="animeTrailer$ | async as trailer"
           [src]="trailer"
-          title="Trailer for {{ anime.titleEnglish || anime.titleJapanese }}"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
         ></iframe>
       </div>
       <div class="details__sector">

@@ -26,16 +26,19 @@ export class AnimeViewComponent implements OnDestroy {
   public constructor(
     animeService: AnimeService,
     router: ActivatedRoute,
-    sanitized: DomSanitizer,
+    public sanitizer: DomSanitizer,
   ) {
     const { id } = router.snapshot.params;
     this.animeDetails$ = animeService.getAnimeById(Number(id));
     this.animeDetailsSubscription.add(
       this.animeDetails$.subscribe(anime => {
-        this.animeTrailer$.next(sanitized.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${anime.trailerYoutubeId}`));
+        this.animeTrailer$.next(
+
+          // Fix this because SonarCloud doesn't like it.
+          sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${anime.trailerYoutubeId}`),
+        );
       }),
     );
-
   }
 
   /** @inheritdoc */
