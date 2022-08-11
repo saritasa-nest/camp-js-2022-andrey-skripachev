@@ -3,6 +3,7 @@
   class="mat-elevation-z8 edit"
   (submit)="handleSubmit()"
 >
+<input type="file" (change)="loadFile($event)">
   <div>
     <mat-form-field appearance="fill" class="edit__field edit__short-field">
       <mat-label>Title english</mat-label>
@@ -65,7 +66,7 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="edit__field edit__short-field">
+    <mat-form-field appearance="fill" class="edit__field edit__short-field">
       <mat-label>Anime type</mat-label>
       <mat-select formControlName="type">
         <mat-option *ngFor="let type of animeTypes" [value]="type">{{

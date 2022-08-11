@@ -76,7 +76,6 @@ export class AnimeService {
   private showSnackBarMessage(message: string): void {
     this.snackBar.open(message, '', {
       duration: SNACKBAR_DURATION * 1000,
-      announcementMessage: 'AMOGUS',
     });
   }
 

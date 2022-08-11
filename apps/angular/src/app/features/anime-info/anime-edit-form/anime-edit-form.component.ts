@@ -8,6 +8,7 @@ import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { switchMap, Observable, Subscription, startWith, tap, debounceTime } from 'rxjs';
 
+import { AwsFileLoaderService } from '../../../../core/services/aws-file-loader.service';
 import { AnimeService } from '../../../../core/services/anime.service';
 
 const MAXIMUM_AUTOCOMPLETE_COUNT = 3;
@@ -68,6 +69,7 @@ export class AnimeEditFormComponent implements OnInit {
 
   public constructor(
     private readonly animeService: AnimeService,
+    private readonly fileLoader: AwsFileLoaderService,
     formBuilder: FormBuilder,
   ) {
 
@@ -97,8 +99,8 @@ export class AnimeEditFormComponent implements OnInit {
     );
 
     this.editForm = formBuilder.group({
-      titleEnglish: ['', [Validators.required]],
-      titleJapanese: ['', [Validators.required]],
+      titleEnglish: [''],
+      titleJapanese: [''],
       synopsis: ['', [Validators.required]],
       aired: formBuilder.group({
         start: [''],
@@ -109,8 +111,8 @@ export class AnimeEditFormComponent implements OnInit {
       status: ['', [Validators.required]],
       type: ['', [Validators.required]],
       isAiring: ['', [Validators.required]],
-      genresData: ['', [Validators.required]],
-      studiosData: ['', [Validators.required]],
+      genresData: [''],
+      studiosData: [''],
     });
   }
 
@@ -151,11 +153,7 @@ export class AnimeEditFormComponent implements OnInit {
       ...editData,
     });
 
-    this.onSubmit(changedAnimeDetails).subscribe(res => {
-      console.log(res);
-
-    });
-
+    this.onSubmit(changedAnimeDetails).subscribe();
   }
 
   /**
@@ -224,5 +222,31 @@ export class AnimeEditFormComponent implements OnInit {
         tap(newStudio => this.addStudio(newStudio)),
       )
       .subscribe());
+  }
+
+  /**
+   * Loads file in AWS S3.
+   * @param event Input event.
+   */
+  public loadFile(event: Event): void {
+    const { target } = event;
+    if (target instanceof HTMLInputElement && target.files) {
+
+      const file = target.files[0];
+
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(target.files[0]);
+
+      fileReader.onload = fileEvent => {
+        const image = fileEvent.target?.result;
+
+        if (image === null || image === undefined) {
+          return;
+        }
+
+        this.fileLoader.getParams(file).subscribe();
+      };
+    }
+
   }
 }
