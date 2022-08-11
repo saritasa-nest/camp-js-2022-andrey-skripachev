@@ -2,11 +2,25 @@
   <ng-container *ngIf="animeDetails$ | async as anime; else loading">
     <div class="details">
       <div class="details__sector">
-        <img class="details__media details__image" alt="Image for {{anime.titleEnglish}}" [src]="anime.image" />
-       <iframe
+        <img
+          class="details__media details__image"
+          [src]="anime.image"
+          [alt]="'Image for ' + anime.titleEnglish"
+          (click)="showFullSizeImage(anime.image, anime.titleEnglish)"
+        />
+        <iframe
           class="details__media details__trailer"
-          *ngIf="animeTrailer$ | async as trailer"
-          [src]="trailer"
+          *ngIf="anime.trailerYoutubeId"
+          [src]="
+            'https://www.youtube.com/embed/' + anime.trailerYoutubeId
+              | safeResource
+          "
+          title="Trailer for {{
+            anime.titleEnglish || anime.titleJapanese || 'unknown anime'
+          }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
         ></iframe>
       </div>
       <div class="details__sector">
