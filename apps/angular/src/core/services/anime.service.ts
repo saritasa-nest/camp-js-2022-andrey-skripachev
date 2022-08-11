@@ -16,7 +16,6 @@ import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import {
   AnimeDetails,
-  AnimeDetailsRequest,
 } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
@@ -127,7 +126,7 @@ export class AnimeService {
 
   public changeAnimeById(
     id: number,
-    newAnimeData: AnimeDetailsRequest
+    newAnimeData: AnimeDetails
   ): Observable<null | ErrorMessage> {
     return this.httpClient.put(
       this.createAnimeUrlById(id),
@@ -137,6 +136,8 @@ export class AnimeService {
     ).pipe(
       mapTo(null),
       catchError(error => {
+        console.log(error);
+
         if (error instanceof HttpErrorResponse) {
           return of(this.getErrorMessage(error.error));
         }

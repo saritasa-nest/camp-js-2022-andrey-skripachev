@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AnimeDetails, AnimeDetailsRequest } from '@js-camp/core/models/anime-details';
+import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { Genre } from '@js-camp/core/models/genre';
 import { Studio } from '@js-camp/core/models/studio';
 import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
@@ -34,7 +34,7 @@ interface AnimeEditForm {
 })
 export class AnimeEditFormComponent implements OnInit {
 
-  @Input() public onSubmit: (animeData: AnimeDetailsRequest) => Observable<ErrorMessage | null>;
+  @Input() public onSubmit: (animeData: AnimeDetails) => Observable<ErrorMessage | null>;
 
   @Input() public animeData: AnimeDetails;
 
@@ -118,8 +118,8 @@ export class AnimeEditFormComponent implements OnInit {
       status: ['', [Validators.required]],
       type: ['', [Validators.required]],
       isAiring: ['', [Validators.required]],
-      genres: ['', [Validators.required]],
-      studios: ['', [Validators.required]],
+      genresData: ['', [Validators.required]],
+      studiosData: ['', [Validators.required]],
     })
   }
 
@@ -139,23 +139,30 @@ export class AnimeEditFormComponent implements OnInit {
     controls['status'].setValue(this.animeData.status);
     controls['type'].setValue(this.animeData.type);
     controls['isAiring'].setValue(this.animeData.isAiring);
-    controls['genres'].setValue(this.currentAnimeGenres);
-    controls['studios'].setValue(this.currentAnimeStudios);
+    controls['genresData'].setValue(this.currentAnimeGenres);
+    controls['studiosData'].setValue(this.currentAnimeStudios);
   }
 
   public handleSubmit(): void {
-    console.table(this.editForm.value);
     if (this.editForm.invalid) {
       return;
     }
 
     const editData = this.editForm.value;
 
-    console.log(editData);
-
     this.subscriptions.add(
       this.onSubmit(editData).subscribe((data) => { console.log(data)})
     )
+
+    const changedAnimeDetails = new AnimeDetails({
+      ...this.animeData,
+      ...editData,
+    });
+
+
+    const errorResponseMessage = this.onSubmit(changedAnimeDetails).subscribe((a) => {
+      console.log(a);
+    })
 
     // const errorMessage = this.onSubmit({
     //   trailerYoutubeId: editData.trailerYoutubeId,

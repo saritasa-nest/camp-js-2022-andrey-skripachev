@@ -127,7 +127,7 @@
   <div>
     <mat-form-field appearance="fill" class="edit__field">
       <mat-label>Genres</mat-label>
-      <mat-chip-list #genreList formControlName="genres">
+      <mat-chip-list #genreList formControlName="genresData">
         <mat-chip
           *ngFor="let genre of currentAnimeGenres"
           (removed)="removeGenre(genre.id)"
@@ -165,7 +165,7 @@
   <div>
     <mat-form-field appearance="fill" class="edit__field">
       <mat-label>Studios</mat-label>
-      <mat-chip-list #studioList formControlName="studios">
+      <mat-chip-list #studioList formControlName="studiosData">
         <mat-chip
           *ngFor="let studio of currentAnimeStudios"
           (removed)="removeStudio(studio.id)"

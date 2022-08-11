@@ -35,9 +35,9 @@ export namespace AnimeDetailsMapper {
       genres: model.genresIdList,
       studios_data: model.studiosData,
       genres_data: model.genresData,
-      source: model.source,
-      rating: model.rating,
-      season: model.season,
+      source: model.source || 'UNKNOWN',
+      rating: model.rating || 'UNKNOWN',
+      season: model.season || 'NON_SEASONAL',
       background: model.background,
     }
   }

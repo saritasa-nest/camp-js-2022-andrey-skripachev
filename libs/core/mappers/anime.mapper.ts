@@ -1,14 +1,10 @@
 import { Anime } from '../models/anime';
 
-import { AnimeStatus } from '../utils/types/animeStatus';
-import { AnimeType } from '../utils/types/animeType';
-
-import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
+import { AnimeDto } from '../dtos/anime.dto';
 
 import { DateTimeRangeMapper } from './date-time-range.mapper';
 import { mapAnimeStatusFromDto, mapAnimeStatusToDto } from './anime-status.mapper';
 import { mapAnimeTypeFromDto, mapAnimeTypeToDto } from './anime-type.mapper';
-import { domainToASCII } from 'url';
 
 export namespace AnimeMapper {
 
