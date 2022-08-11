@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
@@ -9,7 +9,10 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 
+import { AnimeListSearchParams } from '../models/animeListSearchParams';
+
 import { AppConfigService } from './app-config.service';
+import { SearchParamsService } from './search-params.service';
 
 /** Anime service. */
 @Injectable({
@@ -21,6 +24,7 @@ export class AnimeService {
 
   public constructor(
     appConfig: AppConfigService,
+    private readonly searchParamsService: SearchParamsService,
     private readonly httpClient: HttpClient,
   ) {
     this.animeListUrl = new URL('anime/anime/', appConfig.apiUrl);
@@ -30,12 +34,12 @@ export class AnimeService {
    * Gets anime list.
    * @param searchParams Params for searching anime.
    */
-  public getAnimeList(searchParams: HttpParams): Observable<Pagination<Anime>> {
+  public getAnimeList(searchParams: AnimeListSearchParams): Observable<Pagination<Anime>> {
 
     return this.httpClient.get<PaginationDto<AnimeDto>>(
       this.animeListUrl.toString(),
       {
-        params: searchParams,
+        params: this.searchParamsService.changeSearchParams(searchParams),
       },
     ).pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)));
   }

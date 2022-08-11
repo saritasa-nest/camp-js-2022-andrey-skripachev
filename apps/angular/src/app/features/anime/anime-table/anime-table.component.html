@@ -16,7 +16,7 @@
     </mat-form-field>
   </div>
   <mat-paginator
-    (page)="changePage($event)"
+    (page)="onChangePage($event)"
     [length]="anime.count"
     [pageSize]="maximumAnimeOnPage"
     [pageIndex]="currentPage$ | async"
@@ -27,7 +27,7 @@
     <table
       [trackBy]="trackById"
       matSort
-      (matSortChange)="changeSortingTarget($event)"
+      (matSortChange)="onChangeSortingTarget($event)"
       [matSortDirection]="sorting.direction"
       [matSortActive]="sorting.active"
       mat-table
