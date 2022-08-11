@@ -54,7 +54,7 @@ export class AnimeTableComponent implements AfterViewInit {
   public maximumAnimeOnPage = 10;
 
   /** Filtering field form controller. */
-  public readonly filterFormControl = new FormControl<AnimeType[]>([], {
+  public readonly filterFormControl = new FormControl<readonly AnimeType[]>([], {
     nonNullable: true,
   });
 

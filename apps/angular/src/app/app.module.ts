@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AnimeModule } from './features/anime/anime.module';
+import { PageNotFoundModule } from './features/page-not-found/page-not-found.module';
 
 /** App module. */
 @NgModule({
@@ -19,6 +20,7 @@ import { AnimeModule } from './features/anime/anime.module';
     FormsModule,
     HttpClientModule,
     AnimeModule,
+    PageNotFoundModule,
   ],
   bootstrap: [AppComponent],
 })

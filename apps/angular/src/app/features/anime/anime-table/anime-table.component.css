@@ -3,7 +3,7 @@
 }
 
 .anime-table__row {
-  height: fit-content;
+  height: max-content;
 }
 
 .anime-search-fields {
