@@ -15,7 +15,7 @@ export class AnimeListSearchParams extends Immerable {
   public readonly sorting: Sort;
 
   /** Selected anime types. */
-  public readonly types: AnimeType[];
+  public readonly types: readonly AnimeType[];
 
   /** Searching title part. */
   public readonly searchingTitlePart: string;

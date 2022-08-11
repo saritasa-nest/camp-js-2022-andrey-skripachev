@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/auth/auth.module').then(m => m.AuthModule),
   },
+  {
+    path: 'error',
+    loadChildren: () =>
+      import('./features/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule),
+  },
 ];
 
 /** App routing module. */
