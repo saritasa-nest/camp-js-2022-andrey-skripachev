@@ -3,7 +3,7 @@
     <div class="details">
       <div class="details__sector">
         <img class="details__media details__image" alt="Image for {{anime.titleEnglish}}" [src]="anime.image" />
-        <iframe
+       <iframe
           class="details__media details__trailer"
           *ngIf="animeTrailer$ | async as trailer"
           [src]="trailer"
