@@ -1,12 +1,12 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** Genre. */
+/** Anime genre. */
 export class Genre extends Immerable {
 
-  /** Name. */
+  /** Genre name. */
   public readonly name: string;
 
-  /** Id. */
+  /** Genre id. */
   public readonly id: number;
 
   public constructor(data: InitArgs) {

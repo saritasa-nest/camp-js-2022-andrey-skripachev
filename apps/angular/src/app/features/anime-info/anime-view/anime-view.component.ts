@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { AnimeService } from '../../../../core/services/anime.service';
-import { ConfirmDeletingAnimeComponent } from './confirm-deleting-anime/confirm-deleting-anime.component';
 
+import { ConfirmDeletingAnimeComponent } from './confirm-deleting-anime/confirm-deleting-anime.component';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 /** Anime information view component. */
@@ -24,6 +25,9 @@ export class AnimeViewComponent implements OnDestroy {
 
   /** Details about anime. */
   public readonly animeDetails$: Observable<AnimeDetails>;
+
+  /** Safe url of the YouTube trailer. */
+  public readonly animeTrailer$ = new BehaviorSubject<SafeResourceUrl | null>(null);
 
   public constructor(
     private readonly dialog: MatDialog,
@@ -56,15 +60,16 @@ export class AnimeViewComponent implements OnDestroy {
     });
   }
 
+  /** Handles click on deleting button. */
   public handleDeleteButtonClick(): void {
     this.dialog.open(ConfirmDeletingAnimeComponent, {
-      data: { onConfirm: this.deleteCurrentAnime }
-    })
+      data: { onConfirm: this.deleteCurrentAnime },
+    });
   }
 
   private deleteCurrentAnime(): void {
     this.animeDetailsSubscription.add(
       this.animeService.deleteAnime(this.animeID).subscribe(),
-    )
+    );
   }
 }

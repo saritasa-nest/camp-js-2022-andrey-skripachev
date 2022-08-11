@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpParams,
 } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, map, mapTo, Observable, of, throwError } from 'rxjs';
-
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
@@ -23,7 +21,6 @@ import {
   ErrorMessage,
   ValidationErrorResponse,
 } from '@js-camp/core/models/validation-error-response';
-
 import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-error-response.mapper';
 import { Genre } from '@js-camp/core/models/genre';
 import { GenreDto } from '@js-camp/core/dtos/genre.dto';
@@ -32,7 +29,10 @@ import { Studio } from '@js-camp/core/models/studio';
 import { StudioDto } from '@js-camp/core/dtos/studio.dto';
 import { StudioMapper } from '@js-camp/core/mappers/studio.mapper';
 
+import { AnimeListSearchParams } from '../models/anime-list-search-params';
+
 import { AppConfigService } from './app-config.service';
+import { SearchParamsService } from './search-params.service';
 
 const SNACKBAR_DURATION = 2;
 
@@ -49,6 +49,7 @@ export class AnimeService {
 
   public constructor(
     appConfig: AppConfigService,
+    private readonly searchParamsService: SearchParamsService,
     private readonly httpClient: HttpClient,
     private readonly router: Router,
     private readonly snackBar: MatSnackBar,
@@ -87,11 +88,14 @@ export class AnimeService {
    * Gets anime list.
    * @param searchParams Params for searching anime.
    */
-  public getAnimeList(searchParams: HttpParams): Observable<Pagination<Anime>> {
-    return this.httpClient.get<PaginationDto<AnimeDto>>(this.animeUrl.toString(), {
-      params: searchParams,
-    })
-      .pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)));
+  public getAnimeList(searchParams: AnimeListSearchParams): Observable<Pagination<Anime>> {
+
+    return this.httpClient.get<PaginationDto<AnimeDto>>(
+      this.animeUrl.toString(),
+      {
+        params: this.searchParamsService.changeSearchParams(searchParams),
+      },
+    ).pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto)));
   }
 
   /**

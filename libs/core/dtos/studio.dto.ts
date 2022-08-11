@@ -1,9 +1,9 @@
-/** Studio. */
+/** Anime studio. */
 export interface StudioDto {
 
-  /** Id. */
+  /** Studio ID. */
   readonly id: number;
 
-  /** Name. */
+  /** Studio name. */
   readonly name: string;
 }

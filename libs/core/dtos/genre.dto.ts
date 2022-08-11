@@ -1,9 +1,9 @@
-/** Genre dto. */
+/** Anime genre. */
 export interface GenreDto {
 
-  /** Name. */
+  /** Genre name. */
   readonly name: string;
 
-  /** Id. */
+  /** Genre ID. */
   readonly id: number;
 }

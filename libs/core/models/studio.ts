@@ -1,12 +1,12 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** Studio. */
+/** Anime studio. */
 export class Studio extends Immerable {
 
-  /** Id. */
+  /** Studio id. */
   public readonly id: number;
 
-  /** Name. */
+  /** Studio name. */
   public readonly name: string;
 
   public constructor(data: InitArgs) {
