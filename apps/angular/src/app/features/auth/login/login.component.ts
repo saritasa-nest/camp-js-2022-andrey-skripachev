@@ -13,9 +13,6 @@ import { UserService } from '../../../../core/services/user.service';
 })
 export class LoginComponent {
 
-  /** Login error name. */
-  public readonly loginError = 'login-error';
-
   /** Login form. */
   public readonly loginForm: FormGroup;
 

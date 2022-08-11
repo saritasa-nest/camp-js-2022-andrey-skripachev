@@ -19,6 +19,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/anime-info/anime-info.module').then(m => m.AnimeInfoModule),
   },
+  {
+    path: 'error',
+    loadChildren: () =>
+      import('./features/page-not-found/page-not-found.module').then(m => m.PageNotFoundModule),
+  },
 ];
 
 /** App routing module. */
