@@ -1,0 +1,206 @@
+<form
+  [formGroup]="editForm"
+  class="mat-elevation-z8 edit"
+  (submit)="handleSubmit()"
+>
+  <div>
+    <mat-form-field appearance="fill" class="edit__field edit__short-field">
+      <mat-label>Title english</mat-label>
+      <input
+        width="25%"
+        formControlName="titleEnglish"
+        type="text"
+        placeholder="Anime english title"
+        matInput
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="edit__field edit__short-field">
+      <mat-label>Title japanese</mat-label>
+      <input
+        width="250"
+        formControlName="titleJapanese"
+        type="text"
+        placeholder="Anime japanese title"
+        matInput
+      />
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" class="edit__field">
+      <mat-label>Image source</mat-label>
+      <input
+        formControlName="image"
+        type="text"
+        placeholder="Id of the youtube trailer"
+        matInput
+      />
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" class="edit__field">
+      <mat-label>Synopsis</mat-label>
+      <textarea
+        rows="10"
+        formControlName="synopsis"
+        matInput
+        placeholder="Anime english title"
+      ></textarea>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" class="edit__field edit__short-field">
+      <mat-label>YouTube trailer</mat-label>
+      <input
+        formControlName="trailerYoutubeId"
+        type="text"
+        placeholder="Id of the youtube trailer"
+        matInput
+      />
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" class="edit__field edit__short-field">
+      <mat-label>Anime status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let status of animeStatuses" [value]="status">{{
+          status | animeStatus
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="edit__field edit__short-field">
+      <mat-label>Anime type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of animeTypes" [value]="type">{{
+          type | animeType
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <span>Aired</span>
+    <span formGroupName="aired">
+      <mat-form-field appearance="fill" class="edit__field edit__short-field">
+        <mat-label>Start</mat-label>
+        <input
+          formControlName="start"
+          matInput
+          [matDatepicker]="datepickerStart"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepickerStart"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepickerStart>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="edit__field edit__short-field">
+        <mat-label>End</mat-label>
+        <input
+          formControlName="end"
+          matInput
+          [matDatepicker]="datepickerEnd"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepickerEnd"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepickerEnd>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </span>
+    <mat-checkbox formControlName="isAiring">Airing</mat-checkbox>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" class="edit__field">
+      <mat-label>Genres</mat-label>
+      <mat-chip-list #genreList formControlName="genresData">
+        <mat-chip
+          *ngFor="let genre of currentAnimeGenres"
+          (removed)="removeGenre(genre.id)"
+        >
+          {{ genre.name }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input
+          matInput
+          placeholder="Add genre"
+          [formControl]="searchAnimeGenreFormControl"
+          [matAutocomplete]="genreAutocomplete"
+          [matChipInputFor]="genreList"
+        />
+        <mat-autocomplete #genreAutocomplete="matAutocomplete">
+          <mat-option
+            class="highlighted"
+            *ngIf="searchAnimeGenreFormControl.value"
+            (click)="createGenre()"
+            ><mat-icon>control_point</mat-icon> Add new genre</mat-option
+          >
+          <mat-option
+            (click)="addGenre(genre)"
+            *ngFor="let genre of searchingAnimeGenres$ | async"
+            [value]="genre"
+          >
+            {{ genre.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" class="edit__field">
+      <mat-label>Studios</mat-label>
+      <mat-chip-list #studioList formControlName="studiosData">
+        <mat-chip
+          *ngFor="let studio of currentAnimeStudios"
+          (removed)="removeStudio(studio.id)"
+        >
+          {{ studio.name }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input
+          matInput
+          placeholder="Add studio"
+          [formControl]="searchAnimeStudioFormControl"
+          [matAutocomplete]="studioAutocomplete"
+          [matChipInputFor]="studioList"
+        />
+        <mat-autocomplete #studioAutocomplete="matAutocomplete">
+          <mat-option
+            class="highlighted"
+            *ngIf="searchAnimeStudioFormControl.value"
+            (click)="createStudio()"
+            ><mat-icon>control_point</mat-icon> Add new studio</mat-option
+          >
+          <mat-option
+            (click)="addStudio(studio)"
+            *ngFor="let studio of searchingAnimeStudios$ | async"
+            [value]="studio"
+          >
+            {{ studio.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+  <div>
+    <button type="submit" mat-flat-button color="accent">Save</button>
+  </div>
+</form>

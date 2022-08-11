@@ -1,7 +1,7 @@
 <header class="header">
   <mat-toolbar color="primary">
     <mat-toolbar-row class="content-space-between">
-      <h1>Anime catalog</h1>
+      <h1><a routerLink="/anime" class="heading-link" mat-button>Anime catalog</a></h1>
       <div
         *ngIf="userService.currentUser$ | async as user; else notAuthorizedUser"
       >

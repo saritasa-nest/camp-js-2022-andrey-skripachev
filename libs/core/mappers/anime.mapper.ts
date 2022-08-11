@@ -1,51 +1,10 @@
 import { Anime } from '../models/anime';
 
-import { AnimeStatus } from '../utils/types/animeStatus';
-import { AnimeType } from '../utils/types/animeType';
-
-import { AnimeDto, AnimeTypeDto, AnimeStatusDto } from '../dtos/anime.dto';
+import { AnimeDto } from '../dtos/anime.dto';
 
 import { DateTimeRangeMapper } from './date-time-range.mapper';
-
-const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
-  [AnimeTypeDto.MOVIE]: AnimeType.Movie,
-  [AnimeTypeDto.MUSIC]: AnimeType.Music,
-  [AnimeTypeDto.ONA]: AnimeType.ONA,
-  [AnimeTypeDto.OVA]: AnimeType.OVA,
-  [AnimeTypeDto.SPECIAL]: AnimeType.Special,
-  [AnimeTypeDto.TV]: AnimeType.TV,
-};
-
-/**
- * Mapper for anime type.
- * @param typeDto Type dto.
- */
-export function mapAnimeTypeFromDto(typeDto: AnimeTypeDto): AnimeType {
-  return TYPE_FROM_DTO[typeDto];
-}
-
-/**
- * Checks if the value is a anime type dto.
- * @param value Value, possibly being a anime type dto.
- * @returns
- */
-export function isTypeDto(value: string): value is AnimeTypeDto {
-  return Object.keys(AnimeTypeDto).includes(value);
-}
-
-const STATUS_FROM_DTO: Readonly<Record<AnimeStatusDto, AnimeStatus>> = {
-  [AnimeStatusDto.AIRING]: AnimeStatus.Airing,
-  [AnimeStatusDto.FINISHED]: AnimeStatus.Finished,
-  [AnimeStatusDto.NOT_YET_AIRED]: AnimeStatus.NotYetAired,
-};
-
-/**
- * Mapper for anime status.
- * @param statusDto Status dto.
- */
-export function mapAnimeStatusFromDto(statusDto: AnimeStatusDto): AnimeStatus {
-  return STATUS_FROM_DTO[statusDto];
-}
+import { mapAnimeStatusFromDto, mapAnimeStatusToDto } from './anime-status.mapper';
+import { mapAnimeTypeFromDto, mapAnimeTypeToDto } from './anime-type.mapper';
 
 export namespace AnimeMapper {
 
@@ -63,5 +22,17 @@ export namespace AnimeMapper {
       titleJapanese: dto.title_jpn,
       type: mapAnimeTypeFromDto(dto.type),
     });
+  }
+
+  export function toDto(model: Anime): AnimeDto {
+    return {
+      aired: DateTimeRangeMapper.toDto(model.aired),
+      id: model.id,
+      image: model.image,
+      status: mapAnimeStatusToDto(model.status),
+      title_eng: model.titleEnglish,
+      title_jpn: model.titleJapanese,
+      type: mapAnimeTypeToDto(model.type),
+    }
   }
 }

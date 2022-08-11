@@ -11,6 +11,13 @@ export namespace DateTimeRangeMapper {
     const start = dto.start ? new Date(dto.start) : null;
     const end = dto.end ? new Date(dto.end) : null;
 
-    return new DateTimeRange({ start, end });
+    return { start, end };
+  }
+
+  export function toDto(model: DateTimeRange): DateTimeRangeDto {
+    const start = model.start?.toISOString() ?? null;
+    const end = model.end?.toISOString() ?? null;
+
+    return { start, end };
   }
 }

@@ -1,1 +1,14 @@
-<p>anime-edit works!</p>
+<div>
+  <ng-container *ngIf="currentAnime$ | async as anime; else loading">
+    <camp-anime-edit-form [animeData]="anime" [onSubmit]="handleSubmit"></camp-anime-edit-form>
+    <div>
+      <button type="button" mat-flat-button color="warn" (click)="goToView()">Cancel</button>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <div class="loading-layout">
+    <mat-spinner color="primary" diameter="120"> </mat-spinner>
+  </div>
+</ng-template>

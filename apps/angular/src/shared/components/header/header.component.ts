@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { UserService } from '../../../../src/core/services/user.service';
@@ -12,10 +13,14 @@ import { UserService } from '../../../../src/core/services/user.service';
 })
 export class HeaderComponent implements OnDestroy {
 
+  /** Should redirects user to login page on logout. */
+  @Input() public shouldRedirectAfterLogout = false;
+
   private subscription = new Subscription();
 
   public constructor(
     public readonly userService: UserService,
+    private readonly router: Router,
   ) {}
 
   /** @inheritdoc */
@@ -26,5 +31,8 @@ export class HeaderComponent implements OnDestroy {
   /** Handles click on logout button. */
   public handleLogoutClick(): void {
     this.subscription.add(this.userService.logout().subscribe());
+    if (this.shouldRedirectAfterLogout) {
+      this.router.navigate(['/auth']);
+    }
   }
 }

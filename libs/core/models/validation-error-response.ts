@@ -1,6 +1,9 @@
 import { Immerable, OmitImmerable } from './immerable';
 import { ValidationErrors } from './validation-errors';
 
+/** [field , message]. */
+export type ErrorMessage = [string, string];
+
 /** Validation error response. */
 export class ValidationErrorResponse extends Immerable {
 

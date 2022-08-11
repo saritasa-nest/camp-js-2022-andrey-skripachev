@@ -7,16 +7,13 @@ import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registration';
 import { User } from '@js-camp/core/models/user';
-import { ValidationErrorResponse } from '@js-camp/core/models/validation-error-response';
+import { ErrorMessage, ValidationErrorResponse } from '@js-camp/core/models/validation-error-response';
 import { catchError, Observable, map, of, throwError, switchMap, tap, mapTo, first } from 'rxjs';
 
 import { AppConfigService } from './app-config.service';
 
 import { AuthService } from './auth.service';
 import { TokenStorageService } from './token-storage.service';
-
-/** [field , message]. */
-type ErrorMessage = [string, string];
 
 /** User service. */
 @Injectable({
