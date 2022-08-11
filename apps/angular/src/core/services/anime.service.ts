@@ -9,7 +9,7 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 
-import { AnimeListSearchParams } from '../models/animeListSearchParams';
+import { AnimeListSearchParams } from '../models/anime-list-search-params';
 
 import { AppConfigService } from './app-config.service';
 import { SearchParamsService } from './search-params.service';
