@@ -6,8 +6,9 @@ import { AnimeType } from '../utils/types/animeType';
 import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
 
 import { DateTimeRangeMapper } from './date-time-range.mapper';
-import { mapAnimeStatusFromDto } from './anime-status.mapper';
-import { mapAnimeTypeFromDto } from './anime-type.mapper';
+import { mapAnimeStatusFromDto, mapAnimeStatusToDto } from './anime-status.mapper';
+import { mapAnimeTypeFromDto, mapAnimeTypeToDto } from './anime-type.mapper';
+import { domainToASCII } from 'url';
 
 export namespace AnimeMapper {
 
@@ -25,5 +26,17 @@ export namespace AnimeMapper {
       titleJapanese: dto.title_jpn,
       type: mapAnimeTypeFromDto(dto.type),
     });
+  }
+
+  export function toDto(model: Anime): AnimeDto {
+    return {
+      aired: DateTimeRangeMapper.toDto(model.aired),
+      id: model.id,
+      image: model.image,
+      status: mapAnimeStatusToDto(model.status),
+      title_eng: model.titleEnglish,
+      title_jpn: model.titleJapanese,
+      type: mapAnimeTypeToDto(model.type),
+    }
   }
 }

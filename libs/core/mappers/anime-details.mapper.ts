@@ -1,5 +1,5 @@
-import { AnimeDetailsDto, AnimeDetailsRequestDto } from "../dtos/anime-details.dto";
-import { AnimeDetails, AnimeDetailsRequest } from "../models/anime-details";
+import { AnimeDetailsDto } from "../dtos/anime-details.dto";
+import { AnimeDetails } from "../models/anime-details";
 import { mapAnimeStatusToDto } from "./anime-status.mapper";
 import { mapAnimeTypeToDto } from "./anime-type.mapper";
 import { AnimeMapper } from "./anime.mapper";
@@ -18,22 +18,43 @@ export namespace AnimeDetailsMapper {
       genresIdList: dto.genres,
       studiosData: dto.studios_data.map(StudioMapper.fromDto),
       genresData: dto.genres_data.map(GenreMapper.fromDto),
+      source: dto.source,
+      rating: dto.rating,
+      season: dto.season,
+      background: dto.background,
     })
   }
 
-  export function toDto(model: AnimeDetailsRequest): AnimeDetailsRequestDto {
+  export function toDto(model: AnimeDetails): AnimeDetailsDto {
     return {
+      ...AnimeMapper.toDto(model),
       trailer_youtube_id: model.trailerYoutubeId,
       synopsis: model.synopsis,
       airing: model.isAiring,
       studios: model.studiosIdList,
       genres: model.genresIdList,
-      aired: DateTimeRangeMapper.toDto(model.aired),
-      image: model.image,
-      status: mapAnimeStatusToDto(model.status),
-      title_eng: model.titleEnglish,
-      title_jpn: model.titleJapanese,
-      type: mapAnimeTypeToDto(model.type),
+      studios_data: model.studiosData,
+      genres_data: model.genresData,
+      source: model.source,
+      rating: model.rating,
+      season: model.season,
+      background: model.background,
     }
   }
+
+  // export function toDto(model: AnimeDetailsRequest): AnimeDetailsRequestDto {
+  //   return {
+  //     trailer_youtube_id: model.trailerYoutubeId,
+  //     synopsis: model.synopsis,
+  //     airing: model.isAiring,
+  //     studios: model.studiosIdList,
+  //     genres: model.genresIdList,
+  //     aired: DateTimeRangeMapper.toDto(model.aired),
+  //     image: model.image,
+  //     status: mapAnimeStatusToDto(model.status),
+  //     title_eng: model.titleEnglish,
+  //     title_jpn: model.titleJapanese,
+  //     type: mapAnimeTypeToDto(model.type),
+  //   }
+  // }
 }
