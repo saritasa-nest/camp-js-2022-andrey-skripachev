@@ -151,6 +151,11 @@ export class AnimeEditFormComponent implements OnInit {
       ...editData,
     });
 
+    this.onSubmit(changedAnimeDetails).subscribe(res => {
+      console.log(res);
+
+    });
+
   }
 
   /**

@@ -45,7 +45,9 @@ export class AnimeEditComponent {
    * @param animeData Modified anime data.
    */
   public handleSubmit(animeData: AnimeDetails): Observable<ErrorMessage | null> {
-    return this.animeService.changeAnimeById(this.animeId, animeData);
+    const errorResponseMessage$ = this.animeService.changeAnimeById(this.animeId, animeData);
+
+    return errorResponseMessage$;
   }
 
   /**
