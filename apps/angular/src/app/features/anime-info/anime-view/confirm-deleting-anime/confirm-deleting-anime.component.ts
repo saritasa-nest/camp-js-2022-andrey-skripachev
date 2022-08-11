@@ -16,11 +16,15 @@ interface DialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDeletingAnimeComponent {
-  constructor(
+  public constructor(
     @Inject(MAT_DIALOG_DATA) private readonly dialogData: DialogData,
     private readonly dialogRef: MatDialogRef<ConfirmDeletingAnimeComponent>,
   ) {}
 
+  /**
+   * Performs user selection.
+   * @param isConfirm Confirm of user action.
+   */
   public handleChoose(isConfirm: boolean): void {
     if (isConfirm) {
       this.dialogData.onConfirm();

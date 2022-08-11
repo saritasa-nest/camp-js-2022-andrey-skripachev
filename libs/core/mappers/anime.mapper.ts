@@ -24,6 +24,10 @@ export namespace AnimeMapper {
     });
   }
 
+  /**
+   * Maps model to dto.
+   * @param model Anime series model.
+   */
   export function toDto(model: Anime): AnimeDto {
     return {
       aired: DateTimeRangeMapper.toDto(model.aired),
@@ -33,6 +37,6 @@ export namespace AnimeMapper {
       title_eng: model.titleEnglish,
       title_jpn: model.titleJapanese,
       type: mapAnimeTypeToDto(model.type),
-    }
+    };
   }
 }

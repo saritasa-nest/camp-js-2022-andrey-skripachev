@@ -93,8 +93,13 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #datepickerStart>
           <mat-datepicker-actions>
-            <button mat-button matDatepickerCancel>Cancel</button>
-            <button mat-raised-button color="primary" matDatepickerApply>
+            <button type="button" mat-button matDatepickerCancel>Cancel</button>
+            <button
+              type="button"
+              mat-raised-button
+              color="primary"
+              matDatepickerApply
+            >
               Apply
             </button>
           </mat-datepicker-actions>
@@ -102,11 +107,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill" class="edit__field edit__short-field">
         <mat-label>End</mat-label>
-        <input
-          formControlName="end"
-          matInput
-          [matDatepicker]="datepickerEnd"
-        />
+        <input formControlName="end" matInput [matDatepicker]="datepickerEnd" />
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle
           matSuffix
@@ -114,8 +115,13 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #datepickerEnd>
           <mat-datepicker-actions>
-            <button mat-button matDatepickerCancel>Cancel</button>
-            <button mat-raised-button color="primary" matDatepickerApply>
+            <button type="button" mat-button matDatepickerCancel>Cancel</button>
+            <button
+              type="button"
+              mat-raised-button
+              color="primary"
+              matDatepickerApply
+            >
               Apply
             </button>
           </mat-datepicker-actions>
@@ -133,7 +139,7 @@
           (removed)="removeGenre(genre.id)"
         >
           {{ genre.name }}
-          <button matChipRemove>
+          <button type="button" matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
@@ -171,7 +177,7 @@
           (removed)="removeStudio(studio.id)"
         >
           {{ studio.name }}
-          <button matChipRemove>
+          <button type="button" matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>

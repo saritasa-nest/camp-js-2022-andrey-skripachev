@@ -1,23 +1,42 @@
-import { AnimeStatus } from "../utils/types/animeStatus";
-import { AnimeType } from "../utils/types/animeType";
-import { Anime } from "./anime";
-import { DateTimeRange } from "./date-time-range";
-import { Genre } from "./genre";
-import { Immerable, OmitImmerable } from "./immerable";
-import { Studio } from "./studio";
+import { Anime } from './anime';
+import { Genre } from './genre';
+import { OmitImmerable } from './immerable';
+import { Studio } from './studio';
 
-
+/** Anime details. */
 export class AnimeDetails extends Anime {
+
+  /** Id of the youtube trailer. */
   public readonly trailerYoutubeId?: string;
+
+  /** Synopsis. */
   public readonly synopsis: string;
+
+  /** Is anime airing. */
   public readonly isAiring: boolean;
+
+  /** Studios id list. */
   public readonly studiosIdList: readonly number[];
+
+  /** Genres id list. */
   public readonly genresIdList: readonly number[];
+
+  /** Studios data. */
   public readonly studiosData: readonly Studio[];
+
+  /** Genres data. */
   public readonly genresData: readonly Genre[];
+
+  /** Source. */
   public readonly source: string;
+
+  /** Age rating. */
   public readonly rating: string;
+
+  /** Release season. */
   public readonly season: string;
+
+  /** Background. */
   public readonly background: string;
 
   public constructor(data: InitArgs) {
@@ -36,4 +55,4 @@ export class AnimeDetails extends Anime {
   }
 }
 
-type InitArgs = OmitImmerable<AnimeDetails>
+type InitArgs = OmitImmerable<AnimeDetails>;
