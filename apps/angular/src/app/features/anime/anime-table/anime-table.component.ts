@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms';
 
 import { AnimeListSearchParams } from '../../../../core/models/animeListSearchParams';
 import { AnimeService } from '../../../../core/services/anime.service';
-import { SearchParamsService } from '../../../../core/services/search-params.service';
+import { AnimeSearchParamsService } from '../../../../core/services/anime-search-params.service';
 import { Sorting } from '../../../../core/models/sorting';
 import { SortingMapper } from '../../../../core/services/mappers/sorting.mapper';
 
@@ -18,11 +18,6 @@ import { SortingMapper } from '../../../../core/services/mappers/sorting.mapper'
 const CONTROL_ACTION_DELAY = 0.3;
 
 const INITIAL_PAGE = 0;
-const INITIAL_SEARCH_STRING = '';
-const INITIAL_SORTING: Sorting = {
-  target: '',
-  direction: '',
-};
 
 /** Table for displaying the anime list. */
 @Component({
@@ -42,36 +37,32 @@ export class AnimeTableComponent implements AfterViewInit {
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
   @ViewChild(MatPaginator)
-  private readonly paginator: MatPaginator;
+  private readonly paginator: MatPaginator | null = null;
 
   @ViewChild(MatSort)
-  private readonly sort: MatSort;
+  private readonly sort: MatSort | null = null;
 
   /** Current anime list. */
   public readonly animeData$: Observable<Pagination<Anime>>;
 
   /** Current page. */
-  public readonly currentPage$ = new BehaviorSubject(INITIAL_PAGE);
+  public readonly currentPage$: BehaviorSubject<number>;
 
   /** Sorting. */
-  public readonly sorting$ = new BehaviorSubject(INITIAL_SORTING);
+  public readonly sorting$: BehaviorSubject<Sorting>;
 
   /** Maximum anime in page. */
-  public maximumAnimeOnPage = 10;
+  public maximumAnimeOnPage: number;
 
   /** Filtering field form controller. */
-  public readonly filterFormControl = new FormControl<readonly AnimeType[]>([], {
-    nonNullable: true,
-  });
+  public readonly filterFormControl: FormControl<readonly AnimeType[]>;
 
   /** Searching input form controller. */
-  public readonly searchFormControl = new FormControl(INITIAL_SEARCH_STRING, {
-    nonNullable: true,
-  });
+  public readonly searchFormControl: FormControl<string>;
 
   public constructor(
     animeService: AnimeService,
-    private readonly searchParamsService: SearchParamsService,
+    private readonly searchParamsService: AnimeSearchParamsService,
   ) {
     const {
       maximumItemsOnPage,
@@ -82,10 +73,14 @@ export class AnimeTableComponent implements AfterViewInit {
     } = this.searchParamsService.getAnimeListSearchParams();
 
     this.maximumAnimeOnPage = maximumItemsOnPage;
-    this.currentPage$.next(pageNumber);
-    this.sorting$.next(sorting);
-    this.searchFormControl.setValue(searchingTitlePart);
-    this.filterFormControl.setValue(types);
+    this.currentPage$ = new BehaviorSubject(pageNumber);
+    this.sorting$ = new BehaviorSubject(sorting);
+    this.searchFormControl = new FormControl(searchingTitlePart, {
+      nonNullable: true,
+    });
+    this.filterFormControl = new FormControl(types, {
+      nonNullable: true,
+    });
 
     const filterChanges$ = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
