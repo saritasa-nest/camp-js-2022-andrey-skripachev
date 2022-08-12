@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { SafeResourceUrl } from '@angular/platform-browser';
+import { Observable, Subscription } from 'rxjs';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 

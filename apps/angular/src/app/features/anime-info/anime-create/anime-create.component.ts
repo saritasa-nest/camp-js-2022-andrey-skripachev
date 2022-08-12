@@ -4,8 +4,9 @@ import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
 import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
-import { AnimeService } from 'apps/angular/src/core/services/anime.service';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
+
+import { AnimeService } from '../../../../core/services/anime.service';
 
 const unknown = 'UNKNOWN';
 const nonSeasonal = 'NON_SEASONAL';
@@ -19,6 +20,7 @@ const nonSeasonal = 'NON_SEASONAL';
 })
 export class AnimeCreateComponent {
 
+  /** Default anime form data. */
   public readonly defaultAnimeData = new AnimeDetails({
     trailerYoutubeId: '',
     synopsis: '',
@@ -47,12 +49,14 @@ export class AnimeCreateComponent {
     private readonly router: Router,
     private readonly animeService: AnimeService,
   ) {
-    this.goToView = this.goToView.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  /**
+   * Handles anime edit form submitting.
+   * @param animeDetails Anime form value.
+   */
   public handleSubmit(animeDetails: AnimeDetails): Observable<null | ErrorMessage> {
-    console.log(animeDetails);
-
     return this.animeService.createAnime(animeDetails).pipe(
       map(response => {
         if (response instanceof AnimeDetails) {
@@ -61,8 +65,8 @@ export class AnimeCreateComponent {
         }
 
         return response;
-      })
-    )
+      }),
+    );
   }
 
   private goToView(id: number): void {

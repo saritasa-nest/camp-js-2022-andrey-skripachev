@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { S3UploadDto } from '@js-camp/core/dtos/s3-upload.dto';
-import { map, mapTo, Observable, switchMap, tap } from 'rxjs';
+import { map, mapTo, Observable, switchMap } from 'rxjs';
 
 import { AppConfigService } from './app-config.service';
 
@@ -51,7 +51,6 @@ export class AwsFileLoaderService {
           };
         }),
         switchMap(({ formAction, formData }) => this.httpClient.post(formAction, formData)),
-        tap(data => { console.log(data) })
       )
 
       .pipe(mapTo(void 0));

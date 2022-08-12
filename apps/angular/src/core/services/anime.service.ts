@@ -62,8 +62,6 @@ export class AnimeService {
   private getErrorMessage(
     errorResponse: ValidationErrorResponse,
   ): ErrorMessage {
-    console.log(errorResponse);
-
     const errorResponseModel = ValidationErrorResponseMapper.fromDto(errorResponse);
     if (errorResponseModel.data) {
       for (const [field, message] of Object.entries(errorResponseModel.data)) {
@@ -172,7 +170,7 @@ export class AnimeService {
           return of(this.getErrorMessage(error.error));
         }
 
-        return throwError(new Error(String(error)))
+        return throwError(new Error(String(error)));
       }),
     );
   }
