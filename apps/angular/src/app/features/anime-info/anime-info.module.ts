@@ -24,6 +24,7 @@ import { ImageDialogComponent } from './anime-view/image-dialog/image-dialog.com
 import { ConfirmDeletingAnimeComponent } from './anime-view/confirm-deleting-anime/confirm-deleting-anime.component';
 import { AnimeEditComponent } from './anime-edit/anime-edit.component';
 import { AnimeEditFormComponent } from './anime-edit-form/anime-edit-form.component';
+import { AnimeCreateComponent } from './anime-create/anime-create.component';
 
 /** Anime information module. */
 @NgModule({
@@ -34,6 +35,7 @@ import { AnimeEditFormComponent } from './anime-edit-form/anime-edit-form.compon
     ConfirmDeletingAnimeComponent,
     AnimeEditComponent,
     AnimeEditFormComponent,
+    AnimeCreateComponent,
   ],
   imports: [
     CommonModule,

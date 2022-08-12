@@ -23,10 +23,12 @@ const MAXIMUM_AUTOCOMPLETE_COUNT = 3;
 export class AnimeEditFormComponent implements OnInit {
 
   /** Form submitting event that reverts validation error. */
-  @Input() public onSubmit: (animeData: AnimeDetails) => Observable<ErrorMessage | null>;
+  @Input()
+  public onSubmit: (animeData: AnimeDetails) => Observable<ErrorMessage | null>;
 
   /** Default anime data. */
-  @Input() public animeData: AnimeDetails;
+  @Input()
+  public animeData: AnimeDetails;
 
   /** Edit form. */
   public readonly editForm: FormGroup;
@@ -148,9 +150,14 @@ export class AnimeEditFormComponent implements OnInit {
 
     const editData = this.editForm.value;
 
+    const genresIdList = editData.genresData.map(({ id }: Genre) => id);
+    const studiosIdList = editData.studiosData.map(({ id }: Genre) => id);
+
     const changedAnimeDetails = new AnimeDetails({
       ...this.animeData,
       ...editData,
+      genresIdList,
+      studiosIdList,
     });
 
     this.onSubmit(changedAnimeDetails).subscribe();

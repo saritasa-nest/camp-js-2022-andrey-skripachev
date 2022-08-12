@@ -62,6 +62,8 @@ export class AnimeService {
   private getErrorMessage(
     errorResponse: ValidationErrorResponse,
   ): ErrorMessage {
+    console.log(errorResponse);
+
     const errorResponseModel = ValidationErrorResponseMapper.fromDto(errorResponse);
     if (errorResponseModel.data) {
       for (const [field, message] of Object.entries(errorResponseModel.data)) {
@@ -150,6 +152,27 @@ export class AnimeService {
         }
 
         return throwError(new Error(String(error)));
+      }),
+    );
+  }
+
+  /**
+   * Creates new anime.
+   * @param animeData Anime details data.
+   * @returns Error response message / new anime data.
+   */
+  public createAnime(animeData: AnimeDetails): Observable<AnimeDetails | ErrorMessage> {
+    return this.httpClient.post<AnimeDetailsDto>(
+      this.animeUrl.toString(),
+      AnimeDetailsMapper.toDto(animeData),
+    ).pipe(
+      map(AnimeDetailsMapper.fromDto),
+      catchError((error: unknown) => {
+        if (error instanceof HttpErrorResponse) {
+          return of(this.getErrorMessage(error.error));
+        }
+
+        return throwError(new Error(String(error)))
       }),
     );
   }

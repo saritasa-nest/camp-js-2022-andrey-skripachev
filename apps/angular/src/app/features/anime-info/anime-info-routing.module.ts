@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UnauthorizedGuard } from '../../../core/guards/unauthorized.guard';
+import { AnimeCreateComponent } from './anime-create/anime-create.component';
 
 import { AnimeEditComponent } from './anime-edit/anime-edit.component';
 import { AnimeInfoComponent } from './anime-info.component';
@@ -13,6 +14,10 @@ const routes: Routes = [
     component: AnimeInfoComponent,
     canActivate: [UnauthorizedGuard],
     children: [
+      {
+        path: 'create',
+        component: AnimeCreateComponent,
+      },
       {
         path: ':id',
         redirectTo: ':id/view',

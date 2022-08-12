@@ -1,7 +1,9 @@
 <header class="header">
   <mat-toolbar color="primary">
     <mat-toolbar-row class="content-space-between">
-      <h1><a routerLink="/anime" class="heading-link" mat-button>Anime catalog</a></h1>
+      <h1>
+        <a routerLink="/anime" class="heading-link" mat-button>Anime catalog</a>
+      </h1>
       <div
         *ngIf="userService.currentUser$ | async as user; else notAuthorizedUser"
       >
@@ -19,6 +21,9 @@
             <mat-icon>exit_to_app</mat-icon>
             Log out
           </button>
+          <a mat-menu-item routerLink="/details/create"
+            >Create your own anime <mat-icon>add_circle_outline</mat-icon></a
+          >
         </mat-menu>
       </div>
     </mat-toolbar-row>

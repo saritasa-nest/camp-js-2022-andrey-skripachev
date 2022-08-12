@@ -2,7 +2,7 @@
   <ng-container *ngIf="currentAnime$ | async as anime; else loading">
     <camp-anime-edit-form [animeData]="anime" [onSubmit]="handleSubmit"></camp-anime-edit-form>
     <div>
-      <button type="button" mat-flat-button color="warn" (click)="goToView()">Cancel</button>
+      <button type="button" mat-flat-button color="warn" (click)="goToView()">Go back</button>
     </div>
   </ng-container>
 </div>
