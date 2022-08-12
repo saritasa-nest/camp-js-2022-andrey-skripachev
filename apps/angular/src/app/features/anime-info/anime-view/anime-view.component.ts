@@ -26,9 +26,6 @@ export class AnimeViewComponent implements OnDestroy {
   /** Details about anime. */
   public readonly animeDetails$: Observable<AnimeDetails>;
 
-  /** Safe url of the YouTube trailer. */
-  public readonly animeTrailer$ = new BehaviorSubject<SafeResourceUrl | null>(null);
-
   public constructor(
     private readonly dialog: MatDialog,
     private readonly animeService: AnimeService,
