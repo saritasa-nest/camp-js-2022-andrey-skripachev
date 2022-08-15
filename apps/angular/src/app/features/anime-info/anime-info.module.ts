@@ -14,6 +14,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 import { SharedModule } from '../../../shared/shared.module';
 
@@ -55,6 +56,7 @@ import { AnimeCreateComponent } from './anime-create/anime-create.component';
     MatDatepickerModule,
     MatSelectModule,
     MatAutocompleteModule,
+    NgxMatFileInputModule,
   ],
 })
 export class AnimeInfoModule {}
