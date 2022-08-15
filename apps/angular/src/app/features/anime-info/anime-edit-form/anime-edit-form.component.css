@@ -14,12 +14,3 @@
 .highlighted {
   color: #004a7f;
 }
-
-.general-anime-info {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-}
-
-.anime-image {
-  width: 100%;
-}

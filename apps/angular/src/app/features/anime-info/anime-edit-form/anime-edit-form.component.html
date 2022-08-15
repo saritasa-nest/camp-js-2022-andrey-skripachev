@@ -3,43 +3,37 @@
   class="mat-elevation-z8 edit"
   (submit)="handleSubmit()"
 >
-  <div class="general-anime-info">
-    <div>
-      <img
-        class="anime-image"
-        *ngIf="animeImagePreview$ | async as preview"
-        [src]="preview"
+<input type="file" (change)="loadFile($event)">
+  <div>
+    <mat-form-field appearance="fill" class="edit__field edit__short-field">
+      <mat-label>Title english</mat-label>
+      <input
+        formControlName="titleEnglish"
+        type="text"
+        placeholder="Anime english title"
+        matInput
       />
-      <div>
-        <mat-form-field appearance="fill" class="edit__field">
-          <mat-label>Select image</mat-label>
-          <ngx-mat-file-input
-            formControlName="image"
-            accept=".png, .jpg, .jpeg, .webp"
-          ></ngx-mat-file-input>
-        </mat-form-field>
-      </div>
-    </div>
-    <div>
-      <mat-form-field appearance="fill" class="edit__field">
-        <mat-label>Title english</mat-label>
-        <input
-          formControlName="titleEnglish"
-          type="text"
-          placeholder="Anime english title"
-          matInput
-        />
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="edit__field">
-        <mat-label>Title japanese</mat-label>
-        <input
-          formControlName="titleJapanese"
-          type="text"
-          placeholder="Anime japanese title"
-          matInput
-        />
-      </mat-form-field>
-    </div>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="edit__field edit__short-field">
+      <mat-label>Title japanese</mat-label>
+      <input
+        formControlName="titleJapanese"
+        type="text"
+        placeholder="Anime japanese title"
+        matInput
+      />
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" class="edit__field">
+      <mat-label>Image source</mat-label>
+      <input
+        formControlName="image"
+        type="text"
+        placeholder="Id of the youtube trailer"
+        matInput
+      />
+    </mat-form-field>
   </div>
   <div>
     <mat-form-field appearance="fill" class="edit__field">
