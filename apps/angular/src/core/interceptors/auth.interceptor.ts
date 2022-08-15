@@ -21,7 +21,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   /** @inheritdoc */
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (request.url.startsWith(new URL('auth', this.appConfig.apiUrl).toString())) {
+    if (
+      request.url.startsWith('https://s3.us-west-2.amazonaws.com/camp-js-backend-files-dev') ||
+      request.url.startsWith(new URL('auth', this.appConfig.apiUrl).toString())
+    ) {
       return next.handle(request);
     }
     return this.tokenService.getToken().pipe(
