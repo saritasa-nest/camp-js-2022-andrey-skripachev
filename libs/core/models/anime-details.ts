@@ -6,7 +6,7 @@ import { Studio } from './studio';
 /** Anime details. */
 export class AnimeDetails extends Anime {
 
-  /** YouTube trailer id. */
+  /** ID of the trailer on YouTube. */
   public readonly trailerYoutubeId?: string;
 
   /** Synopsis. */
@@ -15,16 +15,20 @@ export class AnimeDetails extends Anime {
   /** Is anime airing. */
   public readonly isAiring: boolean;
 
-  /** Studios id list. */
+  /** List of ID of the studios. */
   public readonly studiosIdList: readonly number[];
 
   /** Genres id list. */
+
+  /** List of ID of the genres. */
   public readonly genresIdList: readonly number[];
 
   /** Studios data. */
+
+  /** List of the studios. */
   public readonly studiosData: readonly Studio[];
 
-  /** Genres data. */
+  /** List of the genres. */
   public readonly genresData: readonly Genre[];
 
   public constructor(data: InitArgs) {

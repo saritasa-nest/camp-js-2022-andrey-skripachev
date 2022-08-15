@@ -18,7 +18,6 @@ export namespace GenreMapper {
    * @param model Genre model.
    */
   export function toDto(model: Genre): GenreDto {
-    const { name, id } = model;
-    return { name, id };
+    return { ...model };
   }
 }

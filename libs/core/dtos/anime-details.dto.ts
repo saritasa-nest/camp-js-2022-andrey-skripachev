@@ -5,7 +5,7 @@ import { StudioDto } from './studio.dto';
 /** Anime details. */
 export interface AnimeDetailsDto extends AnimeDto {
 
-  /** YouTube trailer id. */
+  /** Id of the YouTube trailer. */
   readonly trailer_youtube_id?: string;
 
   /** Synopsis. */
@@ -14,15 +14,19 @@ export interface AnimeDetailsDto extends AnimeDto {
   /** Is anime airing. */
   readonly airing: boolean;
 
-  /** Studios id list. */
+  /** ID of the studios that created the anime. */
   readonly studios: readonly number[];
 
   /** Genres id list. */
+
+  /** ID of genres the anime belongs to. */
   readonly genres: readonly number[];
 
   /** Studios data. */
+
+  /** Studios that created the anime. */
   readonly studios_data: readonly StudioDto[];
 
-  /** Genres data. */
+  /** Genres the anime belongs to. */
   readonly genres_data: readonly GenreDto[];
 }

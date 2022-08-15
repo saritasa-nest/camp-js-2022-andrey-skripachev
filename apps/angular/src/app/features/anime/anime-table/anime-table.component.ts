@@ -13,6 +13,9 @@ import { AnimeListSearchParams } from '../../../../core/models/anime-list-search
 import { AnimeService } from '../../../../core/services/anime.service';
 import { SearchParamsService } from '../../../../core/services/search-params.service';
 
+/** Delay between controller state changes and request sending. */
+const CONTROL_ACTION_DELAY = 0.3;
+
 /** Table for displaying the anime list. */
 @Component({
   selector: 'camp-anime-table',
@@ -28,22 +31,22 @@ export class AnimeTableComponent implements AfterViewInit {
   private shouldUpdatePage = false;
 
   /** Anime types. */
-  public readonly availableAnimeTypes = Object
-    .values(AnimeType)
-    .filter(element => typeof element === 'string');
+  public readonly availableAnimeTypes = Object.values(AnimeType);
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
-  @ViewChild(MatPaginator) private readonly paginator: MatPaginator;
+  @ViewChild(MatPaginator)
+  private readonly paginator: MatPaginator;
 
-  @ViewChild(MatSort) private readonly sort: MatSort;
+  @ViewChild(MatSort)
+  private readonly sort: MatSort;
 
   /** Current anime list. */
   public readonly animeData$: Observable<Pagination<Anime>>;
 
   /** Current page. */
-  public readonly currentPage$ = new BehaviorSubject<number>(0);
+  public readonly currentPage$ = new BehaviorSubject(0);
 
   /** Sorting. */
   public readonly sorting$: BehaviorSubject<Sort>;
@@ -52,7 +55,7 @@ export class AnimeTableComponent implements AfterViewInit {
   public maximumAnimeOnPage = 10;
 
   /** Filtering field form controller. */
-  public filterFormControl: FormControl<AnimeType[]>;
+  public filterFormControl: FormControl<readonly AnimeType[]>;
 
   /** Searching input form controller. */
   public searchFormControl: FormControl<string>;
@@ -73,7 +76,7 @@ export class AnimeTableComponent implements AfterViewInit {
     this.maximumAnimeOnPage = maximumItemsOnPage;
 
     this.sorting$ = new BehaviorSubject(sorting);
-    this.filterFormControl = new FormControl<AnimeType[]>(types, {
+    this.filterFormControl = new FormControl(types, {
       nonNullable: true,
     });
     this.searchFormControl = new FormControl(searchingTitlePart, {
@@ -105,24 +108,19 @@ export class AnimeTableComponent implements AfterViewInit {
 
     this.animeData$ = resetPaginationChanges$.pipe(
       combineLatestWith(this.currentPage$),
-      debounceTime(500),
-      switchMap(([[selectedFilter, selectedSearch, selectedSorting], selectedPage]) => {
-        const params = this.searchParamsService.changeSearchParams(new AnimeListSearchParams({
+      debounceTime(CONTROL_ACTION_DELAY),
+      switchMap(([[selectedFilter, selectedSearch, selectedSorting], selectedPage]) =>
+        animeService.getAnimeList(new AnimeListSearchParams({
           maximumItemsOnPage: this.maximumAnimeOnPage,
           pageNumber: selectedPage,
           sorting: selectedSorting,
           types: selectedFilter,
           searchingTitlePart: String(selectedSearch),
-        }));
-        return animeService.getAnimeList(params);
-      }),
+        }))),
     );
   }
 
-  /**
-   * Initialize paginator.
-   * @inheritdoc
-   */
+  /** @inheritdoc */
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -132,7 +130,7 @@ export class AnimeTableComponent implements AfterViewInit {
    * Changes sorting target.
    * @param sorting Sort event.
    */
-  public changeSortingTarget(sorting: Sort): void {
+  public onChangeSortingTarget(sorting: Sort): void {
     this.sorting$.next(sorting);
   }
 
@@ -140,7 +138,7 @@ export class AnimeTableComponent implements AfterViewInit {
    * Changes current page.
    * @param event Page event.
    */
-  public changePage(event: PageEvent): void {
+  public onChangePage(event: PageEvent): void {
     this.currentPage$.next(event.pageIndex);
   }
 

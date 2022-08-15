@@ -3,6 +3,7 @@ import { Immerable, OmitImmerable } from './immerable';
 /** Genre. */
 export class Genre extends Immerable {
 
+  /** Genre name. */
   /** Name. */
   public readonly name: string;
 
