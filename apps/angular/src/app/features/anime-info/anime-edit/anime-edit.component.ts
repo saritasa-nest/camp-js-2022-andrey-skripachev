@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { ErrorMessage } from '@js-camp/core/models/error-response';
@@ -13,7 +13,7 @@ import { AnimeService } from '../../../../core/services/anime.service';
   styleUrls: ['./anime-edit.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeEditComponent {
+export class AnimeEditComponent implements OnDestroy {
 
   private readonly animeId: number;
 
@@ -38,6 +38,11 @@ export class AnimeEditComponent {
     this.animeId = Number(id);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  /** @inheritdoc */
+  public ngOnDestroy(): void {
+    this.animeSubscription.unsubscribe();
   }
 
   /**

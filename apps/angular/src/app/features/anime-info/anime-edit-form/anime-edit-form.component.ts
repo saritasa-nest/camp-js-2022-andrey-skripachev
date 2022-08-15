@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { Genre } from '@js-camp/core/models/genre';
@@ -20,7 +20,7 @@ const MAXIMUM_AUTOCOMPLETE_COUNT = 3;
   styleUrls: ['./anime-edit-form.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeEditFormComponent implements OnInit {
+export class AnimeEditFormComponent implements OnInit, OnDestroy {
 
   /** Form submitting event that reverts validation error. */
   @Input()
@@ -155,6 +155,11 @@ export class AnimeEditFormComponent implements OnInit {
     this.animeImagePreview$.next(this.animeData.image);
   }
 
+  /** @inheritdoc */
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   /** Form submit event. */
   public handleSubmit(): void {
     if (this.editForm.invalid) {
@@ -173,7 +178,7 @@ export class AnimeEditFormComponent implements OnInit {
       studiosIdList,
     });
 
-    this.onSubmit(changedAnimeDetails).subscribe();
+    this.subscriptions.add(this.onSubmit(changedAnimeDetails).subscribe());
   }
 
   /**
