@@ -3,6 +3,10 @@ import { DateTimeRangeValidationErrors } from '../models/date-time-range-validat
 
 export namespace DateTimeRangeValidationErrorsMapper {
 
+  /**
+   * Maps dto to model.
+   * @param dto Date time range validation errors dto.
+   */
   export function fromDto(
     dto: DateTimeRangeValidationErrorsDto,
   ): DateTimeRangeValidationErrors {

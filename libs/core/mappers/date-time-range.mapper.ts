@@ -14,6 +14,10 @@ export namespace DateTimeRangeMapper {
     return { start, end };
   }
 
+  /**
+   * Maps model to dto.
+   * @param model Aired model.
+   */
   export function toDto(model: DateTimeRange): DateTimeRangeDto {
     const start = model.start?.toISOString() ?? null;
     const end = model.end?.toISOString() ?? null;

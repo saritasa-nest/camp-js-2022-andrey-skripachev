@@ -3,8 +3,10 @@ import { ErrorResponseMapper } from '../mappers/error-response.mapper';
 
 import { Immerable, OmitImmerable } from './immerable';
 
+/** Error message: [field, message]. */
 export type ErrorMessage = [string, string];
 
+/** Validation error. */
 export type ValidationError<T> = {
   [K in keyof T]?: readonly string[];
 };

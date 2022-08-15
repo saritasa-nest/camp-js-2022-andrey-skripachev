@@ -5,6 +5,10 @@ import { DateTimeRangeValidationErrorsMapper } from './date-time-range-validatio
 
 export namespace AnimeValidationErrorsMapper {
 
+  /**
+   * Maps dto to model.
+   * @param dto Anime validation errors dto.
+   */
   export function fromDto(
     dto: AnimeValidationErrorsDto,
   ): AnimeValidationErrors {
