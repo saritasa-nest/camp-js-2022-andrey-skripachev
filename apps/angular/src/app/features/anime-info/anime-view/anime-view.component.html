@@ -5,7 +5,7 @@
         class="details__media details__image"
         [src]="anime.image"
         [alt]="'Image for ' + anime.titleEnglish"
-        (click)="showFullSizeImage(anime.image, anime.titleEnglish)"
+        (click)="showFullSizeImage(anime.image, anime.titleEnglish || '-')"
       />
       <iframe
         class="details__media details__trailer"

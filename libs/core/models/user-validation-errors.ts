@@ -1,7 +1,7 @@
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Validation errors. */
-export class ValidationErrors extends Immerable {
+export class UserValidationErrors extends Immerable {
 
   /** Errors for email. */
   public readonly email?: readonly string[];
@@ -32,4 +32,4 @@ export class ValidationErrors extends Immerable {
   }
 }
 
-type InitArgs = OmitImmerable<ValidationErrors>;
+type InitArgs = OmitImmerable<UserValidationErrors>;

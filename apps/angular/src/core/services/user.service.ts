@@ -3,17 +3,19 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDto } from '@js-camp/core/dtos/user.dto';
 import { UserMapper } from '@js-camp/core/mappers/user.mapper';
-import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-error-response.mapper';
+import { ErrorResponseMapper } from '@js-camp/core/mappers/error-response.mapper';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registration';
 import { User } from '@js-camp/core/models/user';
-import { ErrorMessage, ValidationErrorResponse } from '@js-camp/core/models/validation-error-response';
+import { ErrorMessage, ErrorResponse } from '@js-camp/core/models/error-response';
+import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
 import { catchError, Observable, map, of, throwError, switchMap, tap, mapTo, first } from 'rxjs';
 
 import { AppConfigService } from './app-config.service';
 
 import { AuthService } from './auth.service';
 import { TokenStorageService } from './token-storage.service';
+import { UserValidationErrorsMapper } from '@js-camp/core/mappers/user-validation-errors.mapper';
 
 /** User service. */
 @Injectable({
@@ -54,7 +56,7 @@ export class UserService {
         map(() => null),
         catchError((error: unknown) => {
           if (error instanceof HttpErrorResponse) {
-            const errorResponse = ValidationErrorResponseMapper.fromDto(error.error);
+            const errorResponse = ErrorResponseMapper.fromDto(error.error, UserValidationErrorsMapper.fromDto);
             return of(this.getErrorMessage(errorResponse));
           }
 

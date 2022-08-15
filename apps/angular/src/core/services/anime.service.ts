@@ -20,7 +20,7 @@ import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
 import {
   ErrorMessage,
   ValidationErrorResponse,
-} from '@js-camp/core/models/validation-error-response';
+} from '@js-camp/core/models/error-response';
 import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-error-response.mapper';
 import { Genre } from '@js-camp/core/models/genre';
 import { GenreDto } from '@js-camp/core/dtos/genre.dto';

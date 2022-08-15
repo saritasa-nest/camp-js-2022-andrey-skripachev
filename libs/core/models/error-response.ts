@@ -1,14 +1,14 @@
 import { Immerable, OmitImmerable } from './immerable';
-import { ValidationErrors } from './validation-errors';
+import { ValidationErrors } from './user-validation-errors';
 
 /** [field , message]. */
 export type ErrorMessage = [string, string];
 
 /** Validation error response. */
-export class ValidationErrorResponse extends Immerable {
+export class ErrorResponse<T> extends Immerable {
 
   /** Errors for validation fields. */
-  public readonly data?: ValidationErrors;
+  public readonly data?: T;
 
   /** General error message. */
   public readonly detail: string;
@@ -21,4 +21,4 @@ export class ValidationErrorResponse extends Immerable {
 
 }
 
-type InitArgs = OmitImmerable<ValidationErrorResponse>;
+type InitArgs = OmitImmerable<ErrorResponse>;

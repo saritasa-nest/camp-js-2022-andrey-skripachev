@@ -1,5 +1,5 @@
 /** Errors for validation fields. */
-export interface ValidationErrorsDto {
+export interface UserValidationErrorsDto {
 
   /** Errors for email. */
   readonly email?: readonly string[];

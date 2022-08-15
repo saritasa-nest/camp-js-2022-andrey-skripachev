@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { Genre } from '@js-camp/core/models/genre';
 import { Studio } from '@js-camp/core/models/studio';
-import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
+import { ErrorMessage } from '@js-camp/core/models/error-response';
 import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { switchMap, Observable, Subscription, startWith, tap, debounceTime, BehaviorSubject } from 'rxjs';

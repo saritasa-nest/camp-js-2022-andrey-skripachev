@@ -21,10 +21,10 @@ export class Anime extends Immerable {
   public readonly status: AnimeStatus;
 
   /** Title english. */
-  public readonly titleEnglish: string;
+  public readonly titleEnglish?: string;
 
   /** Title japanese. */
-  public readonly titleJapanese: string;
+  public readonly titleJapanese?: string;
 
   /** Type. */
   public readonly type: AnimeType;

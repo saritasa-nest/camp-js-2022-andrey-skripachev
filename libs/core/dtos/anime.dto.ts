@@ -47,10 +47,10 @@ export interface AnimeDto {
   readonly status: AnimeStatusDto;
 
   /** Anime name in English. */
-  readonly title_eng: string;
+  readonly title_eng?: string;
 
   /** Anime name in Japanese. */
-  readonly title_jpn: string;
+  readonly title_jpn?: string;
 
   /** Type of anime. */
   readonly type: AnimeTypeDto;

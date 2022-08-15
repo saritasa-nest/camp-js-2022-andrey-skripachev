@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
-import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
+import { ErrorMessage } from '@js-camp/core/models/error-response';
 import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { map, Observable } from 'rxjs';
