@@ -1,9 +1,12 @@
-import { Immerable, OmitImmerable } from "./immerable";
+import { Immerable, OmitImmerable } from './immerable';
 
-export class Genre extends Immerable{
+/** Genre. */
+export class Genre extends Immerable {
 
+  /** Name. */
   public readonly name: string;
 
+  /** Id. */
   public readonly id: number;
 
   public constructor(data: InitArgs) {
