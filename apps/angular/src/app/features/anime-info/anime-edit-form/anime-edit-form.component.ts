@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { Genre } from '@js-camp/core/models/genre';
@@ -73,6 +73,7 @@ export class AnimeEditFormComponent implements OnInit, OnDestroy {
   private searchingStudio = '';
 
   public constructor(
+    private readonly cdr: ChangeDetectorRef,
     private readonly animeService: AnimeService,
     private readonly fileLoader: AwsFileLoaderService,
     formBuilder: FormBuilder,
@@ -178,7 +179,19 @@ export class AnimeEditFormComponent implements OnInit, OnDestroy {
       studiosIdList,
     });
 
-    this.subscriptions.add(this.onSubmit(changedAnimeDetails).subscribe());
+    this.subscriptions.add(
+      this.onSubmit(changedAnimeDetails).subscribe(errorMessage => {
+        if (errorMessage === null) {
+          return;
+        }
+
+        this.editForm.setErrors({
+          [errorMessage[0]]: errorMessage[1],
+        });
+
+        this.cdr.markForCheck();
+      }),
+    );
   }
 
   /**
