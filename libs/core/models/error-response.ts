@@ -18,7 +18,7 @@ export class ErrorResponse<T> extends Immerable {
   public readonly data: T;
 
   /** General error data. */
-  public readonly detail: readonly string[];
+  public readonly detail: string;
 
   public constructor(data: InitArgs<T>) {
     super();
@@ -41,13 +41,13 @@ export function extractValidationErrorMessage<TErrorDto, TError>(
     errorMapper,
   );
 
-  for (const [field, message] of Object.entries(errorResponse)) {
-    if (message instanceof Array) {
+  for (const [field, message] of Object.entries(errorResponse.data)) {
+    if (message !== undefined) {
       return [field, message[0]];
     }
   }
 
-  return ['detail', errorResponse.detail[0]];
+  return ['detail', errorResponse.detail];
 }
 
 type InitArgs<T> = OmitImmerable<ErrorResponse<T>>;

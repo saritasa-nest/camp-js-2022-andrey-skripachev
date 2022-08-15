@@ -21,7 +21,7 @@ export namespace AnimeValidationErrorsMapper {
       status: dto.status,
       source: dto.source,
       isAiring: dto.airing,
-      aired: DateTimeRangeValidationErrorsMapper.fromDto(dto.aired),
+      aired: dto.aired && DateTimeRangeValidationErrorsMapper.fromDto(dto.aired),
       rating: dto.rating,
       season: dto.season,
       synopsis: dto.synopsis,

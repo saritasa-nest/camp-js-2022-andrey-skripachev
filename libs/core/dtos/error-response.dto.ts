@@ -5,5 +5,5 @@ export interface ErrorResponseDto<T> {
   readonly data: T;
 
   /** General error message. */
-  readonly detail: readonly string[];
+  readonly detail: string;
 }

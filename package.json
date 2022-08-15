@@ -21,6 +21,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/file-input": "^8.0.0",
     "@angular/animations": "~14.0.0",
     "@angular/cdk": "^14.1.0",
     "@angular/common": "~14.0.0",
@@ -37,6 +38,7 @@
     "aws-sdk": "^2.1192.0",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "fast-xml-parser": "^4.0.9",
     "materialize-css": "^1.0.0",
     "react": "18.0.0",
     "react-dom": "18.1.0",

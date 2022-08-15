@@ -11,8 +11,8 @@
         [src]="preview"
       />
       <div>
+        <mat-error *ngIf="editForm.hasError('image')">{{ editForm.getError('image') }}</mat-error>
         <mat-form-field appearance="fill" class="edit__field">
-          <mat-error *ngIf="editForm.hasError('image')">{{ editForm.getError('image') }}</mat-error>
           <mat-label>Select image</mat-label>
           <ngx-mat-file-input
             formControlName="image"
@@ -22,8 +22,8 @@
       </div>
     </div>
     <div>
+      <mat-error *ngIf="editForm.hasError('titleEnglish')">{{ editForm.getError('titleEnglish') }}</mat-error>
       <mat-form-field appearance="fill" class="edit__field">
-        <mat-error *ngIf="editForm.hasError('titleEnglish')">{{ editForm.getError('titleEnglish') }}</mat-error>
         <mat-label>Title english</mat-label>
         <input
           formControlName="titleEnglish"
@@ -32,8 +32,8 @@
           matInput
         />
       </mat-form-field>
+      <mat-error *ngIf="editForm.hasError('titleJapanese')">{{ editForm.getError('titleJapanese') }}</mat-error>
       <mat-form-field appearance="fill" class="edit__field">
-        <mat-error *ngIf="editForm.hasError('titleJapanese')">{{ editForm.getError('titleJapanese') }}</mat-error>
         <mat-label>Title japanese</mat-label>
         <input
           formControlName="titleJapanese"
@@ -45,8 +45,8 @@
     </div>
   </div>
   <div>
+    <mat-error *ngIf="editForm.hasError('synopsis')">{{ editForm.getError('synopsis') }}</mat-error>
     <mat-form-field appearance="fill" class="edit__field">
-      <mat-error *ngIf="editForm.hasError('synopsis')">{{ editForm.getError('synopsis') }}</mat-error>
       <mat-label>Synopsis</mat-label>
       <textarea
         rows="10"
@@ -57,8 +57,8 @@
     </mat-form-field>
   </div>
   <div>
+    <mat-error *ngIf="editForm.hasError('trailerYoutubeId')">{{ editForm.getError('trailerYoutubeId') }}</mat-error>
     <mat-form-field appearance="fill" class="edit__field edit__short-field">
-      <mat-error *ngIf="editForm.hasError('trailerYoutubeId')">{{ editForm.getError('trailerYoutubeId') }}</mat-error>
       <mat-label>YouTube trailer</mat-label>
       <input
         formControlName="trailerYoutubeId"
@@ -69,8 +69,8 @@
     </mat-form-field>
   </div>
   <div>
+    <mat-error *ngIf="editForm.hasError('status')">{{ editForm.getError('status') }}</mat-error>
     <mat-form-field appearance="fill" class="edit__field edit__short-field">
-      <mat-error *ngIf="editForm.hasError('status')">{{ editForm.getError('status') }}</mat-error>
       <mat-label>Anime status</mat-label>
       <mat-select formControlName="status">
         <mat-option *ngFor="let status of animeStatuses" [value]="status">{{
@@ -78,8 +78,8 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-error *ngIf="editForm.hasError('type')">{{ editForm.getError('type') }}</mat-error>
     <mat-form-field appearance="fill" class="edit__field edit__short-field">
-      <mat-error *ngIf="editForm.hasError('type')">{{ editForm.getError('type') }}</mat-error>
       <mat-label>Anime type</mat-label>
       <mat-select formControlName="type">
         <mat-option *ngFor="let type of animeTypes" [value]="type">{{
@@ -92,7 +92,6 @@
     <span>Aired</span>
     <span formGroupName="aired">
       <mat-form-field appearance="fill" class="edit__field edit__short-field">
-        <mat-error *ngIf="editForm.controls['aired'].hasError('start')">{{ editForm.controls['aired'].getError('image') }}</mat-error>
         <mat-label>Start</mat-label>
         <input
           formControlName="start"
@@ -119,7 +118,6 @@
         </mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance="fill" class="edit__field edit__short-field">
-        <mat-error *ngIf="editForm.controls['aired'].hasError('end')">{{ editForm.controls['aired'].getError('end') }}</mat-error>
         <mat-label>End</mat-label>
         <input formControlName="end" matInput [matDatepicker]="datepickerEnd" />
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -145,8 +143,8 @@
     <mat-checkbox formControlName="isAiring">Airing</mat-checkbox>
   </div>
   <div>
+    <mat-error *ngIf="editForm.hasError('genresData')">{{ editForm.getError('genresData') }}</mat-error>
     <mat-form-field appearance="fill" class="edit__field">
-      <mat-error *ngIf="editForm.hasError('genresData')">{{ editForm.getError('genresData') }}</mat-error>
       <mat-label>Genres</mat-label>
       <mat-chip-list #genreList formControlName="genresData">
         <mat-chip
@@ -184,8 +182,8 @@
     </mat-form-field>
   </div>
   <div>
+    <mat-error *ngIf="editForm.hasError('studiosData')">{{ editForm.getError('studiosData') }}</mat-error>
     <mat-form-field appearance="fill" class="edit__field">
-      <mat-error *ngIf="editForm.hasError('studiosData')">{{ editForm.getError('studiosData') }}</mat-error>
       <mat-label>Studios</mat-label>
       <mat-chip-list #studioList formControlName="studiosData">
         <mat-chip
