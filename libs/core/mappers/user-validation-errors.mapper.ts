@@ -8,13 +8,12 @@ export namespace UserValidationErrorsMapper {
    * @param dto Validation error dto.
    */
   export function fromDto(dto: UserValidationErrorsDto): UserValidationErrors {
-    return new UserValidationErrors({
+    return {
       email: dto.email,
       firstName: dto.first_name,
       lastName: dto.last_name,
       avatar: dto.avatar,
       password: dto.password,
-      nonFieldErrors: dto.non_field_errors,
-    });
+    };
   }
 }

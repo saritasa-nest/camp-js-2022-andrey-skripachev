@@ -1,17 +1,18 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDto } from '@js-camp/core/dtos/user.dto';
 import { UserMapper } from '@js-camp/core/mappers/user.mapper';
-import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-error-response.mapper';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registration';
 import { User } from '@js-camp/core/models/user';
-import { ErrorMessage, ValidationErrorResponse } from '@js-camp/core/models/validation-error-response';
 import { catchError, Observable, map, of, throwError, switchMap, tap, mapTo, first } from 'rxjs';
+import { UserValidationErrorsMapper } from '@js-camp/core/mappers/user-validation-errors.mapper';
+import { ErrorMessage, extractValidationErrorMessage } from '@js-camp/core/models/error-response';
+
+import { catchHttpErrorResponse } from '../utils/rxjs/catch-http-error-response';
 
 import { AppConfigService } from './app-config.service';
-
 import { AuthService } from './auth.service';
 import { TokenStorageService } from './token-storage.service';
 
@@ -52,14 +53,10 @@ export class UserService {
         switchMap(token => this.tokenService.saveToken(token)),
         tap(() => this.redirectAfterAuth()),
         map(() => null),
-        catchError((error: unknown) => {
-          if (error instanceof HttpErrorResponse) {
-            const errorResponse = ValidationErrorResponseMapper.fromDto(error.error);
-            return of(this.getErrorMessage(errorResponse));
-          }
-
-          return throwError(error);
-        }),
+        catchHttpErrorResponse(error => of(extractValidationErrorMessage(
+          error.error,
+          UserValidationErrorsMapper.fromDto,
+        ))),
       );
   }
 
@@ -74,14 +71,10 @@ export class UserService {
         switchMap(token => this.tokenService.saveToken(token)),
         tap(() => this.redirectAfterAuth()),
         map(() => null),
-        catchError((error: unknown) => {
-          if (error instanceof HttpErrorResponse) {
-            const errorResponse = ValidationErrorResponseMapper.fromDto(error.error);
-            return of(this.getErrorMessage(errorResponse));
-          }
-
-          return throwError(error);
-        }),
+        catchHttpErrorResponse(error => of(extractValidationErrorMessage(
+          error.error,
+          UserValidationErrorsMapper.fromDto,
+        ))),
       );
   }
 
@@ -118,18 +111,6 @@ export class UserService {
     return this.tokenService.getToken().pipe(
       switchMap(token => token ? this.getUser() : of(null)),
     );
-  }
-
-  private getErrorMessage(errorResponse: ValidationErrorResponse): ErrorMessage {
-    if (errorResponse.data) {
-      for (const [field, message] of Object.entries(errorResponse.data)) {
-        if (message) {
-          return [field, message.join(' ')];
-        }
-      }
-    }
-
-    return ['detail', errorResponse.detail];
   }
 
   private getUser(): Observable<User | null> {

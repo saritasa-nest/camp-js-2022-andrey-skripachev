@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse,
 } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,19 +16,18 @@ import {
 } from '@js-camp/core/models/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
-import {
-  ErrorMessage,
-  ValidationErrorResponse,
-} from '@js-camp/core/models/validation-error-response';
-import { ValidationErrorResponseMapper } from '@js-camp/core/mappers/validation-error-response.mapper';
+
 import { Genre } from '@js-camp/core/models/genre';
 import { GenreDto } from '@js-camp/core/dtos/genre.dto';
 import { GenreMapper } from '@js-camp/core/mappers/genre.mapper';
 import { Studio } from '@js-camp/core/models/studio';
 import { StudioDto } from '@js-camp/core/dtos/studio.dto';
 import { StudioMapper } from '@js-camp/core/mappers/studio.mapper';
+import { AnimeValidationErrorsMapper } from '@js-camp/core/mappers/anime-validation-errors.mapper';
+import { ErrorMessage, extractValidationErrorMessage } from '@js-camp/core/models/error-response';
 
 import { AnimeListSearchParams } from '../models/anime-list-search-params';
+import { catchHttpErrorResponse } from '../utils/rxjs/catch-http-error-response';
 
 import { AppConfigService } from './app-config.service';
 import { SearchParamsService } from './search-params.service';
@@ -57,21 +55,6 @@ export class AnimeService {
     this.animeUrl = new URL('anime/anime/', appConfig.apiUrl);
     this.genresUrl = new URL('anime/genres/', appConfig.apiUrl);
     this.studiosUrl = new URL('anime/studios/', appConfig.apiUrl);
-  }
-
-  private getErrorMessage(
-    errorResponse: ValidationErrorResponse,
-  ): ErrorMessage {
-    const errorResponseModel = ValidationErrorResponseMapper.fromDto(errorResponse);
-    if (errorResponseModel.data) {
-      for (const [field, message] of Object.entries(errorResponseModel.data)) {
-        if (message) {
-          return [field, message.join(' ')];
-        }
-      }
-    }
-
-    return ['detail', errorResponseModel.detail];
   }
 
   private showSnackBarMessage(message: string): void {
@@ -136,21 +119,16 @@ export class AnimeService {
   public changeAnimeById(
     id: number,
     newAnimeData: AnimeDetails,
-  ): Observable<null | ErrorMessage> {
-    return this.httpClient.put(
+  ): Observable<AnimeDetails | ErrorMessage> {
+    return this.httpClient.put<AnimeDetailsDto>(
       this.createAnimeUrlById(id),
-      {
-        ...AnimeDetailsMapper.toDto(newAnimeData),
-      },
+      AnimeDetailsMapper.toDto(newAnimeData),
     ).pipe(
-      mapTo(null),
-      catchError((error: unknown) => {
-        if (error instanceof HttpErrorResponse) {
-          return of(this.getErrorMessage(error.error));
-        }
-
-        return throwError(new Error(String(error)));
-      }),
+      map(AnimeDetailsMapper.fromDto),
+      catchHttpErrorResponse(error => of(extractValidationErrorMessage(
+        error.error,
+        AnimeValidationErrorsMapper.fromDto,
+      ))),
     );
   }
 
@@ -159,19 +137,18 @@ export class AnimeService {
    * @param animeData Anime details data.
    * @returns Error response message / new anime data.
    */
-  public createAnime(animeData: AnimeDetails): Observable<AnimeDetails | ErrorMessage> {
+  public createAnime(
+    animeData: AnimeDetails,
+  ): Observable<AnimeDetails | ErrorMessage> {
     return this.httpClient.post<AnimeDetailsDto>(
       this.animeUrl.toString(),
       AnimeDetailsMapper.toDto(animeData),
     ).pipe(
       map(AnimeDetailsMapper.fromDto),
-      catchError((error: unknown) => {
-        if (error instanceof HttpErrorResponse) {
-          return of(this.getErrorMessage(error.error));
-        }
-
-        return throwError(new Error(String(error)));
-      }),
+      catchHttpErrorResponse(error => of(extractValidationErrorMessage(
+        error.error,
+        AnimeValidationErrorsMapper.fromDto,
+      ))),
     );
   }
 

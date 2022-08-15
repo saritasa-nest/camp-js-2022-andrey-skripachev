@@ -1,9 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { S3UploadDto } from '@js-camp/core/dtos/s3-upload.dto';
-import { map, mapTo, Observable, switchMap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
+import { XMLParser } from 'fast-xml-parser';
 
 import { AppConfigService } from './app-config.service';
+
+interface S3Response {
+
+  // eslint-disable-next-line jsdoc/require-jsdoc
+  readonly PostResponse: {
+
+    /** New anime image location. */
+    readonly Location: string;
+  };
+}
 
 /** AWS file loader. */
 @Injectable({
@@ -26,7 +37,7 @@ export class AwsFileLoaderService {
    * Loads image to AWS.
    * @param file Image file.
    */
-  public getParams(file: File): Observable<void> {
+  public uploadImage(file: File): Observable<string> {
     return this.httpClient.post<S3UploadDto>(
       this.s3DirectParamsUrl.toString(),
       { dest: this.bucketName, filename: file.name },
@@ -50,9 +61,13 @@ export class AwsFileLoaderService {
             formData: s3UploadFormData,
           };
         }),
-        switchMap(({ formAction, formData }) => this.httpClient.post(formAction, formData)),
-      )
+        switchMap(({ formAction, formData }) => this.httpClient.post(formAction, formData, { responseType: 'text' })),
+        map(response => {
+          const xmlParser = new XMLParser();
+          const parsedResponse = xmlParser.parse(response) as S3Response;
 
-      .pipe(mapTo(void 0));
+          return parsedResponse.PostResponse.Location;
+        }),
+      );
   }
 }

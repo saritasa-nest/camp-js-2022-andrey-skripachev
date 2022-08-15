@@ -3,10 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
 import { Genre } from '@js-camp/core/models/genre';
 import { Studio } from '@js-camp/core/models/studio';
-import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
 import { AnimeStatus } from '@js-camp/core/utils/types/animeStatus';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
-import { switchMap, Observable, Subscription, startWith, tap, debounceTime } from 'rxjs';
+import { switchMap, Observable, Subscription, startWith, tap, debounceTime, BehaviorSubject } from 'rxjs';
+import { ErrorMessage } from '@js-camp/core/models/error-response';
 
 import { AwsFileLoaderService } from '../../../../core/services/aws-file-loader.service';
 import { AnimeService } from '../../../../core/services/anime.service';
@@ -29,6 +29,9 @@ export class AnimeEditFormComponent implements OnInit {
   /** Default anime data. */
   @Input()
   public animeData: AnimeDetails;
+
+  /** Anime image preview. */
+  public readonly animeImagePreview$ = new BehaviorSubject<string | null>(null);
 
   /** Edit form. */
   public readonly editForm: FormGroup;
@@ -116,6 +119,14 @@ export class AnimeEditFormComponent implements OnInit {
       genresData: [''],
       studiosData: [''],
     });
+
+    this.subscriptions.add(this.editForm.controls['image'].valueChanges.pipe(
+      tap(file => {
+        if (file instanceof File) {
+          this.uploadAnimeImage(file);
+        }
+      }),
+    ).subscribe());
   }
 
   /**
@@ -140,6 +151,8 @@ export class AnimeEditFormComponent implements OnInit {
     controls['isAiring'].setValue(this.animeData.isAiring);
     controls['genresData'].setValue(this.currentAnimeGenres);
     controls['studiosData'].setValue(this.currentAnimeStudios);
+
+    this.animeImagePreview$.next(this.animeData.image);
   }
 
   /** Form submit event. */
@@ -233,27 +246,12 @@ export class AnimeEditFormComponent implements OnInit {
 
   /**
    * Loads file in AWS S3.
-   * @param event Input event.
+   * @param file Current file.
    */
-  public loadFile(event: Event): void {
-    const { target } = event;
-    if (target instanceof HTMLInputElement && target.files) {
-
-      const file = target.files[0];
-
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(target.files[0]);
-
-      fileReader.onload = fileEvent => {
-        const image = fileEvent.target?.result;
-
-        if (image === null || image === undefined) {
-          return;
-        }
-
-        this.fileLoader.getParams(file).subscribe();
-      };
-    }
-
+  public uploadAnimeImage(file: File): void {
+    this.subscriptions.add(this.fileLoader.uploadImage(file).subscribe(imageUrl => {
+      this.animeImagePreview$.next(imageUrl);
+      this.editForm.controls['image'].setValue(imageUrl);
+    }));
   }
 }

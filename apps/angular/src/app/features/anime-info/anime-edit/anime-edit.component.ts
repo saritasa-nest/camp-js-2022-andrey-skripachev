@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimeDetails } from '@js-camp/core/models/anime-details';
-import { ErrorMessage } from '@js-camp/core/models/validation-error-response';
-import { Observable, Subscription, tap } from 'rxjs';
+import { ErrorMessage } from '@js-camp/core/models/error-response';
+import { map, Observable, Subscription } from 'rxjs';
 
 import { AnimeService } from '../../../../core/services/anime.service';
 
@@ -46,10 +46,12 @@ export class AnimeEditComponent {
    */
   public handleSubmit(animeData: AnimeDetails): Observable<ErrorMessage | null> {
     const errorResponseMessage$ = this.animeService.changeAnimeById(this.animeId, animeData).pipe(
-      tap(value => {
-        if (value === null) {
+      map(response => {
+        if (response instanceof AnimeDetails) {
           this.goToView();
+          return null;
         }
+        return response;
       }),
     );
 
