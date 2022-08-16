@@ -24,11 +24,11 @@ export class AnimeEditFormComponent implements OnInit, OnDestroy {
 
   /** Form submitting event that reverts validation error. */
   @Input()
-  public onSubmit: (animeData: AnimeDetails) => Observable<ErrorMessage | null>;
+  public onSubmit!: (animeData: AnimeDetails) => Observable<ErrorMessage | null>;
 
   /** Default anime data. */
   @Input()
-  public animeData: AnimeDetails;
+  public animeData!: AnimeDetails;
 
   /** Anime image preview. */
   public readonly animeImagePreview$ = new BehaviorSubject<string | null>(null);
@@ -135,7 +135,6 @@ export class AnimeEditFormComponent implements OnInit, OnDestroy {
    * @inheritdoc
    */
   public ngOnInit(): void {
-
     this.currentAnimeGenres = [...this.animeData.genresData];
     this.currentAnimeStudios = [...this.animeData.studiosData];
 

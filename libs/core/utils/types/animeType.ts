@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /** Different types of anime. */
 export enum AnimeType {
   TV = 'TV',
@@ -24,14 +23,3 @@ export function isType(value: string): value is AnimeType {
 export function toAnimeType(value: string): AnimeType {
   return isType(value) ? value : AnimeType.Movie;
 }
-=======
-/** Different types of anime. */
-export enum AnimeType {
-  TV,
-  OVA,
-  Movie,
-  Special,
-  ONA,
-  Music,
-}
->>>>>>> feature/JC19-438-details-for-anime

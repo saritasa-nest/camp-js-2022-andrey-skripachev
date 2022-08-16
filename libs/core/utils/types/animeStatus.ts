@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /** Different statuses of anime. */
 export enum AnimeStatus {
   Airing = 'Airing',
@@ -21,4 +20,3 @@ export function isStatus(value: string): value is AnimeStatus {
 export function toAnimeStatus(value: string): AnimeStatus {
   return isStatus(value) ? value : AnimeStatus.NotYetAired;
 }
->>>>>>> feature/JC19-438-details-for-anime
