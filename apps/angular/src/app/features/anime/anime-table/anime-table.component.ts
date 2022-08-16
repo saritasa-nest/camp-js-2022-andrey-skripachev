@@ -10,10 +10,14 @@ import { FormControl } from '@angular/forms';
 
 import { AnimeListSearchParams } from '../../../../core/models/anime-list-search-params';
 import { AnimeService } from '../../../../core/services/anime.service';
-import { SearchParamsService } from '../../../../core/services/search-params.service';
+import { AnimeSearchParamsService } from '../../../../core/services/anime-search-params.service';
+import { Sorting } from '../../../../core/models/sorting';
+import { SortingMapper } from '../../../../core/services/mappers/sorting.mapper';
 
 /** Delay between controller state changes and request sending. */
 const CONTROL_ACTION_DELAY = 0.3;
+
+const INITIAL_PAGE = 0;
 
 /** Table for displaying the anime list. */
 @Component({
@@ -27,45 +31,38 @@ export class AnimeTableComponent implements AfterViewInit {
   private readonly dataSource = new MatTableDataSource<Anime>();
 
   /** Anime types. */
-  public readonly availableAnimeTypes = Object.values(AnimeType);
+  public readonly availableAnimeTypes = Object.keys(AnimeType);
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];
 
   @ViewChild(MatPaginator)
-  private readonly paginator: MatPaginator;
+  private readonly paginator: MatPaginator | null = null;
 
   @ViewChild(MatSort)
-  private readonly sort: MatSort;
+  private readonly sort: MatSort | null = null;
 
   /** Current anime list. */
   public readonly animeData$: Observable<Pagination<Anime>>;
 
   /** Current page. */
-  public readonly currentPage$ = new BehaviorSubject(0);
+  public readonly currentPage$: BehaviorSubject<number>;
 
   /** Sorting. */
-  public readonly sorting$ = new BehaviorSubject<Sort>({
-    active: '',
-    direction: '',
-  });
+  public readonly sorting$: BehaviorSubject<Sorting>;
 
   /** Maximum anime in page. */
-  public maximumAnimeOnPage = 10;
+  public maximumAnimeOnPage: number;
 
   /** Filtering field form controller. */
-  public readonly filterFormControl = new FormControl<readonly AnimeType[]>([], {
-    nonNullable: true,
-  });
+  public readonly filterFormControl: FormControl<readonly AnimeType[]>;
 
   /** Searching input form controller. */
-  public readonly searchFormControl = new FormControl('', {
-    nonNullable: true,
-  });
+  public readonly searchFormControl: FormControl<string>;
 
   public constructor(
     animeService: AnimeService,
-    private readonly searchParamsService: SearchParamsService,
+    private readonly searchParamsService: AnimeSearchParamsService,
   ) {
     const {
       maximumItemsOnPage,
@@ -76,10 +73,14 @@ export class AnimeTableComponent implements AfterViewInit {
     } = this.searchParamsService.getAnimeListSearchParams();
 
     this.maximumAnimeOnPage = maximumItemsOnPage;
-    this.currentPage$.next(pageNumber);
-    this.sorting$.next(sorting);
-    this.searchFormControl.setValue(searchingTitlePart);
-    this.filterFormControl.setValue(types);
+    this.currentPage$ = new BehaviorSubject(pageNumber);
+    this.sorting$ = new BehaviorSubject(sorting);
+    this.searchFormControl = new FormControl(searchingTitlePart, {
+      nonNullable: true,
+    });
+    this.filterFormControl = new FormControl(types, {
+      nonNullable: true,
+    });
 
     const filterChanges$ = this.filterFormControl.valueChanges.pipe(
       startWith(this.filterFormControl.value),
@@ -95,7 +96,7 @@ export class AnimeTableComponent implements AfterViewInit {
       sortingChanges$,
     ]).pipe(
       tap(() => {
-        this.currentPage$.next(0);
+        this.currentPage$.next(INITIAL_PAGE);
       }),
     );
 
@@ -108,7 +109,7 @@ export class AnimeTableComponent implements AfterViewInit {
           pageNumber: selectedPage,
           sorting: selectedSorting,
           types: selectedFilter,
-          searchingTitlePart: String(selectedSearch),
+          searchingTitlePart: selectedSearch,
         }))),
     );
   }
@@ -121,10 +122,10 @@ export class AnimeTableComponent implements AfterViewInit {
 
   /**
    * Changes sorting target.
-   * @param sorting Sort event.
+   * @param sort Sort event.
    */
-  public onChangeSortingTarget(sorting: Sort): void {
-    this.sorting$.next(sorting);
+  public onChangeSortingTarget(sort: Sort): void {
+    this.sorting$.next(SortingMapper.fromSort(sort));
   }
 
   /**

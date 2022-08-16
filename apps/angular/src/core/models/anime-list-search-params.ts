@@ -1,7 +1,7 @@
-import { Sort } from '@angular/material/sort';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
 
 import { Immerable, OmitImmerable } from './immerable';
+import { Sorting } from './sorting';
 
 /** Search parameters for anime list. */
 export class AnimeListSearchParams extends Immerable {
@@ -12,7 +12,7 @@ export class AnimeListSearchParams extends Immerable {
   public readonly maximumItemsOnPage: number;
 
   /** Sorting. */
-  public readonly sorting: Sort;
+  public readonly sorting: Sorting;
 
   /** Selected anime types. */
   public readonly types: readonly AnimeType[];

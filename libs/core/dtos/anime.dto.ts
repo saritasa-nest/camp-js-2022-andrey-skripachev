@@ -12,22 +12,22 @@ export enum AnimeStatusDto {
  */
 export enum AnimeTypeDto {
 
-  // Anime for TV.
+  /** Anime for TV. */
   TV = 'TV',
 
-  // Anime for promotional purposes.
+  /** Anime for promotional purposes. */
   OVA = 'OVA',
 
-  // Full-meter animation movie.
+  /** Full-meter animation movie. */
   MOVIE = 'MOVIE',
 
-  // Anime episodes that aren't part of the original show.
+  /** Anime episodes that aren't part of the original show. */
   SPECIAL = 'SPECIAL',
 
-  // Anime that is directly released onto the Internet.
+  /** Anime that is directly released onto the Internet. */
   ONA = 'ONA',
 
-  // Musical anime.
+  /** Musical anime. */
   MUSIC = 'MUSIC',
 }
 
