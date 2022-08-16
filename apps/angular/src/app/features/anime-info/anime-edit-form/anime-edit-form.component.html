@@ -9,6 +9,7 @@
         class="anime-image"
         *ngIf="animeImagePreview$ | async as preview"
         [src]="preview"
+        alt="Current anime image"
       />
       <div>
         <mat-error *ngIf="editForm.hasError('image')">{{ editForm.getError('image') }}</mat-error>
