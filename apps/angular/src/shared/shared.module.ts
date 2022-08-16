@@ -16,7 +16,6 @@ import { AnimeTypePipe } from './pipes/anime-type.pipe';
 import { AnimeStatusPipe } from './pipes/anime-status.pipe';
 import { EmptyValuePipe } from './pipes/empty-value.pipe';
 import { HeaderComponent } from './components/header/header.component';
-import { SafeResourcePipe } from './pipes/safe-resource.pipe';
 
 /** Shared module. */
 @NgModule({
@@ -25,14 +24,12 @@ import { SafeResourcePipe } from './pipes/safe-resource.pipe';
     AnimeStatusPipe,
     EmptyValuePipe,
     HeaderComponent,
-    SafeResourcePipe,
   ],
   exports: [
     AnimeTypePipe,
     AnimeStatusPipe,
     EmptyValuePipe,
     HeaderComponent,
-    SafeResourcePipe,
   ],
   imports: [
     CommonModule,

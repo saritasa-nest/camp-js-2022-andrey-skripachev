@@ -27,6 +27,7 @@ export class AnimeViewComponent implements OnDestroy {
     animeService: AnimeService,
     router: ActivatedRoute,
   ) {
+
     const { id } = router.snapshot.params;
     this.animeDetails$ = animeService.getAnimeById(Number(id));
     this.animeDetailsSubscription.add(

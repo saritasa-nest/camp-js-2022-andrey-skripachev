@@ -13,6 +13,7 @@
 
 .details__trailer {
   height: 50%;
+  max-width: 100%;
 }
 
 .details__info-list {

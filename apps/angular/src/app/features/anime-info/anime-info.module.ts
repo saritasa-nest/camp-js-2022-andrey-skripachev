@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { SharedModule } from '../../../shared/shared.module';
 
@@ -26,6 +27,7 @@ import { ImageDialogComponent } from './anime-view/image-dialog/image-dialog.com
     MatListModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    YouTubePlayerModule,
   ],
 })
 export class AnimeInfoModule {}
