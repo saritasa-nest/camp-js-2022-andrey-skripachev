@@ -109,7 +109,7 @@ export class AnimeTableComponent implements AfterViewInit {
           pageNumber: selectedPage,
           sorting: selectedSorting,
           types: selectedFilter,
-          searchingTitlePart: String(selectedSearch),
+          searchingTitlePart: selectedSearch,
         }))),
     );
   }
