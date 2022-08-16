@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { S3UploadDto } from '@js-camp/core/dtos/s3-upload.dto';
 import { map, Observable, switchMap } from 'rxjs';
-import { XMLParser } from 'fast-xml-parser';
+import { xml2js } from 'xml-js';
 
 import { AppConfigService } from './app-config.service';
 
@@ -11,8 +11,12 @@ interface S3Response {
   // eslint-disable-next-line jsdoc/require-jsdoc
   readonly PostResponse: {
 
-    /** New anime image location. */
-    readonly Location: string;
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    readonly Location: {
+
+      /** Image source. */
+      readonly _text: string;
+    };
   };
 }
 
@@ -63,10 +67,8 @@ export class AwsFileLoaderService {
         }),
         switchMap(({ formAction, formData }) => this.httpClient.post(formAction, formData, { responseType: 'text' })),
         map(response => {
-          const xmlParser = new XMLParser();
-          const parsedResponse = xmlParser.parse(response) as S3Response;
-
-          return parsedResponse.PostResponse.Location;
+          const parsedXml = xml2js(response, { compact: true }) as S3Response;
+          return parsedXml.PostResponse.Location._text;
         }),
       );
   }
