@@ -25,6 +25,14 @@ export class AnimeViewComponent implements OnDestroy {
   /** Details about anime. */
   public readonly animeDetails$: Observable<AnimeDetails>;
 
+  private readonly resolution = 16 / 9;
+
+  /** Youtube trailer height. */
+  public readonly mediaWidth = 400;
+
+  /** Youtube trailer width.  */
+  public readonly mediaHeight = this.mediaWidth / this.resolution;
+
   public constructor(
     private readonly dialog: MatDialog,
     private readonly animeService: AnimeService,
