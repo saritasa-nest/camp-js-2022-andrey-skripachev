@@ -15,6 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { SharedModule } from '../../../shared/shared.module';
 
@@ -57,6 +58,7 @@ import { AnimeCreateComponent } from './anime-create/anime-create.component';
     MatSelectModule,
     MatAutocompleteModule,
     NgxMatFileInputModule,
+    YouTubePlayerModule,
   ],
 })
 export class AnimeInfoModule {}

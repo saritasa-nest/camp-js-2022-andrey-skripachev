@@ -7,20 +7,13 @@
         [alt]="'Image for ' + anime.titleEnglish"
         (click)="showFullSizeImage(anime.image, anime.titleEnglish || '-')"
       />
-      <iframe
-        class="details__media details__trailer"
+      <youtube-player
         *ngIf="anime.trailerYoutubeId"
-        [src]="
-          'https://www.youtube.com/embed/' + anime.trailerYoutubeId
-            | safeResource
-        "
-        title="Trailer for {{
-          anime.titleEnglish || anime.titleJapanese || 'unknown anime'
-        }}"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+        class="details__media details__trailer"
+        [videoId]="anime.trailerYoutubeId"
+        [width]="400"
+        [height]="400*9/16"
+      ></youtube-player>
     </div>
     <div class="details__sector">
       <h2 class="mat-title">
