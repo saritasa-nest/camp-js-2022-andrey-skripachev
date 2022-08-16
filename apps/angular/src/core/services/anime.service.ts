@@ -16,7 +16,7 @@ import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
 import { AnimeListSearchParams } from '../models/anime-list-search-params';
 
 import { AppConfigService } from './app-config.service';
-import { SearchParamsService } from './search-params.service';
+import { AnimeSearchParamsService } from './anime-search-params.service';
 
 /** Anime service. */
 @Injectable({
@@ -28,7 +28,7 @@ export class AnimeService {
 
   public constructor(
     appConfig: AppConfigService,
-    private readonly searchParamsService: SearchParamsService,
+    private readonly searchParamsService: AnimeSearchParamsService,
     private readonly httpClient: HttpClient,
     private readonly router: Router,
   ) {

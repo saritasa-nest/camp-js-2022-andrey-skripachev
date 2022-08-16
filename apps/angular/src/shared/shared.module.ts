@@ -15,6 +15,7 @@ import { RefreshInterceptor } from '../core/interceptors/refresh.interceptor';
 import { AnimeTypePipe } from './pipes/anime-type.pipe';
 import { AnimeStatusPipe } from './pipes/anime-status.pipe';
 import { EmptyValuePipe } from './pipes/empty-value.pipe';
+import { SortingPipe } from './pipes/sorting.pipe';
 import { HeaderComponent } from './components/header/header.component';
 
 /** Shared module. */
@@ -23,12 +24,14 @@ import { HeaderComponent } from './components/header/header.component';
     AnimeTypePipe,
     AnimeStatusPipe,
     EmptyValuePipe,
+    SortingPipe,
     HeaderComponent,
   ],
   exports: [
     AnimeTypePipe,
     AnimeStatusPipe,
     EmptyValuePipe,
+    SortingPipe,
     HeaderComponent,
   ],
   imports: [

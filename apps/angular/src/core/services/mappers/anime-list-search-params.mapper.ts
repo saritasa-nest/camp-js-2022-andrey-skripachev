@@ -1,8 +1,8 @@
-import { Sort } from '@angular/material/sort';
 import { Params } from '@angular/router';
 import { isTypeDto, mapAnimeTypeFromDto, mapAnimeTypeToDto } from '@js-camp/core/mappers/anime-type.mapper';
 
 import { AnimeListSearchParams } from '../../models/anime-list-search-params';
+import { Sorting } from '../../models/sorting';
 
 import { AnimeListSearchParamsDto } from './dto/anime-list-search-params.dto';
 
@@ -12,22 +12,22 @@ export namespace AnimeListSearchParamsMapper {
    * Maps ordering to sorting.
    * @param ordering Ordering.
    */
-  function fromOrderingToSort(ordering: string): Sort {
+  function fromOrderingToSort(ordering: string): Sorting {
     if (ordering === '') {
       return {
-        active: '',
+        target: '',
         direction: '',
       };
     } else if (ordering[0] === '-') {
       return {
-        active: ordering.slice(1),
-        direction: 'desc',
+        target: ordering.slice(1),
+        direction: 'dec',
       };
     }
 
     return {
-      active: ordering,
-      direction: 'asc',
+      target: ordering,
+      direction: 'inc',
     };
   }
 
@@ -35,12 +35,12 @@ export namespace AnimeListSearchParamsMapper {
    * Maps sorting to ordering.
    * @param sort Sort.
    */
-  function fromSortingToOrdering({ direction, active }: Sort): string {
+  function fromSortingToOrdering({ direction, target }: Sorting): string {
     if (direction === '') {
       return '';
     }
 
-    return `${direction === 'asc' ? '' : '-'}${active}`;
+    return `${direction === 'inc' ? '' : '-'}${target}`;
   }
 
   /**

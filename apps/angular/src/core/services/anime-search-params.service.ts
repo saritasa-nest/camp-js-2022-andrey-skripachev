@@ -10,7 +10,7 @@ import { AnimeListSearchParamsMapper } from './mappers/anime-list-search-params.
 @Injectable({
   providedIn: 'root',
 })
-export class SearchParamsService {
+export class AnimeSearchParamsService {
 
   public constructor(
     private readonly router: Router,
