@@ -27,7 +27,7 @@ import { HeaderComponent } from './components/header/header.component';
     SortingPipe,
     HeaderComponent,
   ],
-  exports: [AnimeTypePipe, AnimeStatusPipe, EmptyValuePipe, HeaderComponent],
+  exports: [AnimeTypePipe, AnimeStatusPipe, EmptyValuePipe, SortingPipe, HeaderComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -35,7 +35,6 @@ import { HeaderComponent } from './components/header/header.component';
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    SortingPipe,
   ],
   providers: [
     {

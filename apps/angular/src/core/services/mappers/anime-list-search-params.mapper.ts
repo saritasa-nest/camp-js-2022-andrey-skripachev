@@ -1,7 +1,7 @@
 import { Params } from '@angular/router';
 import { isTypeDto, mapAnimeTypeFromDto, mapAnimeTypeToDto } from '@js-camp/core/mappers/anime-type.mapper';
 
-import { AnimeListSearchParams } from '../../models/animeListSearchParams';
+import { AnimeListSearchParams } from '../../models/anime-list-search-params';
 import { Sorting } from '../../models/sorting';
 
 import { AnimeListSearchParamsDto } from './dto/anime-list-search-params.dto';
