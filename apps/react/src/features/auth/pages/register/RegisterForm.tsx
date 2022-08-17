@@ -5,10 +5,22 @@ import * as yup from 'yup';
 import { Registration } from '@js-camp/core/models/registration';
 import Link from '@mui/material/Link';
 
+import { UserService } from '../../../../api/services/user';
+
 interface RegistrationFormData extends Registration {
 
   /** Password confirmation. */
   readonly confirmPassword: string;
+}
+
+/**
+ * Registers user with form data.
+ * @param registrationData Registration form data.
+ */
+async function register(registrationData: RegistrationFormData): Promise<void> {
+  const currentUser = await UserService.register(registrationData);
+
+  console.log(currentUser);
 }
 
 const registrationValidationSchema = yup.object({
@@ -42,9 +54,7 @@ const RegisterFormComponent: FC = () => {
   const formik = useFormik<RegistrationFormData>({
     initialValues: initialRegistrationValues,
     validationSchema: registrationValidationSchema,
-    onSubmit(values) {
-      console.log(values);
-    },
+    onSubmit: register,
   });
 
   return (

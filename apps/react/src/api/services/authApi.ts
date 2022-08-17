@@ -14,7 +14,7 @@ export namespace AuthService {
    * @param loginData Login data.
    */
   export async function login(loginData: Login): Promise<TokenDto> {
-    const token = await http.post<TokenDto>('auth/login', LoginMapper.toDto(loginData))
+    const token = await http.post<TokenDto>('auth/login/', LoginMapper.toDto(loginData))
       .then(response => TokenMapper.fromDto(response.data));
 
     return token;
@@ -25,7 +25,7 @@ export namespace AuthService {
    * @param registrationData Registration data.
    */
   export async function register(registrationData: Registration): Promise<TokenDto> {
-    const token = await http.post<TokenDto>('auth/register', RegistrationMapper.toDto(registrationData))
+    const token = await http.post<TokenDto>('auth/register/', RegistrationMapper.toDto(registrationData))
       .then(response => TokenMapper.fromDto(response.data));
 
     return token;

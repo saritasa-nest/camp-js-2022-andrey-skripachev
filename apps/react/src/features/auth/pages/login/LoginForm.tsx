@@ -8,6 +8,18 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 
+import { UserService } from '../../../../api/services/user';
+
+/**
+ * Logins user with login data.
+ * @param loginData Login data.
+ */
+async function login(loginData: Login): Promise<void> {
+  const user = await UserService.login(loginData);
+
+  console.log(user);
+}
+
 const loginValidationSchema = object({
   email: string()
     .email('Enter valid email')
@@ -25,9 +37,7 @@ const LoginFormComponent: FC = () => {
   const formik = useFormik<Login>({
     initialValues: initialLoginValues,
     validationSchema: loginValidationSchema,
-    onSubmit(values) {
-      console.log(values);
-    },
+    onSubmit: login,
   });
 
   return (

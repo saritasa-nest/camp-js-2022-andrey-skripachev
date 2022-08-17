@@ -6,7 +6,7 @@ import { addAuthorizationTokenBeforeRequest } from './interceptors';
 export const http: AxiosInstance = axios.create({
   baseURL: CONFIG.campApiUrl,
   headers: {
-    apiKey: CONFIG.campApiKey,
+    'Api-Key': CONFIG.campApiKey,
   },
 });
 
