@@ -1,3 +1,4 @@
 export const CONFIG = {
-  apiUrl: import.meta.env.VITE_APP_API_BASE_URL ?? '',
+  campApiUrl: import.meta.env.VITE_CAMP_API_BASE_URL ?? '',
+  campApiKey: import.meta.env.VITE_CAMP_API_KEY ?? '',
 };

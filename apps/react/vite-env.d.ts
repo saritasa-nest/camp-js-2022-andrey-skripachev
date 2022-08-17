@@ -3,8 +3,11 @@
 
 interface ImportMetaEnv {
 
-  /** Api base url. */
-  readonly VITE_APP_API_BASE_URL: string;
+  /** Camp Api base url. */
+  readonly VITE_CAMP_API_BASE_URL: string;
+
+  /** Camp Api key. */
+  readonly VITE_CAMP_API_KEY: string;
 }
 
 interface ImportMeta {
