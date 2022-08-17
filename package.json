@@ -6,7 +6,7 @@
     "postinstall": "ngcc --properties es2020 browser module main",
     "react:build": "nx run react:build",
     "react:serve": "nx run react:serve",
-    "react:lint": "nx run react:lint",
+    "react:lint": "nx run react:lint --fix",
     "react:stylelint": "nx run react:stylelint",
     "angular:build": "nx run angular:build",
     "angular:build:development": "nx run angular:build:development",
@@ -16,7 +16,8 @@
     "vanilla:build": "nx run vanilla:build",
     "vanilla:serve": "nx run vanilla:serve",
     "vanilla:lint": "nx run vanilla:lint",
-    "vanilla:stylelint": "nx run vanilla:stylelint"
+    "vanilla:stylelint": "nx run vanilla:stylelint",
+    "core:lint": "nx run core:lint --fix"
   },
   "private": true,
   "dependencies": {
