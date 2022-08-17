@@ -1,21 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchGenres } from './dispatchers';
+import { fetchUser } from './dispatchers';
 import { initialState } from './state';
 
-export const genresSlice = createSlice({
-  name: 'genres',
+export const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {},
   extraReducers: builder => builder
-    .addCase(fetchGenres.pending, state => {
+    .addCase(fetchUser.pending, state => {
       state.isLoading = true;
     })
-    .addCase(fetchGenres.fulfilled, (state, action) => {
-      state.genres = action.payload;
+    .addCase(fetchUser.fulfilled, (state, action) => {
+      state.user = action.payload;
       state.isLoading = false;
     })
-    .addCase(fetchGenres.rejected, (state, action) => {
+    .addCase(fetchUser.rejected, (state, action) => {
       if (action.error.message) {
         state.error = action.error.message;
       }
