@@ -7,9 +7,7 @@ export enum AnimeStatusDto {
   NOT_YET_AIRED = 'NOT_YET_AIRED',
 }
 
-/**
- * Acceptable values of anime types.
- */
+/** Acceptable values of anime types. */
 export enum AnimeTypeDto {
 
   /** Anime for TV. */

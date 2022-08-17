@@ -6,6 +6,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { Anime } from '@js-camp/core/models/anime';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeType } from '@js-camp/core/utils/types/animeType';
+import { parseEnumToArray } from '@js-camp/core/enums/enums';
 import { FormControl } from '@angular/forms';
 
 import { AnimeListSearchParams } from '../../../../core/models/animeListSearchParams';
@@ -31,7 +32,7 @@ export class AnimeTableComponent implements AfterViewInit {
   private readonly dataSource = new MatTableDataSource<Anime>();
 
   /** Anime types. */
-  public readonly availableAnimeTypes = Object.keys(AnimeType);
+  public readonly availableAnimeTypes = parseEnumToArray(AnimeType);
 
   /** Table column names. */
   public readonly tableColumns = ['image', 'title', 'aired start', 'status', 'type'];

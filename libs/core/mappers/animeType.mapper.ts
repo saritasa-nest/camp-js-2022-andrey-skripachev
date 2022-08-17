@@ -1,7 +1,8 @@
 import { AnimeTypeDto } from '../dtos/anime.dto';
+import { EnumMapper, reverseEnumMapper } from '../enums/enums';
 import { AnimeType } from '../utils/types/animeType';
 
-const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
+const TYPE_FROM_DTO: EnumMapper<AnimeTypeDto, AnimeType> = {
   [AnimeTypeDto.MOVIE]: AnimeType.Movie,
   [AnimeTypeDto.MUSIC]: AnimeType.Music,
   [AnimeTypeDto.ONA]: AnimeType.ONA,
@@ -10,6 +11,8 @@ const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
   [AnimeTypeDto.TV]: AnimeType.TV,
 };
 
+const TYPE_TO_DTO = reverseEnumMapper(TYPE_FROM_DTO);
+
 /**
  * Maps anime type from dto to model.
  * @param typeDto Type dto.
@@ -17,15 +20,6 @@ const TYPE_FROM_DTO: Readonly<Record<AnimeTypeDto, AnimeType>> = {
 export function mapAnimeTypeFromDto(typeDto: AnimeTypeDto): AnimeType {
   return TYPE_FROM_DTO[typeDto];
 }
-
-const TYPE_TO_DTO: Readonly<Record<AnimeType, AnimeTypeDto>> = {
-  [AnimeType.Movie]: AnimeTypeDto.MOVIE,
-  [AnimeType.Music]: AnimeTypeDto.MUSIC,
-  [AnimeType.ONA]: AnimeTypeDto.ONA,
-  [AnimeType.OVA]: AnimeTypeDto.OVA,
-  [AnimeType.Special]: AnimeTypeDto.SPECIAL,
-  [AnimeType.TV]: AnimeTypeDto.TV,
-};
 
 /**
  * Maps anime type from model to dto.
