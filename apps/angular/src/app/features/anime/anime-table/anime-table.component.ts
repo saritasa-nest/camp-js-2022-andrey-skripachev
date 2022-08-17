@@ -91,11 +91,13 @@ export class AnimeTableComponent implements AfterViewInit {
     );
     const sortingChanges$ = this.sorting$;
 
-    const resetPaginationChanges$ = combineLatest([
+    const query$ = combineLatest([
       filterChanges$,
       searchChanges$,
       sortingChanges$,
-    ]).pipe(
+    ]);
+
+    const resetPaginationChanges$ = query$.pipe(
       tap(() => {
         this.currentPage$.next(INITIAL_PAGE);
       }),
