@@ -1,7 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
 import { CONFIG } from './config';
-import { AuthService } from './services/authApi';
 import { TokenService } from './services/token';
 
 /**
@@ -9,32 +8,34 @@ import { TokenService } from './services/token';
  * @param config Request config.
  */
 function shouldInterceptToken(config: AxiosRequestConfig): boolean {
-  return config.baseURL?.startsWith(CONFIG.campApiUrl) ?? false;
+  return (config.baseURL?.startsWith(CONFIG.campApiUrl) ?? false);
 }
 
 /**
  *  Appends authorization token to request.
  * @param config Request config.
  */
-export async function addAuthorizationTokenBeforeRequest(config: AxiosRequestConfig): Promise<AxiosRequestConfig> {
+export function addAuthorizationTokenBeforeRequest(config: AxiosRequestConfig): AxiosRequestConfig {
 
-  let token = TokenService.getToken();
+  const token = TokenService.getToken();
 
   if (!shouldInterceptToken(config) || token === null) {
     return config;
   }
 
-  const isTokenValid = await AuthService.verifyToken(token);
+  // const isTokenValid = await AuthService.verifyToken(token);
 
-  if (!isTokenValid) {
-    try {
-      token = await AuthService.refreshToken(token);
+  // console.log('Intercept');
 
-      TokenService.saveToken(token);
-    } catch {
-      return config;
-    }
-  }
+  // if (!isTokenValid) {
+  //   try {
+  //     token = await AuthService.refreshToken(token);
+
+  //     TokenService.saveToken(token);
+  //   } catch {
+  //     return config;
+  //   }
+  // }
 
   const { headers } = config;
 

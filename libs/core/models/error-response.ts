@@ -8,11 +8,11 @@ export type ErrorMessage = [string, string];
 
 /** Validation error. */
 export type ValidationError<T> = {
-  [K in keyof T]?: readonly string[];
+  [K in keyof T]?: string;
 };
 
 /** Error response. */
-export class ErrorResponse<T> extends Immerable {
+export class AppError<T> extends Immerable {
 
   /** Fields error data. */
   public readonly data: T;
@@ -27,27 +27,27 @@ export class ErrorResponse<T> extends Immerable {
   }
 }
 
-/**
- * Extracts error message from error response.
- * @param errorResponseDto Error response.
- * @param errorMapper Error mapper.
- */
-export function extractValidationErrorMessage<TErrorDto, TError>(
-  errorResponseDto: ErrorResponseDto<TErrorDto>,
-  errorMapper: (dto: TErrorDto) => TError,
-): ErrorMessage {
-  const errorResponse = ErrorResponseMapper.fromDto(
-    errorResponseDto,
-    errorMapper,
-  );
+// /**
+//  * Extracts error message from error response.
+//  * @param errorResponseDto Error response.
+//  * @param errorMapper Error mapper.
+//  */
+// export function extractValidationErrorMessage<TErrorDto, TError>(
+//   errorResponseDto: ErrorResponseDto<TErrorDto>,
+//   errorMapper: (dto: TErrorDto) => TError,
+// ): ErrorMessage {
+//   const errorResponse = ErrorResponseMapper.fromDto(
+//     errorResponseDto,
+//     errorMapper,
+//   );
 
-  for (const [field, message] of Object.entries(errorResponse.data)) {
-    if (message instanceof Array) {
-      return [field, message[0]];
-    }
-  }
+//   for (const [field, message] of Object.entries(errorResponse.data)) {
+//     if (message instanceof Array) {
+//       return [field, message[0]];
+//     }
+//   }
 
-  return ['detail', errorResponse.detail];
-}
+//   return ['detail', errorResponse.detail];
+// }
 
-type InitArgs<T> = OmitImmerable<ErrorResponse<T>>;
+type InitArgs<T> = OmitImmerable<AppError<T>>;

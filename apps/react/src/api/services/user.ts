@@ -19,6 +19,7 @@ export namespace UserService {
       .then(response => UserMapper.fromDto(response.data));
 
     return user;
+
   }
 
   /**

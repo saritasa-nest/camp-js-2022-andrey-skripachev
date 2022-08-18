@@ -4,6 +4,9 @@ import { Button, Grid, TextField, Typography } from '@mui/material';
 import * as yup from 'yup';
 import { Registration } from '@js-camp/core/models/registration';
 import Link from '@mui/material/Link';
+import { User } from '@js-camp/core/models/user';
+import { isAppError } from '@js-camp/core/guards/error';
+import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
 
 import { UserService } from '../../../../api/services/user';
 
@@ -11,16 +14,6 @@ interface RegistrationFormData extends Registration {
 
   /** Password confirmation. */
   readonly confirmPassword: string;
-}
-
-/**
- * Registers user with form data.
- * @param registrationData Registration form data.
- */
-async function register(registrationData: RegistrationFormData): Promise<void> {
-  const currentUser = await UserService.register(registrationData);
-
-  console.log(currentUser);
 }
 
 const registrationValidationSchema = yup.object({
@@ -51,11 +44,30 @@ const initialRegistrationValues: RegistrationFormData = {
 };
 
 const RegisterFormComponent: FC = () => {
+
   const formik = useFormik<RegistrationFormData>({
     initialValues: initialRegistrationValues,
     validationSchema: registrationValidationSchema,
     onSubmit: register,
   });
+
+  /**
+   * Registers user with form data.
+   * @param registrationData Registration form data.
+   */
+  async function register(registrationData: RegistrationFormData): Promise<User | void> {
+    try {
+      const currentUser = await UserService.register(registrationData);
+
+      return currentUser;
+    } catch (error: unknown) {
+      if (error !== null && isAppError<UserValidationErrors>(error)) {
+        formik.setErrors({
+          ...error.data,
+        });
+      }
+    }
+  }
 
   return (
     <>

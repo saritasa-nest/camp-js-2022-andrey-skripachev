@@ -2,11 +2,12 @@ import { TokenDto } from '@js-camp/core/dtos/token.dto';
 import { LoginMapper } from '@js-camp/core/mappers/login.mapper';
 import { RegistrationMapper } from '@js-camp/core/mappers/registration.mapper';
 import { TokenMapper } from '@js-camp/core/mappers/token.mapper';
+import { UserValidationErrorsMapper } from '@js-camp/core/mappers/user-validation-errors.mapper';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registration';
 import { Token } from '@js-camp/core/models/token';
 
-import { http } from '..';
+import { createError, http } from '..';
 
 export namespace AuthService {
 
@@ -15,10 +16,13 @@ export namespace AuthService {
    * @param loginData Login data.
    */
   export async function login(loginData: Login): Promise<Token> {
-    const token = await http.post<TokenDto>('auth/login/', LoginMapper.toDto(loginData))
-      .then(response => TokenMapper.fromDto(response.data));
+    try {
+      const token = await http.post<TokenDto>('auth/login/', LoginMapper.toDto(loginData));
 
-    return token;
+      return TokenMapper.fromDto(token.data);
+    } catch (error: unknown) {
+      throw createError(error, UserValidationErrorsMapper.fromDto);
+    }
   }
 
   /**
@@ -26,10 +30,13 @@ export namespace AuthService {
    * @param registrationData Registration data.
    */
   export async function register(registrationData: Registration): Promise<Token> {
-    const token = await http.post<TokenDto>('auth/register/', RegistrationMapper.toDto(registrationData))
-      .then(response => TokenMapper.fromDto(response.data));
+    try {
+      const token = await http.post<TokenDto>('auth/register/', RegistrationMapper.toDto(registrationData));
 
-    return token;
+      return TokenMapper.fromDto(token.data);
+    } catch (error: unknown) {
+      throw createError(error, UserValidationErrorsMapper.fromDto);
+    }
   }
 
   /**

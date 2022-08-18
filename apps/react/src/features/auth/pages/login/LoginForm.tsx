@@ -7,18 +7,11 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import { isAppError } from '@js-camp/core/guards/error';
+import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
+import { User } from '@js-camp/core/models/user';
 
 import { UserService } from '../../../../api/services/user';
-
-/**
- * Logins user with login data.
- * @param loginData Login data.
- */
-async function login(loginData: Login): Promise<void> {
-  const user = await UserService.login(loginData);
-
-  console.log(user);
-}
 
 const loginValidationSchema = object({
   email: string()
@@ -39,6 +32,26 @@ const LoginFormComponent: FC = () => {
     validationSchema: loginValidationSchema,
     onSubmit: login,
   });
+
+  /**
+   * Logins user with login data.
+   * @param loginData Login data.
+   */
+  async function login(loginData: Login): Promise<User | void> {
+
+    try {
+      const currentUser = await UserService.login(loginData);
+
+      return currentUser;
+    } catch (error: unknown) {
+      if (error !== null && isAppError<UserValidationErrors>(error)) {
+        formik.setErrors({
+          ...error.data,
+        });
+      }
+    }
+
+  }
 
   return (
     <>
