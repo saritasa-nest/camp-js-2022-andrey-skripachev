@@ -1,4 +1,5 @@
 import { UserDto } from '@js-camp/core/dtos/user.dto';
+import { TokenMapper } from '@js-camp/core/mappers/token.mapper';
 import { UserMapper } from '@js-camp/core/mappers/user.mapper';
 import { Login } from '@js-camp/core/models/login';
 import { Registration } from '@js-camp/core/models/registration';
@@ -12,48 +13,29 @@ import { TokenService } from './token';
 export namespace UserService {
 
   /**
-   * Fetches user.
-   */
-  async function fetchUser(): Promise<User> {
-    const user = await http.get<UserDto>('users/profile/')
-      .then(response => UserMapper.fromDto(response.data));
-
-    return user;
-
-  }
-
-  /**
    * Logins user.
    * @param loginData Login data.
    */
-  export async function login(loginData: Login): Promise<User> {
+  export async function login(loginData: Login): Promise<void> {
     const token = await AuthService.login(loginData);
-    TokenService.saveToken(token);
-
-    const user = await fetchUser();
-
-    return user;
+    TokenService.saveToken(TokenMapper.toDto(token));
   }
 
   /**
    * Registers user.
    * @param registrationData Registration data.
    */
-  export async function register(registrationData: Registration): Promise<User> {
+  export async function register(registrationData: Registration): Promise<void> {
     const token = await AuthService.register(registrationData);
-    TokenService.saveToken(token);
-
-    const user = await fetchUser();
-
-    return user;
+    TokenService.saveToken(TokenMapper.toDto(token));
   }
 
   /**
    * Gets current user.
    */
   export async function getCurrentUser(): Promise<User> {
-    const user = await fetchUser();
+    const userResponse = await http.get<UserDto>('users/profile/');
 
-    return user;
+    return UserMapper.fromDto(userResponse.data);
   }
 }

@@ -44,7 +44,7 @@ export namespace AuthService {
    * @param token User's authorization token.
    */
   export async function refreshToken(token: Token): Promise<Token> {
-    const newToken = await http.post<TokenDto>('auth/token/refresh/', token.refresh)
+    const newToken = await http.post<TokenDto>('auth/token/refresh/', { refresh: token.refresh })
       .then(response => TokenMapper.fromDto(response.data));
 
     return newToken;
@@ -55,7 +55,7 @@ export namespace AuthService {
    * @param token Token.
    */
   export async function verifyToken(token: Token): Promise<boolean> {
-    const isTokenValid = await http.post('auth/token/verify', token.access)
+    const isTokenValid = await http.post('auth/token/verify/', { token: token.access })
       .then(() => true)
       .catch(() => false);
 

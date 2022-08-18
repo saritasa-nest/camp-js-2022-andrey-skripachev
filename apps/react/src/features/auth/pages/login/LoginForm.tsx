@@ -9,7 +9,9 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { isAppError } from '@js-camp/core/guards/error';
 import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
-import { User } from '@js-camp/core/models/user';
+import { useAppDispatch } from '@js-camp/react/store/store';
+import { fetchUser } from '@js-camp/react/store/user/dispatchers';
+import { useNavigate } from 'react-router-dom';
 
 import { UserService } from '../../../../api/services/user';
 
@@ -27,6 +29,10 @@ const initialLoginValues: Login = {
 };
 
 const LoginFormComponent: FC = () => {
+
+  const appDispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const formik = useFormik<Login>({
     initialValues: initialLoginValues,
     validationSchema: loginValidationSchema,
@@ -37,12 +43,12 @@ const LoginFormComponent: FC = () => {
    * Logins user with login data.
    * @param loginData Login data.
    */
-  async function login(loginData: Login): Promise<User | void> {
-
+  async function login(loginData: Login): Promise<void> {
     try {
-      const currentUser = await UserService.login(loginData);
+      await UserService.login(loginData);
+      await appDispatch(fetchUser());
 
-      return currentUser;
+      navigate('/genres');
     } catch (error: unknown) {
       if (error !== null && isAppError<UserValidationErrors>(error)) {
         formik.setErrors({

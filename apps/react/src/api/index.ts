@@ -4,7 +4,7 @@ import { AppError } from '@js-camp/core/models/error-response';
 import axios, { AxiosInstance } from 'axios';
 
 import { CONFIG } from './config';
-import { addAuthorizationTokenBeforeRequest } from './interceptors';
+import { addAuthorizationTokenBeforeRequest, checkTokenValidity } from './interceptors';
 
 export const http: AxiosInstance = axios.create({
   baseURL: CONFIG.campApiUrl,
@@ -36,3 +36,4 @@ export function createError<ErrorDto, Error>(
 }
 
 http.interceptors.request.use(addAuthorizationTokenBeforeRequest);
+http.interceptors.request.use(checkTokenValidity);

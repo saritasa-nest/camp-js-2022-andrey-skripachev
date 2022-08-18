@@ -1,23 +1,29 @@
-import { memo, useEffect, FC } from 'react';
-import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
-import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { memo, FC } from 'react';
 
 import { GenreCard } from '../../components/GenreCard';
 
+interface Genre {
+
+  /** Genre name. */
+  readonly name: string;
+
+  /** Genre id. */
+  readonly id: number;
+}
+
 /** Genres page component. */
 const GenresPageComponent: FC = () => {
-  const dispatch = useAppDispatch();
-  const genres = useAppSelector(selectGenres);
-  const isLoading = useAppSelector(selectAreGenresLoading);
 
-  useEffect(() => {
-    dispatch(fetchGenres());
-  }, [dispatch]);
-
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
+  const genres: Genre[] = [
+    {
+      name: 'Action',
+      id: 1,
+    },
+    {
+      name: 'Adventure',
+      id: 2,
+    },
+  ];
 
   return (
     <>

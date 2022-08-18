@@ -10,6 +10,6 @@ export const genresRoutes: RouteObject[] = [
   },
   {
     path: '*',
-    element: <Navigate to="GenresPage" />,
+    element: <Navigate to="genres" />,
   },
 ];

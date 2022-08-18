@@ -7,6 +7,9 @@ import Link from '@mui/material/Link';
 import { User } from '@js-camp/core/models/user';
 import { isAppError } from '@js-camp/core/guards/error';
 import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
+import { useAppDispatch } from '@js-camp/react/store/store';
+import { fetchUser } from '@js-camp/react/store/user/dispatchers';
+import { useNavigate } from 'react-router-dom';
 
 import { UserService } from '../../../../api/services/user';
 
@@ -45,6 +48,9 @@ const initialRegistrationValues: RegistrationFormData = {
 
 const RegisterFormComponent: FC = () => {
 
+  const appDispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const formik = useFormik<RegistrationFormData>({
     initialValues: initialRegistrationValues,
     validationSchema: registrationValidationSchema,
@@ -57,9 +63,10 @@ const RegisterFormComponent: FC = () => {
    */
   async function register(registrationData: RegistrationFormData): Promise<User | void> {
     try {
-      const currentUser = await UserService.register(registrationData);
+      await UserService.register(registrationData);
+      await appDispatch(fetchUser());
 
-      return currentUser;
+      navigate('/genres');
     } catch (error: unknown) {
       if (error !== null && isAppError<UserValidationErrors>(error)) {
         formik.setErrors({
