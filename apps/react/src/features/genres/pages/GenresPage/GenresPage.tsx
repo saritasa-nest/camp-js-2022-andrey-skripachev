@@ -5,7 +5,9 @@ import { AppHeader } from '../../../../app/components/AppHeader';
 
 import { GenreCard } from '../../components/GenreCard';
 
-interface Genre {
+// Temporary solution to make the genres page work
+/** Genre. */
+export interface Genre {
 
   /** Genre name. */
   readonly name: string;

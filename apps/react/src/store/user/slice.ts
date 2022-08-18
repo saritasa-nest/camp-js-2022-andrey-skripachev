@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchUser, logoutUser } from './dispatchers';
 import { initialState } from './state';
 
+// TODO (Andrey S.): Write user normalizer.
 export const userSlice = createSlice({
   name: 'user',
   initialState,

@@ -1,5 +1,6 @@
 import { memo, FC } from 'react';
-import { Genre } from '@js-camp/core/models/genre';
+
+import { Genre } from '../../pages/GenresPage/GenresPage';
 
 import styles from './GenreCard.module.css';
 
