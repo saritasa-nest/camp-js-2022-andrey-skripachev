@@ -6,6 +6,7 @@ import { AppLoadingSpinner } from './app/components/AppLoading';
 
 import { RootRouter } from './routes/RootRouter';
 import { store } from './store';
+import './theme';
 
 export const App: FC = () => (
   <Provider store={store}>

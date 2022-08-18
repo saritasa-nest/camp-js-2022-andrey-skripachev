@@ -1,5 +1,7 @@
-import { Link } from '@mui/material';
+import { Typography } from '@mui/material';
 import { memo, FC } from 'react';
+
+import { AppHeader } from '../../../../app/components/AppHeader';
 
 import { GenreCard } from '../../components/GenreCard';
 
@@ -28,7 +30,8 @@ const GenresPageComponent: FC = () => {
 
   return (
     <>
-      <h1>Genres</h1><Link href='#/auth/login'>Login</Link>
+      <AppHeader />
+      <Typography component='h2' variant='h3'>Genres</Typography>
       {genres.map(genre => <GenreCard key={genre.id} genre={genre} />)}
     </>
   );
