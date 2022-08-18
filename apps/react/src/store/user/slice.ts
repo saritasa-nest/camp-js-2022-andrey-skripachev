@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchUser } from './dispatchers';
+import { fetchUser, logoutUser } from './dispatchers';
 import { initialState } from './state';
 
 export const userSlice = createSlice({
@@ -20,5 +20,8 @@ export const userSlice = createSlice({
         state.error = action.error.message;
       }
       state.isLoading = false;
+    })
+    .addCase(logoutUser.fulfilled, state => {
+      state.user = null;
     }),
 });

@@ -3,17 +3,21 @@ import { AppBar, Avatar, Grid, IconButton, Menu, MenuItem, Typography } from '@m
 import { FC, memo, MouseEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-/**
- * Logouts user.
- */
-function logout() {
-  // Logout
-}
+import { useAppDispatch } from '@js-camp/react/store/store';
+import { logoutUser } from '@js-camp/react/store/user/dispatchers';
 
 const AppHeaderComponent: FC = () => {
 
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
+
+  const appDispatch = useAppDispatch();
+
+  /**
+   * Logouts user.
+   */
+  function logout() {
+    appDispatch(logoutUser());
+  }
 
   /**
    * Opens menu.
