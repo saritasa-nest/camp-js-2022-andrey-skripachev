@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
 import { CONFIG } from './config';
+import { AuthService } from './services/authApi';
 import { TokenService } from './services/token';
 
 /**
@@ -15,12 +16,24 @@ function shouldInterceptToken(config: AxiosRequestConfig): boolean {
  *  Appends authorization token to request.
  * @param config Request config.
  */
-export function addAuthorizationTokenBeforeRequest(config: AxiosRequestConfig): AxiosRequestConfig {
+export async function addAuthorizationTokenBeforeRequest(config: AxiosRequestConfig): Promise<AxiosRequestConfig> {
 
-  const token = TokenService.getToken();
+  let token = TokenService.getToken();
 
   if (!shouldInterceptToken(config) || token === null) {
     return config;
+  }
+
+  const isTokenValid = await AuthService.verifyToken(token);
+
+  if (!isTokenValid) {
+    try {
+      token = await AuthService.refreshToken(token);
+
+      TokenService.saveToken(token);
+    } catch {
+      return config;
+    }
   }
 
   const { headers } = config;
@@ -35,7 +48,7 @@ export function addAuthorizationTokenBeforeRequest(config: AxiosRequestConfig): 
     ...config,
     headers: {
       ...headers,
-      Authorization: `Bearer ${token.access}`,
+      Authorization: `Bearer ${token}`,
     },
   };
 }
