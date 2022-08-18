@@ -1,15 +1,21 @@
 import { selectUser } from '@js-camp/react/store/user/selectors';
 import { FC } from 'react';
-import { Navigate, Outlet, useSearchParams } from 'react-router-dom';
+import { Navigate, Outlet, To, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '../../store';
 
-export const NonAuthGuard: FC = () => {
+export const UnauthorizedGuard: FC = () => {
   const user = useAppSelector(selectUser);
-  const [search] = useSearchParams();
+  const location = useLocation();
 
-  if (user != null) {
-    const redirect = search.get('next') ?? '';
+  const redirect: To = {
+    pathname: '/auth/login',
+    search: new URLSearchParams({
+      next: location.pathname,
+    }).toString(),
+  };
+
+  if (user === null) {
     return <Navigate to={redirect} replace />;
   }
 

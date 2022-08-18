@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, useState } from 'react';
 import { useFormik } from 'formik';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import * as yup from 'yup';
@@ -48,6 +48,8 @@ const initialRegistrationValues: RegistrationFormData = {
 
 const RegisterFormComponent: FC = () => {
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -62,6 +64,7 @@ const RegisterFormComponent: FC = () => {
    * @param registrationData Registration form data.
    */
   async function register(registrationData: RegistrationFormData): Promise<User | void> {
+    setIsLoading(true);
     try {
       await UserService.register(registrationData);
       await appDispatch(fetchUser());
@@ -74,6 +77,7 @@ const RegisterFormComponent: FC = () => {
         });
       }
     }
+    setIsLoading(false);
   }
 
   return (
@@ -132,6 +136,7 @@ const RegisterFormComponent: FC = () => {
             helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
             variant='outlined' />
           <Button
+            disabled={isLoading}
             fullWidth
             type='submit'
             variant='contained'>Register</Button>

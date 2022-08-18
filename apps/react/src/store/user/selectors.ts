@@ -11,3 +11,8 @@ export const selectAreUserLoading = createSelector(
   (state: RootState) => state.user.isLoading,
   isLoading => isLoading,
 );
+
+export const selectHasUserError = createSelector(
+  (state: RootState) => state.user.error,
+  error => error,
+);

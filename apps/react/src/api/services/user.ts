@@ -22,6 +22,13 @@ export namespace UserService {
   }
 
   /**
+   * Logouts user.
+   */
+  export function logout(): void {
+    TokenService.deleteToken();
+  }
+
+  /**
    * Registers user.
    * @param registrationData Registration data.
    */

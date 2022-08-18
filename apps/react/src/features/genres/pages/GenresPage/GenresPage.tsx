@@ -1,3 +1,4 @@
+import { Link } from '@mui/material';
 import { memo, FC } from 'react';
 
 import { GenreCard } from '../../components/GenreCard';
@@ -27,7 +28,7 @@ const GenresPageComponent: FC = () => {
 
   return (
     <>
-      <h1>Genres</h1>
+      <h1>Genres</h1><Link href='#/auth/login'>Login</Link>
       {genres.map(genre => <GenreCard key={genre.id} genre={genre} />)}
     </>
   );

@@ -1,7 +1,7 @@
 import { Login } from '@js-camp/core/models/login';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
-import { FC, memo } from 'react';
+import { FC, memo, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -30,6 +30,8 @@ const initialLoginValues: Login = {
 
 const LoginFormComponent: FC = () => {
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -44,6 +46,7 @@ const LoginFormComponent: FC = () => {
    * @param loginData Login data.
    */
   async function login(loginData: Login): Promise<void> {
+    setIsLoading(true);
     try {
       await UserService.login(loginData);
       await appDispatch(fetchUser());
@@ -56,7 +59,7 @@ const LoginFormComponent: FC = () => {
         });
       }
     }
-
+    setIsLoading(false);
   }
 
   return (
@@ -87,6 +90,7 @@ const LoginFormComponent: FC = () => {
             helperText={formik.touched.password && formik.errors.password}
             variant='outlined' />
           <Button
+            disabled={isLoading}
             fullWidth
             type='submit'
             variant='contained'>Login</Button>
