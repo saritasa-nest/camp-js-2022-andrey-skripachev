@@ -28,8 +28,8 @@ export const authRoutes: RouteObject[] = [
             element: <LoginForm />,
           },
           {
-            path: '*',
-            element: <Navigate to="auth/register" />,
+            path: '',
+            element: <Navigate to="register" />,
           },
         ],
       },
