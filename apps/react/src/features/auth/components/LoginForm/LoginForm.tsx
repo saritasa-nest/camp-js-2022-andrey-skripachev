@@ -40,11 +40,11 @@ const LoginFormComponent: FC = () => {
    * Logins user with login data.
    * @param loginData Login data.
    */
-  async function login(loginData: Login): Promise<void> {
+  const login = async(loginData: Login): Promise<void> => {
     setIsLoading(true);
     await appDispatch(loginUser(loginData));
     setIsLoading(false);
-  }
+  };
 
   return (
     <>

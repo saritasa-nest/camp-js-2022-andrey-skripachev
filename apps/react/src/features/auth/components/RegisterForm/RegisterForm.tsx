@@ -3,7 +3,6 @@ import { Field, Form, Formik } from 'formik';
 import { Button, Stack, Typography } from '@mui/material';
 import * as yup from 'yup';
 import { Registration } from '@js-camp/core/models/registration';
-import { User } from '@js-camp/core/models/user';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { registerUser } from '@js-camp/react/store/user/dispatchers';
 import { selectUserError } from '@js-camp/react/store/user/selectors';
@@ -59,11 +58,11 @@ const RegisterFormComponent: FC = () => {
    * Registers user with form data.
    * @param registrationData Registration form data.
    */
-  async function register(registrationData: RegistrationFormData): Promise<User | void> {
+  const register = async(registrationData: RegistrationFormData): Promise<void> => {
     setIsLoading(true);
     await appDispatch(registerUser(registrationData));
     setIsLoading(false);
-  }
+  };
 
   return (
     <>
