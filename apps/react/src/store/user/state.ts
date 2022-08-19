@@ -1,4 +1,6 @@
+import { AppError } from '@js-camp/core/models/error-response';
 import { User } from '@js-camp/core/models/user';
+import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
 
 /** User state. */
 export interface UserState {
@@ -7,7 +9,7 @@ export interface UserState {
   readonly user: User | null;
 
   /** Error. */
-  readonly error?: string;
+  readonly error?: AppError<UserValidationErrors> | string;
 
   /** Whether the user is loading or not. */
   readonly isLoading: boolean;

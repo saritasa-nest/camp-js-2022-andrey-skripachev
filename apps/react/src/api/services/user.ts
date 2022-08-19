@@ -16,9 +16,13 @@ export namespace UserService {
    * Logins user.
    * @param loginData Login data.
    */
-  export async function login(loginData: Login): Promise<void> {
+  export async function login(loginData: Login): Promise<User> {
     const token = await AuthService.login(loginData);
     TokenService.saveToken(TokenMapper.toDto(token));
+
+    const currentUser = await getCurrentUser();
+
+    return currentUser;
   }
 
   /**
@@ -32,9 +36,13 @@ export namespace UserService {
    * Registers user.
    * @param registrationData Registration data.
    */
-  export async function register(registrationData: Registration): Promise<void> {
+  export async function register(registrationData: Registration): Promise<User> {
     const token = await AuthService.register(registrationData);
     TokenService.saveToken(TokenMapper.toDto(token));
+
+    const currentUser = await getCurrentUser();
+
+    return currentUser;
   }
 
   /**
