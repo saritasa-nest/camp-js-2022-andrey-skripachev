@@ -1,14 +1,16 @@
-import { FC, memo, useEffect, useState } from 'react';
-import { useFormik } from 'formik';
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import { FC, memo, useState } from 'react';
+import { Field, Form, Formik } from 'formik';
+import { Button, Stack, Typography } from '@mui/material';
 import * as yup from 'yup';
 import { Registration } from '@js-camp/core/models/registration';
 import { User } from '@js-camp/core/models/user';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { registerUser } from '@js-camp/react/store/user/dispatchers';
 import { selectUserError } from '@js-camp/react/store/user/selectors';
-import { AppError } from '@js-camp/core/models/error-response';
 import { Link } from 'react-router-dom';
+import { AppError } from '@js-camp/core/models/error-response';
+
+import { FormTextField } from '../../../../app/components/FormTextField';
 
 interface RegistrationFormData extends Registration {
 
@@ -49,21 +51,9 @@ const RegisterFormComponent: FC = () => {
 
   const appDispatch = useAppDispatch();
 
-  const userValidationError = useAppSelector(selectUserError);
+  const userErrors = useAppSelector(selectUserError);
 
-  useEffect(() => {
-    if (userValidationError instanceof AppError) {
-      formik.setErrors({
-        ...userValidationError.data,
-      });
-    }
-  }, [userValidationError]);
-
-  const formik = useFormik<RegistrationFormData>({
-    initialValues: initialRegistrationValues,
-    validationSchema: registrationValidationSchema,
-    onSubmit: register,
-  });
+  const userValidationErrors = userErrors instanceof AppError ? userErrors.data : undefined;
 
   /**
    * Registers user with form data.
@@ -78,65 +68,67 @@ const RegisterFormComponent: FC = () => {
   return (
     <>
       <Typography component='h1' variant='h2'>Register</Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <Stack spacing={2}>
-          <TextField
-            fullWidth
-            name='firstName'
-            label='First name'
-            value={formik.values.firstName}
-            onChange={formik.handleChange}
-            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-            helperText={formik.touched.firstName && formik.errors.firstName}
-            variant='outlined' />
-          <TextField
-            fullWidth
-            name='lastName'
-            label='Last name'
-            value={formik.values.lastName}
-            onChange={formik.handleChange}
-            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-            helperText={formik.touched.lastName && formik.errors.lastName}
-            variant='outlined' />
-          <TextField
-            fullWidth
-            name='email'
-            autoComplete='email'
-            label='Email'
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-            variant='outlined' />
-          <TextField
-            type='password'
-            autoComplete='password'
-            fullWidth
-            name='password'
-            label='Password'
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            variant='outlined' />
-          <TextField
-            type='password'
-            autoComplete='password'
-            fullWidth
-            name='confirmPassword'
-            label='Confirm password'
-            value={formik.values.confirmPassword}
-            onChange={formik.handleChange}
-            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-            variant='outlined' />
-          <Button
-            disabled={isLoading}
-            fullWidth
-            type='submit'
-            variant='contained'>Register</Button>
-        </Stack>
-      </form>
+      <Formik
+        onSubmit={register}
+        initialErrors={userValidationErrors}
+        initialValues={initialRegistrationValues}
+        validationSchema={registrationValidationSchema}
+      >
+        {({ touched, errors, submitForm, values }) => (
+          <Form>
+            <Stack spacing={2}>
+              <Field
+                name='firstName'
+                label='First name'
+                component={FormTextField}
+                error={touched.firstName && Boolean(errors.firstName)}
+                helperText={touched.firstName && errors.firstName}
+              />
+              <Field
+                name='lastName'
+                label='Last name'
+                component={FormTextField}
+                error={touched.lastName && Boolean(errors.lastName)}
+                helperText={touched.lastName && errors.lastName}
+              />
+              <Field
+                name='email'
+                autoComplete='email'
+                label='Email'
+                component={FormTextField}
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+              />
+              <Field
+                type='password'
+                autoComplete='password'
+                name='password'
+                label='Password'
+                component={FormTextField}
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
+              />
+              <Field
+                type='password'
+                autoComplete='password'
+                name='confirmPassword'
+                label='Confirm password'
+                component={FormTextField}
+                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                helperText={touched.confirmPassword && errors.confirmPassword}
+              />
+              <Button
+                disabled={isLoading}
+                fullWidth
+                type='submit'
+                variant='contained'
+                onClick={submitForm}
+              >Register</Button>
+            </Stack>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+          </Form>
+        )}
+      </Formik>
       <Typography variant='button' component='span'>
         <Link to={'../login'}>Login</Link>
       </Typography>
