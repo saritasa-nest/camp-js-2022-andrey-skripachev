@@ -13,7 +13,7 @@ function shouldInterceptToken(config: AxiosRequestConfig): boolean {
 }
 
 /**
- *  Appends authorization token to request.
+ * Appends authorization token to request.
  * @param config Request config.
  */
 export function addAuthorizationTokenBeforeRequest(config: AxiosRequestConfig): AxiosRequestConfig {

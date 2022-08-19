@@ -1,19 +1,16 @@
 import { Login } from '@js-camp/core/models/login';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
-import { FC, memo, useState } from 'react';
+import { FC, memo, useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import { isAppError } from '@js-camp/core/guards/error';
-import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
-import { useAppDispatch } from '@js-camp/react/store/store';
-import { fetchUser } from '@js-camp/react/store/user/dispatchers';
-import { useNavigate } from 'react-router-dom';
-
-import { UserService } from '../../../../api/services/user';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
+import { loginUser } from '@js-camp/react/store/user/dispatchers';
+import { selectUserError } from '@js-camp/react/store/user/selectors';
+import { AppError } from '@js-camp/core/models/error-response';
+import { Link } from 'react-router-dom';
 
 const loginValidationSchema = object({
   email: string()
@@ -33,7 +30,16 @@ const LoginFormComponent: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const appDispatch = useAppDispatch();
-  const navigate = useNavigate();
+
+  const userValidationError = useAppSelector(selectUserError);
+
+  useEffect(() => {
+    if (userValidationError instanceof AppError) {
+      formik.setErrors({
+        ...userValidationError.data,
+      });
+    }
+  }, [userValidationError]);
 
   const formik = useFormik<Login>({
     initialValues: initialLoginValues,
@@ -47,18 +53,7 @@ const LoginFormComponent: FC = () => {
    */
   async function login(loginData: Login): Promise<void> {
     setIsLoading(true);
-    try {
-      await UserService.login(loginData);
-      await appDispatch(fetchUser());
-
-      navigate('/genres');
-    } catch (error: unknown) {
-      if (error !== null && isAppError<UserValidationErrors>(error)) {
-        formik.setErrors({
-          ...error.data,
-        });
-      }
-    }
+    await appDispatch(loginUser(loginData));
     setIsLoading(false);
   }
 
@@ -96,7 +91,9 @@ const LoginFormComponent: FC = () => {
             variant='contained'>Login</Button>
         </Stack>
       </form>
-      <Link href='#/auth/register' variant="button">Register</Link>
+      <Typography variant='button' component='span'>
+        <Link to={'../register'}>Register</Link>
+      </Typography>
     </>
   );
 };

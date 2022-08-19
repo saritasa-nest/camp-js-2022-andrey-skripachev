@@ -1,6 +1,8 @@
+import { AppError } from '@js-camp/core/models/error-response';
+import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchUser, logoutUser } from './dispatchers';
+import { fetchUser, loginUser, logoutUser, registerUser } from './dispatchers';
 import { initialState } from './state';
 
 // TODO (Andrey S.): Write user normalizer.
@@ -9,6 +11,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => builder
+
+    /** Cases for fetching user. */
     .addCase(fetchUser.pending, state => {
       state.isLoading = true;
     })
@@ -22,7 +26,23 @@ export const userSlice = createSlice({
       }
       state.isLoading = false;
     })
+
+    /** Cases for logout user. */
     .addCase(logoutUser.fulfilled, state => {
       state.user = null;
+    })
+
+    /** Cases for authorize user. */
+    .addCase(registerUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(registerUser.rejected, (state, action) => {
+      state.error = action.payload as AppError<UserValidationErrors>;
+    })
+    .addCase(loginUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(loginUser.rejected, (state, action) => {
+      state.error = action.payload as AppError<UserValidationErrors>;
     }),
 });

@@ -6,10 +6,10 @@ import { AuthorizedGuard } from '../../routes/guards/authorized-guard';
 const AuthPage = lazy(() => import('./pages/AuthPage').then(module => ({ default: module.AuthPage })));
 
 const RegisterForm = lazy(() =>
-  import('./pages/register/RegisterForm').then(module => ({ default: module.RegisterForm })));
+  import('./components/RegisterForm/RegisterForm').then(module => ({ default: module.RegisterForm })));
 
 const LoginForm = lazy(() =>
-  import('./pages/login/LoginForm').then(module => ({ default: module.LoginForm })));
+  import('./components/LoginForm/LoginForm').then(module => ({ default: module.LoginForm })));
 
 export const authRoutes: RouteObject[] = [
   {

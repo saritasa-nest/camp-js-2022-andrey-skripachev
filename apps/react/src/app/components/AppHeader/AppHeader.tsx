@@ -1,9 +1,8 @@
 import { selectUser } from '@js-camp/react/store/user/selectors';
 import { AppBar, Avatar, Grid, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, useState } from 'react';
-import { useSelector } from 'react-redux';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useAppDispatch } from '@js-camp/react/store/store';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { logoutUser } from '@js-camp/react/store/user/dispatchers';
 
 const AppHeaderComponent: FC = () => {
@@ -34,9 +33,9 @@ const AppHeaderComponent: FC = () => {
     setAnchorElement(null);
   }
 
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
 
-  if (user === null) {
+  if (!user) {
     return (<></>);
   }
 

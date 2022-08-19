@@ -1,17 +1,14 @@
-import { FC, memo, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import * as yup from 'yup';
 import { Registration } from '@js-camp/core/models/registration';
-import Link from '@mui/material/Link';
 import { User } from '@js-camp/core/models/user';
-import { isAppError } from '@js-camp/core/guards/error';
-import { UserValidationErrors } from '@js-camp/core/models/user-validation-errors';
-import { useAppDispatch } from '@js-camp/react/store/store';
-import { fetchUser } from '@js-camp/react/store/user/dispatchers';
-import { useNavigate } from 'react-router-dom';
-
-import { UserService } from '../../../../api/services/user';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
+import { registerUser } from '@js-camp/react/store/user/dispatchers';
+import { selectUserError } from '@js-camp/react/store/user/selectors';
+import { AppError } from '@js-camp/core/models/error-response';
+import { Link } from 'react-router-dom';
 
 interface RegistrationFormData extends Registration {
 
@@ -51,7 +48,16 @@ const RegisterFormComponent: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const appDispatch = useAppDispatch();
-  const navigate = useNavigate();
+
+  const userValidationError = useAppSelector(selectUserError);
+
+  useEffect(() => {
+    if (userValidationError instanceof AppError) {
+      formik.setErrors({
+        ...userValidationError.data,
+      });
+    }
+  }, [userValidationError]);
 
   const formik = useFormik<RegistrationFormData>({
     initialValues: initialRegistrationValues,
@@ -65,18 +71,7 @@ const RegisterFormComponent: FC = () => {
    */
   async function register(registrationData: RegistrationFormData): Promise<User | void> {
     setIsLoading(true);
-    try {
-      await UserService.register(registrationData);
-      await appDispatch(fetchUser());
-
-      navigate('/genres');
-    } catch (error: unknown) {
-      if (error !== null && isAppError<UserValidationErrors>(error)) {
-        formik.setErrors({
-          ...error.data,
-        });
-      }
-    }
+    await appDispatch(registerUser(registrationData));
     setIsLoading(false);
   }
 
@@ -142,7 +137,9 @@ const RegisterFormComponent: FC = () => {
             variant='contained'>Register</Button>
         </Stack>
       </form>
-      <Link href='#/auth/login' variant="button">Login</Link>
+      <Typography variant='button' component='span'>
+        <Link to={'../login'}>Login</Link>
+      </Typography>
     </>
   );
 };

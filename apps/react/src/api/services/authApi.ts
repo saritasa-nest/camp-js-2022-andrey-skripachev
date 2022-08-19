@@ -44,10 +44,13 @@ export namespace AuthService {
    * @param token User's authorization token.
    */
   export async function refreshToken(token: Token): Promise<Token> {
-    const newToken = await http.post<TokenDto>('auth/token/refresh/', { refresh: token.refresh })
-      .then(response => TokenMapper.fromDto(response.data));
+    try {
+      const newToken = await http.post<TokenDto>('auth/token/refresh/', { refresh: token.refresh });
 
-    return newToken;
+      return TokenMapper.fromDto(newToken.data);
+    } catch (error: unknown) {
+      throw new Error('Failed to refresh token');
+    }
   }
 
   /**
@@ -55,10 +58,12 @@ export namespace AuthService {
    * @param token Token.
    */
   export async function verifyToken(token: Token): Promise<boolean> {
-    const isTokenValid = await http.post('auth/token/verify/', { token: token.access })
-      .then(() => true)
-      .catch(() => false);
+    try {
+      await http.post('auth/token/verify/', { token: token.access });
 
-    return isTokenValid;
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
