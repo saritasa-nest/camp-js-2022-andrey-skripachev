@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchAnime } from './dispatchers';
+import { fetchAnimeList, fetchNextPageOfAnimeList } from './dispatchers';
 import { initialState } from './state';
 
 export const animeListSlice = createSlice({
@@ -8,14 +8,29 @@ export const animeListSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => builder
-    .addCase(fetchAnime.pending, state => {
+    .addCase(fetchAnimeList.pending, state => {
       state.isLoading = true;
     })
-    .addCase(fetchAnime.fulfilled, (state, action) => {
-      state.animeList = [...state.animeList, ...action.payload.results];
+    .addCase(fetchAnimeList.fulfilled, (state, action) => {
+      state.animeList = [...action.payload.results];
+      state.isLoading = false;
+      state.nextPage = action.payload.next;
+    })
+    .addCase(fetchAnimeList.rejected, (state, action) => {
+      if (action.error.message) {
+        state.error = action.error.message;
+      }
       state.isLoading = false;
     })
-    .addCase(fetchAnime.rejected, (state, action) => {
+    .addCase(fetchNextPageOfAnimeList.pending, state => {
+      state.isLoading = true;
+    })
+    .addCase(fetchNextPageOfAnimeList.fulfilled, (state, action) => {
+      state.animeList = [...state.animeList, ...action.payload.results];
+      state.isLoading = false;
+      state.nextPage = action.payload.next;
+    })
+    .addCase(fetchNextPageOfAnimeList.rejected, (state, action) => {
       if (action.error.message) {
         state.error = action.error.message;
       }

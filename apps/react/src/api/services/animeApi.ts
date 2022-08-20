@@ -25,4 +25,16 @@ export namespace AnimeService {
 
     return PaginationMapper.fromDto(animeResponse.data, AnimeMapper.fromDto);
   }
+
+  /**
+   * Fetches pagination with anime by url string.
+   * @param urlString URL string.
+   */
+  export async function getAnimeList(urlString: string): Promise<Pagination<Anime>> {
+    const animeResponse = await http.get<PaginationDto<AnimeDto>>('', {
+      baseURL: urlString,
+    });
+
+    return PaginationMapper.fromDto(animeResponse.data, AnimeMapper.fromDto);
+  }
 }

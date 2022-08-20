@@ -1,5 +1,6 @@
-import { createSelector } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createSelector } from '@reduxjs/toolkit';
+
+import { RootState } from '../store';
 
 export const selectAnimeList = createSelector(
   (state: RootState) => state.animeList.animeList,
@@ -14,4 +15,9 @@ export const selectAreAnimeListLoading = createSelector(
 export const selectErrorAnimeList = createSelector(
   (state: RootState) => state.animeList.error,
   error => error,
+);
+
+export const selectAnimeListNextPage = createSelector(
+  (state: RootState) => state.animeList.nextPage,
+  page => page,
 );

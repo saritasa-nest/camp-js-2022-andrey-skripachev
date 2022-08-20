@@ -22,7 +22,7 @@ export const AuthorizedGuard: FC = () => {
   }
 
   if (user !== null) {
-    return <Navigate to="/genres" replace />;
+    return <Navigate to="/anime" replace />;
   }
 
   return <Outlet />;
