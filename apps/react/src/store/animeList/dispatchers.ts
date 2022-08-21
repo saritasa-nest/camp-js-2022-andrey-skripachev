@@ -6,8 +6,3 @@ export const fetchAnimeList = createAsyncThunk(
   'anime/fetch',
   () => AnimeService.getFirstPageOfAnimeList(),
 );
-
-export const fetchNextPageOfAnimeList = createAsyncThunk(
-  'anime/fetchNext',
-  (nextUrl: string) => AnimeService.getAnimeList(nextUrl),
-);
