@@ -3,8 +3,13 @@ import { useAppDispatch } from '@js-camp/react/store/store';
 import { Grid } from '@mui/material';
 import { FC, memo, useEffect } from 'react';
 
+import { AppContent } from '../../../app/components/AppContent/AppContent';
 import { AppHeader } from '../../../app/components/AppHeader';
+
+import { AnimeDetails } from '../components/AnimeDetails';
 import { AnimeList } from '../components/AnimeList';
+
+import './AnimePage.css';
 
 const AnimePageComponent: FC = () => {
   const appDispatch = useAppDispatch();
@@ -16,10 +21,12 @@ const AnimePageComponent: FC = () => {
   return (
     <>
       <AppHeader />
-      <Grid container>
-        <Grid item xs={4}><AnimeList /></Grid>
-        <Grid item xs={8}></Grid>
-      </Grid>
+      <AppContent>
+        <Grid container className='full-height'>
+          <Grid item xs={4} className='full-height anime-control'><AnimeList /></Grid>
+          <Grid item xs={8} className='full-height anime-control'><AnimeDetails /></Grid>
+        </Grid>
+      </AppContent>
     </>
   );
 };

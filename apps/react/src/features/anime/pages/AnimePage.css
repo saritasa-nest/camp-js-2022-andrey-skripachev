@@ -1,0 +1,7 @@
+.full-height {
+  height: var(--app-content-height);
+}
+
+.anime-control {
+  overflow-y: scroll;
+}

@@ -1,0 +1,5 @@
+.app-content {
+  height: var(--app-content-height);
+  width: 100%;
+  overflow: hidden;
+}

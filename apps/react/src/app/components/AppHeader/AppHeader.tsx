@@ -5,6 +5,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { logoutUser } from '@js-camp/react/store/user/dispatchers';
 
+import './AppHeader.css';
+
 const AppHeaderComponent: FC = () => {
 
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
@@ -41,6 +43,7 @@ const AppHeaderComponent: FC = () => {
 
   return (
     <AppBar
+      className='app-header'
       position='static'
       color='primary'
     >
