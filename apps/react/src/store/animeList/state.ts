@@ -8,9 +8,6 @@ export const entityAdapter = createEntityAdapter<Anime>({
 /** Anime list state. */
 export interface AnimeListState {
 
-  /** Anime list. */
-  readonly animeList: Anime[];
-
   /** Error. */
   readonly error?: string;
 
@@ -23,8 +20,7 @@ export interface AnimeListState {
 
 export const initialState: AnimeListState = {
   isLoading: false,
-  animeList: [],
   nextPage: null,
 };
 
-export type AnimeState = typeof initialState;
+export type AnimeStateType = typeof initialState;

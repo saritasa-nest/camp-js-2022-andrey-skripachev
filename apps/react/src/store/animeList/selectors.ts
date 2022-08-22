@@ -2,8 +2,10 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
 
+import { entityAdapter } from './state';
+
 export const selectAnimeList = createSelector(
-  (state: RootState) => state.animeList.animeList,
+  (state: RootState) => entityAdapter.getSelectors().selectAll(state.animeList),
   animeList => animeList,
 );
 
