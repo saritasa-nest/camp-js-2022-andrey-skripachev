@@ -12,6 +12,7 @@ export const App: FC = () => (
   <Provider store={store}>
     <HashRouter>
       <div>
+
         <Suspense fallback={<AppLoadingSpinner />}>
           <RootRouter />
         </Suspense>

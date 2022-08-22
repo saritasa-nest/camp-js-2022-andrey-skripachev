@@ -18,7 +18,7 @@ const AnimePageComponent: FC = () => {
 
   useEffect(() => {
     appDispatch(fetchAnimeList());
-  }, [appDispatch]);
+  }, []);
 
   return (
     <>
