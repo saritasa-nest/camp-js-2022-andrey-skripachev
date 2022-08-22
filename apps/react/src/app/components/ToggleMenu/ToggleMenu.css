@@ -1,8 +1,9 @@
 .toggle-menu-wrapper {
-  position: absolute;
+  position: sticky;
   right: 0;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 .toggle-menu {
@@ -10,10 +11,16 @@
 }
 
 .toggle-menu-button {
+  position: absolute;
   width: 60px;
   height: 25px;
-  position: absolute;
   z-index: 1;
-  top: 0;
   left: calc(50% - 30px);
+}
+
+.toggle-menu-slider {
+  position: absolute;
+  width: 100%;
+  padding: 10px;
+  padding-top: 25px;
 }

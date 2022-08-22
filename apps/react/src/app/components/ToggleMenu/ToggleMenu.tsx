@@ -40,7 +40,7 @@ const ToggleMenuComponent: FC<Props> = ({ children, ref }: Props) => {
           <Button className='toggle-menu-button' onClick={handleSwitch}>
             {isOpen ? openedMenuButton : closedMenuButton}
           </Button>
-          <Slide direction='down' in={isOpen} container={containerRef.current}>
+          <Slide className='toggle-menu-slider' direction='down' in={isOpen} container={containerRef.current}>
             <Paper elevation={3}>
               {children}
             </Paper>

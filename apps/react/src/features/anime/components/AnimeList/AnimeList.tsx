@@ -5,7 +5,7 @@ import {
   selectAreAnimeListLoading,
 } from '@js-camp/react/store/animeList/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { Button, CircularProgress, List } from '@mui/material';
+import { Button, CircularProgress, List, TextField } from '@mui/material';
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSearchParams } from 'react-router-dom';
@@ -57,10 +57,10 @@ const AnimeListComponent: FC = () => {
       <List sx={{
         position: 'relative',
       }}>
-        { mappedAnimeList }
         <ToggleMenu ref={null}>
-          <Button>Hello</Button>
+          <TextField label='Searching title' />
         </ToggleMenu>
+        { mappedAnimeList }
       </List>
       {isAnimeListLoading ? <CircularProgress /> : null}
     </>
