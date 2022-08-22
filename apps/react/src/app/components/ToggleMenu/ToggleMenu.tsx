@@ -1,6 +1,6 @@
 import { Button, Paper, Slide } from '@mui/material';
 import { Box } from '@mui/system';
-import { FC, memo, ReactElement, useRef, useState } from 'react';
+import { FC, memo, ReactElement, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
@@ -10,16 +10,11 @@ interface Props {
 
   /** Menu content. */
   readonly children: ReactElement;
-
-  /** Root menu element. */
-  readonly ref: Element | null;
 }
 
-const ToggleMenuComponent: FC<Props> = ({ children, ref }: Props) => {
+const ToggleMenuComponent: FC<Props> = ({ children }: Props) => {
 
   const [isOpen, setOpen] = useState(false);
-
-  const containerRef = useRef(ref);
 
   const handleSwitch = () => {
     setOpen(!isOpen);
@@ -40,7 +35,7 @@ const ToggleMenuComponent: FC<Props> = ({ children, ref }: Props) => {
           <Button className='toggle-menu-button' onClick={handleSwitch}>
             {isOpen ? openedMenuButton : closedMenuButton}
           </Button>
-          <Slide className='toggle-menu-slider' direction='down' in={isOpen} container={containerRef.current}>
+          <Slide className='toggle-menu-slider' direction='down' in={isOpen} container={null}>
             <Paper elevation={3}>
               {children}
             </Paper>

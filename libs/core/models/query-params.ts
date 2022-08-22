@@ -1,14 +1,6 @@
-import { Immerable, OmitImmerable } from "./immerable";
+/** Search query params. */
+export interface QueryParams {
 
-export class QueryParams extends Immerable {
-
-  public readonly maximumReceivesCount: number;
-
-  public readonly sorting: 
-
-  public constructor(data: InitArgs) {
-
-  }
+  /** Searching anime title. */
+  readonly search: string;
 }
-
-type InitArgs = OmitImmerable<QueryParams>;

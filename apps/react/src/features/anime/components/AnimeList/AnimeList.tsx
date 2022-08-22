@@ -4,9 +4,10 @@ import {
   selectAnimeListNextPage,
   selectAreAnimeListLoading,
 } from '@js-camp/react/store/animeList/selectors';
+import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { Button, CircularProgress, List, TextField } from '@mui/material';
-import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { CircularProgress, debounce, List, Stack, TextField } from '@mui/material';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSearchParams } from 'react-router-dom';
 
@@ -31,6 +32,8 @@ const AnimeListComponent: FC = () => {
     }
   }, [nextAnimeListPage]);
 
+  debounce()
+
   useEffect(() => {
     if (inView) {
       loadAnime();
@@ -52,13 +55,23 @@ const AnimeListComponent: FC = () => {
     return animeCard;
   }), [animeList]);
 
+  const handleSearchChanges = (event: ChangeEvent) => {
+
+    const { target } = event;
+
+    if (target instanceof HTMLInputElement) {
+      queryParams.set('search', target.value);
+      setQueryParams(queryParams);
+    }
+  };
+
   return (
     <>
       <List sx={{
         position: 'relative',
       }}>
-        <ToggleMenu ref={null}>
-          <TextField label='Searching title' />
+        <ToggleMenu>
+          <TextField onChange={handleSearchChanges} label='Searching title' variant='standard' />
         </ToggleMenu>
         { mappedAnimeList }
       </List>

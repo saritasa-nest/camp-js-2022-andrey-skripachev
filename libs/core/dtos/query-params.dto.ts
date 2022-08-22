@@ -8,4 +8,7 @@ export interface QueryParamsDto {
 
   /** Searching anime title. */
   readonly search?: string;
+
+  /** Anime type. */
+  readonly type?: string;
 }
