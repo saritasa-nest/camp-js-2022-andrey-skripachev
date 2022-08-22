@@ -16,24 +16,24 @@ const AppHeaderComponent: FC = () => {
   /**
    * Logouts user.
    */
-  function logout() {
+  const logout = () => {
     appDispatch(logoutUser());
-  }
+  };
 
   /**
    * Opens menu.
    * @param event Mouse event.
    */
-  function handleMenuOpen(event: MouseEvent<HTMLElement>) {
+  const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setAnchorElement(event.currentTarget);
-  }
+  };
 
   /**
    * Closes menu.
    */
-  function handleMenuClose() {
+  const handleMenuClose = () => {
     setAnchorElement(null);
-  }
+  };
 
   const user = useAppSelector(selectUser);
 
