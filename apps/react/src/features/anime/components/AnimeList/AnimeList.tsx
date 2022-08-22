@@ -1,18 +1,52 @@
-import { selectAnimeList, selectAreAnimeListLoading } from '@js-camp/react/store/animeList/selectors';
-import { useAppSelector } from '@js-camp/react/store/store';
+import { fetchNextPageOfAnimeList } from '@js-camp/react/store/animeList/dispatchers';
+import {
+  selectAnimeList,
+  selectAnimeListNextPage,
+  selectAreAnimeListLoading,
+} from '@js-camp/react/store/animeList/selectors';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { CircularProgress, List } from '@mui/material';
-import { FC, memo, useMemo } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { InView } from 'react-intersection-observer';
 
 import { AnimeCard } from '../AnimeCard';
 
 const AnimeListComponent: FC = () => {
 
+  const appDispatch = useAppDispatch();
+
+  const [inView, setInView] = useState(false);
+
   const animeList = useAppSelector(selectAnimeList);
   const isAnimeListLoading = useAppSelector(selectAreAnimeListLoading);
+  const nextAnimeListPage = useAppSelector(selectAnimeListNextPage);
 
-  const mappedAnimeList = useMemo(() => animeList.map(anime => (
-    <AnimeCard key={anime.id} anime={anime} />
-  )), [animeList]);
+  const loadAnime = useCallback(() => {
+    if (nextAnimeListPage) {
+      appDispatch(fetchNextPageOfAnimeList(nextAnimeListPage));
+    }
+  }, [nextAnimeListPage]);
+
+  useEffect(() => {
+    if (inView && !isAnimeListLoading) {
+      loadAnime();
+    }
+  }, [inView, isAnimeListLoading]);
+
+  const mappedAnimeList = useMemo(() => animeList.map((anime, index) => {
+
+    const animeCard = (<AnimeCard key={anime.id} anime={anime} />);
+
+    if (index === animeList.length - 1) {
+      return <InView threshold={0.5} root={null} rootMargin='0px' onChange={setInView}>
+        {({ ref }) => (
+          <div ref={ref}>{animeCard}</div>
+        )}
+      </InView>;
+    }
+
+    return animeCard;
+  }), [animeList]);
 
   return (
     <>

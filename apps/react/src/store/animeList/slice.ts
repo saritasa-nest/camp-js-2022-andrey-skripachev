@@ -33,7 +33,7 @@ export const animeListSlice = createSlice({
       state.isLoading = true;
     })
     .addCase(fetchNextPageOfAnimeList.fulfilled, (state, action) => {
-      entityAdapter.updateMany(state, action.payload.results);
+      entityAdapter.addMany(state, action.payload.results);
       state.isLoading = false;
       state.nextPage = action.payload.next;
     })
