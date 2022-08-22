@@ -5,7 +5,7 @@ import {
   selectAreAnimeListLoading,
 } from '@js-camp/react/store/animeList/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { CircularProgress, debounce, List, TextField } from '@mui/material';
+import { CircularProgress, debounce, List, Stack, TextField } from '@mui/material';
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSearchParams } from 'react-router-dom';
@@ -64,7 +64,9 @@ const AnimeListComponent: FC = () => {
   return (
     <>
       <ToggleMenu>
-        <TextField onChange={handleSearchChanges} label='Searching title' variant='standard' />
+        <Stack spacing={2}>
+          <TextField onChange={handleSearchChanges} label='Searching title' variant='outlined' />
+        </Stack>
       </ToggleMenu>
       <List sx={{
         position: 'relative',
