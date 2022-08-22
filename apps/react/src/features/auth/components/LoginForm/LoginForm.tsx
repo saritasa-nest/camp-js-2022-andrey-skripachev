@@ -39,7 +39,7 @@ const LoginFormComponent: FC = () => {
    * Logins user with login data.
    * @param loginData Login data.
    */
-  const login = async (loginData: Login): Promise<void> => {
+  const login = async(loginData: Login): Promise<void> => {
     setIsLoading(true);
     await appDispatch(loginUser(loginData));
     setIsLoading(false);
@@ -61,7 +61,7 @@ const LoginFormComponent: FC = () => {
     <>
       <Typography component='h1' variant='h2'>Login</Typography>
       <FormikProvider value={formik}>
-        <form onSubmit={login}>
+        <form onSubmit={formik.handleSubmit}>
           <Stack spacing={2}>
             <Field
               autoComplete='email'
