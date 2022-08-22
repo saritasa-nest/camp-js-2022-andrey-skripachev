@@ -1,4 +1,3 @@
-import { QueryParamsDto } from '../dtos/query-params.dto';
 import { QueryParams } from '../models/query-params';
 
 export namespace QueryParamsMapper {
@@ -18,10 +17,13 @@ export namespace QueryParamsMapper {
    * @param model Query params model.
    */
   export function toDto(model: QueryParams): URLSearchParams {
-    return new URLSearchParams({
-      search: model.search,
-      limit: '10',
-      ordering: 'id',
-    });
+    const searchParams = new URLSearchParams();
+    searchParams.set('limit', '10');
+    searchParams.set('ordering', 'id');
+    if (model.search !== '') {
+      searchParams.set('search', model.search);
+    }
+
+    return searchParams;
   }
 }

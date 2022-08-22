@@ -31,7 +31,6 @@ const AnimeListComponent: FC = () => {
     }
   }, [nextAnimeListPage]);
 
-
   useEffect(() => {
     if (inView) {
       loadAnime();
@@ -53,14 +52,14 @@ const AnimeListComponent: FC = () => {
     return animeCard;
   }), [animeList]);
 
-  const handleSearchChanges = (event: ChangeEvent) => {
+  const handleSearchChanges = debounce((event: ChangeEvent) => {
     const { target } = event;
 
     if (target instanceof HTMLInputElement) {
       queryParams.set('search', target.value);
       setQueryParams(queryParams);
     }
-  };
+  });
 
   return (
     <>
