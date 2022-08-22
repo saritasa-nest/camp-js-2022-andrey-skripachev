@@ -18,3 +18,8 @@ export const selectErrorAnimeList = createSelector(
   (state: RootState) => state.animeList.error,
   error => error,
 );
+
+export const selectAnimeListNextPage = createSelector(
+  (state: RootState) => state.animeList.nextPage,
+  nextPage => nextPage,
+);
