@@ -30,7 +30,6 @@ const AnimeCardComponent: FC<AnimeCardProps> = ({ anime }: AnimeCardProps) => (
     </ListItem>
     <Divider variant="inset" component="li" />
   </>
-
 );
 
 export const AnimeCard = memo(AnimeCardComponent);

@@ -23,3 +23,8 @@ export const selectAnimeListNextPage = createSelector(
   (state: RootState) => state.animeList.nextPage,
   nextPage => nextPage,
 );
+
+export const selectAnimeSearchParams = createSelector(
+  (state: RootState) => state.animeList.searchParams,
+  searchParams => searchParams,
+);

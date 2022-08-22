@@ -4,9 +4,8 @@ import {
   selectAnimeListNextPage,
   selectAreAnimeListLoading,
 } from '@js-camp/react/store/animeList/selectors';
-import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { CircularProgress, debounce, List, Stack, TextField } from '@mui/material';
+import { CircularProgress, debounce, List, TextField } from '@mui/material';
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSearchParams } from 'react-router-dom';
@@ -32,7 +31,6 @@ const AnimeListComponent: FC = () => {
     }
   }, [nextAnimeListPage]);
 
-  debounce()
 
   useEffect(() => {
     if (inView) {
@@ -56,7 +54,6 @@ const AnimeListComponent: FC = () => {
   }), [animeList]);
 
   const handleSearchChanges = (event: ChangeEvent) => {
-
     const { target } = event;
 
     if (target instanceof HTMLInputElement) {
@@ -67,12 +64,12 @@ const AnimeListComponent: FC = () => {
 
   return (
     <>
+      <ToggleMenu>
+        <TextField onChange={handleSearchChanges} label='Searching title' variant='standard' />
+      </ToggleMenu>
       <List sx={{
         position: 'relative',
       }}>
-        <ToggleMenu>
-          <TextField onChange={handleSearchChanges} label='Searching title' variant='standard' />
-        </ToggleMenu>
         { mappedAnimeList }
       </List>
       {isAnimeListLoading ? <CircularProgress /> : null}

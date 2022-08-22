@@ -7,9 +7,9 @@ export namespace QueryParamsMapper {
    * Maps dto to model.
    * @param dto Query params dto.
    */
-  export function fromDto(dto: QueryParamsDto): QueryParams {
+  export function fromDto(dto: URLSearchParams): QueryParams {
     return {
-      search: dto.search ?? '',
+      search: dto.get('search') ?? '',
     };
   }
 
@@ -17,9 +17,11 @@ export namespace QueryParamsMapper {
    * Maps model to dto.
    * @param model Query params model.
    */
-  export function toDto(model: QueryParams): QueryParamsDto {
-    return {
+  export function toDto(model: QueryParams): URLSearchParams {
+    return new URLSearchParams({
       search: model.search,
-    };
+      limit: '10',
+      ordering: 'id',
+    });
   }
 }

@@ -3,6 +3,8 @@ import { useAppDispatch } from '@js-camp/react/store/store';
 import { Grid } from '@mui/material';
 import { FC, memo, useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
+import { useSearchParams } from 'react-router-dom';
 
 import { AppContent } from '../../../app/components/AppContent/AppContent';
 import { AppHeader } from '../../../app/components/AppHeader';
@@ -16,9 +18,11 @@ import './AnimePage.css';
 const AnimePageComponent: FC = () => {
   const appDispatch = useAppDispatch();
 
+  const [searchParams] = useSearchParams();
+
   useEffect(() => {
-    appDispatch(fetchAnimeList());
-  }, []);
+    appDispatch(fetchAnimeList(QueryParamsMapper.fromDto(searchParams)));
+  }, [searchParams]);
 
   return (
     <>
