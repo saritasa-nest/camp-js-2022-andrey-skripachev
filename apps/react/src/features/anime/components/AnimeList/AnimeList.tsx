@@ -28,17 +28,17 @@ const AnimeListComponent: FC = () => {
   }, [nextAnimeListPage]);
 
   useEffect(() => {
-    if (inView && !isAnimeListLoading) {
+    if (inView) {
       loadAnime();
     }
-  }, [inView, isAnimeListLoading]);
+  }, [inView]);
 
   const mappedAnimeList = useMemo(() => animeList.map((anime, index) => {
 
     const animeCard = (<AnimeCard key={anime.id} anime={anime} />);
 
     if (index === animeList.length - 1) {
-      return <InView threshold={0.5} root={null} rootMargin='0px' onChange={setInView}>
+      return <InView key={anime.id} threshold={0.5} root={null} rootMargin='0px' onChange={setInView}>
         {({ ref }) => (
           <div ref={ref}>{animeCard}</div>
         )}
