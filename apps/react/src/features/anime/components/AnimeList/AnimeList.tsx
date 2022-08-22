@@ -5,9 +5,12 @@ import {
   selectAreAnimeListLoading,
 } from '@js-camp/react/store/animeList/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { CircularProgress, List } from '@mui/material';
+import { Button, CircularProgress, List } from '@mui/material';
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
+import { useSearchParams } from 'react-router-dom';
+
+import { ToggleMenu } from '../../../../app/components/ToggleMenu';
 
 import { AnimeCard } from '../AnimeCard';
 
@@ -15,11 +18,12 @@ const AnimeListComponent: FC = () => {
 
   const appDispatch = useAppDispatch();
 
-  const [inView, setInView] = useState(false);
-
   const animeList = useAppSelector(selectAnimeList);
   const isAnimeListLoading = useAppSelector(selectAreAnimeListLoading);
   const nextAnimeListPage = useAppSelector(selectAnimeListNextPage);
+
+  const [inView, setInView] = useState(false);
+  const [queryParams, setQueryParams] = useSearchParams();
 
   const loadAnime = useCallback(() => {
     if (nextAnimeListPage) {
@@ -50,8 +54,13 @@ const AnimeListComponent: FC = () => {
 
   return (
     <>
-      <List>
+      <List sx={{
+        position: 'relative',
+      }}>
         { mappedAnimeList }
+        <ToggleMenu ref={null}>
+          <Button>Hello</Button>
+        </ToggleMenu>
       </List>
       {isAnimeListLoading ? <CircularProgress /> : null}
     </>

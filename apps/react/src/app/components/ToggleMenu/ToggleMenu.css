@@ -1,0 +1,19 @@
+.toggle-menu-wrapper {
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+}
+
+.toggle-menu {
+  position: relative;
+}
+
+.toggle-menu-button {
+  width: 60px;
+  height: 25px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: calc(50% - 30px);
+}
