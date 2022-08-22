@@ -12,9 +12,9 @@ const AppHeaderComponent: FC = () => {
   const appDispatch = useAppDispatch();
 
   /**
-   * Logouts user.
+   * Handles user's logout.
    */
-  const logout = () => {
+  const handleLogout = () => {
     appDispatch(logoutUser());
   };
 
@@ -36,7 +36,7 @@ const AppHeaderComponent: FC = () => {
   const user = useAppSelector(selectUser);
 
   if (!user) {
-    return (<></>);
+    return null;
   }
 
   return (
@@ -50,6 +50,7 @@ const AppHeaderComponent: FC = () => {
         </Grid>
         <Grid item>
           <IconButton
+            type='button'
             size='large'
             edge='start'
             aria-label='menu'
@@ -64,7 +65,7 @@ const AppHeaderComponent: FC = () => {
         open={Boolean(anchorElement)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={logout}>
+        <MenuItem onClick={handleLogout}>
           <LogoutIcon />
           Log out
         </MenuItem>

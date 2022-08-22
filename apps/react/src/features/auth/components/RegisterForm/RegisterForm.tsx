@@ -81,22 +81,26 @@ const RegisterFormComponent: FC = () => {
         <form onSubmit={formik.handleSubmit}>
           <Stack spacing={2}>
             <Field
+              required
               name='firstName'
               label='First name'
               component={TextField}
             />
             <Field
+              required
               name='lastName'
               label='Last name'
               component={TextField}
             />
             <Field
+              required
               name='email'
               autoComplete='email'
               label='Email'
               component={TextField}
             />
             <Field
+              required
               type='password'
               autoComplete='password'
               name='password'
@@ -104,6 +108,7 @@ const RegisterFormComponent: FC = () => {
               component={TextField}
             />
             <Field
+              required
               type='password'
               autoComplete='password'
               name='confirmPassword'

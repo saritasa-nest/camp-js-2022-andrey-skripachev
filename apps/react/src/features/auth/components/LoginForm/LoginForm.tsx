@@ -64,6 +64,7 @@ const LoginFormComponent: FC = () => {
         <form onSubmit={formik.handleSubmit}>
           <Stack spacing={2}>
             <Field
+              required
               autoComplete='email'
               component={TextField}
               name='email'
@@ -71,6 +72,7 @@ const LoginFormComponent: FC = () => {
               label='Email'
             />
             <Field
+              required
               autoComplete='current-password'
               component={TextField}
               name='password'
