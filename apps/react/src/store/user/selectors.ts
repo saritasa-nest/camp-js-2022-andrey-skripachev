@@ -9,7 +9,7 @@ export const selectUser = createSelector(
 );
 
 /** Selector for showing that user is loading. */
-export const selectAreUserLoading = createSelector(
+export const selectIsUserLoading = createSelector(
   (state: RootState) => state.user.isLoading,
   isLoading => isLoading,
 );

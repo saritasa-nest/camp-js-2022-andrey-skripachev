@@ -1,5 +1,5 @@
 import { fetchUser } from '@js-camp/react/store/user/dispatchers';
-import { selectAreUserLoading, selectUser } from '@js-camp/react/store/user/selectors';
+import { selectIsUserLoading, selectUser } from '@js-camp/react/store/user/selectors';
 import { FC, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ export const AuthorizedGuard: FC = () => {
 
   const appDispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const isLoading = useAppSelector(selectAreUserLoading);
+  const isLoading = useAppSelector(selectIsUserLoading);
 
   useEffect(() => {
     appDispatch(fetchUser());

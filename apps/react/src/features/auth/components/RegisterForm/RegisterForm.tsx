@@ -1,5 +1,5 @@
-import { FC, memo, useState } from 'react';
-import { Field, Form, Formik } from 'formik';
+import { FC, memo, useState, useEffect } from 'react';
+import { Field, FormikProvider, useFormik } from 'formik';
 import { Button, Stack, Typography } from '@mui/material';
 import * as yup from 'yup';
 import { Registration } from '@js-camp/core/models/registration';
@@ -8,8 +8,7 @@ import { registerUser } from '@js-camp/react/store/user/dispatchers';
 import { selectUserError } from '@js-camp/react/store/user/selectors';
 import { Link } from 'react-router-dom';
 import { AppError } from '@js-camp/core/models/error-response';
-
-import { FormTextField } from '../../../../app/components/FormTextField';
+import { TextField } from 'formik-mui';
 
 interface RegistrationFormData extends Registration {
 
@@ -64,70 +63,67 @@ const RegisterFormComponent: FC = () => {
     setIsLoading(false);
   };
 
+  const formik = useFormik({
+    initialValues: initialRegistrationValues,
+    validationSchema: registrationValidationSchema,
+    onSubmit: register,
+  });
+
+  useEffect(() => {
+    if (userValidationErrors) {
+      formik.setErrors(userValidationErrors);
+    }
+  }, [userValidationErrors]);
   return (
     <>
       <Typography component='h1' variant='h2'>Register</Typography>
-      <Formik
-        onSubmit={register}
-        initialErrors={userValidationErrors}
-        initialValues={initialRegistrationValues}
-        validationSchema={registrationValidationSchema}
-      >
-        {({ touched, errors, submitForm, values }) => (
-          <Form>
-            <Stack spacing={2}>
-              <Field
-                name='firstName'
-                label='First name'
-                component={FormTextField}
-                error={touched.firstName && Boolean(errors.firstName)}
-                helperText={touched.firstName && errors.firstName}
-              />
-              <Field
-                name='lastName'
-                label='Last name'
-                component={FormTextField}
-                error={touched.lastName && Boolean(errors.lastName)}
-                helperText={touched.lastName && errors.lastName}
-              />
-              <Field
-                name='email'
-                autoComplete='email'
-                label='Email'
-                component={FormTextField}
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
-              />
-              <Field
-                type='password'
-                autoComplete='password'
-                name='password'
-                label='Password'
-                component={FormTextField}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
-              />
-              <Field
-                type='password'
-                autoComplete='password'
-                name='confirmPassword'
-                label='Confirm password'
-                component={FormTextField}
-                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                helperText={touched.confirmPassword && errors.confirmPassword}
-              />
-              <Button
-                disabled={isLoading}
-                fullWidth
-                type='submit'
-                variant='contained'
-                onClick={submitForm}
-              >Register</Button>
-            </Stack>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-          </Form>
-        )}
-      </Formik>
+      <FormikProvider value={formik}>
+        <form onSubmit={formik.handleSubmit}>
+          <Stack spacing={2}>
+            <Field
+              required
+              name='firstName'
+              label='First name'
+              component={TextField}
+            />
+            <Field
+              required
+              name='lastName'
+              label='Last name'
+              component={TextField}
+            />
+            <Field
+              required
+              name='email'
+              autoComplete='email'
+              label='Email'
+              component={TextField}
+            />
+            <Field
+              required
+              type='password'
+              autoComplete='password'
+              name='password'
+              label='Password'
+              component={TextField}
+            />
+            <Field
+              required
+              type='password'
+              autoComplete='password'
+              name='confirmPassword'
+              label='Confirm password'
+              component={TextField}
+            />
+            <Button
+              disabled={isLoading}
+              fullWidth
+              type='submit'
+              variant='contained'
+            >Register</Button>
+          </Stack>
+        </form>
+      </FormikProvider>
       <Typography variant='button' component='span'>
         <Link to={'../login'}>Login</Link>
       </Typography>
