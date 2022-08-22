@@ -29,5 +29,6 @@ export function reverseEnumMapper<T extends EnumValue, R extends EnumValue>(
 export function parseEnumToArray<T>(enumeration: T): T[keyof T][] {
   return (Object.keys(enumeration) as Array<keyof T>)
     .filter(key => isNaN(Number(key)))
+    .filter(key => typeof enumeration[key] === 'string')
     .map(key => enumeration[key]);
 }

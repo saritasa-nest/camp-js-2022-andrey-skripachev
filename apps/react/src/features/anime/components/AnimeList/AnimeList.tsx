@@ -1,3 +1,5 @@
+import { parseEnumToArray } from '@js-camp/core/enums/enums';
+import { AnimeType } from '@js-camp/core/utils/types/animeType';
 import { fetchNextPageOfAnimeList } from '@js-camp/react/store/animeList/dispatchers';
 import {
   selectAnimeList,
@@ -9,10 +11,26 @@ import { CircularProgress, debounce, List, Stack, TextField } from '@mui/materia
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSearchParams } from 'react-router-dom';
+import { MultiSelect } from 'react-multi-select-component';
 
 import { ToggleMenu } from '../../../../app/components/ToggleMenu';
 
 import { AnimeCard } from '../AnimeCard';
+
+interface SelectOption {
+
+  /** Option value. */
+  readonly value: string;
+
+  /** Option readable value. */
+  readonly label: string;
+
+}
+
+const animeTypeSelectOptions = parseEnumToArray(AnimeType).map((element): SelectOption => ({
+  value: String(element),
+  label: String(element),
+}));
 
 const AnimeListComponent: FC = () => {
 
@@ -24,6 +42,7 @@ const AnimeListComponent: FC = () => {
 
   const [inView, setInView] = useState(false);
   const [queryParams, setQueryParams] = useSearchParams();
+  const [searchingTypes, setSearchingTypes] = useState([]);
 
   const loadAnime = useCallback(() => {
     if (nextAnimeListPage) {
@@ -66,6 +85,12 @@ const AnimeListComponent: FC = () => {
       <ToggleMenu>
         <Stack spacing={2}>
           <TextField onChange={handleSearchChanges} label='Searching title' variant='outlined' />
+          <MultiSelect
+            options={animeTypeSelectOptions}
+            value={searchingTypes}
+            onChange={setSearchingTypes}
+            labelledBy='Select'
+          />
         </Stack>
       </ToggleMenu>
       <List sx={{
