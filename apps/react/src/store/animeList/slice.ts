@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchAnimeList, fetchNextPageOfAnimeList } from './dispatchers';
+import { clearAnimeList, fetchAnimeList, fetchNextPageOfAnimeList } from './dispatchers';
 import { entityAdapter, initialState } from './state';
 
 export const animeListSlice = createSlice({
@@ -42,5 +42,9 @@ export const animeListSlice = createSlice({
         state.error = action.error.message;
       }
       state.isLoading = false;
+    })
+
+    .addCase(clearAnimeList.fulfilled, state => {
+      entityAdapter.removeAll(state);
     }),
 });

@@ -12,3 +12,8 @@ export const fetchNextPageOfAnimeList = createAsyncThunk(
   'animeList/fetch-next',
   (url: string) => AnimeService.getAnimeList(url),
 );
+
+export const clearAnimeList = createAsyncThunk(
+  'animeList/remove-all',
+  () => null,
+);
