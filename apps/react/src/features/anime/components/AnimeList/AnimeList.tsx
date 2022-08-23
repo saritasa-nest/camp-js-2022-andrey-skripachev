@@ -10,7 +10,6 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import {
   Button,
   CircularProgress,
-  debounce,
   Divider,
   FormControl,
   FormControlLabel,
@@ -122,13 +121,14 @@ const AnimeListComponent: FC = () => {
   /**
    * Input handlers.
    */
-  const handleSearchChanges = debounce((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+  const handleSearchChanges = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { target: { value } } = event;
 
     setSearchingTitle(value);
-  }, 300);
+  };
 
-  const handleSelectTypeChanges = debounce((event: SelectChangeEvent<typeof searchingTypes>) => {
+  const handleSelectTypeChanges = (event: SelectChangeEvent<typeof searchingTypes>) => {
     const { target: { value } } = event;
 
     if (typeof value === 'string') {
@@ -136,16 +136,16 @@ const AnimeListComponent: FC = () => {
     }
 
     setSearchingTypes(value);
-  }, 300);
+  };
 
-  const handleSortingTargetChanges = debounce((event: ChangeEvent<HTMLInputElement>) => {
+  const handleSortingTargetChanges = (event: ChangeEvent<HTMLInputElement>) => {
     const { target: { value } } = event;
 
     setSorting({
       ...sorting,
       target: value,
     });
-  }, 300);
+  };
 
   const handleSwitchSortingDirection = () => {
     setSorting({
