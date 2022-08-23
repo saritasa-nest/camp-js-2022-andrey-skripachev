@@ -158,7 +158,7 @@ const AnimeListComponent: FC = () => {
     <>
       <ToggleMenu>
         <Stack spacing={2}>
-          <TextField onChange={handleSearchChanges} label='Searching title' variant='outlined' />
+          <TextField value={searchingTitle} onChange={handleSearchChanges} label='Searching title' variant='outlined' />
           <Divider variant="inset" component="span" />
           <FormControl>
             <InputLabel id='select-anime-types-label'>Types</InputLabel>
