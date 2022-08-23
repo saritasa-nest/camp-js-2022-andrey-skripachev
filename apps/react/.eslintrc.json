@@ -16,6 +16,7 @@
     "max-classes-per-file": "off",
     "react/prop-types": "off",
     "max-len": ["warn", 120],
+    "max-lines-per-function": "off",
     "no-param-reassign": [
       "error",
       {

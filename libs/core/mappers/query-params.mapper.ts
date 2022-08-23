@@ -8,13 +8,61 @@ enum QueryParamNames {
   TypeIn = 'type__in',
   Limit = 'limit',
   Search = 'search',
-  Offset = 'offset',
   Ordering = 'ordering',
+}
+
+type SortingDirection = 'inc' | 'dec' | '';
+
+/** Sorting. */
+export interface Sorting {
+
+  /** Sorting target. */
+  readonly target: string;
+
+  /** Sorting direction. */
+  readonly direction: SortingDirection;
 }
 
 const arraySeparator = ',';
 
 export namespace QueryParamsMapper {
+
+  /**
+   * Maps ordering to sorting.
+   * @param ordering Ordering.
+   */
+  function mapOrderingToSorting(ordering: string | null): Sorting {
+    if (!ordering) {
+      return {
+        target: '',
+        direction: '',
+      };
+    }
+
+    if (ordering[0] === '-') {
+      return {
+        target: ordering.substring(1),
+        direction: 'dec',
+      };
+    }
+
+    return {
+      target: ordering,
+      direction: 'inc',
+    };
+  }
+
+  /**
+   * Maps ordering to sorting.
+   * @param sorting Sorting.
+   */
+  function mapSortingToOrdering(sorting: Sorting): string {
+    if (sorting.direction === 'dec') {
+      return `-${sorting.target}`;
+    }
+
+    return sorting.target;
+  }
 
   /**
    * Maps dto to model.
@@ -30,6 +78,7 @@ export namespace QueryParamsMapper {
         .split(arraySeparator)
         .filter(isTypeDto)
         .map(type => MAP_TYPE_FROM_DTO[type]) : [],
+      sorting: mapOrderingToSorting(dto.get(QueryParamNames.Ordering)),
     };
   }
 
@@ -50,6 +99,12 @@ export namespace QueryParamsMapper {
       searchParams.set(QueryParamNames.TypeIn, model.types
         .map(type => MAP_TYPE_TO_DTO[type])
         .join(arraySeparator));
+    }
+
+    const ordering = mapSortingToOrdering(model.sorting);
+
+    if (ordering.length !== 0) {
+      searchParams.set(QueryParamNames.Ordering, ordering);
     }
 
     return searchParams;

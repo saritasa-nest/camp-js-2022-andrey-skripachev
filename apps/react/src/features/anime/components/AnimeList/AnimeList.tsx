@@ -8,15 +8,20 @@ import {
 } from '@js-camp/react/store/animeList/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import {
-  Checkbox,
+  Button,
   CircularProgress,
   debounce,
+  Divider,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   InputLabel,
   List,
   ListItemText,
   MenuItem,
   OutlinedInput,
+  Radio,
+  RadioGroup,
   Select,
   SelectChangeEvent,
   Stack,
@@ -26,6 +31,8 @@ import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from
 import { InView } from 'react-intersection-observer';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
+import NorthIcon from '@mui/icons-material/North';
+import SouthIcon from '@mui/icons-material/South';
 
 import { ToggleMenu } from '../../../../app/components/ToggleMenu';
 
@@ -51,6 +58,7 @@ const AnimeListComponent: FC = () => {
 
   const [searchingTypes, setSearchingTypes] = useState(mappedParams.types);
   const [searchingTitle, setSearchingTitle] = useState(mappedParams.search);
+  const [sorting, setSorting] = useState(mappedParams.sorting);
 
   /**
    * Hooks.
@@ -75,15 +83,15 @@ const AnimeListComponent: FC = () => {
     setMappedParams({
       search: searchingTitle,
       types: searchingTypes,
+      sorting,
     });
-  }, [searchingTitle, searchingTypes]);
+  }, [searchingTitle, searchingTypes, sorting]);
 
   /**
    * Prepared components.
    */
   const animeTypeMenuItems = animeTypes.map((item, index) => (
     <MenuItem key={index} value={item}>
-      <Checkbox checked={searchingTypes.includes(item)} />
       <ListItemText primary={item} />
     </MenuItem>
   ));
@@ -103,11 +111,22 @@ const AnimeListComponent: FC = () => {
     return animeCard;
   }), [animeList]);
 
+  const incrementSortingIcon = (
+    <NorthIcon fontSize='small' />
+  );
+
+  const decrementSortingIcon = (
+    <SouthIcon fontSize='small' />
+  );
+
+  /**
+   * Input handlers.
+   */
   const handleSearchChanges = debounce((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { target: { value } } = event;
 
     setSearchingTitle(value);
-  });
+  }, 300);
 
   const handleSelectTypeChanges = debounce((event: SelectChangeEvent<typeof searchingTypes>) => {
     const { target: { value } } = event;
@@ -117,13 +136,30 @@ const AnimeListComponent: FC = () => {
     }
 
     setSearchingTypes(value);
-  });
+  }, 300);
+
+  const handleSortingTargetChanges = debounce((event: ChangeEvent<HTMLInputElement>) => {
+    const { target: { value } } = event;
+
+    setSorting({
+      ...sorting,
+      target: value,
+    });
+  }, 300);
+
+  const handleSwitchSortingDirection = () => {
+    setSorting({
+      ...sorting,
+      direction: sorting.direction === 'dec' ? 'inc' : 'dec',
+    });
+  };
 
   return (
     <>
       <ToggleMenu>
         <Stack spacing={2}>
           <TextField onChange={handleSearchChanges} label='Searching title' variant='outlined' />
+          <Divider variant="inset" component="span" />
           <FormControl>
             <InputLabel id='select-anime-types-label'>Types</InputLabel>
             <Select
@@ -131,11 +167,32 @@ const AnimeListComponent: FC = () => {
               multiple
               value={searchingTypes}
               onChange={handleSelectTypeChanges}
-              input={<OutlinedInput label='Amogus' />}
+              input={<OutlinedInput label='Types' />}
               renderValue={selected => selected.join(',')}
             >
               {animeTypeMenuItems}
             </Select>
+          </FormControl>
+          <Divider variant="inset" component="span" />
+          <FormControl>
+            <FormLabel id='select-sorting'>Sorting by</FormLabel>
+            <RadioGroup
+              onChange={handleSortingTargetChanges}
+              aria-labelledby='select-sorting'
+              value={sorting.target}
+              name='select-sorting-target-radio'
+            >
+              <FormControlLabel value="status" control={<Radio />} label="Status" />
+              <FormControlLabel value="title_eng" control={<Radio />} label="Title english" />
+            </RadioGroup>
+            <Button
+              onClick={handleSwitchSortingDirection}
+            >
+              Switch direction {sorting.direction === 'dec' ?
+                decrementSortingIcon :
+                incrementSortingIcon
+              }
+            </Button>
           </FormControl>
         </Stack>
       </ToggleMenu>
