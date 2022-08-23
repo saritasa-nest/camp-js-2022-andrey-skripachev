@@ -16,13 +16,10 @@ export function isType(value: string): value is AnimeType {
   return Object.keys(AnimeType).includes(value as AnimeType);
 }
 
-export namespace AnimeType {
-
-  /**
-   * Converts the value to a type if it exists in the types.
-   * @param value String for conversion.
-   */
-  export function toAnimeType(value: string): AnimeType {
-    return isType(value) ? value : AnimeType.Movie;
-  }
+/**
+ * Converts the value to a type if it exists in the types.
+ * @param value String for conversion.
+ */
+export function toAnimeType(value: string): AnimeType {
+  return isType(value) ? value : AnimeType.Movie;
 }

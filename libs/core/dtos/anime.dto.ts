@@ -1,3 +1,5 @@
+import { parseEnumToArray } from '../enums/enums';
+
 import { DateTimeRangeDto } from './dateTimeRange.dto';
 
 /** Acceptable values of anime statuses. */
@@ -29,6 +31,10 @@ export enum AnimeTypeDto {
 
   // Musical anime.
   MUSIC = 'MUSIC',
+}
+
+export function isTypeDto(value: unknown): value is AnimeTypeDto {
+  return parseEnumToArray(AnimeTypeDto).includes(value as AnimeTypeDto);
 }
 
 /** Transfer object for anime. */

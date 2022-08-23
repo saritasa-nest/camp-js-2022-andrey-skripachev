@@ -12,8 +12,3 @@ export const fetchNextPageOfAnimeList = createAsyncThunk(
   'animeList/fetch-next',
   (url: string) => AnimeService.getAnimeList(url),
 );
-
-export const setSearchParams = createAsyncThunk(
-  'animeList/set-params',
-  (params: QueryParams) => params,
-);

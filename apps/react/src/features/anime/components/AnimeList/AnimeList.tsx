@@ -7,33 +7,37 @@ import {
   selectAreAnimeListLoading,
 } from '@js-camp/react/store/animeList/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
-import { CircularProgress, debounce, List, Stack, TextField } from '@mui/material';
+import {
+  Checkbox,
+  CircularProgress,
+  debounce,
+  FormControl,
+  InputLabel,
+  List,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TextField,
+} from '@mui/material';
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSearchParams } from 'react-router-dom';
-import { MultiSelect } from 'react-multi-select-component';
+import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
 
 import { ToggleMenu } from '../../../../app/components/ToggleMenu';
 
 import { AnimeCard } from '../AnimeCard';
 
-interface SelectOption {
-
-  /** Option value. */
-  readonly value: string;
-
-  /** Option readable value. */
-  readonly label: string;
-
-}
-
-const animeTypeSelectOptions = parseEnumToArray(AnimeType).map((element): SelectOption => ({
-  value: String(element),
-  label: String(element),
-}));
+const animeTypes = parseEnumToArray(AnimeType);
 
 const AnimeListComponent: FC = () => {
 
+  /**
+   * Component state.
+   */
   const appDispatch = useAppDispatch();
 
   const animeList = useAppSelector(selectAnimeList);
@@ -42,8 +46,15 @@ const AnimeListComponent: FC = () => {
 
   const [inView, setInView] = useState(false);
   const [queryParams, setQueryParams] = useSearchParams();
-  const [searchingTypes, setSearchingTypes] = useState([]);
 
+  const [mappedParams, setMappedParams] = useState(QueryParamsMapper.fromDto(queryParams));
+
+  const [searchingTypes, setSearchingTypes] = useState(mappedParams.types);
+  const [searchingTitle, setSearchingTitle] = useState(mappedParams.search);
+
+  /**
+   * Hooks.
+   */
   const loadAnime = useCallback(() => {
     if (nextAnimeListPage) {
       appDispatch(fetchNextPageOfAnimeList(nextAnimeListPage));
@@ -55,6 +66,27 @@ const AnimeListComponent: FC = () => {
       loadAnime();
     }
   }, [inView]);
+
+  useEffect(() => {
+    setQueryParams(QueryParamsMapper.toDto(mappedParams));
+  }, [mappedParams]);
+
+  useEffect(() => {
+    setMappedParams({
+      search: searchingTitle,
+      types: searchingTypes,
+    });
+  }, [searchingTitle, searchingTypes]);
+
+  /**
+   * Prepared components.
+   */
+  const animeTypeMenuItems = animeTypes.map((item, index) => (
+    <MenuItem key={index} value={item}>
+      <Checkbox checked={searchingTypes.includes(item)} />
+      <ListItemText primary={item} />
+    </MenuItem>
+  ));
 
   const mappedAnimeList = useMemo(() => animeList.map((anime, index) => {
 
@@ -71,13 +103,20 @@ const AnimeListComponent: FC = () => {
     return animeCard;
   }), [animeList]);
 
-  const handleSearchChanges = debounce((event: ChangeEvent) => {
-    const { target } = event;
+  const handleSearchChanges = debounce((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { target: { value } } = event;
 
-    if (target instanceof HTMLInputElement) {
-      queryParams.set('search', target.value);
-      setQueryParams(queryParams);
+    setSearchingTitle(value);
+  });
+
+  const handleSelectTypeChanges = debounce((event: SelectChangeEvent<typeof searchingTypes>) => {
+    const { target: { value } } = event;
+
+    if (typeof value === 'string') {
+      return;
     }
+
+    setSearchingTypes(value);
   });
 
   return (
@@ -85,12 +124,19 @@ const AnimeListComponent: FC = () => {
       <ToggleMenu>
         <Stack spacing={2}>
           <TextField onChange={handleSearchChanges} label='Searching title' variant='outlined' />
-          <MultiSelect
-            options={animeTypeSelectOptions}
-            value={searchingTypes}
-            onChange={setSearchingTypes}
-            labelledBy='Select'
-          />
+          <FormControl>
+            <InputLabel id='select-anime-types-label'>Types</InputLabel>
+            <Select
+              labelId='select-anime-types-label'
+              multiple
+              value={searchingTypes}
+              onChange={handleSelectTypeChanges}
+              input={<OutlinedInput label='Amogus' />}
+              renderValue={selected => selected.join(',')}
+            >
+              {animeTypeMenuItems}
+            </Select>
+          </FormControl>
         </Stack>
       </ToggleMenu>
       <List sx={{
