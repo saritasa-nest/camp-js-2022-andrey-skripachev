@@ -1,23 +1,30 @@
-import { selectUser } from '@js-camp/react/store/user/selectors';
+import { fetchUser } from '@js-camp/react/store/user/dispatchers';
+import { selectIsUserLoading, selectUser, selectUserError } from '@js-camp/react/store/user/selectors';
 import { FC } from 'react';
-import { Navigate, Outlet, To, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-import { useAppSelector } from '../../store';
+import { AppLoadingSpinner } from '../../app/components/AppLoading';
+
+import { useAppDispatch, useAppSelector } from '../../store';
 
 export const UnauthorizedGuard: FC = () => {
 
-  const user = useAppSelector(selectUser);
-  const location = useLocation();
+  const appDispatch = useAppDispatch();
 
-  const redirect: To = {
-    pathname: '/auth/login',
-    search: new URLSearchParams({
-      next: location.pathname,
-    }).toString(),
-  };
+  const user = useAppSelector(selectUser);
+  const userError = useAppSelector(selectUserError);
+  const isUserLoading = useAppSelector(selectIsUserLoading);
+
+  if (user === null && userError) {
+    return <Navigate to='/auth/login' replace />;
+  }
+
+  if (user === null && !isUserLoading) {
+    appDispatch(fetchUser());
+  }
 
   if (user === null) {
-    return <Navigate to={redirect} replace />;
+    return <AppLoadingSpinner />;
   }
 
   return <Outlet />;
