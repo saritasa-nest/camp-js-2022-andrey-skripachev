@@ -25,9 +25,7 @@ export namespace UserService {
     return currentUser;
   }
 
-  /**
-   * Logouts user.
-   */
+  /** Logouts user. */
   export function logout(): void {
     TokenService.deleteToken();
   }
@@ -45,9 +43,7 @@ export namespace UserService {
     return currentUser;
   }
 
-  /**
-   * Gets current user.
-   */
+  /** Gets current user. */
   export async function getCurrentUser(): Promise<User> {
     const userResponse = await http.get<UserDto>('users/profile/');
 
