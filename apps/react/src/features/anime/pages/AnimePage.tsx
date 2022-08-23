@@ -1,6 +1,6 @@
 import { clearAnimeList, fetchAnimeList } from '@js-camp/react/store/animeList/dispatchers';
 import { useAppDispatch } from '@js-camp/react/store/store';
-import { Grid } from '@mui/material';
+import { debounce, Grid } from '@mui/material';
 import { FC, memo, useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
