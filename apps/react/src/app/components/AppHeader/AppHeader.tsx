@@ -35,7 +35,7 @@ const AppHeaderComponent: FC = () => {
 
   const user = useAppSelector(selectUser);
 
-  if (!user) {
+  if (user === null) {
     return null;
   }
 
