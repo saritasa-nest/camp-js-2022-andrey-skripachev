@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { FC, memo, useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { AppContent } from '../../../app/components/AppContent/AppContent';
+import { AppContent } from '../../../app/components/AppContent';
 import { AppHeader } from '../../../app/components/AppHeader';
 
 import { AnimeDetails } from '../components/AnimeDetails';
