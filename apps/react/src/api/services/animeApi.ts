@@ -15,9 +15,7 @@ export namespace AnimeService {
     ordering: 'id',
   });
 
-  /**
-   * Gets pagination with first anime of anime list.
-   */
+  /** Gets pagination with first anime of anime list. */
   export async function getFirstPageOfAnimeList(): Promise<Pagination<Anime>> {
     const animeResponse = await http.get<PaginationDto<AnimeDto>>('anime/anime/', {
       params: defaultSearchParams,

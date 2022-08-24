@@ -10,14 +10,14 @@ const AnimeListComponent: FC = () => {
   const animeList = useAppSelector(selectAnimeList);
   const isAnimeListLoading = useAppSelector(selectAreAnimeListLoading);
 
-  const mappedAnimeList = useMemo(() => animeList.map(anime => (
+  const animeListCards = useMemo(() => animeList.map(anime => (
     <AnimeCard key={anime.id} anime={anime} />
   )), [animeList]);
 
   return (
     <>
       <List>
-        { mappedAnimeList }
+        { animeListCards }
       </List>
       {isAnimeListLoading && <CircularProgress />}
     </>
