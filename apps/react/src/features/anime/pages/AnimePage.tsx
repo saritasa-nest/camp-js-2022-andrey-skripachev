@@ -1,6 +1,6 @@
 import { clearAnimeList, fetchAnimeList } from '@js-camp/react/store/animeList/dispatchers';
 import { useAppDispatch } from '@js-camp/react/store/store';
-import { debounce, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FC, memo, useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
@@ -34,7 +34,11 @@ const AnimePageComponent: FC = () => {
               <AnimeList />
             </PerfectScrollbar>
           </Grid>
-          <Grid item xs={8} className='full-height anime-control'><Outlet /></Grid>
+          <Grid item xs={8} className='full-height anime-control'>
+            <PerfectScrollbar>
+              <Outlet />
+            </PerfectScrollbar>
+          </Grid>
         </Grid>
       </AppContent>
     </>

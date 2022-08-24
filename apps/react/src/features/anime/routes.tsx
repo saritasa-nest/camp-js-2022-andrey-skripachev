@@ -3,7 +3,7 @@ import { Navigate, RouteObject } from 'react-router-dom';
 
 import { UnauthorizedGuard } from '../../routes/guards/unauthorized-guard';
 
-import { AnimeDetails } from './components/AnimeDetails';
+import { AnimeDetail } from './components/AnimeDetails';
 import { AnimeDetailsSkeleton } from './components/AnimeDetailsSkeleton';
 
 const AnimePage = lazy(() =>
@@ -19,7 +19,7 @@ export const animeRoutes: RouteObject[] = [
         children: [
           {
             path: ':id',
-            element: <AnimeDetails />,
+            element: <AnimeDetail />,
           },
           {
             path: '',

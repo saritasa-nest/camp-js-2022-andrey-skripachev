@@ -42,7 +42,7 @@ export namespace AnimeService {
    * Fetches anime by id.
    * @param id Anime id.
    */
-  export async function getAnimeById(id: number): Promise<AnimeDetails> {
+  export async function getAnimeById(id: string): Promise<AnimeDetails> {
     const animeResponse = await http.get<AnimeDetailsDto>(`anime/anime/${id}/`);
 
     return AnimeDetailsMapper.fromDto(animeResponse.data);
