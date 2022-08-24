@@ -12,6 +12,6 @@ export const studioSlice = createSlice({
   reducers: {},
   extraReducers: builder => builder
     .addCase(addStudios.fulfilled, (state, action) => {
-      entityAdapter.addOne(state, action.payload);
+      entityAdapter.addMany(state, action.payload);
     }),
 });
