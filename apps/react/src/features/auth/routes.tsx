@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
-import { AuthorizedGuard } from '../../routes/guards/authorized-guard';
+import { UnauthorizedGuard } from '../../routes/guards/unauthorized-guard';
 
 const AuthPage = lazy(() => import('./pages/AuthPage').then(module => ({ default: module.AuthPage })));
 
@@ -13,7 +13,7 @@ const LoginForm = lazy(() =>
 
 export const authRoutes: RouteObject[] = [
   {
-    element: <AuthorizedGuard />,
+    element: <UnauthorizedGuard />,
     children: [
       {
         path: 'auth',

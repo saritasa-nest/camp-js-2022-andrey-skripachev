@@ -12,7 +12,7 @@ export type ValidationError<T> = {
 export class AppError<T> extends Immerable {
 
   /** Fields error data. */
-  public readonly data: T;
+  public readonly data?: T;
 
   /** General error data. */
   public readonly detail: string;

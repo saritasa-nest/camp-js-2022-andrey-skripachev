@@ -36,12 +36,12 @@ export const userSlice = createSlice({
       state.user = action.payload;
     })
     .addCase(registerUser.rejected, (state, action) => {
-      state.error = action.payload as AppError<UserValidationErrors>;
+      state.authError = action.payload as AppError<UserValidationErrors>;
     })
     .addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload;
     })
     .addCase(loginUser.rejected, (state, action) => {
-      state.error = action.payload as AppError<UserValidationErrors>;
+      state.authError = action.payload as AppError<UserValidationErrors>;
     }),
 });

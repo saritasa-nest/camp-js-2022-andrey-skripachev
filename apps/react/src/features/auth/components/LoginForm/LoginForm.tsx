@@ -6,10 +6,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { loginUser } from '@js-camp/react/store/user/dispatchers';
-import { selectUserError } from '@js-camp/react/store/user/selectors';
+import { selectUserValidationError } from '@js-camp/react/store/user/selectors';
 import { Link } from 'react-router-dom';
-import { Stack } from '@mui/material';
-import { AppError } from '@js-camp/core/models/error-response';
+import { Alert, Snackbar, Stack } from '@mui/material';
 import { TextField } from 'formik-mui';
 
 const loginValidationSchema = object({
@@ -28,12 +27,11 @@ const initialLoginValues: Login = {
 const LoginFormComponent: FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [generalError, setGeneralError] = useState<string | null>(null);
 
   const appDispatch = useAppDispatch();
 
-  const userErrors = useAppSelector(selectUserError);
-
-  const userValidationErrors = userErrors instanceof AppError ? userErrors.data : undefined;
+  const userErrors = useAppSelector(selectUserValidationError);
 
   /**
    * Logins user with login data.
@@ -52,10 +50,14 @@ const LoginFormComponent: FC = () => {
   });
 
   useEffect(() => {
-    if (userValidationErrors) {
-      formik.setErrors(userValidationErrors);
+    if (userErrors) {
+      setGeneralError(userErrors.detail);
     }
-  }, [userValidationErrors]);
+  }, [userErrors]);
+
+  const handleSnackbarClose = () => {
+    setGeneralError(null);
+  };
 
   return (
     <>
@@ -93,6 +95,13 @@ const LoginFormComponent: FC = () => {
       <Typography variant='button' component='span'>
         <Link to={'../register'}>Register</Link>
       </Typography>
+      <Snackbar
+        open={generalError !== null}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert severity='error'>{generalError}</Alert>
+      </Snackbar>
     </>
   );
 };
