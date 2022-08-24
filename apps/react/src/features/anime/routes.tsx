@@ -1,14 +1,14 @@
 import { lazy } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
-import { UnauthorizedGuard } from '../../routes/guards/unauthorized-guard';
+import { AuthorizedGuard } from '../../routes/guards/authorized-guard';
 
 const AnimePage = lazy(() =>
   import('./pages/AnimePage').then(module => ({ default: module.AnimePage })));
 
 export const animeRoutes: RouteObject[] = [
   {
-    element: <UnauthorizedGuard />,
+    element: <AuthorizedGuard />,
     children: [
       {
         path: 'anime',
