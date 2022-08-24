@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { FC, memo, ReactElement } from 'react';
 
-import './AppContent.css';
+import styles from './AppContent.module.css';
 
 interface AppContainerProps {
 
@@ -10,7 +10,7 @@ interface AppContainerProps {
 }
 
 const AppContentComponent: FC<AppContainerProps> = ({ children }: AppContainerProps) => (
-  <Box className='app-content'>
+  <Box className={styles.appContent}>
     { children }
   </Box>
 );
