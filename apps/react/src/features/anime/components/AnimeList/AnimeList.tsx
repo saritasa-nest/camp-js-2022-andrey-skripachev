@@ -1,7 +1,7 @@
+import { FC, memo, useMemo } from 'react';
+import { CircularProgress, List } from '@mui/material';
 import { selectAnimeList, selectAreAnimeListLoading } from '@js-camp/react/store/animeList/selectors';
 import { useAppSelector } from '@js-camp/react/store/store';
-import { CircularProgress, List } from '@mui/material';
-import { FC, memo, useMemo } from 'react';
 
 import { AnimeCard } from '../AnimeCard';
 

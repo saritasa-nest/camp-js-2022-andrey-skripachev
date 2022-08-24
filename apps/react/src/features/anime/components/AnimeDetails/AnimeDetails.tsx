@@ -1,5 +1,5 @@
-import { Box, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+import { Box, Typography } from '@mui/material';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 
 import styles from './AnimeDetails.module.css';

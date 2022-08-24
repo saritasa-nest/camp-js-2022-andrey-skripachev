@@ -1,6 +1,6 @@
-import { Anime } from '@js-camp/core/models/anime';
-import { Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+import { Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
+import { Anime } from '@js-camp/core/models/anime';
 
 interface AnimeCardProps {
 

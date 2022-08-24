@@ -1,13 +1,13 @@
 import { FC, memo, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Field, FormikProvider, useFormik } from 'formik';
-import { Button, Stack, Typography } from '@mui/material';
+import { TextField } from 'formik-mui';
 import * as yup from 'yup';
+import { Button, Stack, Typography } from '@mui/material';
 import { Registration } from '@js-camp/core/models/registration';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { registerUser } from '@js-camp/react/store/user/dispatchers';
 import { selectUserValidationError } from '@js-camp/react/store/user/selectors';
-import { Link } from 'react-router-dom';
-import { TextField } from 'formik-mui';
 
 interface RegistrationFormData extends Registration {
 

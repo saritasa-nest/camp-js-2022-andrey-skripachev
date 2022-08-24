@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material';
 import { memo, FC } from 'react';
+import { Typography } from '@mui/material';
 
 import { AppHeader } from '../../../../app/components/AppHeader';
 

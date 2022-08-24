@@ -1,8 +1,9 @@
-import { fetchAnimeList } from '@js-camp/react/store/animeList/dispatchers';
-import { useAppDispatch } from '@js-camp/react/store/store';
-import { Grid } from '@mui/material';
 import { FC, memo, useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import { Grid } from '@mui/material';
+import { fetchAnimeList } from '@js-camp/react/store/animeList/dispatchers';
+import { useAppDispatch } from '@js-camp/react/store/store';
 
 import { AppContent } from '../../../app/components/AppContent';
 import { AppHeader } from '../../../app/components/AppHeader';
@@ -10,7 +11,6 @@ import { AppHeader } from '../../../app/components/AppHeader';
 import { AnimeDetails } from '../components/AnimeDetails';
 import { AnimeList } from '../components/AnimeList';
 
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import './AnimePage.css';
 
 const AnimePageComponent: FC = () => {
