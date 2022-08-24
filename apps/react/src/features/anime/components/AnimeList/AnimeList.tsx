@@ -201,7 +201,7 @@ const AnimeListComponent: FC = () => {
       }}>
         { mappedAnimeList }
       </List>
-      {isAnimeListLoading ? <CircularProgress /> : null}
+      {isAnimeListLoading && <CircularProgress />}
     </>
   );
 };

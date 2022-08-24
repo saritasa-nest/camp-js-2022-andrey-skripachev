@@ -6,7 +6,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
 import { useSearchParams } from 'react-router-dom';
 
-import { AppContent } from '../../../app/components/AppContent/AppContent';
+import { AppContent } from '../../../app/components/AppContent';
 import { AppHeader } from '../../../app/components/AppHeader';
 
 import { AnimeDetails } from '../components/AnimeDetails';
