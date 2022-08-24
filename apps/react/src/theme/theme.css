@@ -3,3 +3,10 @@ body {
   padding: 0;
   max-height: 100vh;
 }
+
+.content-center {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center;
+}
