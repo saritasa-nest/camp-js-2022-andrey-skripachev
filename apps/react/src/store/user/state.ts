@@ -9,7 +9,10 @@ export interface UserState {
   readonly user: User | null;
 
   /** Error. */
-  readonly error?: AppError<UserValidationErrors> | string;
+  readonly error?: string;
+
+  /** Authorization errors. */
+  readonly authError?: AppError<UserValidationErrors>;
 
   /** Whether the user is loading or not. */
   readonly isLoading: boolean;
