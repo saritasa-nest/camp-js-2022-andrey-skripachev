@@ -16,16 +16,12 @@ export namespace TokenService {
     LocalStorageService.save(TOKEN_FIELD_NAME, TokenMapper.toDto(token));
   }
 
-  /**
-   * Removes auth token from local storage.
-   */
+  /** Removes auth token from local storage. */
   export function deleteToken(): void {
     LocalStorageService.remove(TOKEN_FIELD_NAME);
   }
 
-  /**
-   * Gets token from local storage.
-   */
+  /** Gets token from local storage. */
   export function getToken(): Token | null {
     const token = LocalStorageService.get<TokenDto>(TOKEN_FIELD_NAME);
 

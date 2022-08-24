@@ -2,7 +2,7 @@ import { fieldToTextField, TextFieldProps } from 'formik-mui';
 import { ChangeEvent, FC, memo, useCallback } from 'react';
 import MuiTextField from '@mui/material/TextField';
 
-const FormTextFieldComponent: FC<TextFieldProps> = (props: TextFieldProps) => {
+const FormTextFieldComponent: FC<TextFieldProps> = props => {
   const {
     form: { setFieldValue },
     field: { name },
