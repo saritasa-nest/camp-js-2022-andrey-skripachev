@@ -1,14 +1,14 @@
-import { isTypeDto } from '../dtos/anime.dto';
 import { QueryParams } from '../models/query-params';
+import { isType } from '../utils/types/animeType';
 
-import { MAP_TYPE_FROM_DTO, MAP_TYPE_TO_DTO } from './anime-type.mapper';
+import { MAP_TYPE_TO_DTO } from './anime-type.mapper';
 
 /** Query params field names. */
 enum QueryParamNames {
-  TypeIn = 'type__in',
-  Limit = 'limit',
+  Types = 'types',
   Search = 'search',
-  Ordering = 'ordering',
+  SortTarget = 'sTarget',
+  SortDirection = 'sDirection',
 }
 
 /** Sorting types. */
@@ -21,9 +21,17 @@ export enum SortingDirectionTypes {
   Decrement = 'dec',
 }
 
+/**
+ * Checks if value is sorting direction.
+ * @param value Value.
+ */
+function isSortingDirection(value: string): value is SortingDirectionTypes {
+  return value === SortingDirectionTypes.Decrement || value === SortingDirectionTypes.Increment;
+}
+
 type SortingDirection =
   SortingDirectionTypes.Increment |
-  SortingDirectionTypes.Decrement | '';
+  SortingDirectionTypes.Decrement;
 
 /** Sorting. */
 export interface Sorting {
@@ -35,63 +43,68 @@ export interface Sorting {
   readonly direction: SortingDirection;
 }
 
+/**
+ * Maps search params to model.
+ * @param searchParams Search params.
+ */
+export function fromSearchParams(searchParams: URLSearchParams): QueryParams {
+
+  const search = searchParams.get(QueryParamNames.Search) ?? '';
+  const sortingDirection = searchParams.get(QueryParamNames.SortDirection) ?? '';
+  const sortingTarget = searchParams.get(QueryParamNames.SortTarget) ?? '';
+  const types = searchParams.get(QueryParamNames.Types)?.split(',');
+
+  return {
+    search,
+    sorting: {
+      direction: isSortingDirection(sortingDirection) ? sortingDirection : SortingDirectionTypes.Increment,
+      target: sortingTarget,
+    },
+    types: types ? types.filter(isType) : [],
+  };
+}
+
+/**
+ * Maps query params to search params.
+ * @param queryParams Query params.
+ */
+export function toSearchParams({
+  search,
+  sorting: { direction, target },
+  types,
+}: QueryParams): URLSearchParams {
+  const searchParams = new URLSearchParams();
+  searchParams.set(QueryParamNames.SortDirection, direction);
+
+  if (search !== '') {
+    searchParams.set(QueryParamNames.Search, search);
+  }
+
+  if (target !== '') {
+    searchParams.set(QueryParamNames.SortTarget, target);
+  }
+
+  if (types.length !== 0) {
+    searchParams.set(QueryParamNames.Types, types.join(','));
+  }
+
+  return searchParams;
+}
+
 const arraySeparator = ',';
 
 export namespace QueryParamsMapper {
 
   /**
    * Maps ordering to sorting.
-   * @param ordering Ordering.
-   */
-  function mapOrderingToSorting(ordering: string | null): Sorting {
-    if (!ordering) {
-      return {
-        target: '',
-        direction: '',
-      };
-    }
-
-    if (ordering[0] === '-') {
-      return {
-        target: ordering.substring(1),
-        direction: SortingDirectionTypes.Decrement,
-      };
-    }
-
-    return {
-      target: ordering,
-      direction: SortingDirectionTypes.Increment,
-    };
-  }
-
-  /**
-   * Maps ordering to sorting.
    * @param sorting Sorting.
    */
   function mapSortingToOrdering(sorting: Sorting): string {
-    if (sorting.direction === 'dec') {
+    if (sorting.direction === SortingDirectionTypes.Decrement) {
       return `-${sorting.target}`;
     }
 
     return sorting.target;
-  }
-
-  /**
-   * Maps dto to model.
-   * @param dto Query params dto.
-   */
-  export function fromDto(dto: URLSearchParams): QueryParams {
-
-    const types = dto.get(QueryParamNames.TypeIn);
-
-    return {
-      search: dto.get(QueryParamNames.Search) ?? '',
-      types: types ? types
-        .split(arraySeparator)
-        .filter(isTypeDto)
-        .map(type => MAP_TYPE_FROM_DTO[type]) : [],
-      sorting: mapOrderingToSorting(dto.get(QueryParamNames.Ordering)),
-    };
   }
 
   /**
@@ -100,15 +113,15 @@ export namespace QueryParamsMapper {
    */
   export function toDto(model: QueryParams): URLSearchParams {
     const queryParams = new URLSearchParams();
-    queryParams.set(QueryParamNames.Limit, '10');
-    queryParams.set(QueryParamNames.Ordering, 'id');
+    queryParams.set('limit', '10');
+    queryParams.set('ordering', 'id');
 
     if (model.search !== '') {
-      queryParams.set(QueryParamNames.Search, model.search);
+      queryParams.set('search', model.search);
     }
 
     if (model.types.length !== 0) {
-      queryParams.set(QueryParamNames.TypeIn, model.types
+      queryParams.set('type__in', model.types
         .map(type => MAP_TYPE_TO_DTO[type])
         .join(arraySeparator));
     }
@@ -116,7 +129,7 @@ export namespace QueryParamsMapper {
     const ordering = mapSortingToOrdering(model.sorting);
 
     if (ordering.length !== 0) {
-      queryParams.set(QueryParamNames.Ordering, ordering);
+      queryParams.set('ordering', ordering);
     }
 
     return queryParams;

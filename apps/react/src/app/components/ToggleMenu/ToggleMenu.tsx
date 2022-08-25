@@ -29,14 +29,14 @@ const ToggleMenuComponent: FC<ChildrenProps> = ({ children }) => {
     <>
       <Box className='toggle-menu-wrapper'>
         <Box className='toggle-menu'>
-          <Button className='toggle-menu-button' onClick={handleSwitch}>
-            {isOpen ? openedMenuButton : closedMenuButton}
-          </Button>
           <Slide className='toggle-menu-slider' direction='down' in={isOpen} container={null}>
             <Paper elevation={3}>
               {children}
             </Paper>
           </Slide>
+          <Button className='toggle-menu-button' onClick={handleSwitch}>
+            {isOpen ? openedMenuButton : closedMenuButton}
+          </Button>
         </Box>
       </Box>
     </>

@@ -1,14 +1,9 @@
-import { parseEnumToArray } from '@js-camp/core/enums/enums';
-import { AnimeType } from '@js-camp/core/utils/types/animeType';
-import { fetchNextPageOfAnimeList } from '@js-camp/react/store/animeList/dispatchers';
-import {
-  selectAnimeList,
-  selectAnimeListNextPage,
-  selectAreAnimeListLoading,
-} from '@js-camp/react/store/animeList/selectors';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
+import { useSearchParams } from 'react-router-dom';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { InView } from 'react-intersection-observer';
 import {
   Button,
+  Box,
   CircularProgress,
   Divider,
   FormControl,
@@ -26,24 +21,39 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { InView } from 'react-intersection-observer';
-import { useSearchParams } from 'react-router-dom';
-import { QueryParamsMapper, SortingDirectionTypes } from '@js-camp/core/mappers/query-params.mapper';
 import NorthIcon from '@mui/icons-material/North';
 import SouthIcon from '@mui/icons-material/South';
+
+import { fromSearchParams, SortingDirectionTypes, toSearchParams } from '@js-camp/core/mappers/query-params.mapper';
+import { parseEnumToArray } from '@js-camp/core/enums/enums';
+import { AnimeType } from '@js-camp/core/utils/types/animeType';
+import { fetchNextPageOfAnimeList } from '@js-camp/react/store/animeList/dispatchers';
+import {
+  selectAnimeList,
+  selectAnimeListNextPage,
+  selectAreAnimeListLoading,
+} from '@js-camp/react/store/animeList/selectors';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 
 import { ToggleMenu } from '../../../../app/components/ToggleMenu';
 
 import { AnimeCard } from '../AnimeCard';
 
+import styles from './AnimeList.module.css';
+
 const animeTypes = parseEnumToArray(AnimeType);
+
+const incrementSortingIcon = (
+  <NorthIcon fontSize='small' />
+);
+
+const decrementSortingIcon = (
+  <SouthIcon fontSize='small' />
+);
 
 const AnimeListComponent: FC = () => {
 
-  /**
-   * Component state.
-   */
+  /** Component state. */
   const appDispatch = useAppDispatch();
 
   const animeList = useAppSelector(selectAnimeList);
@@ -53,15 +63,13 @@ const AnimeListComponent: FC = () => {
   const [inView, setInView] = useState(false);
   const [queryParams, setQueryParams] = useSearchParams();
 
-  const [mappedParams, setMappedParams] = useState(QueryParamsMapper.fromDto(queryParams));
+  const [mappedParams, setMappedParams] = useState(fromSearchParams(queryParams));
 
   const [searchingTypes, setSearchingTypes] = useState(mappedParams.types);
   const [searchingTitle, setSearchingTitle] = useState(mappedParams.search);
   const [sorting, setSorting] = useState(mappedParams.sorting);
 
-  /**
-   * Hooks.
-   */
+  /** Hooks. */
   const loadAnime = useCallback(() => {
     if (nextAnimeListPage) {
       appDispatch(fetchNextPageOfAnimeList(nextAnimeListPage));
@@ -75,7 +83,7 @@ const AnimeListComponent: FC = () => {
   }, [inView]);
 
   useEffect(() => {
-    setQueryParams(QueryParamsMapper.toDto(mappedParams));
+    setQueryParams(toSearchParams(mappedParams));
   }, [mappedParams]);
 
   useEffect(() => {
@@ -86,19 +94,15 @@ const AnimeListComponent: FC = () => {
     });
   }, [searchingTitle, searchingTypes, sorting]);
 
-  /**
-   * Prepared components.
-   */
+  /** Prepared components. */
   const animeTypeMenuItems = animeTypes.map((item, index) => (
     <MenuItem key={index} value={item}>
       <ListItemText primary={item} />
     </MenuItem>
   ));
 
-  const mappedAnimeList = useMemo(() => animeList.map((anime, index) => {
-
+  const animeCardList = useMemo(() => animeList.map((anime, index) => {
     const animeCard = (<AnimeCard key={anime.id} anime={anime} />);
-
     if (index === animeList.length - 1) {
       return <InView key={anime.id} threshold={0.5} root={null} rootMargin='0px' onChange={setInView}>
         {({ ref }) => (
@@ -106,21 +110,10 @@ const AnimeListComponent: FC = () => {
         )}
       </InView>;
     }
-
     return animeCard;
   }), [animeList]);
 
-  const incrementSortingIcon = (
-    <NorthIcon fontSize='small' />
-  );
-
-  const decrementSortingIcon = (
-    <SouthIcon fontSize='small' />
-  );
-
-  /**
-   * Input handlers.
-   */
+  /** Input handlers. */
 
   const handleSearchChanges = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { target: { value } } = event;
@@ -157,7 +150,10 @@ const AnimeListComponent: FC = () => {
   };
 
   return (
-    <>
+    <Box className={styles.relative}>
+      <List>
+        { animeCardList }
+      </List>
       <ToggleMenu>
         <Stack spacing={2}>
           <TextField value={searchingTitle} onChange={handleSearchChanges} label='Searching title' variant='outlined' />
@@ -198,13 +194,8 @@ const AnimeListComponent: FC = () => {
           </FormControl>
         </Stack>
       </ToggleMenu>
-      <List sx={{
-        position: 'relative',
-      }}>
-        { mappedAnimeList }
-      </List>
       {isAnimeListLoading && <CircularProgress />}
-    </>
+    </Box>
   );
 };
 

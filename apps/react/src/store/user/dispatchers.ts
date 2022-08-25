@@ -6,12 +6,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { UserService } from '../../api/services/user';
 
 export const fetchUser = createAsyncThunk(
-  'user/fetch',
+  'user/fetched',
   () => UserService.getCurrentUser(),
 );
 
 export const registerUser = createAsyncThunk(
-  'user/register',
+  'user/registered',
   async(registrationData: Registration, { rejectWithValue }) => {
     try {
       const user = await UserService.register(registrationData);
@@ -23,7 +23,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-  'user/login',
+  'user/logged',
   async(loginData: Login, { rejectWithValue }) => {
     try {
       const user = await UserService.login(loginData);
@@ -37,6 +37,6 @@ export const loginUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk(
-  'user/logout',
+  'user/loggedOut',
   () => UserService.logout(),
 );
