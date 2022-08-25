@@ -1,8 +1,7 @@
 import { fetchAnimeList } from '@js-camp/react/store/animeList/dispatchers';
 import { useAppDispatch } from '@js-camp/react/store/store';
-import { debounce, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FC, memo, useEffect } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
 import { useSearchParams } from 'react-router-dom';
 
@@ -12,7 +11,7 @@ import { AppHeader } from '../../../app/components/AppHeader';
 import { AnimeDetails } from '../components/AnimeDetails';
 import { AnimeList } from '../components/AnimeList';
 
-import './AnimePage.css';
+import styles from './AnimePage.module.css';
 
 const AnimePageComponent: FC = () => {
   const appDispatch = useAppDispatch();
@@ -27,13 +26,11 @@ const AnimePageComponent: FC = () => {
     <>
       <AppHeader />
       <AppContent>
-        <Grid container className='full-height'>
-          <Grid item xs={4} className='full-height anime-control'>
-            <PerfectScrollbar>
-              <AnimeList />
-            </PerfectScrollbar>
+        <Grid container className={styles.fullHeight}>
+          <Grid item xs={4} className={styles.fullHeight}>
+            <AnimeList />
           </Grid>
-          <Grid item xs={8} className='full-height anime-control'><AnimeDetails /></Grid>
+          <Grid item xs={8} className={styles.fullHeight}><AnimeDetails /></Grid>
         </Grid>
       </AppContent>
     </>

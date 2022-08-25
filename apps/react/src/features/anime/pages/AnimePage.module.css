@@ -1,3 +1,4 @@
-.full-height {
+.fullHeight {
   height: var(--app-content-height);
+  overflow-y: scroll;
 }
