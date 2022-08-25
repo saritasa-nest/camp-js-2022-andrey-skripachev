@@ -2,7 +2,7 @@ import { fetchAnimeList } from '@js-camp/react/store/animeList/dispatchers';
 import { useAppDispatch } from '@js-camp/react/store/store';
 import { Grid } from '@mui/material';
 import { FC, memo, useEffect } from 'react';
-import { fromSearchParams, QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
+import { fromSearchParams } from '@js-camp/core/mappers/query-params.mapper';
 import { useSearchParams } from 'react-router-dom';
 
 import { AppContent } from '../../../app/components/AppContent';
