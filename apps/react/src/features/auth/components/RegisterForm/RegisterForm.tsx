@@ -1,14 +1,13 @@
 import { FC, memo, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Field, FormikProvider, useFormik } from 'formik';
-import { Button, Stack, Typography } from '@mui/material';
+import { TextField } from 'formik-mui';
 import * as yup from 'yup';
+import { Button, Stack, Typography } from '@mui/material';
 import { Registration } from '@js-camp/core/models/registration';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { registerUser } from '@js-camp/react/store/user/dispatchers';
-import { selectUserError } from '@js-camp/react/store/user/selectors';
-import { Link } from 'react-router-dom';
-import { AppError } from '@js-camp/core/models/error-response';
-import { TextField } from 'formik-mui';
+import { selectUserValidationError } from '@js-camp/react/store/user/selectors';
 
 interface RegistrationFormData extends Registration {
 
@@ -49,9 +48,7 @@ const RegisterFormComponent: FC = () => {
 
   const appDispatch = useAppDispatch();
 
-  const userErrors = useAppSelector(selectUserError);
-
-  const userValidationErrors = userErrors instanceof AppError ? userErrors.data : undefined;
+  const userErrors = useAppSelector(selectUserValidationError);
 
   /**
    * Registers user with form data.
@@ -70,10 +67,10 @@ const RegisterFormComponent: FC = () => {
   });
 
   useEffect(() => {
-    if (userValidationErrors) {
-      formik.setErrors(userValidationErrors);
+    if (userErrors?.data) {
+      formik.setErrors(userErrors.data);
     }
-  }, [userValidationErrors]);
+  }, [userErrors]);
   return (
     <>
       <Typography component='h1' variant='h2'>Register</Typography>

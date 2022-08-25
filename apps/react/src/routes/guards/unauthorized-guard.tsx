@@ -1,14 +1,12 @@
-import { fetchUser } from '@js-camp/react/store/user/dispatchers';
-import { selectIsUserLoading, selectUser, selectUserError } from '@js-camp/react/store/user/selectors';
 import { FC } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-
-import { AppLoadingSpinner } from '../../app/components/AppLoading';
+import { fetchUser } from '@js-camp/react/store/user/dispatchers';
+import { selectIsUserLoading, selectUser, selectUserError } from '@js-camp/react/store/user/selectors';
 
 import { useAppDispatch, useAppSelector } from '../../store';
+import { AppLoadingSpinner } from '../../app/components/AppLoading';
 
 export const UnauthorizedGuard: FC = () => {
-
   const appDispatch = useAppDispatch();
 
   const user = useAppSelector(selectUser);

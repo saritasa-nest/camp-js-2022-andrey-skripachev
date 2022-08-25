@@ -1,18 +1,15 @@
 import { Button, Paper, Slide } from '@mui/material';
 import { Box } from '@mui/system';
-import { FC, memo, ReactElement, useState } from 'react';
+import { FC, memo, PropsWithChildren, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import './ToggleMenu.css';
 
-interface Props {
+/** Eslint requires the word "props" to be at the end of the type. */
+type ChildrenProps = PropsWithChildren;
 
-  /** Menu content. */
-  readonly children: ReactElement;
-}
-
-const ToggleMenuComponent: FC<Props> = ({ children }: Props) => {
+const ToggleMenuComponent: FC<ChildrenProps> = ({ children }) => {
 
   const [isOpen, setOpen] = useState(false);
 

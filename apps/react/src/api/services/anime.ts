@@ -16,11 +16,11 @@ export namespace AnimeService {
 
   /**
    * Gets pagination with first anime of anime list.
-   * @param searchParams List search parameters.
+   * @param queryParams List search parameters.
    */
-  export async function getFirstPageOfAnimeList(searchParams: QueryParams): Promise<Pagination<Anime>> {
+  export async function getFirstPageOfAnimeList(queryParams: QueryParams): Promise<Pagination<Anime>> {
     const animeResponse = await http.get<PaginationDto<AnimeDto>>('anime/anime/', {
-      params: QueryParamsMapper.toDto(searchParams),
+      params: QueryParamsMapper.toDto(queryParams),
     });
 
     return PaginationMapper.fromDto(animeResponse.data, AnimeMapper.fromDto);

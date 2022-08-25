@@ -4,7 +4,7 @@ import { Token } from '../models/token';
 export namespace TokenMapper {
 
   /**
-   * Maps fto to model.
+   * Maps dto to model.
    * @param dto Token dto.
    */
   export function fromDto(dto: TokenDto): Token {

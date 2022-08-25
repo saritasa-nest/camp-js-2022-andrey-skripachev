@@ -1,7 +1,7 @@
+import axios, { AxiosInstance } from 'axios';
 import { isErrorResponse } from '@js-camp/core/guards/error';
 import { ErrorResponseMapper } from '@js-camp/core/mappers/error-response.mapper';
 import { AppError } from '@js-camp/core/models/error-response';
-import axios, { AxiosInstance } from 'axios';
 
 import { CONFIG } from './config';
 import { addAuthorizationTokenBeforeRequest, checkTokenValidity } from './interceptors';

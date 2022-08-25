@@ -13,7 +13,7 @@ export namespace ErrorResponseMapper {
     mapper: (dto: TErrorDto) => TError,
   ): AppError<TError> {
     return new AppError<TError>({
-      data: mapper(dto.data),
+      data: dto.data && mapper(dto.data),
       detail: dto.detail,
     });
   }

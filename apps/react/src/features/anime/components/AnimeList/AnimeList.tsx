@@ -29,7 +29,7 @@ import {
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSearchParams } from 'react-router-dom';
-import { QueryParamsMapper } from '@js-camp/core/mappers/query-params.mapper';
+import { QueryParamsMapper, SortingDirectionTypes } from '@js-camp/core/mappers/query-params.mapper';
 import NorthIcon from '@mui/icons-material/North';
 import SouthIcon from '@mui/icons-material/South';
 
@@ -150,7 +150,9 @@ const AnimeListComponent: FC = () => {
   const handleSwitchSortingDirection = () => {
     setSorting({
       ...sorting,
-      direction: sorting.direction === 'dec' ? 'inc' : 'dec',
+      direction: sorting.direction === SortingDirectionTypes.Increment ?
+        SortingDirectionTypes.Decrement :
+        SortingDirectionTypes.Increment,
     });
   };
 
