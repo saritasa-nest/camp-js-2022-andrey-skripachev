@@ -13,14 +13,10 @@ export interface AnimeState {
 
   /** Whether anime is loading or not. */
   readonly isLoading: boolean;
-
-  /** Current viewed anime id. */
-  readonly animeId?: string;
-
-  /** Current viewed anime. */
-  readonly currentAnime?: AnimeDetails;
 }
 
-export const initialState: AnimeState = {
+export const initialState = entityAdapter.getInitialState<AnimeState>({
   isLoading: false,
-};
+});
+
+export type State = typeof initialState;

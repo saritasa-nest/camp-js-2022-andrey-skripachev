@@ -1,31 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchAnimeById, setAnimeId } from './dispatchers';
-import { entityAdapter, initialState } from './state';
+import { fetchAnimeById } from './dispatchers';
+import { entityAdapter, initialState, State } from './state';
 
 export const animeSlice = createSlice({
   name: 'anime',
-  initialState: {
-    ...entityAdapter.getInitialState(),
-    ...initialState,
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => builder
-    .addCase(setAnimeId.pending, state => {
-      state.isLoading = true;
-    })
-    .addCase(setAnimeId.fulfilled, (state, action) => {
-      state.animeId = action.payload;
-      state.isLoading = false;
-    })
     .addCase(fetchAnimeById.pending, state => {
       state.isLoading = true;
-      state.currentAnime = undefined;
     })
     .addCase(fetchAnimeById.fulfilled, (state, action) => {
-      const currentAnime = action.payload;
-      state.currentAnime = action.payload;
-      entityAdapter.addOne(state, currentAnime);
+      if (action.payload !== null) {
+        entityAdapter.addOne(state as State, action.payload);
+      }
       state.isLoading = false;
     })
     .addCase(fetchAnimeById.rejected, (state, action) => {

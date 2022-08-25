@@ -10,7 +10,6 @@ interface AnimeCardProps {
 }
 
 const AnimeCardComponent: FC<AnimeCardProps> = ({ anime }: AnimeCardProps) => {
-
   const navigate = useNavigate();
   const location = useLocation();
 
