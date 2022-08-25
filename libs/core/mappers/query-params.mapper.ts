@@ -29,20 +29,6 @@ function isSortingDirection(value: string): value is SortingDirectionTypes {
   return value === SortingDirectionTypes.Decrement || value === SortingDirectionTypes.Increment;
 }
 
-type SortingDirection =
-  SortingDirectionTypes.Increment |
-  SortingDirectionTypes.Decrement;
-
-/** Sorting. */
-export interface Sorting {
-
-  /** Sorting target. */
-  readonly target: string;
-
-  /** Sorting direction. */
-  readonly direction: SortingDirection;
-}
-
 /**
  * Maps search params to model.
  * @param searchParams Search params.
@@ -56,10 +42,8 @@ export function fromSearchParams(searchParams: URLSearchParams): QueryParams {
 
   return {
     search,
-    sorting: {
-      direction: isSortingDirection(sortingDirection) ? sortingDirection : SortingDirectionTypes.Increment,
-      target: sortingTarget,
-    },
+    sortingDirection: isSortingDirection(sortingDirection) ? sortingDirection : SortingDirectionTypes.Increment,
+    sortingTarget,
     types: types ? types.filter(isType) : [],
   };
 }
@@ -70,18 +54,19 @@ export function fromSearchParams(searchParams: URLSearchParams): QueryParams {
  */
 export function toSearchParams({
   search,
-  sorting: { direction, target },
+  sortingDirection,
+  sortingTarget,
   types,
 }: QueryParams): URLSearchParams {
   const searchParams = new URLSearchParams();
-  searchParams.set(QueryParamNames.SortDirection, direction);
+  searchParams.set(QueryParamNames.SortDirection, sortingDirection);
 
   if (search !== '') {
     searchParams.set(QueryParamNames.Search, search);
   }
 
-  if (target !== '') {
-    searchParams.set(QueryParamNames.SortTarget, target);
+  if (sortingTarget !== '') {
+    searchParams.set(QueryParamNames.SortTarget, sortingTarget);
   }
 
   if (types.length !== 0) {
@@ -97,14 +82,15 @@ export namespace QueryParamsMapper {
 
   /**
    * Maps ordering to sorting.
-   * @param sorting Sorting.
+   * @param direction Sorting direction.
+   * @param target Sorting target.
    */
-  function mapSortingToOrdering(sorting: Sorting): string {
-    if (sorting.direction === SortingDirectionTypes.Decrement) {
-      return `-${sorting.target}`;
+  function mapSortingToOrdering(direction: SortingDirectionTypes, target: string): string {
+    if (direction === SortingDirectionTypes.Decrement) {
+      return `-${target}`;
     }
 
-    return sorting.target;
+    return target;
   }
 
   /**
@@ -126,7 +112,7 @@ export namespace QueryParamsMapper {
         .join(arraySeparator));
     }
 
-    const ordering = mapSortingToOrdering(model.sorting);
+    const ordering = mapSortingToOrdering(model.sortingDirection, model.sortingTarget);
 
     if (ordering.length !== 0) {
       queryParams.set('ordering', ordering);

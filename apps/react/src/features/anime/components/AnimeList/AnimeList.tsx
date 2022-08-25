@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import {
   Button,
@@ -17,7 +17,6 @@ import {
   Radio,
   RadioGroup,
   Select,
-  SelectChangeEvent,
   Stack,
   TextField,
 } from '@mui/material';
@@ -61,13 +60,9 @@ const AnimeListComponent: FC = () => {
   const nextAnimeListPage = useAppSelector(selectAnimeListNextPage);
 
   const [inView, setInView] = useState(false);
-  const [queryParams, setQueryParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [mappedParams, setMappedParams] = useState(fromSearchParams(queryParams));
-
-  const [searchingTypes, setSearchingTypes] = useState(mappedParams.types);
-  const [searchingTitle, setSearchingTitle] = useState(mappedParams.search);
-  const [sorting, setSorting] = useState(mappedParams.sorting);
+  const [mappedParams, setMappedParams] = useState(fromSearchParams(searchParams));
 
   /** Hooks. */
   const loadAnime = useCallback(() => {
@@ -83,16 +78,8 @@ const AnimeListComponent: FC = () => {
   }, [inView]);
 
   useEffect(() => {
-    setQueryParams(toSearchParams(mappedParams));
+    setSearchParams(toSearchParams(mappedParams));
   }, [mappedParams]);
-
-  useEffect(() => {
-    setMappedParams({
-      search: searchingTitle,
-      types: searchingTypes,
-      sorting,
-    });
-  }, [searchingTitle, searchingTypes, sorting]);
 
   /** Prepared components. */
   const animeTypeMenuItems = animeTypes.map((item, index) => (
@@ -115,37 +102,10 @@ const AnimeListComponent: FC = () => {
 
   /** Input handlers. */
 
-  const handleSearchChanges = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { target: { value } } = event;
-
-    setSearchingTitle(value);
-  };
-
-  const handleSelectTypeChanges = (event: SelectChangeEvent<typeof searchingTypes>) => {
-    const { target: { value } } = event;
-
-    if (typeof value === 'string') {
-      return;
-    }
-
-    setSearchingTypes(value);
-  };
-
-  const handleSortingTargetChanges = (event: ChangeEvent<HTMLInputElement>) => {
-    const { target: { value } } = event;
-
-    setSorting({
-      ...sorting,
-      target: value,
-    });
-  };
-
-  const handleSwitchSortingDirection = () => {
-    setSorting({
-      ...sorting,
-      direction: sorting.direction === SortingDirectionTypes.Increment ?
-        SortingDirectionTypes.Decrement :
-        SortingDirectionTypes.Increment,
+  const handleListControlsChanges = <T extends unknown>(value: T, field: keyof typeof mappedParams) => {
+    setMappedParams({
+      ...mappedParams,
+      [field]: value,
     });
   };
 
@@ -156,15 +116,26 @@ const AnimeListComponent: FC = () => {
       </List>
       <ToggleMenu>
         <Stack spacing={2}>
-          <TextField value={searchingTitle} onChange={handleSearchChanges} label='Searching title' variant='outlined' />
+          <TextField
+            value={mappedParams.search}
+            onChange={event => {
+              handleListControlsChanges(event.target.value, 'search');
+            }}
+            label='Searching title'
+            variant='outlined'
+          />
           <Divider variant="inset" component="span" />
           <FormControl>
             <InputLabel id='select-anime-types-label'>Types</InputLabel>
             <Select
               labelId='select-anime-types-label'
               multiple
-              value={searchingTypes}
-              onChange={handleSelectTypeChanges}
+              value={mappedParams.types}
+              onChange={event => {
+                if (typeof event !== 'string') {
+                  handleListControlsChanges(event.target.value, 'types');
+                }
+              }}
               input={<OutlinedInput label='Types' />}
               renderValue={selected => selected.join(',')}
             >
@@ -175,18 +146,25 @@ const AnimeListComponent: FC = () => {
           <FormControl>
             <FormLabel id='select-sorting'>Sorting by</FormLabel>
             <RadioGroup
-              onChange={handleSortingTargetChanges}
+              onChange={event => {
+                handleListControlsChanges(event.target.value, 'sortingTarget');
+              }}
               aria-labelledby='select-sorting'
-              value={sorting.target}
+              value={mappedParams.sortingTarget}
               name='select-sorting-target-radio'
             >
               <FormControlLabel value="status" control={<Radio />} label="Status" />
               <FormControlLabel value="title_eng" control={<Radio />} label="Title english" />
             </RadioGroup>
             <Button
-              onClick={handleSwitchSortingDirection}
+              onClick={() => {
+                const currentDirection = mappedParams.sortingDirection;
+                const newDirection: SortingDirectionTypes = currentDirection === SortingDirectionTypes.Decrement ?
+                  SortingDirectionTypes.Increment : SortingDirectionTypes.Decrement;
+                handleListControlsChanges(newDirection, 'sortingDirection')
+              }}
             >
-              Switch direction {sorting.direction === 'dec' ?
+              Switch direction {mappedParams.sortingDirection === 'dec' ?
                 decrementSortingIcon :
                 incrementSortingIcon
               }
