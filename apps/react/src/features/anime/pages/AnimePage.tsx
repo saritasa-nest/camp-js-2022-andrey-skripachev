@@ -16,11 +16,11 @@ import styles from './AnimePage.module.css';
 const AnimePageComponent: FC = () => {
   const appDispatch = useAppDispatch();
 
-  const [searchParams] = useSearchParams();
+  const [queryParams] = useSearchParams();
 
   useEffect(() => {
-    appDispatch(fetchAnimeList(QueryParamsMapper.fromDto(searchParams)));
-  }, [searchParams]);
+    appDispatch(fetchAnimeList(QueryParamsMapper.fromDto(queryParams)));
+  }, [queryParams]);
 
   return (
     <>

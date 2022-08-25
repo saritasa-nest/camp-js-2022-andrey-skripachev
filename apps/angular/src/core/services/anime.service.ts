@@ -30,16 +30,16 @@ export class AnimeService {
 
   /**
    * Gets anime list.
-   * @param searchParams Params for searching anime.
+   * @param queryParams Params for searching anime.
    */
-  public getAnimeList(searchParams: AnimeListSearchParams): Observable<readonly Anime[]> {
-    const searchParamsDto = AnimeListSearchParamsMapper.toDto(searchParams);
+  public getAnimeList(queryParams: AnimeListSearchParams): Observable<readonly Anime[]> {
+    const queryParamsDto = AnimeListSearchParamsMapper.toDto(queryParams);
 
     return this.httpClient.get<PaginationDto<AnimeDto>>(
       this.animeListUrl.toString(),
       {
         params: new HttpParams({
-          fromObject: { ...searchParamsDto },
+          fromObject: { ...queryParamsDto },
         }),
       },
     ).pipe(map(dto => PaginationMapper.fromDto(dto, AnimeMapper.fromDto).results));

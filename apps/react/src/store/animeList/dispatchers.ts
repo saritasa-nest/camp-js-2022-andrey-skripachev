@@ -5,7 +5,7 @@ import { AnimeService } from '../../api/services/anime';
 
 export const fetchAnimeList = createAsyncThunk(
   'animeList/fetch',
-  (searchParams: QueryParams) => AnimeService.getFirstPageOfAnimeList(searchParams),
+  (queryParams: QueryParams) => AnimeService.getFirstPageOfAnimeList(queryParams),
 );
 
 export const fetchNextPageOfAnimeList = createAsyncThunk(

@@ -11,7 +11,19 @@ enum QueryParamNames {
   Ordering = 'ordering',
 }
 
-type SortingDirection = 'inc' | 'dec' | '';
+/** Sorting types. */
+export enum SortingDirectionTypes {
+
+  /** Increment. */
+  Increment = 'inc',
+
+  /** Decrement. */
+  Decrement = 'dec',
+}
+
+type SortingDirection =
+  SortingDirectionTypes.Increment |
+  SortingDirectionTypes.Decrement | '';
 
 /** Sorting. */
 export interface Sorting {
@@ -42,13 +54,13 @@ export namespace QueryParamsMapper {
     if (ordering[0] === '-') {
       return {
         target: ordering.substring(1),
-        direction: 'dec',
+        direction: SortingDirectionTypes.Decrement,
       };
     }
 
     return {
       target: ordering,
-      direction: 'inc',
+      direction: SortingDirectionTypes.Increment,
     };
   }
 
@@ -87,16 +99,16 @@ export namespace QueryParamsMapper {
    * @param model Query params model.
    */
   export function toDto(model: QueryParams): URLSearchParams {
-    const searchParams = new URLSearchParams();
-    searchParams.set(QueryParamNames.Limit, '10');
-    searchParams.set(QueryParamNames.Ordering, 'id');
+    const queryParams = new URLSearchParams();
+    queryParams.set(QueryParamNames.Limit, '10');
+    queryParams.set(QueryParamNames.Ordering, 'id');
 
     if (model.search !== '') {
-      searchParams.set(QueryParamNames.Search, model.search);
+      queryParams.set(QueryParamNames.Search, model.search);
     }
 
     if (model.types.length !== 0) {
-      searchParams.set(QueryParamNames.TypeIn, model.types
+      queryParams.set(QueryParamNames.TypeIn, model.types
         .map(type => MAP_TYPE_TO_DTO[type])
         .join(arraySeparator));
     }
@@ -104,9 +116,9 @@ export namespace QueryParamsMapper {
     const ordering = mapSortingToOrdering(model.sorting);
 
     if (ordering.length !== 0) {
-      searchParams.set(QueryParamNames.Ordering, ordering);
+      queryParams.set(QueryParamNames.Ordering, ordering);
     }
 
-    return searchParams;
+    return queryParams;
   }
 }
