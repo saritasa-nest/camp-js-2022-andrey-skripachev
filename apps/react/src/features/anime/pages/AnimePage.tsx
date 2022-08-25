@@ -12,7 +12,6 @@ import { AppHeader } from '../../../app/components/AppHeader';
 import { AnimeDetails } from '../components/AnimeDetails';
 import { AnimeList } from '../components/AnimeList';
 
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import './AnimePage.css';
 
 const AnimePageComponent: FC = () => {

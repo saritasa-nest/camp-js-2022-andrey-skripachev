@@ -19,3 +19,8 @@ export const selectUserError = createSelector(
   (state: RootState) => state.user.error,
   error => error,
 );
+
+export const selectUserValidationError = createSelector(
+  (state: RootState) => state.user.authError,
+  validationError => validationError,
+);

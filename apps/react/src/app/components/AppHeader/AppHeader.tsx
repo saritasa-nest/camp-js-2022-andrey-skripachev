@@ -1,14 +1,13 @@
-import { selectUser } from '@js-camp/react/store/user/selectors';
-import { AppBar, Avatar, Grid, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { FC, memo, MouseEvent, useState } from 'react';
+import { AppBar, Avatar, Grid, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { selectUser } from '@js-camp/react/store/user/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store/store';
 import { logoutUser } from '@js-camp/react/store/user/dispatchers';
 
-import './AppHeader.css';
+import styles from './AppHeader.module.css';
 
 const AppHeaderComponent: FC = () => {
-
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
 
   const appDispatch = useAppDispatch();
@@ -43,7 +42,7 @@ const AppHeaderComponent: FC = () => {
 
   return (
     <AppBar
-      className='app-header'
+      className={styles.appHeader}
       position='static'
       color='primary'
     >

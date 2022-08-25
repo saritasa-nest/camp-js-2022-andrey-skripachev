@@ -1,6 +1,6 @@
-import { Anime } from '@js-camp/core/models/anime';
-import { Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { FC, memo } from 'react';
+import { Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
+import { Anime } from '@js-camp/core/models/anime';
 
 interface AnimeCardProps {
 
@@ -8,14 +8,14 @@ interface AnimeCardProps {
   readonly anime: Anime;
 }
 
-const AnimeCardComponent: FC<AnimeCardProps> = ({ anime }: AnimeCardProps) => (
+const AnimeCardComponent: FC<AnimeCardProps> = ({ anime }) => (
   <>
     <ListItem>
       <ListItemAvatar>
         <Avatar src={anime.image} sx={{
           width: '80px',
           height: '80px',
-        }}></Avatar>
+        }} />
       </ListItemAvatar>
       <ListItemText>
         <>
