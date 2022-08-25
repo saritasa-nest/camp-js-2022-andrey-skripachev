@@ -15,7 +15,7 @@ import styles from './AnimePage.module.css';
 const AnimePageComponent: FC = () => {
   const appDispatch = useAppDispatch();
 
-  const [queryParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     appDispatch(clearAnimeList());
@@ -26,11 +26,11 @@ const AnimePageComponent: FC = () => {
     <>
       <AppHeader />
       <AppContent>
-        <Grid container className='full-height'>
-          <Grid item xs={4} className='full-height anime-control'>
+        <Grid container className={styles.fullHeight}>
+          <Grid item xs={4} className={styles.fullHeight}>
             <AnimeList />
           </Grid>
-          <Grid item xs={8} className='full-height anime-control'>
+          <Grid item xs={8} className={styles.fullHeight}>
             <Outlet />
           </Grid>
         </Grid>

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { AnimeService } from '../../api/services/animeApi';
+import { AnimeService } from '../../api/services/anime';
 import { addGenres } from '../genre/dispatchers';
 import { addStudios } from '../studio/dispatchers';
 
@@ -15,8 +15,8 @@ export const fetchAnimeById = createAsyncThunk(
     try {
       const anime = await AnimeService.getAnimeById(id);
 
-      await dispatch(addGenres(anime.genresData))
-      await dispatch(addStudios(anime.studiosData))
+      await dispatch(addGenres(anime.genresData));
+      await dispatch(addStudios(anime.studiosData));
 
       return anime;
     } catch (error: unknown) {
