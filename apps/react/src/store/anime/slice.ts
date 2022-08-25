@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchAnimeById, setAnimeId } from './dispatchers';
 import { entityAdapter, initialState } from './state';
 
-/** AMOGUS */
 export const animeSlice = createSlice({
   name: 'anime',
   initialState: {
