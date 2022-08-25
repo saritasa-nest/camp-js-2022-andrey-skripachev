@@ -52,7 +52,6 @@ const decrementSortingIcon = (
 
 const AnimeListComponent: FC = () => {
 
-  /** Component state. */
   const appDispatch = useAppDispatch();
 
   const animeList = useAppSelector(selectAnimeList);
@@ -64,7 +63,6 @@ const AnimeListComponent: FC = () => {
 
   const [mappedParams, setMappedParams] = useState(fromSearchParams(searchParams));
 
-  /** Hooks. */
   const loadAnime = useCallback(() => {
     if (nextAnimeListPage) {
       appDispatch(fetchNextPageOfAnimeList(nextAnimeListPage));
@@ -81,7 +79,6 @@ const AnimeListComponent: FC = () => {
     setSearchParams(toSearchParams(mappedParams));
   }, [mappedParams]);
 
-  /** Prepared components. */
   const animeTypeMenuItems = animeTypes.map((item, index) => (
     <MenuItem key={index} value={item}>
       <ListItemText primary={item} />
@@ -100,8 +97,7 @@ const AnimeListComponent: FC = () => {
     return animeCard;
   }), [animeList]);
 
-  /** Input handlers. */
-
+  /* The type is inherited from the unknown because the <T> type is taken as a jsx element */
   const handleListControlsChanges = <T extends unknown>(value: T, field: keyof typeof mappedParams) => {
     setMappedParams({
       ...mappedParams,
@@ -161,7 +157,7 @@ const AnimeListComponent: FC = () => {
                 const currentDirection = mappedParams.sortingDirection;
                 const newDirection: SortingDirectionTypes = currentDirection === SortingDirectionTypes.Decrement ?
                   SortingDirectionTypes.Increment : SortingDirectionTypes.Decrement;
-                handleListControlsChanges(newDirection, 'sortingDirection')
+                handleListControlsChanges(newDirection, 'sortingDirection');
               }}
             >
               Switch direction {mappedParams.sortingDirection === 'dec' ?
