@@ -8,7 +8,6 @@ import { logoutUser } from '@js-camp/react/store/user/dispatchers';
 import styles from './AppHeader.module.css';
 
 const AppHeaderComponent: FC = () => {
-
   const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
 
   const appDispatch = useAppDispatch();

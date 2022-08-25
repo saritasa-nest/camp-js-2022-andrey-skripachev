@@ -1,15 +1,12 @@
-import { FC, memo, ReactElement } from 'react';
+import { FC, memo, PropsWithChildren } from 'react';
 import { Box } from '@mui/material';
 
 import styles from './AppContent.module.css';
 
-interface AppContainerProps {
+/** Eslint requires the word "props" to be at the end of the type. */
+type ChildrenProps = PropsWithChildren;
 
-  /** Children container. */
-  readonly children: ReactElement;
-}
-
-const AppContentComponent: FC<AppContainerProps> = ({ children }: AppContainerProps) => (
+const AppContentComponent: FC<ChildrenProps> = ({ children }) => (
   <Box className={styles.appContent}>
     { children }
   </Box>

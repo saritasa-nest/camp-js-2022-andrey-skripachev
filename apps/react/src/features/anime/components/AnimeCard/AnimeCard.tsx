@@ -8,14 +8,14 @@ interface AnimeCardProps {
   readonly anime: Anime;
 }
 
-const AnimeCardComponent: FC<AnimeCardProps> = ({ anime }: AnimeCardProps) => (
+const AnimeCardComponent: FC<AnimeCardProps> = ({ anime }) => (
   <>
     <ListItem>
       <ListItemAvatar>
         <Avatar src={anime.image} sx={{
           width: '80px',
           height: '80px',
-        }}></Avatar>
+        }} />
       </ListItemAvatar>
       <ListItemText>
         <>

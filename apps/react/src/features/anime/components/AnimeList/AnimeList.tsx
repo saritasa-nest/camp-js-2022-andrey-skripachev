@@ -6,7 +6,6 @@ import { useAppSelector } from '@js-camp/react/store/store';
 import { AnimeCard } from '../AnimeCard';
 
 const AnimeListComponent: FC = () => {
-
   const animeList = useAppSelector(selectAnimeList);
   const isAnimeListLoading = useAppSelector(selectAreAnimeListLoading);
 
