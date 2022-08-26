@@ -1,22 +1,22 @@
-.toggle-menu-wrapper {
+.toggleMenuWrapper {
   position: absolute;
   right: 0;
   top: 0;
   left: 0;
 }
 
-.toggle-menu {
+.toggleMenu {
   position: relative;
 }
 
-.toggle-menu-button {
+.toggleMenuButton {
   position: absolute;
   width: 60px;
   height: 25px;
   left: calc(50% - 30px);
 }
 
-.toggle-menu-slider {
+.toggleMenuSlider {
   position: absolute;
   width: 100%;
   padding: 25px 0;

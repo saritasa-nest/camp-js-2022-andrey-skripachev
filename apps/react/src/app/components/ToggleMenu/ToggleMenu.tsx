@@ -4,7 +4,7 @@ import { FC, memo, PropsWithChildren, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-import './ToggleMenu.css';
+import styles from './ToggleMenu.module.css';
 
 /** Eslint requires the word "props" to be at the end of the type. */
 type ChildrenProps = PropsWithChildren;
@@ -27,14 +27,14 @@ const ToggleMenuComponent: FC<ChildrenProps> = ({ children }) => {
 
   return (
     <>
-      <Box className='toggle-menu-wrapper'>
-        <Box className='toggle-menu'>
-          <Slide className='toggle-menu-slider' direction='down' in={isOpen} container={null}>
+      <Box className={styles.toggleMenuWrapper}>
+        <Box className={styles.toggleMenu}>
+          <Slide className={styles.toggleMenuSlider} direction='down' in={isOpen} container={null}>
             <Paper elevation={3}>
               {children}
             </Paper>
           </Slide>
-          <Button className='toggle-menu-button' onClick={handleSwitch}>
+          <Button className={styles.toggleMenuButton} onClick={handleSwitch}>
             {isOpen ? openedMenuButton : closedMenuButton}
           </Button>
         </Box>
