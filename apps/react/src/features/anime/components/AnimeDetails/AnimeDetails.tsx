@@ -31,7 +31,6 @@ const AnimeDetailsComponent: FC = () => {
     }
   }, [currentAnime]);
 
-  /** TODO (Andrey) Add comment to this function. */
   const handleImageToggle = useCallback(() => {
     setIsImageOpen(!isImageOpen);
   }, [isImageOpen]);
